@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>GS25 편의점 창업 비용구조 공개 | 로키-창업구조대</title>
+<style>
+  @media print {
+    body { margin: 0; padding: 0; }
+    @page { margin: 18mm 20mm; size: A4; }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Nanum Gothic', sans-serif;
+    font-size: 9.5pt;
+    color: #0A0A2E;
+    background: #fff;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px 28px;
+    line-height: 1.55;
+  }
+
+  /* 제목 */
+  h1 {
+    font-size: 19pt;
+    font-weight: 800;
+    color: #0A0A2E;
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+  }
+  .subtitle {
+    font-size: 8.5pt;
+    color: #888;
+    margin-bottom: 8px;
+  }
+  .title-rule {
+    height: 2px;
+    background: #E83A5E;
+    margin: 6px 0 14px;
+    border: none;
+  }
+
+  /* 섹션 헤더 */
+  .section {
+    background: #E83A5E;
+    color: #fff;
+    font-size: 11.5pt;
+    font-weight: 700;
+    padding: 6px 10px;
+    margin: 16px 0 7px;
+    border-radius: 2px;
+  }
+
+  /* 서브 헤더 */
+  .sub { font-size: 9pt; font-weight: 700; margin: 10px 0 4px; }
+  .sub-red   { color: #E83A5E; }
+  .sub-green { color: #29BF6A; }
+  .sub-amber { color: #D4901E; }
+  .sub-muted { color: #666; }
+
+  /* 테이블 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 5px;
+    font-size: 8.5pt;
+  }
+  th {
+    background: #1A1A35;
+    color: #fff;
+    padding: 5px 8px;
+    text-align: center;
+    border: 1px solid #ccc;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  td {
+    padding: 5px 8px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+  }
+  tr:nth-child(even) td { background: #F7F7FC; }
+  tr:nth-child(odd)  td { background: #fff; }
+
+  .hl-red   td { background: #FDEDF1 !important; color: #C42950; font-weight: 700; }
+  .hl-green td { background: #E8F8EF !important; color: #1E9A55; font-weight: 700; }
+  .hl-amber td { background: #FEF6E8 !important; color: #B8790A; font-weight: 700; }
+
+  /* 총합계 바 */
+  .total-bar {
+    background: #0A0A2E;
+    color: #fff;
+    font-size: 10.5pt;
+    font-weight: 700;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 4px 0 10px;
+    border-radius: 2px;
+  }
+
+  /* 위약금 강조 박스 */
+  .penalty-box {
+    background: #FDEDF1;
+    border: 1.5px solid #E83A5E;
+    border-radius: 3px;
+    padding: 6px 10px;
+    font-size: 8.5pt;
+    color: #0A0A2E;
+    margin: 5px 0 3px;
+  }
+
+  /* 주석 */
+  .note {
+    font-size: 7.5pt;
+    margin: 3px 0;
+  }
+  .note-red   { color: #E83A5E; }
+  .note-muted { color: #888; }
+
+  /* 푸터 */
+  .footer-rule { height: 0.5px; background: #ccc; margin: 18px 0 5px; border: none; }
+  .footer {
+    text-align: center;
+    font-size: 7.5pt;
+    color: #aaa;
+  }
+
+  /* 인쇄 안내 (인쇄 시 숨김) */
+  .print-hint {
+    background: #EEF4FF;
+    border: 1px solid #99BBFF;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 8pt;
+    color: #334;
+    margin-bottom: 14px;
+  }
+  @media print {
+    .print-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="print-hint">
+  💡 <strong>PDF로 저장하려면:</strong> 브라우저 메뉴 → 파일 → 인쇄 (⌘P) → PDF로 저장 선택
+</div>
+
+<!-- 제목 -->
+<h1>GS25 편의점 창업 비용구조 공개</h1>
+<div class="subtitle">공정위 가맹사업 정보공개서 (2024) 기반 &nbsp;|&nbsp; GS2·GS3 위탁가맹 기준</div>
+<hr class="title-rule">
+
+<!-- ① 초기투자금 -->
+<div class="section">① 초기투자금</div>
+
+<div class="sub sub-red">▸ 비환급 — 절대 돌려받지 못하는 돈</div>
+<table>
+  <thead><tr><th style="width:42%">항목</th><th style="width:18%">금액</th><th>비고</th></tr></thead>
+  <tbody>
+    <tr><td>가맹비</td><td>700만원</td><td>개점 지원 대가로 소멸 — 해지·폐점 후 미반환</td></tr>
+    <tr><td>인허가비 (담배·식품·의료기기 등)</td><td>약 33만원</td><td>개점 전 1회 납부</td></tr>
+    <tr class="hl-red"><td>비환급 합계</td><td>약 733만원</td><td></td></tr>
+  </tbody>
+</table>
+
+<div class="sub sub-green">▸ 환급 — 계약 기간 동안 묶이는 돈 (만료 시 반환)</div>
+<table>
+  <thead><tr><th style="width:42%">항목</th><th style="width:18%">금액</th><th>비고</th></tr></thead>
+  <tbody>
+    <tr><td>전대/예치 보증금</td><td>최소 3,000만원</td><td>GS2·GS3 기준 최솟값 (임차 규모에 따라 증가)</td></tr>
+    <tr><td>상품·소모품 준비금</td><td>1,500만원</td><td>개점 시 선투자 — 이후 정산</td></tr>
+    <tr><td>담보 제공</td><td>최소 2,000만원</td><td>GS2·GS3 기준 (부동산 등)</td></tr>
+    <tr><td>환전 자금</td><td>50만원</td><td>개점 시 잔돈 준비 (자산)</td></tr>
+    <tr class="hl-green"><td>환급 합계</td><td>최소 6,550만원</td><td></td></tr>
+  </tbody>
+</table>
+
+<div class="total-bar">
+  <span>총 초기투자 합계 (GS2·GS3 기준)</span>
+  <span>최소 7,283만원</span>
+</div>
+
+<!-- ② 운영고정비 -->
+<div class="section">② 운영고정비 (월)</div>
+
+<div class="sub sub-amber">▸ 필수 고정비</div>
+<table>
+  <thead><tr><th style="width:42%">항목</th><th style="width:26%">금액 (월, VAT 포함)</th><th>비고</th></tr></thead>
+  <tbody>
+    <tr><td>BGM 서비스</td><td>4,250원</td><td></td></tr>
+    <tr><td>전산유지보수비</td><td>71,500원</td><td></td></tr>
+    <tr><td>장비유지관리비</td><td>77,000원</td><td>정수필터 연 1회 교체 별도</td></tr>
+    <tr><td>간판유지보수비</td><td>19,800원</td><td></td></tr>
+    <tr class="hl-amber"><td>필수 고정비 합계</td><td>약 17만원</td><td></td></tr>
+  </tbody>
+</table>
+
+<div class="sub sub-muted">▸ 선택 고정비 (추가 선택 시)</div>
+<table>
+  <thead><tr><th style="width:42%">항목</th><th style="width:30%">금액 (월)</th><th>비고</th></tr></thead>
+  <tbody>
+    <tr><td>세무대리</td><td>66,000원</td><td></td></tr>
+    <tr><td>노무대리</td><td>22,000~55,000원</td><td></td></tr>
+    <tr><td>방역 서비스</td><td>10,000~121,000원</td><td></td></tr>
+    <tr><td>방범 서비스</td><td>22,000~78,000원</td><td></td></tr>
+    <tr><td>담배조합비</td><td>담배매입액의 0.09%</td><td></td></tr>
+    <tr><td>선택 고정비 합계</td><td>최소 12만원 ~ 최대 32만원</td><td></td></tr>
+  </tbody>
+</table>
+<div class="note note-red">※ 임대료·인건비·전기료는 별도 (점주 직접 부담)</div>
+
+<!-- ③ 계약해지 위약금 -->
+<div class="section">③ 계약해지 위약금</div>
+
+<table>
+  <thead><tr><th style="width:12%">타입</th><th style="width:10%">기간</th><th style="width:50%">위약금 산정 기준</th><th>서울 평균 환산</th></tr></thead>
+  <tbody>
+    <tr><td>GS1</td><td>3년 내</td><td>월매출총이익 × 수수료율 × 6개월</td><td>—</td></tr>
+    <tr><td>GS1</td><td>3~4년</td><td>월매출총이익 × 수수료율 × 4개월</td><td>—</td></tr>
+    <tr><td>GS1</td><td>4~5년</td><td>월매출총이익 × 수수료율 × 2개월</td><td>—</td></tr>
+    <tr class="hl-red"><td>GS2·GS3</td><td>3년 내</td><td>월매출총이익의 35% × 8개월</td><td>약 4,556만원</td></tr>
+    <tr><td>GS2·GS3</td><td>3~4년</td><td>월매출총이익의 35% × 6개월</td><td>약 3,417만원</td></tr>
+    <tr><td>공통</td><td>—</td><td>폐점수수료</td><td>50만원 (VAT 별도)</td></tr>
+  </tbody>
+</table>
+
+<div class="penalty-box">
+  <strong>GS2·GS3 기준 3년 내 해지 시 — 약 4,556만원</strong><br>
+  계산: 월매출총이익 1,627만원 × 35% × 8개월 = 4,556만원
+</div>
+<div class="note note-muted">※ 서울 평균 기준: 월매출 6,260만원 × 26% = 월매출총이익 1,627만원 (출처: GS25 정보공개서)</div>
+
+<!-- 푸터 -->
+<hr class="footer-rule">
+<div class="footer">출처: GS25 공정위 가맹사업 정보공개서 (2024) &nbsp;|&nbsp; 로키-창업구조대 &nbsp;@loki-biz119</div>
+
+</body>
+</html>

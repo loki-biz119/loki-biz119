@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LOKI 비용구조 UI 시안</title>
+<style>
+:root{
+  --bg:#0d0f1a;
+  --card:#151825;
+  --card2:#1c2035;
+  --border:#ffffff11;
+  --txt:#ffffff;
+  --txt2:#a8b4c8;
+  --txt3:#6a7890;
+  --acc:#4f8ef7;
+  /* 의미 있는 색상 3개만 */
+  --col-var:#f7615a;    /* 변동비 (원가·기타) — 빨강 */
+  --col-fix:#f7a548;    /* 고정비 (임대·인건) — 주황 */
+  --col-pos:#2ecc8a;    /* 순이익 — 초록 */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--txt);
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  font-size:15px;line-height:1.6;
+  padding:20px 16px;
+  max-width:400px;margin:0 auto;
+}
+
+/* 색상 범례 */
+.legend{display:flex;gap:14px;margin-bottom:20px;padding:10px 14px;background:var(--card);border-radius:10px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--txt2)}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+/* 흐름 카드 */
+.flow{display:flex;flex-direction:column}
+
+/* 결과 블록 — 흰 텍스트 강조 */
+.result-block{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px;
+}
+.result-block .r-label{font-size:11px;color:var(--txt3);margin-bottom:2px}
+.result-block .r-value{font-size:22px;font-weight:800;color:var(--txt)}
+.result-block .r-sub{font-size:11px;color:var(--txt3);margin-top:3px}
+
+/* 차감 블록 */
+.deduct-block{
+  margin:0 0 0 16px;
+  padding:6px 0;
+  display:flex;flex-direction:column;gap:4px;
+  position:relative;
+}
+.deduct-block::before{
+  content:'';position:absolute;left:-16px;top:0;bottom:0;
+  width:1px;background:var(--border);
+}
+.deduct-row{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--card2);
+  border-radius:8px;
+  padding:8px 12px;
+}
+.d-left{display:flex;align-items:center;gap:8px}
+.d-bar{width:3px;height:20px;border-radius:2px;flex-shrink:0}
+.d-label{font-size:12px;color:var(--txt2)}
+.d-sub{font-size:10px;color:var(--txt3)}
+.d-amount{font-size:13px;font-weight:700}
+
+/* 화살표 */
+.arrow-wrap{
+  display:flex;align-items:center;gap:8px;
+  padding:4px 0 4px 16px;
+  font-size:11px;color:var(--txt3);
+}
+.arrow-line{flex:1;height:1px;background:var(--border)}
+
+/* 최종 순이익 강조 */
+.final-block{
+  border-radius:12px;
+  padding:18px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.final-block .f-label{font-size:12px;margin-bottom:4px}
+.final-block .f-value{font-size:28px;font-weight:800}
+.final-block .f-sub{font-size:11px;margin-top:4px;opacity:.8}
+.final-pos{background:linear-gradient(135deg,#2ecc8a22,var(--card));border:1px solid #2ecc8a44}
+.final-neg{background:linear-gradient(135deg,#f7615a22,var(--card));border:1px solid #f7615a44}
+
+/* 임팩트 멘트 */
+.loki-msg{
+  background:var(--card2);border-radius:10px;
+  padding:11px 14px;margin-top:8px;
+  font-size:12px;color:var(--txt2);line-height:1.75;
+}
+.loki-msg b{color:var(--txt)}
+
+/* 헤더 */
+.header{margin-bottom:20px}
+.header .title{font-size:17px;font-weight:800;margin-bottom:2px}
+.header .sub{font-size:12px;color:var(--txt3)}
+
+/* 탭 (참고용) */
+.chip-row{display:flex;gap:6px;margin-bottom:6px}
+.chip{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--txt3)}
+.chip.on{border-color:var(--acc)88;color:var(--acc);background:var(--acc)11}
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div class="header">
+  <div class="title">강남구 · 편의점</div>
+  <div class="sub">15평 · 직원 3명 · 월매출 4,000만원 기준</div>
+</div>
+
+<!-- 색상 범례 -->
+<div class="legend">
+  <div class="leg-item">
+    <div class="leg-dot" style="background:var(--col-var)"></div>변동비 (원가·기타)
+  </div>
+  <div class="leg-item">
+    <div class="leg-dot" style="background:var(--col-fix)"></div>고정비 (임대·인건)
+  </div>
+  <div class="leg-item">
+    <div class="leg-dot" style="background:var(--col-pos)"></div>순이익
+  </div>
+</div>
+
+<!-- 흐름 시작 -->
+<div class="flow">
+
+  <!-- 1. 매출 -->
+  <div class="result-block">
+    <div class="r-label">월 매출</div>
+    <div class="r-value">4,000만원</div>
+  </div>
+
+  <!-- 변동비 차감 -->
+  <div class="deduct-block">
+    <div class="deduct-row">
+      <div class="d-left">
+        <div class="d-bar" style="background:var(--col-var)"></div>
+        <div>
+          <div class="d-label">상품원가</div>
+          <div class="d-sub">본사 로열티 포함 · 78%</div>
+        </div>
+      </div>
+      <div class="d-amount" style="color:var(--col-var)">-3,120만</div>
+    </div>
+  </div>
+
+  <!-- 2. 매출총이익 -->
+  <div class="result-block">
+    <div class="r-label">매출총이익 <span style="font-size:10px;background:var(--col-var)22;color:var(--col-var);padding:1px 6px;border-radius:10px;margin-left:4px">22%만 남음</span></div>
+    <div class="r-value">880만원</div>
+    <div class="r-sub">여기서 임대료 · 인건비 · 기타 모두 해결</div>
+  </div>
+
+  <!-- 기타비용 차감 -->
+  <div class="deduct-block">
+    <div class="deduct-row">
+      <div class="d-left">
+        <div class="d-bar" style="background:var(--col-var)"></div>
+        <div>
+          <div class="d-label">기타비용</div>
+          <div class="d-sub">카드수수료 1.5% · 폐기손실 2% · 전기·POS 등</div>
+        </div>
+      </div>
+      <div class="d-amount" style="color:var(--col-var)">-360만</div>
+    </div>
+  </div>
+
+  <!-- 3. 고정비 차감 전 -->
+  <div class="result-block">
+    <div class="r-label">고정비 차감 전</div>
+    <div class="r-value">520만원</div>
+    <div class="r-sub">임대료 + 인건비로 쓸 수 있는 금액</div>
+  </div>
+
+  <!-- 고정비 차감 -->
+  <div class="deduct-block">
+    <div class="deduct-row" style="margin-bottom:4px">
+      <div class="d-left">
+        <div class="d-bar" style="background:var(--col-fix)"></div>
+        <div>
+          <div class="d-label">임대료</div>
+          <div class="d-sub">강남구 15평 기준</div>
+        </div>
+      </div>
+      <div class="d-amount" style="color:var(--col-fix)">-220만</div>
+    </div>
+    <div class="deduct-row">
+      <div class="d-left">
+        <div class="d-bar" style="background:var(--col-fix)"></div>
+        <div>
+          <div class="d-label">인건비</div>
+          <div class="d-sub">직원 3명 · 최저임금 기준</div>
+        </div>
+      </div>
+      <div class="d-amount" style="color:var(--col-fix)">-240만</div>
+    </div>
+  </div>
+
+  <!-- 4. 순이익 -->
+  <div class="final-block final-pos">
+    <div>
+      <div class="f-label" style="color:var(--col-pos)">최종 순이익</div>
+      <div class="f-value" style="color:var(--col-pos)">+60만원</div>
+      <div class="f-sub" style="color:var(--txt3)">매출 4,000만원 · 손익분기 근처</div>
+    </div>
+    <div style="font-size:36px">🤔</div>
+  </div>
+
+  <!-- LOKI 멘트 -->
+  <div class="loki-msg">
+    편의점은 <b>상품원가가 78%</b>라 매출이 커도 실제로 남는 금액이 생각보다 적어요.<br>
+    <b>임대료가 비쌀수록</b> 수익이 빠르게 깎이는 구조라 입지 선택이 핵심입니다.
+  </div>
+
+</div>
+
+<!-- ───────── 적자 시나리오 (하위 25%) ───────── -->
+<div style="height:32px"></div>
+<div class="header">
+  <div class="title" style="font-size:14px;color:var(--txt2)">비교 — 하위 25% 시나리오</div>
+  <div class="sub">월매출 2,400만원일 경우</div>
+</div>
+
+<div class="flow">
+  <div class="result-block">
+    <div class="r-label">월 매출</div>
+    <div class="r-value">2,400만원</div>
+  </div>
+  <div class="deduct-block">
+    <div class="deduct-row">
+      <div class="d-left">
+        <div class="d-bar" style="background:var(--col-var)"></div>
+        <div><div class="d-label">상품원가 (78%)</div></div>
+      </div>
+      <div class="d-amount" style="color:var(--col-var)">-1,872만</div>
+    </div>
+  </div>
+  <div class="result-block">
+    <div class="r-label">매출총이익</div>
+    <div class="r-value">528만원</div>
+  </div>
+  <div class="deduct-block">
+    <div class="deduct-row" style="margin-bottom:4px">
+      <div class="d-left">
+        <div class="d-bar" style="background:var(--col-var)"></div>
+        <div><div class="d-label">기타비용 (9%)</div></div>
+      </div>
+      <div class="d-amount" style="color:var(--col-var)">-216만</div>
+    </div>
+    <div class="deduct-row" style="margin-bottom:4px">
+      <div class="d-left">
+        <div class="d-bar" style="background:var(--col-fix)"></div>
+        <div><div class="d-label">임대료</div></div>
+      </div>
+      <div class="d-amount" style="color:var(--col-fix)">-220만</div>
+    </div>
+    <div class="deduct-row">
+      <div class="d-left">
+        <div class="d-bar" style="background:var(--col-fix)"></div>
+        <div><div class="d-label">인건비</div></div>
+      </div>
+      <div class="d-amount" style="color:var(--col-fix)">-240만</div>
+    </div>
+  </div>
+  <div class="final-block final-neg">
+    <div>
+      <div class="f-label" style="color:var(--col-var)">최종 순이익</div>
+      <div class="f-value" style="color:var(--col-var)">-148만원</div>
+      <div class="f-sub" style="color:var(--txt3)">월 148만원 손실</div>
+    </div>
+    <div style="font-size:36px">😰</div>
+  </div>
+  <div class="loki-msg">
+    매출이 <b>2,400만원</b>으로 떨어지면 고정비는 그대로인데 원가 절감이 안 돼서<br>
+    <b style="color:var(--col-var)">매달 148만원 적자</b>가 쌓여요. 비수기 대비가 필수입니다.
+  </div>
+</div>
+
+<div style="height:40px"></div>
+<div style="text-align:center;font-size:11px;color:var(--txt3)">LOKI Score · 비용구조 UI 시안 v2</div>
+<div style="height:24px"></div>
+
+</body>
+</html>

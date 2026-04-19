@@ -1,0 +1,321 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Gradients -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0a0015"/>
+      <stop offset="60%" stop-color="#050008"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    <linearGradient id="faceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a0830"/>
+      <stop offset="50%" stop-color="#0d1f3c"/>
+      <stop offset="100%" stop-color="#0a0820"/>
+    </linearGradient>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#12082a"/>
+      <stop offset="100%" stop-color="#060d1e"/>
+    </linearGradient>
+    <linearGradient id="eyeLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00ffff"/>
+      <stop offset="100%" stop-color="#0080ff"/>
+    </linearGradient>
+    <linearGradient id="eyeRight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff00aa"/>
+      <stop offset="100%" stop-color="#ff0066"/>
+    </linearGradient>
+    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff00aa"/>
+      <stop offset="50%" stop-color="#8800ff"/>
+      <stop offset="100%" stop-color="#00ffff"/>
+    </linearGradient>
+    <linearGradient id="armGradL" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a0830"/>
+      <stop offset="100%" stop-color="#050015"/>
+    </linearGradient>
+    <!-- Glow filters -->
+    <filter id="cyanGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="pinkGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="strongGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="ultraGlow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Clip -->
+    <clipPath id="circleClip">
+      <circle cx="200" cy="200" r="196"/>
+    </clipPath>
+  </defs>
+
+  <!-- BG -->
+  <circle cx="200" cy="200" r="200" fill="url(#bgGlow)"/>
+
+  <!-- Circuit board lines in background -->
+  <g opacity="0.12" stroke="#00ffff" stroke-width="1" fill="none" clip-path="url(#circleClip)">
+    <line x1="0" y1="60" x2="120" y2="60"/><circle cx="120" cy="60" r="3" fill="#00ffff"/>
+    <line x1="120" y1="60" x2="120" y2="30"/><line x1="120" y1="30" x2="180" y2="30"/>
+    <line x1="280" y1="60" x2="400" y2="60"/><circle cx="280" cy="60" r="3" fill="#00ffff"/>
+    <line x1="280" y1="60" x2="280" y2="30"/><line x1="280" y1="30" x2="220" y2="30"/>
+    <line x1="0" y1="340" x2="100" y2="340"/><circle cx="100" cy="340" r="3" fill="#00ffff"/>
+    <line x1="100" y1="340" x2="100" y2="370"/><line x1="100" y1="370" x2="160" y2="370"/>
+    <line x1="300" y1="340" x2="400" y2="340"/><circle cx="300" cy="340" r="3" fill="#00ffff"/>
+    <line x1="300" y1="370" x2="300" y2="340"/><line x1="300" y1="370" x2="240" y2="370"/>
+    <line x1="30" y1="150" x2="30" y2="250"/><circle cx="30" cy="200" r="3" fill="#00ffff"/>
+    <line x1="30" y1="200" x2="60" y2="200"/>
+    <line x1="370" y1="150" x2="370" y2="250"/><circle cx="370" cy="200" r="3" fill="#00ffff"/>
+    <line x1="340" y1="200" x2="370" y2="200"/>
+  </g>
+
+  <!-- Outer ring - hexagonal feel -->
+  <circle cx="200" cy="200" r="188" fill="none" stroke="#00ffff" stroke-width="0.5" opacity="0.2"/>
+  <circle cx="200" cy="200" r="184" fill="none" stroke="#ff00aa" stroke-width="0.5" opacity="0.15"/>
+
+  <!-- =================== ROBOT HEAD =================== -->
+  <!-- Head - angular cyberpunk shape -->
+  <path d="M148,72 L252,72 L272,88 L282,100 L282,205 L272,218 L128,218 L118,205 L118,100 L128,88 Z"
+        fill="url(#faceGrad)" stroke="#00ffff" stroke-width="1.5" opacity="0.95"/>
+
+  <!-- Head top edge accent -->
+  <line x1="148" y1="72" x2="252" y2="72" stroke="#00ffff" stroke-width="2.5" filter="url(#cyanGlow)" opacity="0.9"/>
+
+  <!-- Head inner frame -->
+  <path d="M154,80 L246,80 L262,92 L268,102 L268,208 L132,208 L132,102 L138,92 Z"
+        fill="none" stroke="#00ffff" stroke-width="0.6" opacity="0.25"/>
+
+  <!-- ===== ANTENNA - Asymmetric cyberpunk ===== -->
+  <!-- Left antenna - data spike -->
+  <line x1="163" y1="72" x2="140" y2="30" stroke="#00ffff" stroke-width="2" filter="url(#cyanGlow)"/>
+  <polygon points="140,18 133,34 147,34" fill="#00ffff" filter="url(#cyanGlow)"/>
+  <circle cx="140" cy="18" r="4" fill="#ffffff" opacity="0.9" filter="url(#cyanGlow)"/>
+
+  <!-- Right antenna - signal wave -->
+  <line x1="237" y1="72" x2="255" y2="38" stroke="#ff00aa" stroke-width="2" filter="url(#pinkGlow)"/>
+  <circle cx="255" cy="30" r="10" fill="none" stroke="#ff00aa" stroke-width="1.5" filter="url(#pinkGlow)" opacity="0.7"/>
+  <circle cx="255" cy="30" r="6" fill="none" stroke="#ff00aa" stroke-width="1" opacity="0.5"/>
+  <circle cx="255" cy="30" r="3" fill="#ff00aa" filter="url(#pinkGlow)"/>
+
+  <!-- ===== VISOR / EYES ===== -->
+  <!-- Single visor bar - one eye spanning both -->
+  <rect x="132" y="115" width="136" height="42" rx="4" fill="#000510" stroke="#00ffff" stroke-width="1" opacity="0.9"/>
+
+  <!-- Left eye - cyan glowing triangle scan -->
+  <rect x="138" y="120" width="55" height="32" rx="3" fill="#000a18"/>
+  <!-- Scan beam -->
+  <polygon points="138,152 193,152 165,120" fill="#00ffff" opacity="0.08"/>
+  <!-- Eye iris -->
+  <ellipse cx="165" cy="136" rx="18" ry="12" fill="url(#eyeLeft)" filter="url(#cyanGlow)" opacity="0.9"/>
+  <ellipse cx="165" cy="136" rx="9" ry="7" fill="#000a18"/>
+  <ellipse cx="165" cy="136" rx="4" ry="4" fill="#00ffff" opacity="0.9"/>
+  <circle cx="169" cy="133" r="2" fill="#ffffff" opacity="0.7"/>
+  <!-- Scan line animated feel -->
+  <line x1="140" y1="136" x2="192" y2="136" stroke="#00ffff" stroke-width="0.5" opacity="0.5"/>
+  <line x1="140" y1="130" x2="192" y2="130" stroke="#00ffff" stroke-width="0.3" opacity="0.2"/>
+  <line x1="140" y1="142" x2="192" y2="142" stroke="#00ffff" stroke-width="0.3" opacity="0.2"/>
+
+  <!-- Center divider - nose bridge -->
+  <rect x="194" y="118" width="12" height="36" rx="2" fill="#0a0020"/>
+  <line x1="200" y1="120" x2="200" y2="152" stroke="#8800ff" stroke-width="1" opacity="0.6"/>
+
+  <!-- Right eye - magenta/pink -->
+  <rect x="207" y="120" width="55" height="32" rx="3" fill="#18000a"/>
+  <!-- Scan beam pink -->
+  <polygon points="207,152 262,152 235,120" fill="#ff00aa" opacity="0.06"/>
+  <!-- Eye iris -->
+  <ellipse cx="235" cy="136" rx="18" ry="12" fill="url(#eyeRight)" filter="url(#pinkGlow)" opacity="0.9"/>
+  <ellipse cx="235" cy="136" rx="9" ry="7" fill="#18000a"/>
+  <ellipse cx="235" cy="136" rx="4" ry="4" fill="#ff00aa" opacity="0.9"/>
+  <circle cx="239" cy="133" r="2" fill="#ffffff" opacity="0.7"/>
+  <!-- Scan lines -->
+  <line x1="208" y1="136" x2="260" y2="136" stroke="#ff00aa" stroke-width="0.5" opacity="0.5"/>
+  <line x1="208" y1="130" x2="260" y2="130" stroke="#ff00aa" stroke-width="0.3" opacity="0.2"/>
+  <line x1="208" y1="142" x2="260" y2="142" stroke="#ff00aa" stroke-width="0.3" opacity="0.2"/>
+
+  <!-- ===== DATA READOUT / MOUTH AREA ===== -->
+  <!-- Status bar -->
+  <rect x="132" y="168" width="136" height="30" rx="3" fill="#000510" stroke="#00ffff" stroke-width="0.8" opacity="0.7"/>
+
+  <!-- Scrolling data text feel - binary + LOKI -->
+  <text x="140" y="179" font-family="'Courier New', monospace" font-size="7" fill="#00ffff" opacity="0.4">01001100 01001111 01001011 01001001</text>
+  <text x="140" y="189" font-family="'Courier New', monospace" font-size="8" fill="#00ffff" opacity="0.9" letter-spacing="2">▮▮▮▮▮▮▮▮▮▮▮▮▮▯▯▯▯</text>
+
+  <!-- Status dot -->
+  <circle cx="256" cy="179" r="4" fill="#00ff88" filter="url(#cyanGlow)"/>
+
+  <!-- ===== CHEEK PANELS ===== -->
+  <!-- Left cheek - vent lines -->
+  <rect x="122" y="155" width="22" height="40" rx="3" fill="#080018" stroke="#8800ff" stroke-width="0.8" opacity="0.6"/>
+  <line x1="126" y1="162" x2="140" y2="162" stroke="#8800ff" stroke-width="1" opacity="0.6"/>
+  <line x1="126" y1="168" x2="140" y2="168" stroke="#8800ff" stroke-width="1" opacity="0.5"/>
+  <line x1="126" y1="174" x2="140" y2="174" stroke="#8800ff" stroke-width="1" opacity="0.4"/>
+  <line x1="126" y1="180" x2="140" y2="180" stroke="#8800ff" stroke-width="1" opacity="0.3"/>
+  <line x1="126" y1="186" x2="140" y2="186" stroke="#8800ff" stroke-width="1" opacity="0.2"/>
+
+  <!-- Right cheek - vent lines -->
+  <rect x="256" y="155" width="22" height="40" rx="3" fill="#080018" stroke="#ff00aa" stroke-width="0.8" opacity="0.6"/>
+  <line x1="260" y1="162" x2="274" y2="162" stroke="#ff00aa" stroke-width="1" opacity="0.6"/>
+  <line x1="260" y1="168" x2="274" y2="168" stroke="#ff00aa" stroke-width="1" opacity="0.5"/>
+  <line x1="260" y1="174" x2="274" y2="174" stroke="#ff00aa" stroke-width="1" opacity="0.4"/>
+  <line x1="260" y1="180" x2="274" y2="180" stroke="#ff00aa" stroke-width="1" opacity="0.3"/>
+  <line x1="260" y1="186" x2="274" y2="186" stroke="#ff00aa" stroke-width="1" opacity="0.2"/>
+
+  <!-- =================== NECK =================== -->
+  <rect x="175" y="218" width="50" height="22" rx="0" fill="#0d0820"
+        stroke="#00ffff" stroke-width="1" opacity="0.8"/>
+  <!-- Neck circuit details -->
+  <line x1="185" y1="224" x2="185" y2="234" stroke="#00ffff" stroke-width="1" opacity="0.5"/>
+  <line x1="200" y1="220" x2="200" y2="238" stroke="#8800ff" stroke-width="1.5" opacity="0.6"/>
+  <line x1="215" y1="224" x2="215" y2="234" stroke="#ff00aa" stroke-width="1" opacity="0.5"/>
+
+  <!-- =================== BODY =================== -->
+  <path d="M95,240 L118,240 L128,232 L272,232 L282,240 L305,240 L305,350 L282,360 L118,360 L95,350 Z"
+        fill="url(#bodyGrad)" stroke="#00ffff" stroke-width="1.5"/>
+
+  <!-- Body top edge glow -->
+  <line x1="128" y1="232" x2="272" y2="232" stroke="#00ffff" stroke-width="2" filter="url(#cyanGlow)" opacity="0.7"/>
+
+  <!-- Shoulder accent lines -->
+  <line x1="95" y1="240" x2="118" y2="240" stroke="#ff00aa" stroke-width="2" filter="url(#pinkGlow)" opacity="0.8"/>
+  <line x1="282" y1="240" x2="305" y2="240" stroke="#ff00aa" stroke-width="2" filter="url(#pinkGlow)" opacity="0.8"/>
+
+  <!-- ===== CHEST CORE ===== -->
+  <!-- Hexagonal core -->
+  <polygon points="200,252 220,263 220,285 200,296 180,285 180,263"
+           fill="#0a0020" stroke="#8800ff" stroke-width="1.5" filter="url(#strongGlow)"/>
+  <polygon points="200,258 215,267 215,281 200,290 185,281 185,267"
+           fill="none" stroke="url(#coreGrad)" stroke-width="2" filter="url(#ultraGlow)" opacity="0.9"/>
+  <!-- Core inner glow -->
+  <circle cx="200" cy="274" r="10" fill="#8800ff" filter="url(#ultraGlow)" opacity="0.6"/>
+  <circle cx="200" cy="274" r="5" fill="#ffffff" opacity="0.8" filter="url(#ultraGlow)"/>
+
+  <!-- ===== CHEST PANELS ===== -->
+  <!-- Left data panel -->
+  <rect x="106" y="250" width="62" height="95" rx="4" fill="#080015" stroke="#00ffff" stroke-width="0.8" opacity="0.7"/>
+  <!-- Left panel - bar chart data -->
+  <text x="112" y="262" font-family="'Courier New', monospace" font-size="6" fill="#00ffff" opacity="0.5">REVENUE_DATA</text>
+  <rect x="112" y="268" width="6" height="20" rx="1" fill="#00ffff" opacity="0.4"/>
+  <rect x="121" y="260" width="6" height="28" rx="1" fill="#00ffff" opacity="0.6"/>
+  <rect x="130" y="264" width="6" height="24" rx="1" fill="#00ffff" opacity="0.5"/>
+  <rect x="139" y="256" width="6" height="32" rx="1" fill="#ff00aa" opacity="0.8"/>
+  <rect x="148" y="262" width="6" height="26" rx="1" fill="#00ffff" opacity="0.5"/>
+  <rect x="157" y="266" width="6" height="22" rx="1" fill="#00ffff" opacity="0.4"/>
+  <!-- Left panel lower stats -->
+  <line x1="112" y1="302" x2="162" y2="302" stroke="#00ffff" stroke-width="0.5" opacity="0.3"/>
+  <text x="112" y="312" font-family="'Courier New', monospace" font-size="6" fill="#00ffff" opacity="0.6">AVG ₩38.7M</text>
+  <text x="112" y="322" font-family="'Courier New', monospace" font-size="6" fill="#ff00aa" opacity="0.6">▲ +12.4%</text>
+  <text x="112" y="332" font-family="'Courier New', monospace" font-size="6" fill="#00ffff" opacity="0.4">25구×56업종</text>
+
+  <!-- Right data panel -->
+  <rect x="232" y="250" width="62" height="95" rx="4" fill="#080015" stroke="#ff00aa" stroke-width="0.8" opacity="0.7"/>
+  <text x="238" y="262" font-family="'Courier New', monospace" font-size="6" fill="#ff00aa" opacity="0.5">SCORE_INDEX</text>
+  <!-- Circular radar-like element -->
+  <circle cx="269" cy="284" r="22" fill="none" stroke="#ff00aa" stroke-width="0.8" opacity="0.3"/>
+  <circle cx="269" cy="284" r="15" fill="none" stroke="#ff00aa" stroke-width="0.6" opacity="0.4"/>
+  <circle cx="269" cy="284" r="8" fill="none" stroke="#ff00aa" stroke-width="0.5" opacity="0.5"/>
+  <!-- Radar sweep -->
+  <line x1="269" y1="284" x2="286" y2="270" stroke="#ff00aa" stroke-width="1.5" filter="url(#pinkGlow)" opacity="0.8"/>
+  <line x1="269" y1="284" x2="269" y2="262" stroke="#ff00aa" stroke-width="0.5" opacity="0.3"/>
+  <line x1="269" y1="284" x2="291" y2="284" stroke="#ff00aa" stroke-width="0.5" opacity="0.3"/>
+  <circle cx="286" cy="270" r="2.5" fill="#ff00aa" filter="url(#pinkGlow)"/>
+  <!-- Right lower stats -->
+  <line x1="238" y1="302" x2="288" y2="302" stroke="#ff00aa" stroke-width="0.5" opacity="0.3"/>
+  <text x="238" y="312" font-family="'Courier New', monospace" font-size="6" fill="#ff00aa" opacity="0.6">BEP SCAN</text>
+  <text x="238" y="322" font-family="'Courier New', monospace" font-size="6" fill="#00ffff" opacity="0.6">LOKI v7.0</text>
+  <text x="238" y="332" font-family="'Courier New', monospace" font-size="6" fill="#ff00aa" opacity="0.4">AI_READY</text>
+
+  <!-- ===== LOKI + NUMBER7 LOGO CENTER ===== -->
+  <!-- Moved below hex core -->
+  <text x="200" y="316" text-anchor="middle" font-family="'Arial Black', sans-serif" font-weight="900" font-size="22"
+        fill="none" stroke="#00ffff" stroke-width="0.5" letter-spacing="8" filter="url(#cyanGlow)" opacity="0.5">LOKI</text>
+  <text x="200" y="316" text-anchor="middle" font-family="'Arial Black', sans-serif" font-weight="900" font-size="22"
+        fill="#00ffff" letter-spacing="8" filter="url(#cyanGlow)">LOKI</text>
+  <text x="200" y="332" text-anchor="middle" font-family="'Courier New', monospace" font-size="9"
+        fill="#ff00aa" letter-spacing="5" filter="url(#pinkGlow)">NUMBER7</text>
+
+  <!-- =================== ARMS =================== -->
+  <!-- Left arm - angular cyberpunk -->
+  <path d="M65,244 L95,244 L95,325 L80,335 L65,325 Z"
+        fill="url(#armGradL)" stroke="#00ffff" stroke-width="1.2"/>
+  <!-- Left arm details -->
+  <line x1="70" y1="260" x2="90" y2="260" stroke="#00ffff" stroke-width="0.8" opacity="0.5"/>
+  <line x1="70" y1="272" x2="90" y2="272" stroke="#00ffff" stroke-width="0.8" opacity="0.4"/>
+  <line x1="70" y1="284" x2="90" y2="284" stroke="#00ffff" stroke-width="0.8" opacity="0.3"/>
+  <!-- Left shoulder joint -->
+  <circle cx="80" cy="248" r="7" fill="#0a0020" stroke="#00ffff" stroke-width="1.5" filter="url(#cyanGlow)"/>
+  <circle cx="80" cy="248" r="3" fill="#00ffff" opacity="0.8"/>
+  <!-- Left hand - blades -->
+  <path d="M63,322 L97,322 L92,350 L68,350 Z" fill="#0d0820" stroke="#00ffff" stroke-width="1.2"/>
+  <line x1="72" y1="326" x2="72" y2="348" stroke="#00ffff" stroke-width="0.8" opacity="0.4"/>
+  <line x1="80" y1="324" x2="80" y2="349" stroke="#00ffff" stroke-width="1" opacity="0.6"/>
+  <line x1="88" y1="326" x2="88" y2="348" stroke="#00ffff" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- Right arm -->
+  <path d="M305,244 L335,244 L335,325 L320,335 L305,325 Z"
+        fill="url(#armGradL)" stroke="#ff00aa" stroke-width="1.2"/>
+  <!-- Right arm details -->
+  <line x1="310" y1="260" x2="330" y2="260" stroke="#ff00aa" stroke-width="0.8" opacity="0.5"/>
+  <line x1="310" y1="272" x2="330" y2="272" stroke="#ff00aa" stroke-width="0.8" opacity="0.4"/>
+  <line x1="310" y1="284" x2="330" y2="284" stroke="#ff00aa" stroke-width="0.8" opacity="0.3"/>
+  <!-- Right shoulder joint -->
+  <circle cx="320" cy="248" r="7" fill="#0a0020" stroke="#ff00aa" stroke-width="1.5" filter="url(#pinkGlow)"/>
+  <circle cx="320" cy="248" r="3" fill="#ff00aa" opacity="0.8"/>
+  <!-- Right hand -->
+  <path d="M303,322 L337,322 L332,350 L308,350 Z" fill="#0d0820" stroke="#ff00aa" stroke-width="1.2"/>
+  <line x1="312" y1="326" x2="312" y2="348" stroke="#ff00aa" stroke-width="0.8" opacity="0.4"/>
+  <line x1="320" y1="324" x2="320" y2="349" stroke="#ff00aa" stroke-width="1" opacity="0.6"/>
+  <line x1="328" y1="326" x2="328" y2="348" stroke="#ff00aa" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- =================== LEGS =================== -->
+  <!-- Left leg -->
+  <rect x="128" y="358" width="55" height="22" rx="0" fill="#0d0820" stroke="#00ffff" stroke-width="1.2"/>
+  <line x1="133" y1="364" x2="133" y2="376" stroke="#00ffff" stroke-width="1" opacity="0.5"/>
+  <line x1="155" y1="360" x2="155" y2="378" stroke="#8800ff" stroke-width="1" opacity="0.4"/>
+  <!-- Left foot -->
+  <path d="M120,378 L185,378 L190,392 L115,392 Z" fill="#080015" stroke="#00ffff" stroke-width="1.2"/>
+  <line x1="125" y1="385" x2="182" y2="385" stroke="#00ffff" stroke-width="0.5" opacity="0.3"/>
+
+  <!-- Right leg -->
+  <rect x="217" y="358" width="55" height="22" rx="0" fill="#0d0820" stroke="#ff00aa" stroke-width="1.2"/>
+  <line x1="245" y1="360" x2="245" y2="378" stroke="#8800ff" stroke-width="1" opacity="0.4"/>
+  <line x1="267" y1="364" x2="267" y2="376" stroke="#ff00aa" stroke-width="1" opacity="0.5"/>
+  <!-- Right foot -->
+  <path d="M210,378 L275,378 L285,392 L215,392 Z" fill="#080015" stroke="#ff00aa" stroke-width="1.2"/>
+  <line x1="218" y1="385" x2="278" y2="385" stroke="#ff00aa" stroke-width="0.5" opacity="0.3"/>
+
+  <!-- =================== GLITCH EFFECTS =================== -->
+  <!-- Horizontal glitch slices -->
+  <rect x="118" y="105" width="60" height="3" fill="#00ffff" opacity="0.06"/>
+  <rect x="200" y="160" width="82" height="2" fill="#ff00aa" opacity="0.08"/>
+  <rect x="95" y="295" width="45" height="2" fill="#00ffff" opacity="0.06"/>
+
+  <!-- =================== FLOATING DATA PARTICLES =================== -->
+  <!-- Cyan dots -->
+  <circle cx="42" cy="90" r="2.5" fill="#00ffff" filter="url(#cyanGlow)" opacity="0.7"/>
+  <circle cx="55" cy="120" r="1.5" fill="#00ffff" opacity="0.4"/>
+  <circle cx="30" cy="270" r="2" fill="#00ffff" opacity="0.5"/>
+  <circle cx="50" cy="310" r="1.5" fill="#00ffff" opacity="0.3"/>
+  <!-- Pink dots -->
+  <circle cx="355" cy="85" r="2.5" fill="#ff00aa" filter="url(#pinkGlow)" opacity="0.7"/>
+  <circle cx="345" cy="115" r="1.5" fill="#ff00aa" opacity="0.4"/>
+  <circle cx="368" cy="290" r="2" fill="#ff00aa" opacity="0.5"/>
+  <circle cx="350" cy="320" r="1.5" fill="#ff00aa" opacity="0.3"/>
+  <!-- Top particles -->
+  <circle cx="90" cy="35" r="2" fill="#8800ff" opacity="0.5"/>
+  <circle cx="310" cy="42" r="2" fill="#8800ff" opacity="0.5"/>
+  <circle cx="170" cy="15" r="1.5" fill="#00ffff" opacity="0.4"/>
+  <circle cx="230" cy="12" r="1.5" fill="#ff00aa" opacity="0.4"/>
+
+  <!-- Energy lines from core -->
+  <line x1="180" y1="274" x2="145" y2="260" stroke="#8800ff" stroke-width="0.8" opacity="0.3" filter="url(#strongGlow)"/>
+  <line x1="220" y1="274" x2="255" y2="260" stroke="#8800ff" stroke-width="0.8" opacity="0.3" filter="url(#strongGlow)"/>
+
+  <!-- Final outer glow ring -->
+  <circle cx="200" cy="200" r="197" fill="none" stroke="url(#coreGrad)" stroke-width="1" opacity="0.4"/>
+</svg>
