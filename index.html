@@ -417,7 +417,10 @@
     font-size: 11px; color: var(--text3); margin-top: 12px;
     max-width: 640px; line-height: 1.7;
   }
-  .footer-disclaimer a { color: var(--accent); text-decoration: none; }
+  .footer-disclaimer span.email-copy {
+    color: var(--accent); text-decoration: none; cursor: pointer;
+    border-bottom: 1px dotted var(--accent);
+  }
 
   /* ===== TAGS ===== */
   .tag-open {
@@ -671,8 +674,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">LOKI</div>
-  <div class="footer-note">출처: 서울시 소상공인 점포 행정동 데이터 · 직방 상가 임대료 DB · 공공데이터포털</div>
-  <div class="footer-disclaimer">이 사이트의 모든 데이터는 공공데이터포털, 서울시열린데이터광장, 각 지자체데이터포털, 소상공인365, 통계청, 대형부동산플랫폼 임대료 데이터 등을 토대로 제작되었습니다.<br>데이터 문의 및 기타 문의사항은 <a href="mailto:findingmylifegauge@gmail.com">findingmylifegauge@gmail.com</a> 으로 문의 바랍니다.</div>
+  <div class="footer-disclaimer">이 사이트의 모든 데이터는 공공데이터포털, 서울시열린데이터광장, 각 지자체데이터포털, 소상공인365, 통계청, 대형부동산플랫폼 임대료 데이터 등을 토대로 제작되었습니다.<br>데이터 문의 및 기타 문의사항은 <span class="email-copy" onclick="copyEmail()">findingmylifegauge@gmail.com</span> 으로 문의 바랍니다.</div>
 </footer>
 
 
@@ -986,6 +988,26 @@ window.addEventListener('DOMContentLoaded', () => {
   renderCompareList();
   selectBiz('카페/커피');
 });
+
+function copyEmail() {
+  const email = 'findingmylifegauge@gmail.com';
+  navigator.clipboard?.writeText(email).then(() => {
+    showToast('이메일이 복사되었습니다.');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = email; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('이메일이 복사되었습니다.');
+  });
+}
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#4f7cff;color:#fff;padding:10px 22px;border-radius:999px;font-size:13px;font-weight:600;z-index:9999;pointer-events:none;box-shadow:0 4px 16px rgba(79,124,255,0.4);';
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
 </script>
 </body>
 </html>
