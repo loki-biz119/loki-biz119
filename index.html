@@ -202,31 +202,46 @@
   .drill-sub.open { color: var(--accent2); }
   .drill-sub.close { color: var(--danger); }
 
-  /* drilldown */
-  .drilldown-panel {
-    max-width: 1100px; margin: 20px auto 0;
-    background: var(--bg2);
-    border: 1px solid var(--accent);
-    border-radius: var(--radius);
-    padding: 24px;
-    display: none;
+  /* ── 컬럼 헤더 ── */
+  .rank-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 0 10px 8px; border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
   }
-  .drilldown-panel.visible { display: block; }
-  .drilldown-header {
-    display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;
+  .rh-num  { font-size: 11px; color: var(--text3); width: 20px; text-align: center; }
+  .rh-label{ font-size: 11px; color: var(--text3); flex: 1; }
+  .rh-stat { font-size: 11px; color: var(--text3); min-width: 48px; text-align: right; }
+  .rh-count{ font-size: 11px; color: var(--text3); min-width: 40px; text-align: right; }
+  .rh-drill{ margin-top: 8px; }
+
+  /* ── 드릴다운 모달 ── */
+  .drill-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.65); backdrop-filter: blur(4px);
   }
-  .drilldown-title {
-    font-size: 15px; font-weight: 700;
+  .drill-overlay.visible { display: block; }
+  .drill-modal {
+    display: none; position: fixed; z-index: 201;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: var(--bg2); border: 1px solid var(--accent);
+    border-radius: var(--radius); padding: 28px 24px;
+    width: 92%; max-width: 720px; max-height: 80vh; overflow-y: auto;
   }
+  .drill-modal.visible { display: block; }
+  .drill-modal-header {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;
+  }
+  .drill-modal-sub { font-size: 12px; color: var(--text3); margin-bottom: 20px; }
+  .drilldown-title { font-size: 16px; font-weight: 800; }
   .drilldown-close {
-    font-size: 18px; cursor: pointer;
-    background: none; border: none; color: var(--text2);
+    font-size: 20px; cursor: pointer; background: none; border: none; color: var(--text2);
+    line-height: 1; padding: 4px 8px; border-radius: 6px;
   }
+  .drilldown-close:hover { background: var(--bg3); }
   .drilldown-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
   }
   @media (max-width: 560px) { .drilldown-grid { grid-template-columns: 1fr; } }
-  .chart-wrap { position: relative; height: 200px; }
 
   /* ===== SECTION 2: BRIDGE ===== */
   .s2-container {
@@ -480,7 +495,12 @@
       <div class="rank-card-title">
         <span class="dot dot-open"></span>
         <span id="openTitle">개업율 상승 지역 TOP 5</span>
-        
+      </div>
+      <div class="rank-header">
+        <span class="rh-num">#</span>
+        <span class="rh-label" id="openColLabel">지역</span>
+        <span class="rh-stat">개업율</span>
+        <span class="rh-count">개업 수</span>
       </div>
       <div class="rank-list" id="openList"></div>
     </div>
@@ -488,30 +508,50 @@
       <div class="rank-card-title">
         <span class="dot dot-close"></span>
         <span id="closeTitle">폐업율 상승 지역 TOP 5</span>
-        
+      </div>
+      <div class="rank-header">
+        <span class="rh-num">#</span>
+        <span class="rh-label" id="closeColLabel">지역</span>
+        <span class="rh-stat">폐업율</span>
+        <span class="rh-count">폐업 수</span>
       </div>
       <div class="rank-list" id="closeList"></div>
     </div>
   </div>
 
-  <!-- Drilldown -->
-  <div class="drilldown-panel" id="drilldownPanel">
-    <div class="drilldown-header">
-      <div class="drilldown-title" id="drilldownTitle">📍 드릴다운</div>
-      <button class="drilldown-close" onclick="closeDrilldown()">✕</button>
+</section>
+
+<!-- 드릴다운 모달 -->
+<div class="drill-overlay" id="drillOverlay" onclick="closeDrilldown()"></div>
+<div class="drill-modal" id="drillModal">
+  <div class="drill-modal-header">
+    <div class="drilldown-title" id="drilldownTitle">📍 드릴다운</div>
+    <button class="drilldown-close" onclick="closeDrilldown()">✕</button>
+  </div>
+  <div class="drill-modal-sub" id="drillModalSub"></div>
+  <div class="drilldown-grid">
+    <div>
+      <div class="drill-sub open">▲ 개업 TOP 5</div>
+      <div class="rank-header rh-drill">
+        <span class="rh-num">#</span>
+        <span class="rh-label" id="drillColLabel">업종</span>
+        <span class="rh-stat">개업율</span>
+        <span class="rh-count">개업 수</span>
+      </div>
+      <div class="rank-list" id="drillOpenList"></div>
     </div>
-    <div class="drilldown-grid">
-      <div>
-        <div class="drill-sub open">▲ 개업 TOP 5</div>
-        <div class="rank-list" id="drillOpenList"></div>
+    <div>
+      <div class="drill-sub close">▼ 폐업 TOP 5</div>
+      <div class="rank-header rh-drill">
+        <span class="rh-num">#</span>
+        <span class="rh-label">업종</span>
+        <span class="rh-stat">폐업율</span>
+        <span class="rh-count">폐업 수</span>
       </div>
-      <div>
-        <div class="drill-sub close">▼ 폐업 TOP 5</div>
-        <div class="rank-list" id="drillCloseList"></div>
-      </div>
+      <div class="rank-list" id="drillCloseList"></div>
     </div>
   </div>
-</section>
+</div>
 
 
 <!-- SECTION 2: 수익계산기 브릿지 -->
@@ -660,6 +700,11 @@ const DATA = {
       '용산구': [{ label:'카페/커피', val:13.2, count:29 },{ label:'외국음식', val:10.5, count:18 },{ label:'한식',     val:8.9,  count:24 },{ label:'편의점',   val:7.4,  count:11 },{ label:'술집',     val:6.2,count:13 }],
       '강남구': [{ label:'카페/커피', val:11.8, count:87 },{ label:'의원/병원', val:9.2,  count:54 },{ label:'한식',     val:8.6,  count:74 },{ label:'편의점',   val:7.1,  count:45 },{ label:'약국',     val:5.8,count:28 }],
       '송파구': [{ label:'편의점',   val:9.4,  count:62 },{ label:'카페/커피', val:8.8,  count:54 },{ label:'한식',     val:8.1,  count:68 },{ label:'학원',     val:7.3,  count:38 },{ label:'헬스/스포츠',val:6.4,count:22 }],
+      '중랑구': [{ label:'한식',     val:7.2, count:28 },{ label:'분식/김밥', val:6.8, count:22 },{ label:'편의점',   val:5.9, count:18 },{ label:'미용실',   val:5.1, count:12 },{ label:'카페/커피', val:4.8,count:10 }],
+      '도봉구': [{ label:'한식',     val:6.8, count:22 },{ label:'카페/커피', val:6.1, count:16 },{ label:'편의점',   val:5.4, count:14 },{ label:'분식/김밥', val:4.9, count:11 },{ label:'미용실',   val:4.2,count:9 }],
+      '강북구': [{ label:'한식',     val:6.4, count:19 },{ label:'분식/김밥', val:5.8, count:14 },{ label:'편의점',   val:5.1, count:12 },{ label:'미용실',   val:4.6, count:8 },{ label:'카페/커피', val:3.9,count:7 }],
+      '금천구': [{ label:'한식',     val:7.1, count:21 },{ label:'편의점',   val:6.2, count:16 },{ label:'카페/커피', val:5.4, count:12 },{ label:'미용실',   val:4.8, count:9 },{ label:'분식/김밥', val:4.1,count:8 }],
+      '노원구': [{ label:'한식',     val:6.9, count:26 },{ label:'편의점',   val:6.1, count:22 },{ label:'분식/김밥', val:5.3, count:18 },{ label:'카페/커피', val:4.8, count:14 },{ label:'학원',     val:4.2,count:11 }],
     },
     drillClose: {
       '중랑구': [{ label:'한식',     val:15.2, count:58 },{ label:'분식/김밥', val:13.4, count:34 },{ label:'편의점',   val:11.8, count:28 },{ label:'옷가게',   val:10.2, count:21 },{ label:'미용실',   val:8.7,count:19 }],
@@ -667,6 +712,11 @@ const DATA = {
       '강북구': [{ label:'한식',     val:13.9, count:44 },{ label:'분식/김밥', val:12.1, count:27 },{ label:'편의점',   val:10.6, count:22 },{ label:'노래방',   val:9.4,  count:14 },{ label:'옷가게',   val:8.2,count:16 }],
       '금천구': [{ label:'한식',     val:13.2, count:38 },{ label:'편의점',   val:11.7, count:18 },{ label:'옷가게',   val:10.3, count:14 },{ label:'분식/김밥', val:9.1,  count:21 },{ label:'노래방',   val:7.8,count:11 }],
       '노원구': [{ label:'한식',     val:12.8, count:52 },{ label:'분식/김밥', val:11.4, count:38 },{ label:'편의점',   val:9.8,  count:32 },{ label:'학원',     val:8.7,  count:29 },{ label:'옷가게',   val:7.2,count:18 }],
+      '성동구': [{ label:'한식',     val:10.2, count:38 },{ label:'카페/커피', val:9.4, count:32 },{ label:'분식/김밥', val:8.8, count:22 },{ label:'편의점',   val:7.4, count:18 },{ label:'미용실',   val:6.1,count:12 }],
+      '마포구': [{ label:'한식',     val:11.4, count:48 },{ label:'치킨',     val:10.2, count:36 },{ label:'카페/커피', val:9.1, count:42 },{ label:'분식/김밥', val:8.4, count:28 },{ label:'술집',     val:7.2,count:22 }],
+      '용산구': [{ label:'한식',     val:9.8,  count:28 },{ label:'카페/커피', val:8.6, count:24 },{ label:'외국음식', val:7.4, count:14 },{ label:'술집',     val:6.8, count:16 },{ label:'편의점',   val:5.9,count:11 }],
+      '강남구': [{ label:'한식',     val:10.8, count:94 },{ label:'카페/커피', val:9.6, count:82 },{ label:'분식/김밥', val:8.4, count:58 },{ label:'편의점',   val:7.8, count:52 },{ label:'의원/병원', val:6.2,count:44 }],
+      '송파구': [{ label:'한식',     val:10.4, count:82 },{ label:'편의점',   val:9.2, count:72 },{ label:'카페/커피', val:8.6, count:64 },{ label:'분식/김밥', val:7.8, count:48 },{ label:'학원',     val:6.4,count:38 }],
     }
   },
   biz: {
@@ -690,6 +740,11 @@ const DATA = {
       '헬스/스포츠': [{ label:'강남구', val:12.8, count:48 },{ label:'서초구', val:11.4, count:34 },{ label:'용산구', val:10.2, count:22 },{ label:'성동구', val:9.6,  count:19 },{ label:'마포구', val:8.4,count:17 }],
       '반려동물':    [{ label:'마포구', val:11.8, count:32 },{ label:'강남구', val:10.4, count:28 },{ label:'성동구', val:9.2,  count:18 },{ label:'용산구', val:8.6,  count:14 },{ label:'서초구', val:7.4,count:12 }],
       '편의점':      [{ label:'관악구', val:10.4, count:82 },{ label:'노원구', val:9.8,  count:74 },{ label:'강서구', val:9.2,  count:68 },{ label:'구로구', val:8.6,  count:54 },{ label:'성북구', val:7.8,count:48 }],
+      '일반한식':  [{ label:'성동구', val:9.8, count:38 },{ label:'마포구', val:8.6, count:42 },{ label:'강남구', val:7.4, count:64 },{ label:'송파구', val:6.8, count:58 },{ label:'관악구', val:6.2,count:52 }],
+      '분식/김밥': [{ label:'관악구', val:8.4, count:32 },{ label:'노원구', val:7.8, count:28 },{ label:'성북구', val:7.1, count:22 },{ label:'은평구', val:6.6, count:18 },{ label:'마포구', val:5.9,count:16 }],
+      '노래방':    [{ label:'마포구', val:7.2, count:18 },{ label:'강남구', val:6.4, count:22 },{ label:'영등포구',val:5.8,count:14 },{ label:'종로구', val:5.2, count:12 },{ label:'구로구', val:4.6,count:10 }],
+      '옷가게':    [{ label:'중구',   val:9.4, count:48 },{ label:'종로구', val:8.2, count:38 },{ label:'강남구', val:7.6, count:52 },{ label:'영등포구',val:6.8,count:44 },{ label:'마포구', val:5.4,count:28 }],
+      '인쇄/복사': [{ label:'종로구', val:6.8, count:18 },{ label:'중구',   val:5.6, count:14 },{ label:'강남구', val:4.8, count:12 },{ label:'서초구', val:4.2, count:8 },{ label:'구로구', val:3.6,count:6 }],
     },
     drillClose: {
       '일반한식':  [{ label:'중랑구', val:16.4, count:142 },{ label:'도봉구', val:14.8, count:118 },{ label:'강북구', val:13.6, count:98 },{ label:'금천구', val:12.4, count:82 },{ label:'노원구', val:11.2,count:124 }],
@@ -697,6 +752,11 @@ const DATA = {
       '노래방':    [{ label:'중랑구', val:15.8, count:48 },{ label:'강북구', val:14.2, count:38 },{ label:'도봉구', val:13.4, count:32 },{ label:'구로구', val:12.1, count:28 },{ label:'노원구', val:11.4,count:34 }],
       '옷가게':    [{ label:'중구',   val:14.6, count:94 },{ label:'종로구', val:13.2, count:78 },{ label:'영등포구',val:12.4,count:68 },{ label:'강북구', val:11.8, count:48 },{ label:'도봉구', val:10.4,count:38 }],
       '인쇄/복사': [{ label:'종로구', val:13.8, count:28 },{ label:'중구',   val:12.4, count:22 },{ label:'강북구', val:11.2, count:14 },{ label:'도봉구', val:10.4, count:11 },{ label:'구로구', val:9.2,count:9 }],
+      '카페/커피':   [{ label:'중랑구', val:10.4, count:58 },{ label:'도봉구', val:9.8, count:42 },{ label:'강북구', val:9.2, count:36 },{ label:'노원구', val:8.6, count:52 },{ label:'금천구', val:7.8,count:28 }],
+      '배달전문':    [{ label:'중랑구', val:11.2, count:48 },{ label:'강북구', val:10.4, count:38 },{ label:'도봉구', val:9.8, count:32 },{ label:'노원구', val:8.6, count:44 },{ label:'은평구', val:7.4,count:28 }],
+      '헬스/스포츠': [{ label:'도봉구', val:9.6, count:28 },{ label:'강북구', val:8.8, count:22 },{ label:'중랑구', val:8.2, count:18 },{ label:'금천구', val:7.4, count:14 },{ label:'노원구', val:6.8,count:16 }],
+      '반려동물':    [{ label:'강북구', val:8.4, count:18 },{ label:'도봉구', val:7.6, count:14 },{ label:'중랑구', val:6.8, count:12 },{ label:'노원구', val:6.2, count:10 },{ label:'은평구', val:5.4,count:8 }],
+      '편의점':      [{ label:'중랑구', val:9.8, count:48 },{ label:'도봉구', val:9.2, count:38 },{ label:'강북구', val:8.6, count:32 },{ label:'노원구', val:7.8, count:54 },{ label:'금천구', val:7.2,count:28 }],
     }
   }
 };
@@ -737,6 +797,9 @@ function switchMode(mode) {
   document.getElementById('toggleBiz').classList.toggle('active', mode === 'biz');
   document.getElementById('openTitle').textContent  = mode === 'region' ? '개업율 상승 지역 TOP 5' : '개업율 상승 업종 TOP 5';
   document.getElementById('closeTitle').textContent = mode === 'region' ? '폐업율 상승 지역 TOP 5' : '폐업율 상승 업종 TOP 5';
+  const col = mode === 'region' ? '지역' : '업종';
+  document.getElementById('openColLabel').textContent  = col;
+  document.getElementById('closeColLabel').textContent = col;
   renderRankList('openList',  DATA[mode].open,  'open');
   renderRankList('closeList', DATA[mode].close, 'close');
   closeDrilldown();
@@ -759,17 +822,21 @@ function renderRankList(elId, items, type) {
 // DRILLDOWN
 // ============================================================
 function openDrilldown(label) {
-  const panel = document.getElementById('drilldownPanel');
   const subLabel = currentMode === 'region' ? '개업·폐업 업종' : '개업·폐업 지역';
-  document.getElementById('drilldownTitle').textContent = `📍 ${label}의 ${subLabel} TOP 5`;
-  panel.classList.add('visible');
-  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+  const drillColText = currentMode === 'region' ? '업종' : '지역';
+  document.getElementById('drilldownTitle').textContent = `📍 ${label}`;
+  document.getElementById('drillModalSub').textContent  = `${label}의 ${subLabel} TOP 5`;
+  document.querySelectorAll('#drillColLabel').forEach(el => el.textContent = drillColText);
 
   const openItems  = DATA[currentMode].drillOpen[label]  || [];
   const closeItems = DATA[currentMode].drillClose[label] || [];
 
   renderDrillList('drillOpenList',  openItems,  'open');
   renderDrillList('drillCloseList', closeItems, 'close');
+
+  document.getElementById('drillOverlay').classList.add('visible');
+  document.getElementById('drillModal').classList.add('visible');
+  document.body.style.overflow = 'hidden';
 }
 
 function renderDrillList(elId, items, type) {
@@ -787,7 +854,9 @@ function renderDrillList(elId, items, type) {
 }
 
 function closeDrilldown() {
-  document.getElementById('drilldownPanel').classList.remove('visible');
+  document.getElementById('drillOverlay').classList.remove('visible');
+  document.getElementById('drillModal').classList.remove('visible');
+  document.body.style.overflow = '';
 }
 
 // ============================================================
