@@ -2,1002 +2,934 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>LOKI Score — 서울 창업 수익 계산기</title>
-<meta name="description" content="서울 창업 예상 수익 계산기 — 지역·업종·매장 크기를 선택하면 AI 컨설턴트 LOKI가 월 매출·순이익·비용 구조를 즉시 계산해 드립니다.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="LOKI Score — 서울 창업 수익 계산기">
-<meta property="og:description" content="지역·업종·규모를 고르면 AI가 창업 예상 수익을 바로 계산! 서울 25개 구 · 58개 업종 실데이터 기반">
-<meta property="og:url" content="https://loki-score.netlify.app">
-<meta property="og:image" content="https://og-image.vercel.app/LOKI%20Score.png?theme=dark&md=1&fontSize=100px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fvercel-triangle-white.svg">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="LOKI Score — 서울 창업 수익 계산기">
-<meta name="theme-color" content="#0d0f1a">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230d0f1a'/><circle cx='50' cy='18' r='8' fill='%234f8ef7'/><line x1='50' y1='26' x2='50' y2='38' stroke='%234f8ef7' stroke-width='4'/><rect x='22' y='38' width='56' height='38' rx='14' fill='%231e2235' stroke='%234f8ef7' stroke-width='3'/><rect x='31' y='50' width='14' height='10' rx='5' fill='%234f8ef7'/><rect x='55' y='50' width='14' height='10' rx='5' fill='%234f8ef7'/></svg>">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOKI 창업레이더 — 공공 데이터로 보는 창업 인텔리전스</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{
-  --bg:#0d0f1a;--card:#161928;--card2:#1e2235;
-  --acc:#4f8ef7;--acc2:#7c5cf7;--gold:#f7c948;
-  --green:#2ecc8a;--red:#f7615a;
-  --txt:#e8ecf4;--txt2:#a8b4c8;--txt3:#6a7890;
-  --radius:18px;--shadow:0 8px 32px rgba(0,0,0,.45);
-}
-body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;min-height:100vh;overflow-x:hidden;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  :root {
+    --bg: #0d0f14;
+    --bg2: #141720;
+    --bg3: #1c2030;
+    --border: #272d3d;
+    --accent: #4f7cff;
+    --accent2: #00c9a7;
+    --danger: #ff4f6d;
+    --warn: #ffb74d;
+    --text: #e8eaf0;
+    --text2: #8b92a8;
+    --text3: #5a6078;
+    --card: #181c28;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
 
-/* ── 헤더 ── */
-.hdr{display:flex;align-items:center;gap:10px;padding:18px 20px 12px;
-     background:linear-gradient(180deg,#0a0c16 0%,transparent 100%)}
-.logo{font-size:19px;font-weight:800;letter-spacing:-.5px}
-.logo span{color:var(--acc)}
-.logo em{color:var(--gold);font-style:normal}
-.badge{background:var(--acc2);color:#fff;font-size:10px;font-weight:700;
-       padding:2px 7px;border-radius:20px;letter-spacing:.5px;margin-left:4px}
-.theme-nav{margin-left:auto;display:flex;gap:6px}
-.tnav-btn{background:var(--card2);border:1px solid var(--txt3)44;color:var(--txt2);font-size:12px;padding:4px 10px;border-radius:20px;cursor:pointer;text-decoration:none;display:inline-block}
-.tnav-btn.active{background:var(--acc2)22;border-color:var(--acc);color:var(--acc);font-weight:700}
+  /* ===== NAV ===== */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13, 15, 20, 0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex; align-items: center; gap: 0;
+    height: 56px;
+  }
+  .logo {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+    color: var(--text);
+    margin-right: 32px;
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 900; color: #fff;
+  }
+  .nav-tabs { display: flex; gap: 0; }
+  .nav-tab {
+    padding: 0 20px; height: 56px;
+    display: flex; align-items: center;
+    font-size: 14px; font-weight: 600; color: var(--text2);
+    text-decoration: none; cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .nav-spacer { flex: 1; }
 
-/* ── LOKI 캐릭터 ── */
-.loki-wrap{display:flex;align-items:flex-end;gap:14px;padding:8px 20px 16px}
-.loki-bubble{background:var(--card2);border:1px solid var(--acc2)33;
-  border-radius:16px 16px 16px 4px;padding:14px 16px;font-size:14px;
-  line-height:1.75;color:var(--txt);flex:1;position:relative}
-.loki-bubble::after{content:'';position:absolute;left:-8px;bottom:12px;
-  border:8px solid transparent;border-right-color:var(--card2)}
-.loki-name{font-size:11px;color:var(--acc);font-weight:700;margin-bottom:4px;letter-spacing:.5px}
+  /* ===== HERO ===== */
+  .hero {
+    padding: 72px 24px 60px;
+    text-align: center;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(79,124,255,0.12) 0%, transparent 70%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(79,124,255,0.12);
+    border: 1px solid rgba(79,124,255,0.3);
+    color: var(--accent);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+    padding: 5px 14px; border-radius: 20px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(26px, 4vw, 44px);
+    font-weight: 800; letter-spacing: -1px;
+    line-height: 1.2; margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 40%, #8fa8ff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: clamp(15px, 2vw, 18px);
+    color: var(--text2); max-width: 560px; margin: 0 auto 32px;
+  }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 40px;
+    flex-wrap: wrap; margin-top: 40px;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .num {
+    font-size: 28px; font-weight: 800; letter-spacing: -1px;
+    color: var(--accent2);
+  }
+  .hero-stat .label { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .hero-updated { font-size: 12px; color: var(--text3); margin-top: 28px; }
 
-/* ── 테마 카드 ── */
-.theme-card{margin:0 16px 16px;background:var(--card);border-radius:var(--radius);
-  padding:20px;box-shadow:var(--shadow);border:1px solid #ffffff0a}
-.theme-label{display:flex;align-items:center;gap:8px;margin-bottom:18px}
-.theme-num{background:linear-gradient(135deg,var(--acc),var(--acc2));
-  width:26px;height:26px;border-radius:8px;display:flex;align-items:center;
-  justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
-.theme-title{font-size:16px;font-weight:700}
-.copy-btn{margin-left:auto;background:var(--card2);border:1px solid var(--txt3);
-  color:var(--txt2);font-size:12px;padding:4px 10px;border-radius:20px;cursor:pointer;
-  border:none;transition:.2s}
-.copy-btn:active{transform:scale(.95);background:var(--acc)33}
+  /* ===== SECTION WRAPPER ===== */
+  section { padding: 56px 24px; border-bottom: 1px solid var(--border); }
+  .section-header {
+    max-width: 1100px; margin: 0 auto 36px;
+  }
+  .section-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px;
+  }
+  .section-desc { font-size: 14px; color: var(--text2); }
 
-/* ── 시나리오 텍스트 ── */
-.scenario{font-size:16px;color:var(--txt);display:flex;flex-direction:column;gap:10px}
-.srow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;line-height:1.4;min-height:36px}
-.srow span.txt{font-size:16px;color:var(--txt);white-space:nowrap}
-.sel{display:inline-flex;align-items:center;gap:3px;
-  background:var(--card2);
-  border:1.5px solid var(--acc);border-radius:8px;
-  padding:5px 10px 5px 9px;
-  color:var(--acc);font-weight:700;cursor:pointer;transition:.2s;
-  min-width:72px;text-align:center;white-space:nowrap;
-  box-shadow:0 2px 8px var(--acc)22;
-  font-size:14px;height:32px}
-.sel::after{content:'▾';font-size:11px;opacity:.6;margin-left:2px}
-.sel:active{background:var(--acc)33;transform:scale(.97)}
-.sel.done{background:var(--green)18;border-color:var(--green)88;
-  color:var(--green);box-shadow:0 2px 6px var(--green)1a}
-.sel.done::after{content:'✓';font-size:11px;opacity:.6}
-.pulse{animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--acc)44}50%{box-shadow:0 0 0 6px transparent}}
+  /* ===== TOGGLE ===== */
+  .toggle-group {
+    display: inline-flex;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 3px; gap: 2px;
+  }
+  .toggle-btn {
+    padding: 7px 20px; border-radius: 6px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    border: none; background: transparent; color: var(--text2);
+    transition: all 0.2s;
+  }
+  .toggle-btn.active {
+    background: var(--accent); color: #fff;
+  }
 
-/* ── 계산 전제 박스 ── */
-.premise-box{background:var(--card2);border:1px solid var(--acc)22;border-radius:10px;padding:12px 14px;margin-bottom:16px}
-.premise-box summary{font-size:13px;font-weight:700;color:var(--txt2);cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px}
-.premise-box summary::-webkit-details-marker{display:none}
-.premise-box summary::after{content:'▾';font-size:11px;color:var(--txt3);margin-left:auto;transition:.2s}
-.premise-box[open] summary::after{content:'▴'}
-.premise-row{display:flex;gap:8px;margin-top:8px;align-items:flex-start}
-.premise-num{min-width:18px;height:18px;border-radius:50%;background:var(--acc)22;color:var(--acc);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.premise-txt{font-size:12px;color:var(--txt2);line-height:1.7}
-.premise-txt b{color:var(--acc)}
-.premise-warn{margin-top:8px;font-size:11px;color:#f7a548;background:#f7a54811;border-radius:6px;padding:6px 8px;line-height:1.5}
+  /* ===== SECTION 1 ===== */
+  .s1-controls {
+    max-width: 1100px; margin: 0 auto 28px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  .rank-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 680px) { .rank-grid { grid-template-columns: 1fr; } }
+  .rank-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .rank-card-title {
+    font-size: 13px; font-weight: 700; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .dot-open { background: var(--accent2); }
+  .dot-close { background: var(--danger); }
 
-/* ── LOKI 분석 리포트 ── */
-.report-wrap{margin-top:20px}
-.rep-sec{margin-bottom:18px}
-.rep-sec-title{font-size:13px;font-weight:700;color:var(--acc);margin-bottom:6px;display:flex;align-items:center;gap:5px}
-.rep-sec-body{font-size:13px;color:var(--txt2);line-height:1.9}
-.rep-sec-body b{color:var(--txt)}
-.rep-sec-body .hi{color:#2ecc8a;font-weight:700}
-.rep-sec-body .lo{color:#f7615a;font-weight:700}
-.rep-sec-body .warn{color:#f7a548;font-weight:700}
+  .rank-list { display: flex; flex-direction: column; gap: 10px; }
+  .rank-item {
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer; padding: 8px 10px; border-radius: 8px;
+    transition: background 0.15s;
+  }
+  .rank-item:hover { background: var(--bg3); }
+  .rank-num {
+    font-size: 12px; font-weight: 700; color: var(--text3);
+    width: 20px; text-align: center;
+  }
+  .rank-label { font-size: 14px; flex: 1; font-weight: 500; }
+  .rank-bar-wrap { width: 100px; }
+  .rank-bar-bg {
+    height: 6px; border-radius: 3px; background: var(--bg3);
+    overflow: hidden;
+  }
+  .rank-bar-fill {
+    height: 100%; border-radius: 3px;
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+  .rank-bar-fill.open { background: var(--accent2); }
+  .rank-bar-fill.close { background: var(--danger); }
+  .rank-val {
+    font-size: 13px; font-weight: 700; min-width: 40px; text-align: right;
+  }
 
-/* ── 결과 카드 ── */
-.result-wrap{margin-top:20px;display:none}
-.result-wrap.show{display:block}
-.result-title{font-size:14px;color:var(--txt2);margin-bottom:12px;font-weight:500}
-.result-nums{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.rnum{background:var(--card2);border-radius:14px;padding:14px 12px;text-align:center}
-.rnum .lbl{font-size:12px;color:var(--txt2);margin-bottom:6px}
-.rnum .val{font-size:22px;font-weight:800;letter-spacing:-.5px}
-.rnum.sales .val{color:var(--acc)}
-.rnum.net-pos .val{color:var(--green)}
-.rnum.net-neg .val{color:var(--red)}
-.rnum .unit{font-size:13px;font-weight:400;opacity:.7}
-/* ── 비용구조 폭포수 ── */
-/* 색상: 변동비(빨강) / 고정비(주황) / 순이익(초록) 3개만 */
-.wfall-wrap{border-radius:14px;margin-top:16px}
-.wfall-title{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:4px}
-.wfall-sub{font-size:11px;color:var(--txt3);margin-bottom:14px;display:flex;align-items:center;gap:10px}
-.wf-leg{display:inline-flex;align-items:center;gap:4px}
-.wf-leg-dot{width:7px;height:7px;border-radius:2px}
-.wfall-result{background:var(--card2);border:1px solid var(--txt3)22;border-radius:12px;padding:14px 16px;margin-bottom:3px}
-.wf-r-label{font-size:11px;color:var(--txt3);margin-bottom:2px}
-.wf-r-val{font-size:20px;font-weight:800;color:var(--txt)}
-.wf-r-sub{font-size:11px;color:var(--txt3);margin-top:2px}
-.wfall-deducts{margin:0 0 3px 14px;display:flex;flex-direction:column;gap:3px;position:relative}
-.wfall-deducts::before{content:'';position:absolute;left:-14px;top:0;bottom:0;width:1px;background:var(--txt3)22}
-.wf-drow{display:flex;align-items:center;justify-content:space-between;background:var(--card2);border-radius:8px;padding:8px 12px}
-.wf-dleft{display:flex;align-items:center;gap:8px}
-.wf-dbar{width:3px;height:20px;border-radius:2px;flex-shrink:0}
-.wf-dlbl{font-size:12px;color:var(--txt)}
-.wf-dsub{font-size:10px;color:var(--txt3);margin-top:1px}
-.wf-damt{font-size:13px;font-weight:700}
-.wfall-final{border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;margin-top:3px}
-.wfall-final-pos{background:linear-gradient(135deg,#2ecc8a1a,var(--card2));border:1px solid #2ecc8a33}
-.wfall-final-neg{background:linear-gradient(135deg,#f7615a1a,var(--card2));border:1px solid #f7615a33}
-.wf-f-lbl{font-size:11px;margin-bottom:3px}
-.wf-f-val{font-size:24px;font-weight:800}
-.wf-f-sub{font-size:11px;margin-top:3px;color:var(--txt3)}
+  /* drilldown */
+  .drilldown-panel {
+    max-width: 1100px; margin: 20px auto 0;
+    background: var(--bg2);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: none;
+  }
+  .drilldown-panel.visible { display: block; }
+  .drilldown-header {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;
+  }
+  .drilldown-title {
+    font-size: 15px; font-weight: 700;
+  }
+  .drilldown-close {
+    font-size: 18px; cursor: pointer;
+    background: none; border: none; color: var(--text2);
+  }
+  .drilldown-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  @media (max-width: 560px) { .drilldown-grid { grid-template-columns: 1fr; } }
+  .chart-wrap { position: relative; height: 200px; }
 
-/* 출처 */
-.src-btn{display:flex;align-items:center;gap:6px;margin-top:16px;padding:8px 12px;
-  background:var(--card2);border:1px solid var(--txt3)33;border-radius:8px;
-  font-size:12px;color:var(--txt2);cursor:pointer;justify-content:center;font-weight:600}
-.src-btn:active{background:var(--acc)11;border-color:var(--acc)55;color:var(--acc)}
-.src-btn .src-icon{font-size:14px}
+  /* ===== SECTION 2: BRIDGE ===== */
+  .s2-container {
+    max-width: 760px; margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px;
+  }
+  .s2-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px;
+  }
+  @media (max-width: 600px) { .s2-row { grid-template-columns: 1fr; } }
+  .s2-field label {
+    font-size: 12px; font-weight: 600; color: var(--text2);
+    display: block; margin-bottom: 8px; letter-spacing: 0.3px;
+  }
+  .s2-select {
+    width: 100%; padding: 10px 12px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text);
+    font-size: 14px; cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6078' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: border-color 0.2s;
+  }
+  .s2-select:focus { outline: none; border-color: var(--accent); }
+  .s2-btn {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--accent), #7b5cff);
+    color: #fff; border: none;
+    border-radius: 10px; font-size: 15px; font-weight: 700;
+    cursor: pointer; letter-spacing: -0.3px;
+    transition: opacity 0.2s, transform 0.1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .s2-btn:hover { opacity: 0.9; }
+  .s2-btn:active { transform: scale(0.98); }
+  .s2-preview {
+    margin-top: 0; margin-bottom: 20px;
+    background: var(--bg3); border-radius: 8px; padding: 14px 16px;
+    font-size: 13px; color: var(--text2);
+    display: none;
+  }
+  .s2-preview.visible { display: block; }
+  .s2-preview strong { color: var(--accent2); }
 
-/* ── 시나리오 ── */
-.scenario-wrap{margin-top:18px}
-.scenario-title{font-size:13px;color:var(--txt2);font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.scenario-title span{font-size:11px;color:var(--txt3);font-weight:400}
-.scenario-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.sc-card{background:var(--card2);border-radius:10px;padding:10px 8px;text-align:center;border:1px solid transparent;position:relative}
-.sc-card.sc-hi{border-color:#4f8ef722}
-.sc-card.sc-mid{border-color:#2ecc8a33;background:linear-gradient(135deg,var(--card2),#2ecc8a08)}
-.sc-card.sc-lo{border-color:#8892a822}
-.sc-tag{font-size:10px;font-weight:700;letter-spacing:.4px;padding:2px 6px;border-radius:10px;display:inline-block;margin-bottom:6px}
-.sc-hi .sc-tag{background:#4f8ef722;color:#4f8ef7}
-.sc-mid .sc-tag{background:#2ecc8a22;color:#2ecc8a}
-.sc-lo .sc-tag{background:#8892a822;color:#8892a8}
-.sc-label{font-size:11px;color:var(--txt3);margin-bottom:4px}
-.sc-sales{font-size:12px;color:var(--txt2);margin-bottom:6px}
-.sc-net{font-size:16px;font-weight:800;line-height:1.1}
-.sc-net.pos{color:var(--acc)}
-.sc-net.neg{color:#f7615a}
-.sc-net-unit{font-size:10px;font-weight:400;color:var(--txt3)}
-.sc-desc{font-size:10px;color:var(--txt3);margin-top:5px;line-height:1.4}
-.sc-bar-wrap{margin-top:6px;height:3px;background:var(--bg);border-radius:2px;overflow:hidden}
-.sc-bar{height:100%;border-radius:2px;transition:width .5s ease}
-.sc-hi .sc-bar{background:#4f8ef7}
-.sc-mid .sc-bar{background:#2ecc8a}
-.sc-lo .sc-bar{background:#8892a8}
+  /* ===== SECTION 3 ===== */
+  .s3-container { max-width: 1100px; margin: 0 auto; }
+  .s3-selector {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px;
+  }
+  .s3-chip {
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--bg3); color: var(--text2);
+    transition: all 0.2s;
+  }
+  .s3-chip:hover { border-color: var(--accent); color: var(--text); }
+  .s3-chip.active {
+    background: rgba(79,124,255,0.15);
+    border-color: var(--accent); color: var(--accent);
+  }
+  .s3-main {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  }
+  @media (max-width: 720px) { .s3-main { grid-template-columns: 1fr; } }
+  .s3-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px;
+  }
+  .s3-card-title {
+    font-size: 13px; font-weight: 700; color: var(--text2);
+    margin-bottom: 20px;
+  }
 
-/* ── 바텀시트 ── */
-.overlay{position:fixed;inset:0;background:#000000cc;z-index:100;
-  opacity:0;pointer-events:none;transition:.25s}
-.overlay.on{opacity:1;pointer-events:all}
-.sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card);
-  border-radius:24px 24px 0 0;z-index:101;
-  transform:translateY(100%);transition:.3s cubic-bezier(.32,0,.67,0);
-  max-height:85vh;display:flex;flex-direction:column}
-.sheet.on{transform:translateY(0)}
-.sheet-handle{width:40px;height:4px;background:var(--txt3);border-radius:2px;
-  margin:12px auto 0}
-.sheet-title{font-size:16px;font-weight:700;padding:16px 20px 12px;
-  border-bottom:1px solid var(--txt3)22}
-.sheet-body{overflow-y:auto;flex:1;padding:16px 20px 32px}
+  /* survival */
+  .survival-display {
+    text-align: center; padding: 16px 0 20px;
+  }
+  .survival-score {
+    font-size: 56px; font-weight: 900; letter-spacing: -2px;
+    line-height: 1;
+  }
+  .survival-score.positive { color: var(--accent2); }
+  .survival-score.negative { color: var(--danger); }
+  .survival-label {
+    font-size: 12px; color: var(--text2); margin-top: 4px;
+  }
+  .survival-gauge {
+    margin: 16px 0 10px;
+    height: 10px; border-radius: 5px;
+    background: var(--bg3); overflow: hidden;
+  }
+  .survival-gauge-fill {
+    height: 100%; border-radius: 5px;
+    transition: width 0.7s cubic-bezier(0.4,0,0.2,1);
+  }
+  .survival-meta {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--text3);
+  }
 
-/* 구 그리드 */
-.gu-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.gu-btn{background:var(--card2);border:1px solid var(--txt3)33;border-radius:10px;
-  padding:10px 4px;text-align:center;font-size:13px;cursor:pointer;transition:.15s;color:var(--txt)}
-.gu-btn:active,.gu-btn.sel{background:var(--acc)22;border-color:var(--acc);color:var(--acc);font-weight:700}
+  /* compare */
+  .compare-list { display: flex; flex-direction: column; gap: 0; }
+  .compare-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 8px; border-bottom: 1px solid var(--border);
+    cursor: pointer; border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .compare-item:hover { background: var(--bg3); }
+  .compare-item:last-child { border-bottom: none; }
+  .compare-rank {
+    font-size: 11px; font-weight: 700; color: var(--text3); width: 20px;
+  }
+  .compare-name { font-size: 13px; flex: 1; }
+  .compare-score {
+    font-size: 13px; font-weight: 700;
+    min-width: 44px; text-align: right;
+  }
+  .compare-score.pos { color: var(--accent2); }
+  .compare-score.neg { color: var(--danger); }
 
-/* 카테고리 탭 */
-.cat-tabs{display:flex;gap:8px;margin-bottom:14px}
-.cat-tab{flex:1;background:var(--card2);border:1px solid var(--txt3)33;border-radius:10px;
-  padding:10px 4px;text-align:center;font-size:13px;cursor:pointer;transition:.15s;color:var(--txt)}
-.cat-tab:active,.cat-tab.sel{background:var(--acc2)33;border-color:var(--acc2);color:var(--acc2);font-weight:700}
+  /* ===== CTA ===== */
+  .cta-section {
+    padding: 72px 24px;
+    text-align: center;
+    background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(0,201,167,0.08) 0%, transparent 70%);
+  }
+  .cta-title {
+    font-size: clamp(20px, 3vw, 32px);
+    font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px;
+  }
+  .cta-desc { font-size: 15px; color: var(--text2); margin-bottom: 32px; }
+  .cta-form {
+    display: flex; gap: 10px; max-width: 420px; margin: 0 auto;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .cta-input {
+    flex: 1; min-width: 200px;
+    padding: 12px 16px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text); font-size: 14px;
+    transition: border-color 0.2s;
+  }
+  .cta-input:focus { outline: none; border-color: var(--accent2); }
+  .cta-submit {
+    padding: 12px 24px;
+    background: var(--accent2); color: #000;
+    font-size: 14px; font-weight: 700;
+    border: none; border-radius: 8px; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .cta-submit:hover { opacity: 0.85; }
+  .cta-note { font-size: 12px; color: var(--text3); margin-top: 12px; }
 
-/* 업종 리스트 */
-.ind-list{display:flex;flex-direction:column;gap:6px}
-.ind-btn{background:var(--card2);border:1px solid var(--txt3)22;border-radius:10px;
-  padding:12px 14px;font-size:14px;cursor:pointer;transition:.15s;color:var(--txt);text-align:left}
-.ind-btn:active,.ind-btn.sel{background:var(--acc)22;border-color:var(--acc);color:var(--acc);font-weight:700}
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 28px 24px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-logo { font-size: 16px; font-weight: 800; color: var(--text2); }
+  .footer-note { font-size: 12px; color: var(--text3); }
 
-/* 숫자 입력 */
-.num-input-wrap{display:flex;align-items:center;gap:16px;justify-content:center;padding:20px 0}
-.num-btn{width:48px;height:48px;border-radius:50%;border:none;
-  background:var(--acc)22;color:var(--acc);font-size:24px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;font-weight:300}
-.num-btn:active{background:var(--acc)44;transform:scale(.93)}
-.num-val{font-size:36px;font-weight:800;min-width:80px;text-align:center}
-.num-unit{font-size:15px;color:var(--txt2)}
-.num-hint{font-size:12px;color:var(--txt3);text-align:center;margin-top:-8px}
-
-/* ── 인라인 숫자 입력 ── */
-.num-inline{
-  background:var(--card2);border:1.5px solid var(--acc);border-radius:8px;
-  padding:4px 8px;color:var(--acc);font-weight:700;font-size:15px;
-  width:68px;height:32px;text-align:center;outline:none;
-  -moz-appearance:textfield;transition:.2s}
-.num-inline::-webkit-outer-spin-button,
-.num-inline::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.num-inline::placeholder{color:var(--txt3);font-weight:400;font-size:13px}
-.num-inline:focus{border-color:var(--green);box-shadow:0 2px 8px var(--green)33;color:var(--green)}
-.num-inline.done{border-color:var(--green)88;color:var(--green)}
-
-.sheet-confirm{margin:16px 20px 0;background:linear-gradient(135deg,var(--acc),var(--acc2));
-  border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:700;
-  padding:16px;width:calc(100% - 40px);cursor:pointer;transition:.15s}
-.sheet-confirm:active{opacity:.85;transform:scale(.98)}
-
-/* 출처 모달 */
-.src-modal{position:fixed;inset:0;background:#000000dd;z-index:200;
-  display:none;align-items:flex-end;justify-content:center}
-.src-modal.on{display:flex}
-.src-box{background:var(--card);border-radius:24px 24px 0 0;width:100%;
-  max-height:80vh;overflow-y:auto;padding:20px 20px 40px}
-.src-box h3{font-size:16px;font-weight:700;margin-bottom:16px;
-  padding-bottom:12px;border-bottom:1px solid var(--txt3)33}
-.src-row{padding:10px 0;border-bottom:1px solid var(--txt3)1a}
-.src-row .sname{font-size:13px;font-weight:700;color:var(--acc);margin-bottom:3px}
-.src-row .sval{font-size:13px;color:var(--txt2);line-height:1.6}
-.src-close{display:block;margin:20px auto 0;background:var(--card2);border:none;
-  color:var(--txt2);font-size:15px;padding:12px 40px;border-radius:12px;cursor:pointer}
+  /* ===== TAGS ===== */
+  .tag-open {
+    display: inline-block;
+    background: rgba(0,201,167,0.12); color: var(--accent2);
+    font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+  }
+  .tag-close {
+    display: inline-block;
+    background: rgba(255,79,109,0.12); color: var(--danger);
+    font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+  }
+  .divider { width: 40px; height: 3px; background: var(--accent); border-radius: 2px; margin: 12px 0; }
 </style>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QZ2LZSMNWW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-QZ2LZSMNWW');
-
-  // 커스텀 이벤트: 지역 선택
-  function gaGu(gu){ gtag('event','select_gu',{gu:gu}); }
-  // 커스텀 이벤트: 업종 선택
-  function gaInd(ind){ gtag('event','select_industry',{industry:ind}); }
-  // 커스텀 이벤트: 결과 계산 완료
-  function gaCalc(gu,ind,net){ gtag('event','calc_result',{gu:gu,industry:ind,net_profit:Math.round(net)}); }
-  // 커스텀 이벤트: 공유 버튼
-  function gaShare(){ gtag('event','share',{method:'clipboard'}); }
-</script>
 </head>
 <body>
 
-<!-- 헤더 -->
-<div class="hdr">
-  <div class="logo"><span>LOKI</span> <em>Score</em></div>
-  <div class="badge">BETA</div>
-  <div class="theme-nav">
-    <a class="tnav-btn active" href="#">수익계산</a>
+<!-- NAV -->
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-icon">L</div>
+    LOKI
+  </a>
+  <div class="nav-tabs">
+    <a class="nav-tab" href="calc.html">💰 수익계산</a>
+    <a class="nav-tab active" href="index.html">📡 창업레이더</a>
   </div>
+  <div class="nav-spacer"></div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">📡 공공 데이터 기반 창업 인텔리전스</div>
+  <h1>창업은 감이 아닌<br>데이터로부터 시작하세요</h1>
+  <p>서울시 소상공인 점포 데이터로 분석한 실시간 개업·폐업 트렌드와 업종별 생존지수</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="num">25개구</div>
+      <div class="label">서울 전 지역 분석</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">434개</div>
+      <div class="label">행정동 커버리지</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">4분기</div>
+      <div class="label">2025년 누적 추이</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">100+</div>
+      <div class="label">분석 업종</div>
+    </div>
+  </div>
+  <div class="hero-updated">📅 기준: 2025년 4분기 | 출처: 서울시 소상공인 점포 행정동 데이터</div>
 </div>
 
-<!-- LOKI 캐릭터 -->
-<div class="loki-wrap">
-  <svg width="56" height="64" viewBox="0 0 56 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- 안테나 -->
-    <line x1="28" y1="4" x2="28" y2="12" stroke="#4f8ef7" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="28" cy="3" r="3" fill="#4f8ef7"/>
-    <!-- 머리 -->
-    <rect x="10" y="12" width="36" height="28" rx="10" fill="#1e2235" stroke="#4f8ef7" stroke-width="1.5"/>
-    <!-- 눈 (LED) -->
-    <rect x="16" y="21" width="9" height="6" rx="3" fill="#4f8ef7"/>
-    <rect x="31" y="21" width="9" height="6" rx="3" fill="#4f8ef7"/>
-    <!-- 눈 빛 -->
-    <rect x="18" y="23" width="3" height="2" rx="1" fill="#fff" opacity=".7"/>
-    <rect x="33" y="23" width="3" height="2" rx="1" fill="#fff" opacity=".7"/>
-    <!-- 입 -->
-    <path d="M20 33 Q28 37 36 33" stroke="#4f8ef7" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-    <!-- 목 -->
-    <rect x="24" y="40" width="8" height="5" rx="2" fill="#1e2235" stroke="#4f8ef7" stroke-width="1"/>
-    <!-- 몸통 -->
-    <rect x="8" y="45" width="40" height="19" rx="8" fill="#161928" stroke="#7c5cf7" stroke-width="1.5"/>
-    <!-- 넥타이 -->
-    <path d="M28 47 L25 54 L28 56 L31 54 Z" fill="#7c5cf7"/>
-    <!-- 가슴 LED -->
-    <circle cx="20" cy="53" r="2.5" fill="#2ecc8a" opacity=".9"/>
-    <circle cx="36" cy="53" r="2.5" fill="#f7c948" opacity=".9"/>
-  </svg>
-  <div class="loki-bubble">
-    <div class="loki-name">LOKI · AI 창업 컨설턴트</div>
-    <span id="lokiMsg">안녕하세요! 저는 로키예요 😊<br>아래 항목을 선택하면 창업 예상 수익을 바로 계산해 드릴게요!</span>
-  </div>
-</div>
 
-<!-- 테마1 카드 -->
-<div class="theme-card">
-  <div class="theme-label">
-    <div class="theme-num">1</div>
-    <div class="theme-title">수익 계산기 <small style="font-size:12px;color:var(--txt2);font-weight:500">서울편</small></div>
-    <button class="copy-btn" onclick="copyURL()">🔗 공유</button>
+<!-- SECTION 1: 개업·폐업 순위 -->
+<section id="s1">
+  <div class="section-header">
+    <div class="section-tag">SECTION 01</div>
+    <div class="section-title">개업 · 폐업 순위</div>
+    <div class="divider"></div>
+    <div class="section-desc">클릭하면 해당 지역/업종의 세부 드릴다운 데이터를 확인할 수 있습니다</div>
   </div>
 
-  <!-- 시나리오 -->
-  <div class="scenario" id="scenario">
-    <div class="srow"><span class="txt">당신이 만약,</span></div>
-    <div class="srow">
-      <span class="txt">서울시</span>
-      <span class="sel pulse" id="s1" onclick="open1()">지역 선택</span>
-      <span class="txt">에서</span>
+  <div class="s1-controls">
+    <div class="toggle-group">
+      <button class="toggle-btn active" id="toggleRegion" onclick="switchMode('region')">🗺 지역별</button>
+      <button class="toggle-btn" id="toggleBiz" onclick="switchMode('biz')">🏪 업종별</button>
     </div>
-    <div class="srow">
-      <span class="sel" id="s2" onclick="open2()">대분류 선택</span>
-      <span class="txt">분야의</span>
-    </div>
-    <div class="srow">
-      <span class="sel" id="s3" onclick="open3()">업종 선택</span>
-      <span class="txt">업종을</span>
-    </div>
-    <div class="srow">
-      <span class="txt">약</span>
-      <input class="num-inline" id="s4" type="number" step="any" min="1" max="9999" placeholder="평형" oninput="onS4Input()" onfocus="this.select()">
-      <span class="txt">평 매장을 임대해서</span>
-    </div>
-    <div class="srow">
-      <span class="sel" id="s5" onclick="open5()">채용인원</span>
-      <span class="txt">을 채용하고</span>
-    </div>
-    <div class="srow">
-      <span class="txt">기타비용을 매출의</span>
-      <input class="num-inline" id="s6" type="number" step="any" min="0" max="100" placeholder="%" oninput="onS6Input()" onfocus="this.select()">
-      <span class="txt">%로 추정한다면</span>
-    </div>
+    <div style="font-size:12px;color:var(--text3);">개업율 = 개업수 / 유사업종점포수 × 100</div>
   </div>
 
-  <!-- 결과 -->
-  <div class="result-wrap" id="resultWrap">
-    <div style="height:1px;background:var(--txt3)33;margin:18px 0 16px"></div>
-
-    <!-- 계산 전제 설명 -->
-    <details class="premise-box" id="premiseBox">
-      <summary>⚙️ 이 계산의 전제 조건 <span style="font-size:10px;color:var(--txt3);font-weight:400" id="premiseSub"></span></summary>
-      <div class="premise-row"><div class="premise-num">1</div><div class="premise-txt"><b>매출 기준:</b> 서울시 상권분석 통계(소상공인365 비교 검증 보정) 기반으로, <span id="pGuInd"></span>의 <b>실제 영업 중인 가게들의 매출 분포</b>를 추정합니다.</div></div>
-      <div class="premise-row"><div class="premise-num">2</div><div class="premise-txt"><b>임대료:</b> 한국부동산원 구별 실측 단가 × 입력한 면적으로 계산. <span style="color:var(--txt3)">실제 계약 조건과 차이가 있을 수 있습니다.</span></div></div>
-      <div class="premise-row"><div class="premise-num">3</div><div class="premise-txt"><b>인건비:</b> 2025년 최저임금(10,030원) × 월 209시간 × 입력 인원. <span style="color:var(--txt3)">실제 채용 시 수습·경력직 차이가 있습니다.</span></div></div>
-      <div class="premise-row"><div class="premise-num">4</div><div class="premise-txt"><b>원가·기타비용:</b> 업종별 평균 비율 적용. 개인 협상력과 운영 방식에 따라 달라질 수 있습니다.</div></div>
-      <div class="premise-warn">⚠️ <b>포함되지 않은 항목:</b> 초기 인테리어·집기 비용, 권리금·보증금 이자, 사업소득세, 개인 역량·입지 세부조건 차이. 실제 창업 전 반드시 현장 검증이 필요합니다.</div>
-    </details>
-
-    <div class="result-title">📊 LOKI 추정 결과</div>
-    <div class="result-nums">
-      <div class="rnum sales">
-        <div class="lbl">예상 월평균 매출</div>
-        <div class="val" id="rSales">-</div>
-        <div class="unit">만원</div>
+  <div class="rank-grid" id="rankGrid">
+    <div class="rank-card">
+      <div class="rank-card-title">
+        <span class="dot dot-open"></span>
+        <span id="openTitle">개업율 TOP 5 지역</span>
+        <span class="tag-open">상승세</span>
       </div>
-      <div class="rnum" id="rNetBox">
-        <div class="lbl">예상 월 순이익</div>
-        <div class="val" id="rNet">-</div>
-        <div class="unit">만원</div>
+      <div class="rank-list" id="openList"></div>
+    </div>
+    <div class="rank-card">
+      <div class="rank-card-title">
+        <span class="dot dot-close"></span>
+        <span id="closeTitle">폐업율 TOP 5 지역</span>
+        <span class="tag-close">주의</span>
+      </div>
+      <div class="rank-list" id="closeList"></div>
+    </div>
+  </div>
+
+  <!-- Drilldown -->
+  <div class="drilldown-panel" id="drilldownPanel">
+    <div class="drilldown-header">
+      <div class="drilldown-title" id="drilldownTitle">📍 드릴다운</div>
+      <button class="drilldown-close" onclick="closeDrilldown()">✕</button>
+    </div>
+    <div class="drilldown-grid">
+      <div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:var(--accent2);">▲ 개업 TOP 5</div>
+        <div class="chart-wrap"><canvas id="drillChart1"></canvas></div>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:var(--danger);">▼ 폐업 TOP 5</div>
+        <div class="chart-wrap"><canvas id="drillChart2"></canvas></div>
       </div>
     </div>
-    <!-- 비용구조 폭포수 -->
-    <div class="wfall-wrap" id="wfallWrap"></div>
-    <!-- 시나리오 세분화 -->
-    <div class="scenario-wrap" id="scenarioWrap">
-      <div class="scenario-title">📈 시나리오별 예상 순이익 <span>같은 구·업종이라도 가게마다 다릅니다</span></div>
-      <div class="scenario-cards">
-        <div class="sc-card sc-hi">
-          <div class="sc-tag">상위 25%</div>
-          <div class="sc-label">잘 되는 가게</div>
-          <div class="sc-sales" id="scHiSales">-</div>
-          <div class="sc-net pos" id="scHiNet">-</div>
-          <div class="sc-net-unit">만원/월</div>
-          <div class="sc-bar-wrap"><div class="sc-bar" id="scHiBar" style="width:0%"></div></div>
+  </div>
+</section>
+
+
+<!-- SECTION 2: 수익계산기 브릿지 -->
+<section id="s2" style="background:var(--bg2);">
+  <div class="section-header">
+    <div class="section-tag">SECTION 02</div>
+    <div class="section-title">수익 계산기</div>
+    <div class="divider"></div>
+    <div class="section-desc">창업을 원하는 지역과 업종을 선택하시면 추정 순이익을 계산해보실 수 있습니다.</div>
+  </div>
+
+  <div class="s2-container">
+    <div class="s2-row">
+      <div class="s2-field">
+        <label>📍 지역 (구)</label>
+        <select class="s2-select" id="selGu" onchange="updateBridgePreview()">
+          <option value="">구 선택</option>
+          <option value="강남구">강남구</option>
+          <option value="강동구">강동구</option>
+          <option value="강북구">강북구</option>
+          <option value="강서구">강서구</option>
+          <option value="관악구">관악구</option>
+          <option value="광진구">광진구</option>
+          <option value="구로구">구로구</option>
+          <option value="금천구">금천구</option>
+          <option value="노원구">노원구</option>
+          <option value="도봉구">도봉구</option>
+          <option value="동대문구">동대문구</option>
+          <option value="동작구">동작구</option>
+          <option value="마포구">마포구</option>
+          <option value="서대문구">서대문구</option>
+          <option value="서초구">서초구</option>
+          <option value="성동구">성동구</option>
+          <option value="성북구">성북구</option>
+          <option value="송파구">송파구</option>
+          <option value="양천구">양천구</option>
+          <option value="영등포구">영등포구</option>
+          <option value="용산구">용산구</option>
+          <option value="은평구">은평구</option>
+          <option value="종로구">종로구</option>
+          <option value="중구">중구</option>
+          <option value="중랑구">중랑구</option>
+        </select>
+      </div>
+      <div class="s2-field">
+        <label>🏷 대분류</label>
+        <select class="s2-select" id="selCategory" onchange="updateSubCategory(); updateBridgePreview()">
+          <option value="">대분류 선택</option>
+          <option value="음식·숙박">🍜 음식·숙박</option>
+          <option value="소매">🛍️ 소매</option>
+          <option value="서비스·기타">💼 서비스·기타</option>
+        </select>
+      </div>
+      <div class="s2-field">
+        <label>🔍 업종</label>
+        <select class="s2-select" id="selBizType" onchange="updateBridgePreview()">
+          <option value="">업종 선택</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="s2-preview" id="bridgePreview"></div>
+
+    <button class="s2-btn" onclick="goToCalculator()">
+      <span>💰</span>
+      <span id="btnText">예상 순이익 확인</span>
+      <span>→</span>
+    </button>
+  </div>
+</section>
+
+
+<!-- SECTION 3: 업종별 생존지수 -->
+<section id="s3">
+  <div class="section-header">
+    <div class="section-tag">SECTION 03</div>
+    <div class="section-title">업종별 생존지수</div>
+    <div class="divider"></div>
+    <div class="section-desc">생존지수 = 개업율 − 폐업율 (서울 전체 기준) | 업종을 선택해 분기추이를 확인하세요</div>
+  </div>
+
+  <div class="s3-container">
+    <div class="s3-selector" id="bizChips"></div>
+    <div class="s3-main">
+      <div class="s3-card">
+        <div class="s3-card-title" id="survivalCardTitle">📊 생존지수</div>
+        <div class="survival-display">
+          <div class="survival-score positive" id="survivalScore">+0.0</div>
+          <div class="survival-label" id="survivalScoreLabel">업종을 선택하세요</div>
         </div>
-        <div class="sc-card sc-mid">
-          <div class="sc-tag">중위 50%</div>
-          <div class="sc-label">보통 가게</div>
-          <div class="sc-sales" id="scMidSales">-</div>
-          <div class="sc-net pos" id="scMidNet">-</div>
-          <div class="sc-net-unit">만원/월</div>
-          <div class="sc-bar-wrap"><div class="sc-bar" id="scMidBar" style="width:0%"></div></div>
+        <div class="survival-gauge">
+          <div class="survival-gauge-fill" id="survivalGauge" style="width:50%;background:var(--accent2);"></div>
         </div>
-        <div class="sc-card sc-lo">
-          <div class="sc-tag">하위 25%</div>
-          <div class="sc-label">힘든 가게</div>
-          <div class="sc-sales" id="scLoSales">-</div>
-          <div class="sc-net pos" id="scLoNet">-</div>
-          <div class="sc-net-unit">만원/월</div>
-          <div class="sc-bar-wrap"><div class="sc-bar" id="scLoBar" style="width:0%"></div></div>
+        <div class="survival-meta">
+          <span>개업율: <strong id="openRate">-</strong></span>
+          <span>폐업율: <strong id="closeRate">-</strong></span>
+        </div>
+        <div style="margin-top:24px;">
+          <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:12px;">분기별 폐업 추이 (2025)</div>
+          <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
         </div>
       </div>
-    </div>
-    <!-- LOKI 분석 리포트 -->
-    <div class="report-wrap" id="reportWrap">
-      <div class="rep-sec"><div class="rep-sec-title">📊 매출 수준</div><div class="rep-sec-body" id="repSales"></div></div>
-      <div class="rep-sec"><div class="rep-sec-title">💰 수익 구조</div><div class="rep-sec-body" id="repProfit"></div></div>
-      <div class="rep-sec"><div class="rep-sec-title">🏪 시장 현황</div><div class="rep-sec-body" id="repMarket"></div></div>
-      <div class="rep-sec"><div class="rep-sec-title">⚠️ 핵심 리스크</div><div class="rep-sec-body" id="repRisk"></div></div>
-      <div class="rep-sec"><div class="rep-sec-title">🤖 LOKI 종합 의견</div><div class="rep-sec-body" id="repSummary"></div></div>
-    </div>
 
-    <div class="src-btn" onclick="showSrc()">
-      <span class="src-icon">📋</span>
-      <span>데이터 출처 확인 — 이 수치는 어디서 왔나요?</span>
-      <span style="margin-left:auto;font-size:10px;color:var(--txt3)">보기 ›</span>
-    </div>
-
-  </div>
-</div>
-
-<!-- 오버레이 -->
-<div class="overlay" id="overlay" onclick="closeSheet()"></div>
-
-<!-- 바텀시트: 구 선택 -->
-<div class="sheet" id="sheet1">
-  <div class="sheet-handle"></div>
-  <div class="sheet-title">📍 지역(구) 선택</div>
-  <div class="sheet-body">
-    <div class="gu-grid" id="guGrid"></div>
-  </div>
-</div>
-
-<!-- 바텀시트: 대분류 선택 -->
-<div class="sheet" id="sheet2">
-  <div class="sheet-handle"></div>
-  <div class="sheet-title">📂 분야(대분류) 선택</div>
-  <div class="sheet-body">
-    <div style="display:flex;flex-direction:column;gap:12px" id="catList"></div>
-  </div>
-</div>
-
-<!-- 바텀시트: 업종 선택 -->
-<div class="sheet" id="sheet3">
-  <div class="sheet-handle"></div>
-  <div class="sheet-title">🏪 업종 선택</div>
-  <div class="sheet-body">
-    <div class="ind-list" id="indList"></div>
-  </div>
-</div>
-
-
-
-<!-- 바텀시트: 채용인원 선택 -->
-<div class="sheet" id="sheet5">
-  <div class="sheet-handle"></div>
-  <div class="sheet-title">👥 채용 인원 선택</div>
-  <div class="sheet-body">
-    <div class="num-input-wrap">
-      <button class="num-btn" onclick="adj('emp',-0.5)">−</button>
-      <div><div class="num-val" id="empVal">2</div></div>
-      <button class="num-btn" onclick="adj('emp',0.5)">+</button>
-      <div class="num-unit" style="margin-left:-10px">명</div>
-    </div>
-    <div class="num-hint" id="empHint"></div>
-    <div style="font-size:11px;color:var(--txt3);text-align:center;margin-top:8px">
-      0.5명 = 파트타임 1명 (최저임금의 50%)</div>
-  </div>
-  <button class="sheet-confirm" onclick="confirmNum('emp')">선택 완료</button>
-</div>
-
-
-</div>
-
-<!-- 출처 모달 -->
-<div class="src-modal" id="srcModal">
-  <div class="src-box">
-    <h3>📋 데이터 출처</h3>
-    <div class="src-row">
-      <div class="sname">월 평균 매출</div>
-      <div class="sval">서울 열린데이터광장 — 서울시 상권분석 서비스 추정매출<br>(2025년 4분기, 행정동 기준 / 업소당 평균 = 총매출 ÷ 업소수)<br><span style="color:#f59e0b;font-size:10px">※ 소상공인시장진흥공단 데이터 비교 검증 후 보정계수 적용(÷2.7). 실측에 근접하도록 조정된 추정치입니다.</span></div>
-    </div>
-    <div class="src-row">
-      <div class="sname">임대료</div>
-      <div class="sval">한국부동산원 — 상업용부동산 임대동향조사(소규모상가)<br>2025년 4분기 기준 구별 실측 단가(천원/㎡) × 업종별 평균 전용면적</div>
-    </div>
-    <div class="src-row">
-      <div class="sname">인건비</div>
-      <div class="sval">2025년 최저임금 10,030원/시간 × 월 209시간 × 채용인원<br>(실제 임금 수준은 업종·직군별로 상이할 수 있음)</div>
-    </div>
-    <div class="src-row">
-      <div class="sname">원가율</div>
-      <div class="sval">업종별 평균 매출원가율 — 국세청 소득통계 및 소상공인실태조사 기반 추정치</div>
-    </div>
-    <div class="src-row">
-      <div class="sname">유의사항</div>
-      <div class="sval">본 수치는 공공데이터 기반 통계 추정치입니다. 실제 창업 환경·입지·경쟁·경기 변동에 따라 크게 달라질 수 있으며, 투자 의사결정의 유일한 근거로 활용하지 마세요.</div>
-    </div>
-
-    <div class="src-row">
-      <div class="sname">업종별 기타비용 추정 기준</div>
-      <div class="sval">통신비·소모품·카드수수료·배달플랫폼 수수료 등 고정·변동 기타비용을 업종 특성에 따라 추정한 값입니다. 실제 값과 다를 수 있으며 사용자가 직접 수정 가능합니다.<br><br>
-        <table style="width:100%;font-size:11px;border-collapse:collapse;color:var(--txt2)">
-          <thead><tr style="color:var(--acc);border-bottom:1px solid var(--txt3)44">
-            <th style="text-align:left;padding:4px 0">업종 유형</th>
-            <th style="text-align:center;padding:4px 0">기본값</th>
-            <th style="text-align:left;padding:4px 0;padding-left:8px">주요 항목</th>
-          </tr></thead>
-          <tbody>
-            <tr style="border-bottom:1px solid var(--txt3)22"><td style="padding:5px 0">음식·카페류</td><td style="text-align:center">8~9%</td><td style="padding-left:8px">배달수수료, 카드수수료, 포장재</td></tr>
-            <tr style="border-bottom:1px solid var(--txt3)22"><td style="padding:5px 0">편의점·식품 소매</td><td style="text-align:center">6~7%</td><td style="padding-left:8px">카드수수료, 통신비, 소모품</td></tr>
-            <tr style="border-bottom:1px solid var(--txt3)22"><td style="padding:5px 0">일반 소매</td><td style="text-align:center">5%</td><td style="padding-left:8px">카드수수료, 통신비, 소모품</td></tr>
-            <tr style="border-bottom:1px solid var(--txt3)22"><td style="padding:5px 0">미용·세탁·서비스</td><td style="text-align:center">5%</td><td style="padding-left:8px">소모품, 카드수수료</td></tr>
-            <tr style="border-bottom:1px solid var(--txt3)22"><td style="padding:5px 0">병원·약국</td><td style="text-align:center">6~7%</td><td style="padding-left:8px">의료소모품, 의료기기 유지보수</td></tr>
-            <tr style="border-bottom:1px solid var(--txt3)22"><td style="padding:5px 0">학원·교육</td><td style="text-align:center">4%</td><td style="padding-left:8px">교재비, 통신비, 소모품</td></tr>
-            <tr style="border-bottom:1px solid var(--txt3)22"><td style="padding:5px 0">헬스클럽·골프연습장</td><td style="text-align:center">8%</td><td style="padding-left:8px">시설유지, 운동기구 관리비</td></tr>
-            <tr><td style="padding:5px 0">PC방·노래방·모텔</td><td style="text-align:center">10%</td><td style="padding-left:8px">전기료, 장비유지, 음료소모품</td></tr>
-          </tbody>
-        </table>
+      <div class="s3-card">
+        <div class="s3-card-title">📋 업종별 생존지수 비교</div>
+        <div class="compare-list" id="compareList"></div>
       </div>
     </div>
-    <button class="src-close" onclick="hideSrc()">닫기</button>
   </div>
-</div>
+</section>
+
+
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">LOKI</div>
+  <div class="footer-note">출처: 서울시 소상공인 점포 행정동 데이터 · 직방 상가 임대료 DB · 공공데이터포털</div>
+</footer>
+
 
 <script>
-const LOOKUP={"강동구":{"실내장식가게":{"a":2009,"m":338,"r":56.7,"s":802,"g":-0.6,"n":""},"철물점":{"a":15516.5,"m":5470,"r":56.7,"s":60,"g":null,"n":""},"가구점":{"a":1206.4,"m":785.6,"r":56.7,"s":41,"g":17.1,"n":""},"애완용품점":{"a":2237,"m":1876,"r":56.7,"s":76,"g":-8.4,"n":""},"꽃가게":{"a":5670.5,"m":1315.5,"r":56.7,"s":199,"g":-0.5,"n":""},"옷가게":{"a":3204.2,"m":1233.4,"r":56.7,"s":523,"g":-1.1,"n":""},"장난감가게":{"a":3281.5,"m":3000,"r":56.7,"s":25,"g":56.2,"n":""},"자전거판매점":{"a":3900,"m":3000,"r":56.7,"s":35,"g":null,"n":""},"스포츠용품점":{"a":1481.9,"m":1476.6,"r":56.7,"s":82,"g":-11.8,"n":""},"화장품가게":{"a":2297.2,"m":1141.6,"r":56.7,"s":258,"g":-2.6,"n":""},"문구점":{"a":7081,"m":200.9,"r":56.7,"s":60,"g":-7.7,"n":""},"서점":{"a":4468,"m":1643,"r":56.7,"s":73,"g":5.8,"n":""},"의료용품가게":{"a":3708.1,"m":878.9,"r":56.7,"s":96,"g":-2,"n":""},"약국":{"a":10151.8,"m":6507.5,"r":56.7,"s":307,"g":4.4,"n":""},"시계ㆍ귀금속점":{"a":7718.5,"m":1379.5,"r":56.7,"s":73,"g":5.8,"n":""},"안경점":{"a":2537.5,"m":2385.1,"r":56.7,"s":81,"g":2.5,"n":""},"식료품가게":{"a":10400,"m":8000,"r":56.7,"s":167,"g":-4,"n":""},"과일가게":{"a":7445.8,"m":5070.6,"r":56.7,"s":79,"g":1.3,"n":""},"정육점":{"a":8192.3,"m":3572.7,"r":56.7,"s":136,"g":0.7,"n":""},"컴퓨터판매점":{"a":779.1,"m":126.6,"r":56.7,"s":43,"g":16.2,"n":""},"편의점":{"a":4364.6,"m":3582.1,"r":56.7,"s":333,"g":0.9,"n":""},"슈퍼마켓":{"a":11629.7,"m":8608.7,"r":56.7,"s":131,"g":4,"n":""},"노래방":{"a":2173.5,"m":804.9,"r":56.7,"s":209,"g":-3.7,"n":""},"여관ㆍ모텔":{"a":13195.2,"m":3633.6,"r":56.7,"s":51,"g":-7.3,"n":""},"세탁소":{"a":765,"m":763.5,"r":56.7,"s":210,"g":1.4,"n":""},"피부관리업":{"a":1618,"m":1195,"r":56.7,"s":533,"g":7.7,"n":""},"미용실":{"a":1042.2,"m":903,"r":56.7,"s":996,"g":2.7,"n":""},"자동차수리점":{"a":2041.7,"m":1344.3,"r":56.7,"s":250,"g":6.4,"n":""},"헬스클럽":{"a":1380.9,"m":1138.2,"r":56.7,"s":150,"g":4.9,"n":""},"pc방":{"a":1586.9,"m":1261.8,"r":56.7,"s":55,"g":-6.8,"n":""},"실외골프연습장":{"a":3065.9,"m":1520,"r":56.7,"s":15,"g":-6.2,"n":""},"당구장":{"a":1901.2,"m":1858,"r":56.7,"s":129,"g":-5.2,"n":""},"한방병원ㆍ한의원":{"a":2521.7,"m":1621.1,"r":56.7,"s":206,"g":2,"n":""},"치과의원":{"a":4105.8,"m":2805.7,"r":56.7,"s":248,"g":1.6,"n":""},"스포츠교육기관":{"a":2705,"m":2568.5,"r":56.7,"s":387,"g":11.2,"n":""},"예술학원":{"a":1160.9,"m":769.6,"r":56.7,"s":323,"g":8,"n":""},"교습소ㆍ공부방":{"a":3072.6,"m":1132.2,"r":56.7,"s":655,"g":16.8,"n":""},"커피음료점":{"a":997.4,"m":829.3,"r":56.7,"s":619,"g":0.7,"n":""},"호프주점":{"a":5334.9,"m":2835.6,"r":56.7,"s":169,"g":-7.7,"n":""},"분식점":{"a":1636.7,"m":746.4,"r":56.7,"s":424,"g":-4.5,"n":""},"기타음식점":{"a":1639.1,"m":1032.6,"r":56.7,"s":115,"g":-9.4,"n":""},"패스트푸드점":{"a":6743,"m":4068,"r":56.7,"s":355,"g":1.7,"n":""},"제과점":{"a":6075.5,"m":5175,"r":56.7,"s":215,"g":7,"n":""},"기타외국식음식점":{"a":1348,"m":456.4,"r":56.7,"s":236,"g":-3.7,"n":""},"중식음식점":{"a":1138.2,"m":676.1,"r":56.7,"s":151,"g":0.7,"n":""},"한식음식점":{"a":2591.7,"m":2062.3,"r":56.7,"s":1963,"g":0.4,"n":""},"기타일반의원":{"a":76418.1,"m":71559.4,"r":56.7,"s":52,"g":10.6,"n":""},"교습학원":{"a":1365,"m":498,"r":56.7,"s":678,"g":7.5,"n":""},"일식음식점":{"a":5878,"m":4047.5,"r":56.7,"s":245,"g":3.8,"n":""},"신발가게":{"a":2932.4,"m":1749.6,"r":56.7,"s":37,"g":-2.6,"n":""},"생선가게":{"a":9325.6,"m":2310.2,"r":56.7,"s":36,"g":9.1,"n":""},"곡물가게":{"a":6500,"m":5000,"r":56.7,"s":27,"g":12.5,"n":""},"휴대폰가게":{"a":2238.5,"m":601,"r":56.7,"s":115,"g":3.6,"n":""},"가전제품수리점":{"a":366,"m":366,"r":56.7,"s":187,"g":9.4,"n":""},"통신판매업":{"a":1.6,"m":1.6,"r":56.7,"s":7049,"g":6.5,"n":""},"가전제품판매점":{"a":8631,"m":837,"r":56.7,"s":60,"g":-6.2,"n":""},"부동산중개업":{"a":600,"m":350,"r":56.7,"s":1530,"g":-5.4,"n":""}},"송파구":{"화장품가게":{"a":3603.2,"m":2164.4,"r":34.2,"s":507,"g":-3.8,"n":""},"약국":{"a":10370.4,"m":9344.1,"r":34.2,"s":413,"g":4,"n":""},"옷가게":{"a":9280.5,"m":863.7,"r":34.2,"s":866,"g":-5.5,"n":""},"식료품가게":{"a":10400,"m":8000,"r":34.2,"s":260,"g":-1.9,"n":""},"생선가게":{"a":5743.4,"m":2850,"r":34.2,"s":52,"g":2,"n":""},"정육점":{"a":28366.4,"m":6783.4,"r":34.2,"s":170,"g":-1.7,"n":""},"슈퍼마켓":{"a":16421.1,"m":11042,"r":34.2,"s":197,"g":-0.5,"n":""},"세탁소":{"a":1210.2,"m":866.4,"r":34.2,"s":299,"g":0.3,"n":""},"피부관리업":{"a":2534,"m":967,"r":34.2,"s":995,"g":9.3,"n":""},"미용실":{"a":1868.1,"m":1101,"r":34.2,"s":1254,"g":0.1,"n":""},"실외골프연습장":{"a":3815.9,"m":2757.9,"r":34.2,"s":29,"g":-3.3,"n":""},"예술학원":{"a":885.6,"m":559.4,"r":34.2,"s":474,"g":1.7,"n":""},"교습소ㆍ공부방":{"a":4320.9,"m":1950.3,"r":34.2,"s":753,"g":-0.1,"n":""},"커피음료점":{"a":1601.2,"m":935.5,"r":34.2,"s":1012,"g":-4.5,"n":""},"한식음식점":{"a":3033,"m":1659.6,"r":34.2,"s":3181,"g":-2.1,"n":""},"통신판매업":{"a":9.6,"m":7.2,"r":34.2,"s":11402,"g":3.3,"n":""},"가전제품판매점":{"a":23772.5,"m":2383,"r":34.2,"s":81,"g":-9,"n":""},"가구점":{"a":39047.2,"m":8158.4,"r":34.2,"s":75,"g":5.6,"n":""},"꽃가게":{"a":1573.5,"m":637.5,"r":34.2,"s":345,"g":2.7,"n":""},"문구점":{"a":2478.2,"m":450.3,"r":34.2,"s":128,"g":3.2,"n":""},"시계ㆍ귀금속점":{"a":33174,"m":1011,"r":34.2,"s":104,"g":4,"n":""},"안경점":{"a":2287.6,"m":1207.9,"r":34.2,"s":137,"g":null,"n":""},"편의점":{"a":4629.7,"m":2745.1,"r":34.2,"s":511,"g":3.2,"n":""},"가전제품수리점":{"a":1771.5,"m":1695,"r":34.2,"s":189,"g":11.2,"n":""},"헬스클럽":{"a":2385.9,"m":935.7,"r":34.2,"s":305,"g":3.4,"n":""},"당구장":{"a":2334.4,"m":788.4,"r":34.2,"s":202,"g":3.1,"n":""},"한방병원ㆍ한의원":{"a":2224.5,"m":1631.6,"r":34.2,"s":274,"g":3.4,"n":""},"치과의원":{"a":4614.9,"m":3622.4,"r":34.2,"s":340,"g":-0.3,"n":""},"기타일반의원":{"a":60445.7,"m":45028.6,"r":34.2,"s":84,"g":1.2,"n":""},"스포츠교육기관":{"a":3403.5,"m":2578,"r":34.2,"s":588,"g":10.1,"n":""},"호프주점":{"a":6567.7,"m":2347.3,"r":34.2,"s":213,"g":-9.4,"n":""},"분식점":{"a":1557,"m":846.8,"r":34.2,"s":527,"g":-3.7,"n":""},"기타음식점":{"a":1468.1,"m":831.2,"r":34.2,"s":196,"g":-9.7,"n":""},"패스트푸드점":{"a":14184,"m":4729,"r":34.2,"s":497,"g":-2.5,"n":""},"제과점":{"a":6371.5,"m":3908,"r":34.2,"s":293,"g":3.5,"n":""},"기타외국식음식점":{"a":1253,"m":812.9,"r":34.2,"s":563,"g":-1.1,"n":""},"일식음식점":{"a":6611.5,"m":2641,"r":34.2,"s":467,"g":1.5,"n":""},"중식음식점":{"a":1647.7,"m":1074.6,"r":34.2,"s":270,"g":3.5,"n":""},"장난감가게":{"a":3900,"m":3000,"r":34.2,"s":34,"g":9.7,"n":""},"스포츠용품점":{"a":3537.1,"m":446.2,"r":34.2,"s":141,"g":7.6,"n":""},"의료용품가게":{"a":12451.7,"m":916.9,"r":34.2,"s":102,"g":-4.7,"n":""},"곡물가게":{"a":6500,"m":5000,"r":34.2,"s":34,"g":3,"n":""},"휴대폰가게":{"a":4534.5,"m":2065,"r":34.2,"s":170,"g":9.7,"n":""},"신발가게":{"a":15945.2,"m":584,"r":34.2,"s":70,"g":-2.8,"n":""},"과일가게":{"a":8498.7,"m":1880.4,"r":34.2,"s":93,"g":-4.1,"n":""},"실내장식가게":{"a":5654,"m":3819,"r":34.2,"s":1286,"g":0.2,"n":""},"철물점":{"a":3889,"m":1688.5,"r":34.2,"s":76,"g":-1.3,"n":""},"애완용품점":{"a":1421,"m":1288,"r":34.2,"s":123,"g":0.8,"n":""},"자전거판매점":{"a":6726,"m":2026.5,"r":34.2,"s":26,"g":null,"n":""},"서점":{"a":3523,"m":1737,"r":34.2,"s":116,"g":6.4,"n":""},"노래방":{"a":2818.8,"m":1099.2,"r":34.2,"s":375,"g":-3.1,"n":""},"여관ㆍ모텔":{"a":10400,"m":8000,"r":34.2,"s":46,"g":2.2,"n":""},"자동차수리점":{"a":2912.6,"m":1524.9,"r":34.2,"s":336,"g":2.4,"n":""},"pc방":{"a":2469.2,"m":1869.5,"r":34.2,"s":59,"g":-7.8,"n":""},"교습학원":{"a":3511.5,"m":1789.5,"r":34.2,"s":909,"g":2.9,"n":""},"컴퓨터판매점":{"a":1832.6,"m":1832.6,"r":34.2,"s":69,"g":null,"n":""},"부동산중개업":{"a":1500,"m":900,"r":34.2,"s":2200,"g":-0.8,"n":""}},"강남구":{"실내장식가게":{"a":1881,"m":524,"r":69.3,"s":1599,"g":1.3,"n":""},"꽃가게":{"a":1950,"m":1500,"r":69.3,"s":611,"g":-1,"n":""},"스포츠용품점":{"a":13026.6,"m":5016,"r":69.3,"s":232,"g":1.3,"n":""},"화장품가게":{"a":3900,"m":3000,"r":69.3,"s":858,"g":-4.9,"n":""},"문구점":{"a":11355.8,"m":4979.3,"r":69.3,"s":96,"g":-3,"n":""},"서점":{"a":7516,"m":2405,"r":69.3,"s":151,"g":-3.2,"n":""},"의료용품가게":{"a":5438.8,"m":1823.1,"r":69.3,"s":155,"g":-3.7,"n":""},"약국":{"a":13318.4,"m":9144,"r":69.3,"s":558,"g":2.2,"n":""},"안경점":{"a":4015.1,"m":2732.2,"r":69.3,"s":178,"g":null,"n":""},"옷가게":{"a":9967.4,"m":1568.1,"r":69.3,"s":1162,"g":-5.8,"n":""},"식료품가게":{"a":43122.5,"m":7976.5,"r":69.3,"s":256,"g":-1.2,"n":""},"휴대폰가게":{"a":13132,"m":4045,"r":69.3,"s":135,"g":-3.6,"n":""},"편의점":{"a":7753.6,"m":7363.6,"r":69.3,"s":675,"g":-5.2,"n":""},"슈퍼마켓":{"a":10185.6,"m":6293.3,"r":69.3,"s":239,"g":-1.2,"n":""},"노래방":{"a":5432.4,"m":2780.1,"r":69.3,"s":184,"g":-2.6,"n":""},"세탁소":{"a":2264.1,"m":1281.9,"r":69.3,"s":370,"g":-1.6,"n":""},"피부관리업":{"a":5335,"m":2874,"r":69.3,"s":1455,"g":4.8,"n":""},"미용실":{"a":4141.5,"m":1657.5,"r":69.3,"s":1533,"g":1.9,"n":""},"헬스클럽":{"a":5231.4,"m":4116.9,"r":69.3,"s":414,"g":-0.7,"n":""},"당구장":{"a":2466.8,"m":1855.2,"r":69.3,"s":187,"g":-1.1,"n":""},"한방병원ㆍ한의원":{"a":2188,"m":1180.3,"r":69.3,"s":407,"g":1.5,"n":""},"치과의원":{"a":4428.3,"m":3407.5,"r":69.3,"s":538,"g":-0.7,"n":""},"기타일반의원":{"a":118182.8,"m":42334.7,"r":69.3,"s":155,"g":5.4,"n":"강남 의료특구 (고급 의료상권)"},"스포츠교육기관":{"a":3980.5,"m":3553.5,"r":69.3,"s":848,"g":5.7,"n":""},"교습소ㆍ공부방":{"a":9842.1,"m":1308.3,"r":69.3,"s":884,"g":4.7,"n":""},"커피음료점":{"a":2923.6,"m":1696.7,"r":69.3,"s":1375,"g":-1.7,"n":""},"호프주점":{"a":17219.8,"m":11943.8,"r":69.3,"s":176,"g":-12,"n":""},"분식점":{"a":2176.1,"m":1527,"r":69.3,"s":632,"g":-7.6,"n":""},"기타음식점":{"a":2118.6,"m":1447,"r":69.3,"s":183,"g":-8.5,"n":""},"패스트푸드점":{"a":10958,"m":3664,"r":69.3,"s":558,"g":-2.8,"n":""},"제과점":{"a":6622.5,"m":5464.8,"r":69.3,"s":359,"g":-2.5,"n":""},"일식음식점":{"a":7800,"m":6000,"r":69.3,"s":866,"g":-0.3,"n":""},"중식음식점":{"a":5001.1,"m":2180.4,"r":69.3,"s":401,"g":-4.8,"n":""},"한식음식점":{"a":4261.5,"m":2225.8,"r":69.3,"s":4490,"g":0.7,"n":""},"정육점":{"a":7532,"m":3018,"r":69.3,"s":114,"g":-3.4,"n":""},"예술학원":{"a":1671.7,"m":1017.1,"r":69.3,"s":639,"g":-1.8,"n":""},"철물점":{"a":8550.5,"m":4490,"r":69.3,"s":60,"g":5.3,"n":""},"시계ㆍ귀금속점":{"a":27933,"m":3792.5,"r":69.3,"s":201,"g":6.9,"n":""},"과일가게":{"a":7349.9,"m":3486,"r":69.3,"s":55,"g":14.6,"n":""},"가전제품수리점":{"a":1069.5,"m":1069.5,"r":69.3,"s":128,"g":5.8,"n":""},"자동차수리점":{"a":2810.9,"m":1989,"r":69.3,"s":304,"g":1.7,"n":""},"pc방":{"a":4851.2,"m":3507.7,"r":69.3,"s":55,"g":-5.2,"n":""},"기타외국식음식점":{"a":2534.5,"m":922.6,"r":69.3,"s":1281,"g":-3.1,"n":""},"실외골프연습장":{"a":9344.5,"m":4617,"r":69.3,"s":31,"g":-13.9,"n":""},"애완용품점":{"a":7618,"m":933,"r":69.3,"s":173,"g":-1.1,"n":""},"생선가게":{"a":4078.9,"m":1678.9,"r":69.3,"s":30,"g":-6.2,"n":""},"교습학원":{"a":6700.5,"m":4485,"r":69.3,"s":1867,"g":2.2,"n":""},"통신판매업":{"a":164,"m":46.4,"r":69.3,"s":14509,"g":9.2,"n":""},"가전제품판매점":{"a":1100,"m":706,"r":69.3,"s":94,"g":4.4,"n":""},"자전거판매점":{"a":3900,"m":3000,"r":69.3,"s":12,"g":-7.7,"n":""},"곡물가게":{"a":6500,"m":5000,"r":69.3,"s":23,"g":-17.9,"n":""},"컴퓨터판매점":{"a":2678,"m":321.4,"r":69.3,"s":97,"g":null,"n":""},"여관ㆍ모텔":{"a":10400,"m":8000,"r":69.3,"s":40,"g":null,"n":""},"가구점":{"a":157940.8,"m":39188,"r":69.3,"s":110,"g":0.9,"n":""},"신발가게":{"a":13173.2,"m":1972.4,"r":69.3,"s":49,"g":-5.8,"n":""},"장난감가게":{"a":3900,"m":3000,"r":69.3,"s":44,"g":18.9,"n":""},"부동산중개업":{"a":2200,"m":1350,"r":69.3,"s":5130,"g":-0.5,"n":""}},"서초구":{"꽃가게":{"a":5196.5,"m":902.5,"r":45.4,"s":721,"g":-0.1,"n":""},"화장품가게":{"a":3900,"m":3000,"r":45.4,"s":423,"g":-4.9,"n":""},"약국":{"a":11153.3,"m":6867,"r":45.4,"s":331,"g":4.8,"n":""},"식료품가게":{"a":53303.5,"m":2662,"r":45.4,"s":173,"g":0.6,"n":""},"정육점":{"a":5436.6,"m":3538,"r":45.4,"s":81,"g":-3.6,"n":""},"편의점":{"a":4655.5,"m":3312.1,"r":45.4,"s":396,"g":-2.2,"n":""},"슈퍼마켓":{"a":10250,"m":11401.5,"r":45.4,"s":152,"g":-7.3,"n":""},"세탁소":{"a":1950,"m":1500,"r":45.4,"s":223,"g":1.8,"n":""},"미용실":{"a":2600,"m":2000,"r":45.4,"s":729,"g":2,"n":""},"한방병원ㆍ한의원":{"a":2854.8,"m":2005.3,"r":45.4,"s":273,"g":2.2,"n":""},"치과의원":{"a":5328.2,"m":3916.7,"r":45.4,"s":320,"g":1.6,"n":""},"기타일반의원":{"a":106378.8,"m":64668.9,"r":45.4,"s":76,"g":1.3,"n":"강남 의료특구 인근"},"스포츠교육기관":{"a":4474,"m":3120.5,"r":45.4,"s":513,"g":6.9,"n":""},"예술학원":{"a":1478.3,"m":819.1,"r":45.4,"s":431,"g":6.7,"n":""},"교습소ㆍ공부방":{"a":5656.6,"m":4030.5,"r":45.4,"s":653,"g":3.6,"n":""},"커피음료점":{"a":2340.1,"m":1983.4,"r":45.4,"s":867,"g":-0.3,"n":""},"호프주점":{"a":11022.1,"m":8893.1,"r":45.4,"s":144,"g":-4,"n":""},"분식점":{"a":1719.4,"m":1495.5,"r":45.4,"s":435,"g":-2,"n":""},"기타음식점":{"a":2376.1,"m":2130.7,"r":45.4,"s":132,"g":-3.6,"n":""},"제과점":{"a":7134.8,"m":5036.8,"r":45.4,"s":262,"g":0.8,"n":""},"중식음식점":{"a":3325.3,"m":2133.7,"r":45.4,"s":221,"g":-2.6,"n":""},"한식음식점":{"a":4110.5,"m":3092.9,"r":45.4,"s":2487,"g":-1.1,"n":""},"통신판매업":{"a":107.2,"m":40.8,"r":45.4,"s":9051,"g":4.1,"n":""},"실내장식가게":{"a":1242,"m":449,"r":45.4,"s":1062,"g":-1.2,"n":""},"철물점":{"a":11829.5,"m":4067,"r":45.4,"s":40,"g":11.1,"n":""},"가구점":{"a":87025.6,"m":20882.4,"r":45.4,"s":80,"g":1.3,"n":""},"애완용품점":{"a":782,"m":344,"r":45.4,"s":92,"g":-2.1,"n":""},"옷가게":{"a":2742.1,"m":520.6,"r":45.4,"s":861,"g":-1.4,"n":""},"장난감가게":{"a":21.5,"m":21.5,"r":45.4,"s":53,"g":23.3,"n":""},"스포츠용품점":{"a":6967.9,"m":6356.2,"r":45.4,"s":110,"g":5.8,"n":""},"문구점":{"a":7905.3,"m":1544.7,"r":45.4,"s":100,"g":1,"n":""},"서점":{"a":5200,"m":4000,"r":45.4,"s":112,"g":-4.3,"n":""},"의료용품가게":{"a":2753,"m":1560.6,"r":45.4,"s":107,"g":-8.6,"n":""},"시계ㆍ귀금속점":{"a":1220.5,"m":843.5,"r":45.4,"s":95,"g":2.1,"n":""},"안경점":{"a":1531.8,"m":1400.9,"r":45.4,"s":112,"g":3.7,"n":""},"휴대폰가게":{"a":6107,"m":1424.5,"r":45.4,"s":86,"g":-14.8,"n":""},"컴퓨터판매점":{"a":5592.3,"m":2088.4,"r":45.4,"s":79,"g":null,"n":""},"노래방":{"a":4778.4,"m":3551.1,"r":45.4,"s":165,"g":-5.7,"n":""},"가전제품수리점":{"a":1003.5,"m":549,"r":45.4,"s":95,"g":10.5,"n":""},"피부관리업":{"a":4811,"m":3159,"r":45.4,"s":695,"g":3,"n":""},"자동차수리점":{"a":2917.3,"m":1842,"r":45.4,"s":296,"g":-1.3,"n":""},"헬스클럽":{"a":4868.4,"m":2781.9,"r":45.4,"s":254,"g":6.3,"n":""},"pc방":{"a":459.6,"m":469,"r":45.4,"s":30,"g":-6.2,"n":""},"실외골프연습장":{"a":8071.3,"m":4780.6,"r":45.4,"s":20,"g":null,"n":""},"당구장":{"a":2140,"m":1379.2,"r":45.4,"s":151,"g":-1.3,"n":""},"교습학원":{"a":6916.5,"m":1036.5,"r":45.4,"s":897,"g":1.7,"n":""},"패스트푸드점":{"a":9530,"m":7682,"r":45.4,"s":341,"g":-0.6,"n":""},"기타외국식음식점":{"a":2126,"m":1048.8,"r":45.4,"s":532,"g":-1.1,"n":""},"일식음식점":{"a":7800,"m":6000,"r":45.4,"s":376,"g":2.5,"n":""},"가전제품판매점":{"a":371,"m":385.5,"r":45.4,"s":79,"g":-6,"n":""},"자전거판매점":{"a":3900,"m":3000,"r":45.4,"s":18,"g":-5.3,"n":""},"과일가게":{"a":6380.6,"m":2501,"r":45.4,"s":31,"g":24,"n":""},"여관ㆍ모텔":{"a":10400,"m":8000,"r":45.4,"s":17,"g":-5.6,"n":""},"신발가게":{"a":143.2,"m":143.2,"r":45.4,"s":41,"g":-2.4,"n":""},"생선가게":{"a":205.9,"m":205.9,"r":45.4,"s":16,"g":null,"n":""},"곡물가게":{"a":1560.5,"m":1560.5,"r":45.4,"s":18,"g":null,"n":""},"부동산중개업":{"a":2500,"m":1500,"r":45.4,"s":3800,"g":-0.5,"n":""}},"관악구":{"철물점":{"a":5842,"m":2030,"r":68.1,"s":67,"g":1.5,"n":""},"가구점":{"a":6258.4,"m":3460,"r":68.1,"s":30,"g":-6.2,"n":""},"화장품가게":{"a":1775.2,"m":904,"r":68.1,"s":246,"g":-3.1,"n":""},"의료용품가게":{"a":2040,"m":1764.1,"r":68.1,"s":43,"g":-8.5,"n":""},"약국":{"a":6985.8,"m":6121.3,"r":68.1,"s":240,"g":1.3,"n":""},"시계ㆍ귀금속점":{"a":4394,"m":1785,"r":68.1,"s":61,"g":5.2,"n":""},"안경점":{"a":3436.7,"m":2432.7,"r":68.1,"s":77,"g":null,"n":""},"신발가게":{"a":8717.2,"m":1083.2,"r":68.1,"s":45,"g":-13.5,"n":""},"옷가게":{"a":1873.8,"m":476.4,"r":68.1,"s":431,"g":-10.4,"n":""},"과일가게":{"a":11321.5,"m":7633.3,"r":68.1,"s":62,"g":1.6,"n":""},"생선가게":{"a":4990,"m":2503.2,"r":68.1,"s":49,"g":-7.5,"n":""},"정육점":{"a":7184.3,"m":4650.1,"r":68.1,"s":136,"g":-4.9,"n":""},"휴대폰가게":{"a":1885,"m":1020,"r":68.1,"s":121,"g":5.2,"n":""},"컴퓨터판매점":{"a":3156,"m":237.1,"r":68.1,"s":27,"g":8,"n":""},"편의점":{"a":4411.9,"m":3216.2,"r":68.1,"s":367,"g":-2.9,"n":""},"슈퍼마켓":{"a":11121.2,"m":9984.9,"r":68.1,"s":163,"g":-5.2,"n":""},"노래방":{"a":2078.4,"m":1818.6,"r":68.1,"s":233,"g":-6.4,"n":""},"세탁소":{"a":847.2,"m":556.8,"r":68.1,"s":374,"g":3.3,"n":""},"피부관리업":{"a":1618,"m":1293,"r":68.1,"s":542,"g":6.1,"n":""},"미용실":{"a":1544.7,"m":1818.3,"r":68.1,"s":906,"g":0.6,"n":""},"자동차수리점":{"a":2032.8,"m":1729.9,"r":68.1,"s":228,"g":4.1,"n":""},"pc방":{"a":2816.9,"m":1669.7,"r":68.1,"s":81,"g":1.2,"n":""},"당구장":{"a":1289.6,"m":1080.8,"r":68.1,"s":107,"g":-2.7,"n":""},"한방병원ㆍ한의원":{"a":2234.4,"m":1846.4,"r":68.1,"s":144,"g":1.4,"n":""},"치과의원":{"a":5320.1,"m":5521.3,"r":68.1,"s":206,"g":2,"n":""},"기타일반의원":{"a":73287.6,"m":54279.7,"r":68.1,"s":35,"g":null,"n":""},"스포츠교육기관":{"a":1928,"m":1268,"r":68.1,"s":292,"g":4.7,"n":""},"예술학원":{"a":547.8,"m":274.3,"r":68.1,"s":237,"g":-2.5,"n":""},"교습소ㆍ공부방":{"a":1472.3,"m":1196,"r":68.1,"s":283,"g":-6,"n":""},"커피음료점":{"a":872.1,"m":791.5,"r":68.1,"s":628,"g":-3.5,"n":""},"호프주점":{"a":5532,"m":2983.1,"r":68.1,"s":202,"g":-13.7,"n":""},"분식점":{"a":906,"m":724,"r":68.1,"s":446,"g":-4.1,"n":""},"기타음식점":{"a":1519.1,"m":1108.2,"r":68.1,"s":113,"g":-8.1,"n":""},"패스트푸드점":{"a":7705,"m":5341,"r":68.1,"s":338,"g":-1.2,"n":""},"제과점":{"a":4803.8,"m":3507.5,"r":68.1,"s":179,"g":10.5,"n":""},"한식음식점":{"a":2089.7,"m":1714.5,"r":68.1,"s":2278,"g":-1,"n":""},"실내장식가게":{"a":2365,"m":1503,"r":68.1,"s":707,"g":3.7,"n":""},"가전제품판매점":{"a":15909,"m":741,"r":68.1,"s":50,"g":-5.7,"n":""},"애완용품점":{"a":2299,"m":1192,"r":68.1,"s":69,"g":6.2,"n":""},"꽃가게":{"a":691.5,"m":735,"r":68.1,"s":131,"g":1.6,"n":""},"자전거판매점":{"a":3900,"m":3000,"r":68.1,"s":11,"g":22.2,"n":""},"문구점":{"a":439.8,"m":274.3,"r":68.1,"s":52,"g":4,"n":""},"헬스클럽":{"a":3646.8,"m":1582.2,"r":68.1,"s":153,"g":5.5,"n":""},"실외골프연습장":{"a":3022.4,"m":1446.4,"r":68.1,"s":14,"g":null,"n":""},"기타외국식음식점":{"a":832.4,"m":195.7,"r":68.1,"s":268,"g":1.5,"n":""},"중식음식점":{"a":1037.1,"m":663.3,"r":68.1,"s":220,"g":-2.2,"n":""},"식료품가게":{"a":35209.5,"m":4268,"r":68.1,"s":192,"g":-2,"n":""},"곡물가게":{"a":3335,"m":3086.5,"r":68.1,"s":27,"g":null,"n":""},"여관ㆍ모텔":{"a":11674.4,"m":6733.6,"r":68.1,"s":70,"g":-7.9,"n":""},"부동산중개업":{"a":2040,"m":870,"r":68.1,"s":1149,"g":1.5,"n":""},"가전제품수리점":{"a":681,"m":693,"r":68.1,"s":171,"g":12.5,"n":""},"서점":{"a":4733,"m":3619.5,"r":68.1,"s":60,"g":-3.2,"n":""},"일식음식점":{"a":5973.5,"m":4228,"r":68.1,"s":279,"g":6.5,"n":""},"장난감가게":{"a":607,"m":607,"r":68.1,"s":31,"g":34.8,"n":""},"통신판매업":{"a":9.6,"m":0.8,"r":68.1,"s":7088,"g":7.2,"n":""},"스포츠용품점":{"a":191.8,"m":92.7,"r":68.1,"s":74,"g":-9.8,"n":""},"교습학원":{"a":6,"m":6,"r":68.1,"s":312,"g":-0.9,"n":""}},"동작구":{"통신판매업":{"a":12.8,"m":12.8,"r":39,"s":5104,"g":5.6,"n":""},"실내장식가게":{"a":9336,"m":666,"r":39,"s":464,"g":1.3,"n":""},"철물점":{"a":4674.5,"m":787.5,"r":39,"s":38,"g":-5,"n":""},"꽃가게":{"a":805,"m":771,"r":39,"s":118,"g":-7.8,"n":""},"스포츠용품점":{"a":550.4,"m":320.5,"r":39,"s":38,"g":-17.4,"n":""},"화장품가게":{"a":1257.6,"m":483.6,"r":39,"s":139,"g":-12,"n":""},"문구점":{"a":2274.8,"m":591.9,"r":39,"s":58,"g":1.8,"n":""},"의료용품가게":{"a":1333,"m":918.9,"r":39,"s":40,"g":5.3,"n":""},"약국":{"a":10083.1,"m":7810.9,"r":39,"s":204,"g":2.5,"n":""},"시계ㆍ귀금속점":{"a":11049.5,"m":1817.5,"r":39,"s":36,"g":5.9,"n":""},"안경점":{"a":2465.7,"m":2223.9,"r":39,"s":55,"g":-1.8,"n":""},"옷가게":{"a":1448.1,"m":497.7,"r":39,"s":287,"g":-10.3,"n":""},"정육점":{"a":11063.3,"m":2449.9,"r":39,"s":96,"g":null,"n":""},"휴대폰가게":{"a":431.5,"m":243.5,"r":39,"s":77,"g":20.3,"n":""},"편의점":{"a":3953.3,"m":3163.5,"r":39,"s":282,"g":-1.1,"n":""},"슈퍼마켓":{"a":9746.4,"m":8678.4,"r":39,"s":112,"g":3.7,"n":""},"노래방":{"a":3192.9,"m":1738.5,"r":39,"s":124,"g":-7.5,"n":""},"여관ㆍ모텔":{"a":7730.4,"m":3722.4,"r":39,"s":21,"g":-12.5,"n":""},"세탁소":{"a":472.5,"m":456.9,"r":39,"s":196,"g":-1,"n":""},"피부관리업":{"a":2050,"m":1499,"r":39,"s":351,"g":5.4,"n":""},"미용실":{"a":1263.6,"m":1070.7,"r":39,"s":645,"g":-0.9,"n":""},"자동차수리점":{"a":1926.7,"m":1273.7,"r":39,"s":99,"g":3.1,"n":""},"헬스클럽":{"a":2406.9,"m":1755.6,"r":39,"s":99,"g":7.6,"n":""},"실외골프연습장":{"a":4428.8,"m":5317.4,"r":39,"s":5,"g":-28.6,"n":""},"당구장":{"a":1499.6,"m":1140,"r":39,"s":79,"g":null,"n":""},"한방병원ㆍ한의원":{"a":1773,"m":1378.1,"r":39,"s":133,"g":-0.8,"n":""},"치과의원":{"a":5189.6,"m":4561.4,"r":39,"s":176,"g":1.1,"n":""},"기타일반의원":{"a":72771.3,"m":69067.1,"r":39,"s":36,"g":12.5,"n":""},"스포츠교육기관":{"a":2832,"m":1796,"r":39,"s":217,"g":1.9,"n":""},"예술학원":{"a":828,"m":395.6,"r":39,"s":181,"g":-0.6,"n":""},"교습학원":{"a":3801,"m":4482,"r":39,"s":352,"g":4.5,"n":""},"교습소ㆍ공부방":{"a":2521.2,"m":954.7,"r":39,"s":441,"g":1.6,"n":""},"커피음료점":{"a":1246.2,"m":906,"r":39,"s":492,"g":-5.9,"n":""},"호프주점":{"a":7079.3,"m":4780.8,"r":39,"s":115,"g":-8.7,"n":""},"분식점":{"a":1142.5,"m":810.5,"r":39,"s":321,"g":-4.8,"n":""},"기타음식점":{"a":1395.6,"m":1169.1,"r":39,"s":82,"g":-14.6,"n":""},"패스트푸드점":{"a":11681,"m":1846,"r":39,"s":284,"g":-1.1,"n":""},"제과점":{"a":6773.5,"m":5364.5,"r":39,"s":147,"g":6.5,"n":""},"기타외국식음식점":{"a":771.4,"m":648.2,"r":39,"s":163,"g":3.2,"n":""},"일식음식점":{"a":6631,"m":5242,"r":39,"s":204,"g":2.5,"n":""},"중식음식점":{"a":1626.6,"m":1128.6,"r":39,"s":138,"g":-0.7,"n":""},"한식음식점":{"a":3327.7,"m":2936.9,"r":39,"s":1530,"g":1.3,"n":""},"식료품가게":{"a":10400,"m":8000,"r":39,"s":162,"g":0.6,"n":""},"과일가게":{"a":30089.9,"m":7837.6,"r":39,"s":56,"g":null,"n":""},"서점":{"a":4601.5,"m":1576.5,"r":39,"s":61,"g":null,"n":""},"생선가게":{"a":83052.1,"m":703.4,"r":39,"s":523,"g":-5.2,"n":"노량진 수산시장 도매 포함"},"곡물가게":{"a":251,"m":251.5,"r":39,"s":8,"g":-11.1,"n":""},"가전제품수리점":{"a":15,"m":15,"r":39,"s":114,"g":6.5,"n":""},"컴퓨터판매점":{"a":10.2,"m":10.2,"r":39,"s":26,"g":null,"n":""},"가전제품판매점":{"a":6500,"m":5000,"r":39,"s":38,"g":8.6,"n":""},"가구점":{"a":11466.4,"m":11465.6,"r":39,"s":20,"g":-9.1,"n":""},"애완용품점":{"a":1537,"m":1208,"r":39,"s":36,"g":-23.4,"n":""},"장난감가게":{"a":2163.5,"m":2163.5,"r":39,"s":17,"g":30.8,"n":""},"신발가게":{"a":10958.8,"m":1252.4,"r":39,"s":18,"g":5.9,"n":""},"pc방":{"a":1900.3,"m":1246,"r":39,"s":42,"g":-6.7,"n":""},"자전거판매점":{"a":1935,"m":1935,"r":39,"s":10,"g":-9.1,"n":""},"부동산중개업":{"a":850,"m":500,"r":39,"s":700,"g":-2,"n":""}},"영등포구":{"실내장식가게":{"a":6020,"m":181,"r":39.5,"s":739,"g":3.5,"n":""},"철물점":{"a":5762,"m":1463,"r":39.5,"s":64,"g":-4.5,"n":""},"가구점":{"a":5218.4,"m":5714.4,"r":39.5,"s":28,"g":null,"n":""},"꽃가게":{"a":2811.5,"m":671.5,"r":39.5,"s":252,"g":-0.8,"n":""},"화장품가게":{"a":5614,"m":2915.6,"r":39.5,"s":290,"g":-4.9,"n":""},"문구점":{"a":3986.3,"m":1589.9,"r":39.5,"s":77,"g":-11.5,"n":""},"서점":{"a":2282,"m":232,"r":39.5,"s":76,"g":1.3,"n":""},"의료용품가게":{"a":22168.7,"m":1053.1,"r":39.5,"s":86,"g":11.7,"n":""},"약국":{"a":24244.9,"m":10723.1,"r":39.5,"s":288,"g":1.1,"n":""},"시계ㆍ귀금속점":{"a":30698.5,"m":2215.5,"r":39.5,"s":78,"g":null,"n":""},"안경점":{"a":1937.1,"m":772,"r":39.5,"s":96,"g":2.1,"n":""},"신발가게":{"a":37173.2,"m":2653.2,"r":39.5,"s":44,"g":-20,"n":""},"옷가게":{"a":4020.4,"m":575,"r":39.5,"s":526,"g":-8.8,"n":""},"식료품가게":{"a":41187,"m":7321,"r":39.5,"s":316,"g":-3.1,"n":""},"과일가게":{"a":62446,"m":1103.6,"r":39.5,"s":76,"g":16.9,"n":""},"생선가게":{"a":2748.3,"m":2141.7,"r":39.5,"s":32,"g":null,"n":""},"정육점":{"a":11004.1,"m":4865.1,"r":39.5,"s":100,"g":-9.1,"n":""},"곡물가게":{"a":46173.5,"m":4363,"r":39.5,"s":36,"g":null,"n":""},"컴퓨터판매점":{"a":1297.1,"m":327.2,"r":39.5,"s":82,"g":6.5,"n":""},"편의점":{"a":4458.6,"m":2281.7,"r":39.5,"s":424,"g":-2.8,"n":""},"슈퍼마켓":{"a":14728.7,"m":7829.1,"r":39.5,"s":179,"g":-7.2,"n":""},"노래방":{"a":2769.3,"m":1368.3,"r":39.5,"s":275,"g":-2.8,"n":""},"가전제품수리점":{"a":4423.5,"m":1065,"r":39.5,"s":147,"g":2.1,"n":""},"세탁소":{"a":641.4,"m":414.9,"r":39.5,"s":200,"g":4.7,"n":""},"피부관리업":{"a":2295,"m":316,"r":39.5,"s":585,"g":4.8,"n":""},"미용실":{"a":1334.7,"m":912.9,"r":39.5,"s":776,"g":0.3,"n":""},"자동차수리점":{"a":2124.3,"m":764,"r":39.5,"s":287,"g":-1.4,"n":""},"pc방":{"a":1142.9,"m":1468.5,"r":39.5,"s":49,"g":-12.5,"n":""},"실외골프연습장":{"a":12969.5,"m":5695.7,"r":39.5,"s":14,"g":-6.7,"n":""},"당구장":{"a":2352,"m":1047.6,"r":39.5,"s":131,"g":-1.5,"n":""},"한방병원ㆍ한의원":{"a":1461.6,"m":1061.1,"r":39.5,"s":165,"g":5.8,"n":""},"치과의원":{"a":3172.3,"m":1709.4,"r":39.5,"s":232,"g":null,"n":""},"기타일반의원":{"a":60703,"m":39110.5,"r":39.5,"s":47,"g":6.8,"n":""},"스포츠교육기관":{"a":2716.5,"m":1223.5,"r":39.5,"s":355,"g":5.3,"n":""},"예술학원":{"a":565.5,"m":293.4,"r":39.5,"s":250,"g":2,"n":""},"교습소ㆍ공부방":{"a":1835.4,"m":757.3,"r":39.5,"s":353,"g":-1.9,"n":""},"커피음료점":{"a":1953.3,"m":486.9,"r":39.5,"s":885,"g":-0.6,"n":""},"호프주점":{"a":6869,"m":2273.1,"r":39.5,"s":282,"g":-5.4,"n":""},"분식점":{"a":1098.1,"m":514.8,"r":39.5,"s":403,"g":-1,"n":""},"기타음식점":{"a":1464,"m":583,"r":39.5,"s":149,"g":-13.9,"n":""},"패스트푸드점":{"a":9917,"m":3209,"r":39.5,"s":390,"g":-0.3,"n":""},"제과점":{"a":6288.5,"m":2583.3,"r":39.5,"s":215,"g":8.6,"n":""},"중식음식점":{"a":2671.9,"m":816.7,"r":39.5,"s":544,"g":-4.1,"n":""},"한식음식점":{"a":3239.2,"m":1405.2,"r":39.5,"s":3113,"g":-0.3,"n":""},"휴대폰가게":{"a":14243,"m":1618,"r":39.5,"s":148,"g":-3.3,"n":""},"여관ㆍ모텔":{"a":8751.2,"m":2007.2,"r":39.5,"s":115,"g":-5.7,"n":""},"부동산중개업":{"a":2170,"m":2000,"r":39.5,"s":1700,"g":-1.6,"n":""},"애완용품점":{"a":2006,"m":688,"r":39.5,"s":59,"g":-6.3,"n":""},"헬스클럽":{"a":2283.6,"m":798.9,"r":39.5,"s":169,"g":11.2,"n":""},"자전거판매점":{"a":2537.5,"m":1898,"r":39.5,"s":20,"g":-9.1,"n":""},"기타외국식음식점":{"a":1884.9,"m":215.6,"r":39.5,"s":363,"g":-1.4,"n":""},"일식음식점":{"a":12473.5,"m":1121.5,"r":39.5,"s":415,"g":6.4,"n":""},"교습학원":{"a":2194.5,"m":2031,"r":39.5,"s":352,"g":0.3,"n":""},"통신판매업":{"a":3.2,"m":2.4,"r":39.5,"s":7421,"g":1.3,"n":""},"가전제품판매점":{"a":1170,"m":912.5,"r":39.5,"s":80,"g":-8.1,"n":""},"스포츠용품점":{"a":3185.1,"m":1242.7,"r":39.5,"s":79,"g":1.3,"n":""},"장난감가게":{"a":729.5,"m":729.5,"r":39.5,"s":35,"g":29.6,"n":""}},"금천구":{"실내장식가게":{"a":10294,"m":917,"r":31.4,"s":702,"g":6.2,"n":""},"철물점":{"a":2059.5,"m":681.5,"r":31.4,"s":37,"g":null,"n":""},"가구점":{"a":11472,"m":4987.2,"r":31.4,"s":22,"g":null,"n":""},"옷가게":{"a":67232.4,"m":893.3,"r":31.4,"s":304,"g":-7.9,"n":""},"화장품가게":{"a":24735.6,"m":1162,"r":31.4,"s":195,"g":1,"n":""},"문구점":{"a":15785.9,"m":636.8,"r":31.4,"s":53,"g":-3.6,"n":""},"의료용품가게":{"a":6763.7,"m":173.9,"r":31.4,"s":59,"g":9.3,"n":""},"약국":{"a":12002.7,"m":6171.3,"r":31.4,"s":144,"g":5.1,"n":""},"시계ㆍ귀금속점":{"a":4642,"m":1534.5,"r":31.4,"s":25,"g":-3.9,"n":""},"안경점":{"a":3651,"m":2532.4,"r":31.4,"s":35,"g":-2.8,"n":""},"식료품가게":{"a":28413.5,"m":1686.5,"r":31.4,"s":160,"g":-1.2,"n":""},"과일가게":{"a":5882,"m":3126.6,"r":31.4,"s":48,"g":-7.7,"n":""},"생선가게":{"a":9497,"m":2254.6,"r":31.4,"s":24,"g":26.3,"n":""},"정육점":{"a":98921.3,"m":10920.1,"r":31.4,"s":86,"g":-1.1,"n":"가산 도매유통단지 영향"},"편의점":{"a":4730.3,"m":2470.0,"r":31.4,"s":278,"g":-2.5,"n":""},"슈퍼마켓":{"a":12603.9,"m":10588.4,"r":31.4,"s":95,"g":null,"n":""},"노래방":{"a":3291.6,"m":2283,"r":31.4,"s":159,"g":-2.5,"n":""},"세탁소":{"a":550.5,"m":494.1,"r":31.4,"s":135,"g":0.8,"n":""},"피부관리업":{"a":1056,"m":196,"r":31.4,"s":263,"g":5.2,"n":""},"미용실":{"a":987.3,"m":844.8,"r":31.4,"s":487,"g":-0.2,"n":""},"자동차수리점":{"a":2809.9,"m":2037,"r":31.4,"s":201,"g":3.1,"n":""},"헬스클럽":{"a":5000.1,"m":733.2,"r":31.4,"s":74,"g":5.7,"n":""},"pc방":{"a":1142.1,"m":945.2,"r":31.4,"s":27,"g":-15.6,"n":""},"당구장":{"a":1587.2,"m":760.4,"r":31.4,"s":76,"g":1.3,"n":""},"한방병원ㆍ한의원":{"a":1952,"m":1204.6,"r":31.4,"s":79,"g":2.6,"n":""},"치과의원":{"a":5103.7,"m":2373.6,"r":31.4,"s":109,"g":0.9,"n":""},"기타일반의원":{"a":74877.9,"m":56290.3,"r":31.4,"s":18,"g":5.9,"n":""},"스포츠교육기관":{"a":2101,"m":1645,"r":31.4,"s":126,"g":0.8,"n":""},"예술학원":{"a":392,"m":202.6,"r":31.4,"s":110,"g":null,"n":""},"교습소ㆍ공부방":{"a":1329.5,"m":974.9,"r":31.4,"s":141,"g":-2.8,"n":""},"커피음료점":{"a":1255.7,"m":150.8,"r":31.4,"s":466,"g":-1.5,"n":""},"호프주점":{"a":3234,"m":2282.6,"r":31.4,"s":145,"g":-5.8,"n":""},"분식점":{"a":1383.5,"m":352.4,"r":31.4,"s":228,"g":-11.3,"n":""},"기타음식점":{"a":1378.7,"m":761.9,"r":31.4,"s":78,"g":-7.1,"n":""},"패스트푸드점":{"a":5053,"m":1133,"r":31.4,"s":219,"g":0.9,"n":""},"제과점":{"a":5415,"m":3680.5,"r":31.4,"s":87,"g":10.1,"n":""},"일식음식점":{"a":7184.5,"m":1331.5,"r":31.4,"s":123,"g":0.8,"n":""},"중식음식점":{"a":1819,"m":357.9,"r":31.4,"s":192,"g":null,"n":""},"한식음식점":{"a":2062.3,"m":876.3,"r":31.4,"s":1656,"g":-1.7,"n":""},"애완용품점":{"a":1384,"m":1421,"r":31.4,"s":54,"g":-12.9,"n":""},"꽃가게":{"a":1756,"m":1335,"r":31.4,"s":66,"g":-7,"n":""},"스포츠용품점":{"a":2159.9,"m":179.5,"r":31.4,"s":83,"g":-6.7,"n":""},"컴퓨터판매점":{"a":47.8,"m":47.8,"r":31.4,"s":93,"g":9.4,"n":""},"서점":{"a":3741.5,"m":1591.5,"r":31.4,"s":41,"g":-8.9,"n":""},"신발가게":{"a":16942.8,"m":1995.6,"r":31.4,"s":29,"g":-6.5,"n":""},"곡물가게":{"a":5011.5,"m":5000,"r":31.4,"s":18,"g":-14.3,"n":""},"휴대폰가게":{"a":122,"m":107,"r":31.4,"s":135,"g":2.3,"n":""},"여관ㆍ모텔":{"a":10400,"m":8000,"r":31.4,"s":30,"g":-6.2,"n":""},"실외골프연습장":{"a":11222.7,"m":6733.7,"r":31.4,"s":4,"g":null,"n":""},"가전제품판매점":{"a":6500,"m":5000,"r":31.4,"s":57,"g":3.6,"n":""},"부동산중개업":{"a":500,"m":300,"r":31.4,"s":970,"g":-3.3,"n":""},"장난감가게":{"a":3695.5,"m":3000,"r":31.4,"s":23,"g":76.9,"n":""},"가전제품수리점":{"a":150,"m":150,"r":31.4,"s":131,"g":20.2,"n":""},"기타외국식음식점":{"a":863,"m":863,"r":31.4,"s":106,"g":-10.9,"n":""},"통신판매업":{"a":6.4,"m":6.4,"r":31.4,"s":5790,"g":10.1,"n":""},"자전거판매점":{"a":2710.5,"m":2711,"r":31.4,"s":4,"g":null,"n":""}},"구로구":{"교습소ㆍ공부방":{"a":1347.3,"m":1096.2,"r":55.6,"s":358,"g":7.8,"n":""},"커피음료점":{"a":988.9,"m":506.4,"r":55.6,"s":501,"g":-4.6,"n":""},"실내장식가게":{"a":67677,"m":7077,"r":55.6,"s":698,"g":1.6,"n":""},"철물점":{"a":5355,"m":1344.5,"r":55.6,"s":62,"g":3.3,"n":""},"꽃가게":{"a":2164.5,"m":1172.5,"r":55.6,"s":121,"g":1.7,"n":""},"문구점":{"a":3261.9,"m":435.9,"r":55.6,"s":57,"g":-6.6,"n":""},"서점":{"a":5200,"m":4000,"r":55.6,"s":62,"g":3.3,"n":""},"약국":{"a":10976.5,"m":6819.7,"r":55.6,"s":202,"g":2,"n":""},"옷가게":{"a":1028.5,"m":357.5,"r":55.6,"s":469,"g":-4.5,"n":""},"과일가게":{"a":5936.4,"m":2781.6,"r":55.6,"s":66,"g":null,"n":""},"생선가게":{"a":7078,"m":3886.2,"r":55.6,"s":30,"g":-6.2,"n":""},"정육점":{"a":6362.9,"m":4400,"r":55.6,"s":109,"g":-0.9,"n":""},"휴대폰가게":{"a":6705,"m":2111,"r":55.6,"s":285,"g":2.9,"n":""},"편의점":{"a":3312.7,"m":2037.1,"r":55.6,"s":320,"g":-2.7,"n":""},"슈퍼마켓":{"a":17181,"m":14904.3,"r":55.6,"s":143,"g":-5.3,"n":""},"노래방":{"a":2398.2,"m":1510.2,"r":55.6,"s":243,"g":-7.2,"n":""},"가전제품수리점":{"a":1746,"m":556.5,"r":55.6,"s":152,"g":4.1,"n":""},"세탁소":{"a":685.5,"m":484.5,"r":55.6,"s":170,"g":1.2,"n":""},"피부관리업":{"a":1210,"m":607,"r":55.6,"s":453,"g":5.1,"n":""},"미용실":{"a":1016.4,"m":834.9,"r":55.6,"s":752,"g":-0.3,"n":""},"자동차수리점":{"a":1722.1,"m":1290.2,"r":55.6,"s":236,"g":3.5,"n":""},"pc방":{"a":3058.1,"m":3072.7,"r":55.6,"s":39,"g":-11.4,"n":""},"당구장":{"a":1103.2,"m":1180.4,"r":55.6,"s":98,"g":-7.5,"n":""},"한방병원ㆍ한의원":{"a":1858.5,"m":1843.1,"r":55.6,"s":122,"g":3.4,"n":""},"치과의원":{"a":4138.4,"m":4174.6,"r":55.6,"s":175,"g":-0.6,"n":""},"기타일반의원":{"a":51916,"m":48248.6,"r":55.6,"s":40,"g":2.6,"n":""},"스포츠교육기관":{"a":2397.5,"m":2028.5,"r":55.6,"s":228,"g":1.3,"n":""},"예술학원":{"a":566.9,"m":451.5,"r":55.6,"s":208,"g":-2.4,"n":""},"호프주점":{"a":2656.3,"m":1513.2,"r":55.6,"s":279,"g":-6.7,"n":""},"분식점":{"a":1187,"m":714.6,"r":55.6,"s":326,"g":null,"n":""},"기타음식점":{"a":1223.6,"m":988,"r":55.6,"s":79,"g":-10.2,"n":""},"패스트푸드점":{"a":7126,"m":2916,"r":55.6,"s":307,"g":-2.5,"n":""},"제과점":{"a":5645.5,"m":5257.3,"r":55.6,"s":136,"g":-0.7,"n":""},"중식음식점":{"a":1213.7,"m":337.4,"r":55.6,"s":346,"g":-1.4,"n":""},"한식음식점":{"a":2310.7,"m":1336.1,"r":55.6,"s":1987,"g":-2.2,"n":""},"가구점":{"a":40411.2,"m":9785.6,"r":55.6,"s":23,"g":-8,"n":""},"자전거판매점":{"a":6759.5,"m":1568.5,"r":55.6,"s":15,"g":-6.2,"n":""},"화장품가게":{"a":3312,"m":706.4,"r":55.6,"s":242,"g":-9.7,"n":""},"시계ㆍ귀금속점":{"a":4471,"m":1325.5,"r":55.6,"s":44,"g":2.3,"n":""},"안경점":{"a":2074.8,"m":1413.6,"r":55.6,"s":70,"g":-2.8,"n":""},"식료품가게":{"a":6238.5,"m":4755,"r":55.6,"s":278,"g":-8.2,"n":""},"헬스클럽":{"a":2641.5,"m":1354.8,"r":55.6,"s":105,"g":1.9,"n":""},"실외골프연습장":{"a":25148.5,"m":2775.1,"r":55.6,"s":12,"g":-20,"n":""},"교습학원":{"a":3280.5,"m":1194,"r":55.6,"s":339,"g":2.7,"n":""},"기타외국식음식점":{"a":561.2,"m":417.1,"r":55.6,"s":120,"g":-11.8,"n":""},"일식음식점":{"a":6803.5,"m":3311.5,"r":55.6,"s":164,"g":2.5,"n":""},"스포츠용품점":{"a":4669.4,"m":367.4,"r":55.6,"s":50,"g":-20.6,"n":""},"의료용품가게":{"a":876.4,"m":305.3,"r":55.6,"s":62,"g":-3.1,"n":""},"곡물가게":{"a":6500,"m":5000,"r":55.6,"s":25,"g":-3.9,"n":""},"여관ㆍ모텔":{"a":10400,"m":8000,"r":55.6,"s":41,"g":-4.7,"n":""},"통신판매업":{"a":6.4,"m":5.6,"r":55.6,"s":6371,"g":4.6,"n":""},"가전제품판매점":{"a":5625.5,"m":262,"r":55.6,"s":60,"g":9.1,"n":""},"애완용품점":{"a":144,"m":144,"r":55.6,"s":53,"g":1.9,"n":""},"신발가게":{"a":1762.4,"m":1117.2,"r":55.6,"s":32,"g":-5.9,"n":""},"컴퓨터판매점":{"a":29377.8,"m":6658.7,"r":55.6,"s":67,"g":8.1,"n":""},"장난감가게":{"a":3900,"m":3000,"r":55.6,"s":24,"g":-11.1,"n":""},"부동산중개업":{"a":700,"m":400,"r":55.6,"s":900,"g":-2.5,"n":""}},"강서구":{"통신판매업":{"a":12,"m":3.2,"r":31,"s":9511,"g":5.1,"n":""},"애완용품점":{"a":589,"m":320,"r":31,"s":139,"g":4.5,"n":""},"스포츠용품점":{"a":3753.6,"m":367,"r":31,"s":81,"g":-2.4,"n":""},"화장품가게":{"a":8472,"m":2098,"r":31,"s":386,"g":-5.8,"n":""},"약국":{"a":9057.6,"m":5376.8,"r":31,"s":297,"g":1.7,"n":""},"시계ㆍ귀금속점":{"a":5030,"m":2190.5,"r":31,"s":66,"g":8.2,"n":""},"옷가게":{"a":3830.1,"m":550.9,"r":31,"s":549,"g":-5.7,"n":""},"식료품가게":{"a":29542,"m":5824.5,"r":31,"s":242,"g":3.4,"n":""},"정육점":{"a":9827.1,"m":2291.3,"r":31,"s":167,"g":null,"n":""},"휴대폰가게":{"a":3071.5,"m":967,"r":31,"s":175,"g":10.1,"n":""},"편의점":{"a":4505.4,"m":3024.7,"r":31,"s":481,"g":-3.8,"n":""},"슈퍼마켓":{"a":9886,"m":8103.1,"r":31,"s":191,"g":0.5,"n":""},"노래방":{"a":2582.4,"m":2056.8,"r":31,"s":276,"g":-3.2,"n":""},"세탁소":{"a":1001.4,"m":890.7,"r":31,"s":303,"g":2,"n":""},"피부관리업":{"a":820,"m":481,"r":31,"s":943,"g":6.1,"n":""},"미용실":{"a":1011,"m":938.1,"r":31,"s":1129,"g":-0.1,"n":""},"한방병원ㆍ한의원":{"a":1785.6,"m":1742.3,"r":31,"s":216,"g":2.4,"n":""},"치과의원":{"a":4180.6,"m":3828.5,"r":31,"s":248,"g":-0.8,"n":""},"기타일반의원":{"a":54683,"m":37892.6,"r":31,"s":56,"g":5.7,"n":""},"스포츠교육기관":{"a":2323.5,"m":1261,"r":31,"s":429,"g":4.9,"n":""},"예술학원":{"a":671.7,"m":299.4,"r":31,"s":346,"g":-2,"n":""},"교습소ㆍ공부방":{"a":1780.5,"m":799.1,"r":31,"s":600,"g":3.8,"n":""},"커피음료점":{"a":755.9,"m":507.9,"r":31,"s":841,"g":null,"n":""},"호프주점":{"a":4736.3,"m":2355.4,"r":31,"s":202,"g":-1.9,"n":""},"분식점":{"a":824,"m":718.5,"r":31,"s":466,"g":-7.2,"n":""},"기타음식점":{"a":1496.4,"m":1080.7,"r":31,"s":123,"g":-13.4,"n":""},"패스트푸드점":{"a":5800,"m":2853,"r":31,"s":387,"g":-4,"n":""},"제과점":{"a":6485.8,"m":4397.5,"r":31,"s":260,"g":0.4,"n":""},"일식음식점":{"a":2388,"m":1413.5,"r":31,"s":370,"g":0.5,"n":""},"중식음식점":{"a":978.4,"m":835,"r":31,"s":253,"g":2,"n":""},"한식음식점":{"a":2089,"m":1657.3,"r":31,"s":2860,"g":-1.8,"n":""},"실내장식가게":{"a":6941,"m":1204,"r":31,"s":995,"g":1.3,"n":""},"철물점":{"a":2707.5,"m":607,"r":31,"s":67,"g":null,"n":""},"가전제품판매점":{"a":10934.5,"m":2624.5,"r":31,"s":76,"g":-8.4,"n":""},"꽃가게":{"a":1062.5,"m":736,"r":31,"s":202,"g":null,"n":""},"서점":{"a":8852,"m":577,"r":31,"s":83,"g":1.2,"n":""},"의료용품가게":{"a":3972.4,"m":1355.7,"r":31,"s":87,"g":-6.5,"n":""},"신발가게":{"a":1570.8,"m":1018.8,"r":31,"s":29,"g":-3.3,"n":""},"생선가게":{"a":54163.3,"m":6034.8,"r":31,"s":60,"g":-3.2,"n":""},"여관ㆍ모텔":{"a":14380.8,"m":7451.2,"r":31,"s":72,"g":-4,"n":""},"가전제품수리점":{"a":1053,"m":837,"r":31,"s":223,"g":14.4,"n":""},"자동차수리점":{"a":3722.4,"m":2066.4,"r":31,"s":375,"g":0.8,"n":""},"헬스클럽":{"a":2020.2,"m":1749.3,"r":31,"s":238,"g":7.7,"n":""},"실외골프연습장":{"a":8331.6,"m":2211.9,"r":31,"s":11,"g":-8.3,"n":""},"당구장":{"a":1487.6,"m":1092,"r":31,"s":160,"g":0.6,"n":""},"가구점":{"a":8564.8,"m":3113.6,"r":31,"s":39,"g":-2.5,"n":""},"자전거판매점":{"a":5129,"m":1838.5,"r":31,"s":18,"g":-5.3,"n":""},"문구점":{"a":4746,"m":1415.8,"r":31,"s":84,"g":2.4,"n":""},"안경점":{"a":2199.1,"m":1549.8,"r":31,"s":91,"g":1.1,"n":""},"과일가게":{"a":5182.1,"m":3307,"r":31,"s":91,"g":null,"n":""},"곡물가게":{"a":6500,"m":5000,"r":31,"s":19,"g":-5,"n":""},"컴퓨터판매점":{"a":8205.8,"m":428.2,"r":31,"s":74,"g":1.4,"n":""},"교습학원":{"a":895.5,"m":372,"r":31,"s":612,"g":-1.1,"n":""},"기타외국식음식점":{"a":272.3,"m":145.9,"r":31,"s":304,"g":3,"n":""},"pc방":{"a":1023.6,"m":1017,"r":31,"s":56,"g":-8.2,"n":""},"부동산중개업":{"a":650,"m":400,"r":31,"s":1640,"g":-1.9,"n":""},"장난감가게":{"a":3900,"m":3000,"r":31,"s":44,"g":33.3,"n":""}},"양천구":{"화장품가게":{"a":3241.2,"m":2278.8,"r":40.4,"s":186,"g":-14.3,"n":""},"서점":{"a":5703.5,"m":927,"r":40.4,"s":95,"g":3.3,"n":""},"약국":{"a":8457.6,"m":6353.1,"r":40.4,"s":199,"g":2,"n":""},"시계ㆍ귀금속점":{"a":2602.5,"m":990,"r":40.4,"s":54,"g":3.9,"n":""},"안경점":{"a":2004,"m":1452.1,"r":40.4,"s":78,"g":-6,"n":""},"옷가게":{"a":942.7,"m":536.9,"r":40.4,"s":410,"g":-6.6,"n":""},"식료품가게":{"a":6742.5,"m":2209,"r":40.4,"s":174,"g":-2.2,"n":""},"정육점":{"a":4904,"m":2774.9,"r":40.4,"s":154,"g":-1.9,"n":""},"휴대폰가게":{"a":1705.5,"m":352.5,"r":40.4,"s":91,"g":-8.1,"n":""},"편의점":{"a":4212.7,"m":3914.3,"r":40.4,"s":251,"g":-4.2,"n":""},"슈퍼마켓":{"a":10550.2,"m":7911.9,"r":40.4,"s":150,"g":-1.3,"n":""},"노래방":{"a":2629.8,"m":2288.7,"r":40.4,"s":188,"g":-4.6,"n":""},"세탁소":{"a":721.5,"m":541.5,"r":40.4,"s":189,"g":-2.6,"n":""},"피부관리업":{"a":1680,"m":1159,"r":40.4,"s":409,"g":1.7,"n":""},"미용실":{"a":1096.5,"m":964.8,"r":40.4,"s":854,"g":0.7,"n":""},"자동차수리점":{"a":1943.6,"m":1405.1,"r":40.4,"s":235,"g":-2.1,"n":""},"헬스클럽":{"a":3797.1,"m":1888.2,"r":40.4,"s":137,"g":5.4,"n":""},"pc방":{"a":3757.3,"m":2967,"r":40.4,"s":36,"g":9.1,"n":""},"실외골프연습장":{"a":3782.7,"m":2507.8,"r":40.4,"s":13,"g":null,"n":""},"당구장":{"a":2442.4,"m":1351.6,"r":40.4,"s":101,"g":-1.9,"n":""},"한방병원ㆍ한의원":{"a":1526.9,"m":878.2,"r":40.4,"s":164,"g":0.6,"n":""},"치과의원":{"a":4280.7,"m":3238,"r":40.4,"s":197,"g":4.2,"n":""},"기타일반의원":{"a":45429.8,"m":29909.7,"r":40.4,"s":53,"g":12.8,"n":""},"스포츠교육기관":{"a":4337,"m":2419,"r":40.4,"s":345,"g":2.4,"n":""},"예술학원":{"a":1437.9,"m":586.1,"r":40.4,"s":278,"g":-1.1,"n":""},"교습학원":{"a":1495.5,"m":817.5,"r":40.4,"s":959,"g":0.3,"n":""},"교습소ㆍ공부방":{"a":4495.9,"m":1611.7,"r":40.4,"s":854,"g":-1.2,"n":""},"커피음료점":{"a":884.3,"m":473.9,"r":40.4,"s":451,"g":-2.2,"n":""},"호프주점":{"a":5024,"m":2275.7,"r":40.4,"s":111,"g":-9.8,"n":""},"분식점":{"a":934.7,"m":770,"r":40.4,"s":291,"g":-8.2,"n":""},"기타음식점":{"a":1756.6,"m":1390.2,"r":40.4,"s":86,"g":-5.5,"n":""},"패스트푸드점":{"a":7295,"m":5511,"r":40.4,"s":288,"g":-2.4,"n":""},"제과점":{"a":4526.8,"m":2838.5,"r":40.4,"s":172,"g":2.4,"n":""},"일식음식점":{"a":3444.5,"m":1924,"r":40.4,"s":156,"g":-1.9,"n":""},"중식음식점":{"a":1044.1,"m":807.3,"r":40.4,"s":138,"g":-2.8,"n":""},"한식음식점":{"a":2205.3,"m":1688,"r":40.4,"s":1432,"g":-3.6,"n":""},"문구점":{"a":2308.8,"m":530.8,"r":40.4,"s":70,"g":-11.4,"n":""},"과일가게":{"a":7212.6,"m":6108.1,"r":40.4,"s":55,"g":-6.8,"n":""},"통신판매업":{"a":16.8,"m":5.6,"r":40.4,"s":5326,"g":5.2,"n":""},"실내장식가게":{"a":2755,"m":999,"r":40.4,"s":656,"g":5.6,"n":""},"철물점":{"a":5703.5,"m":1890,"r":40.4,"s":55,"g":null,"n":""},"가구점":{"a":17079.2,"m":14744.8,"r":40.4,"s":29,"g":3.6,"n":""},"꽃가게":{"a":1171.5,"m":1031,"r":40.4,"s":134,"g":0.8,"n":""},"자전거판매점":{"a":3900,"m":3000,"r":40.4,"s":24,"g":9.1,"n":""},"스포츠용품점":{"a":2560,"m":1819.8,"r":40.4,"s":55,"g":-9.8,"n":""},"의료용품가게":{"a":1020.3,"m":1276,"r":40.4,"s":52,"g":-1.9,"n":""},"신발가게":{"a":3049.6,"m":2640.8,"r":40.4,"s":15,"g":-16.7,"n":""},"컴퓨터판매점":{"a":747.9,"m":169.9,"r":40.4,"s":29,"g":-17.1,"n":""},"여관ㆍ모텔":{"a":3612.8,"m":1155.2,"r":40.4,"s":10,"g":11.1,"n":""},"가전제품수리점":{"a":2428.5,"m":495,"r":40.4,"s":156,"g":7.6,"n":""},"기타외국식음식점":{"a":233.1,"m":247.8,"r":40.4,"s":155,"g":4,"n":""},"가전제품판매점":{"a":2116,"m":2424.5,"r":40.4,"s":45,"g":-2.2,"n":""},"애완용품점":{"a":1047,"m":1031,"r":40.4,"s":72,"g":1.4,"n":""},"생선가게":{"a":5304.5,"m":2732,"r":40.4,"s":41,"g":-2.4,"n":""},"곡물가게":{"a":6500,"m":5000,"r":40.4,"s":24,"g":null,"n":""},"부동산중개업":{"a":780,"m":450,"r":40.4,"s":800,"g":-1.8,"n":""}},"마포구":{"꽃가게":{"a":2377.5,"m":756,"r":51.7,"s":281,"g":8.5,"n":""},"화장품가게":{"a":4361.6,"m":1009.6,"r":51.7,"s":288,"g":-3.4,"n":""},"문구점":{"a":10933,"m":445.4,"r":51.7,"s":100,"g":6.4,"n":""},"약국":{"a":7818.1,"m":6402.3,"r":51.7,"s":225,"g":6.1,"n":""},"안경점":{"a":2512.1,"m":897.1,"r":51.7,"s":96,"g":4.3,"n":""},"옷가게":{"a":4156.2,"m":673.6,"r":51.7,"s":628,"g":-4.4,"n":""},"식료품가게":{"a":11419.5,"m":7016.5,"r":51.7,"s":166,"g":3.1,"n":""},"과일가게":{"a":18502.6,"m":10721.3,"r":51.7,"s":36,"g":-10,"n":""},"정육점":{"a":9311.4,"m":4191.9,"r":51.7,"s":83,"g":3.8,"n":""},"컴퓨터판매점":{"a":6337,"m":1081,"r":51.7,"s":46,"g":4.5,"n":""},"편의점":{"a":4708.4,"m":2932.3,"r":51.7,"s":451,"g":-1.7,"n":""},"슈퍼마켓":{"a":8989.3,"m":5983.2,"r":51.7,"s":146,"g":1.4,"n":""},"노래방":{"a":3642,"m":2026.8,"r":51.7,"s":174,"g":-3.3,"n":""},"세탁소":{"a":860.4,"m":1002.3,"r":51.7,"s":208,"g":2.5,"n":""},"피부관리업":{"a":1857,"m":720,"r":51.7,"s":837,"g":9.7,"n":""},"미용실":{"a":1752.6,"m":763.5,"r":51.7,"s":1112,"g":3.6,"n":""},"헬스클럽":{"a":3818.7,"m":3260.4,"r":51.7,"s":165,"g":4.4,"n":""},"실외골프연습장":{"a":3663.1,"m":3433.9,"r":51.7,"s":12,"g":9.1,"n":""},"당구장":{"a":1360.8,"m":1222,"r":51.7,"s":116,"g":-4.9,"n":""},"한방병원ㆍ한의원":{"a":2523.7,"m":1317.5,"r":51.7,"s":153,"g":-5.6,"n":""},"치과의원":{"a":4588.3,"m":3952.3,"r":51.7,"s":196,"g":-4.4,"n":""},"기타일반의원":{"a":87377.4,"m":67044.2,"r":51.7,"s":37,"g":null,"n":""},"스포츠교육기관":{"a":1599.5,"m":1020.5,"r":51.7,"s":413,"g":7.8,"n":""},"예술학원":{"a":1733.7,"m":447.5,"r":51.7,"s":410,"g":-0.2,"n":""},"교습학원":{"a":2137.5,"m":1054.5,"r":51.7,"s":479,"g":1.9,"n":""},"교습소ㆍ공부방":{"a":1702.2,"m":1129.4,"r":51.7,"s":454,"g":1.8,"n":""},"커피음료점":{"a":1653.4,"m":572.1,"r":51.7,"s":1342,"g":-6.9,"n":""},"호프주점":{"a":8746.2,"m":3773.6,"r":51.7,"s":268,"g":-5.3,"n":""},"분식점":{"a":1298.9,"m":848.4,"r":51.7,"s":468,"g":-7.1,"n":""},"기타음식점":{"a":1057.3,"m":554.9,"r":51.7,"s":202,"g":-2.9,"n":""},"패스트푸드점":{"a":8361,"m":2557,"r":51.7,"s":363,"g":-0.8,"n":""},"제과점":{"a":2776,"m":2111.8,"r":51.7,"s":418,"g":6.4,"n":""},"기타외국식음식점":{"a":1343.7,"m":559.3,"r":51.7,"s":943,"g":-2.1,"n":""},"일식음식점":{"a":7900,"m":3825.5,"r":51.7,"s":713,"g":-1.1,"n":""},"중식음식점":{"a":2063.8,"m":959.8,"r":51.7,"s":294,"g":null,"n":""},"한식음식점":{"a":2688.4,"m":1627.3,"r":51.7,"s":3038,"g":-1.8,"n":""},"실내장식가게":{"a":5410,"m":1179,"r":51.7,"s":857,"g":-0.5,"n":""},"철물점":{"a":18625.5,"m":1261.5,"r":51.7,"s":45,"g":-6.2,"n":""},"가전제품판매점":{"a":366.5,"m":366.5,"r":51.7,"s":49,"g":6.5,"n":""},"애완용품점":{"a":2659,"m":1526,"r":51.7,"s":83,"g":15.3,"n":""},"자전거판매점":{"a":3900,"m":3000,"r":51.7,"s":21,"g":-4.5,"n":""},"서점":{"a":4393.5,"m":686.5,"r":51.7,"s":124,"g":6,"n":""},"시계ㆍ귀금속점":{"a":6640.5,"m":2036,"r":51.7,"s":47,"g":11.9,"n":""},"휴대폰가게":{"a":5745,"m":535.5,"r":51.7,"s":102,"g":6.2,"n":""},"자동차수리점":{"a":1289.6,"m":732.5,"r":51.7,"s":157,"g":3.3,"n":""},"통신판매업":{"a":221.6,"m":44,"r":51.7,"s":7984,"g":1.1,"n":""},"곡물가게":{"a":6500,"m":5000,"r":51.7,"s":18,"g":-14.3,"n":""},"여관ㆍ모텔":{"a":7519.2,"m":2693.6,"r":51.7,"s":25,"g":-21.9,"n":""},"장난감가게":{"a":3239,"m":3000,"r":51.7,"s":63,"g":43.2,"n":""},"pc방":{"a":1801.6,"m":963.7,"r":51.7,"s":30,"g":null,"n":""},"가구점":{"a":23142.4,"m":23142.4,"r":51.7,"s":38,"g":-7.3,"n":""},"스포츠용품점":{"a":4152.1,"m":3353.4,"r":51.7,"s":58,"g":-3.3,"n":""},"생선가게":{"a":2801.7,"m":2771.3,"r":51.7,"s":43,"g":2.4,"n":""},"의료용품가게":{"a":26816.9,"m":10247.6,"r":51.7,"s":45,"g":2.3,"n":""},"신발가게":{"a":18861.2,"m":199.6,"r":51.7,"s":28,"g":-9.7,"n":""},"가전제품수리점":{"a":2499,"m":375,"r":51.7,"s":117,"g":14.7,"n":""},"부동산중개업":{"a":2200,"m":1460,"r":51.7,"s":1525,"g":-0.8,"n":""}},"서대문구":{"실내장식가게":{"a":4446,"m":1082,"r":40.9,"s":418,"g":-0.9,"n":""},"철물점":{"a":3498.5,"m":3266.5,"r":40.9,"s":36,"g":null,"n":""},"가전제품판매점":{"a":14870,"m":3249.5,"r":40.9,"s":40,"g":null,"n":""},"꽃가게":{"a":4091,"m":926.5,"r":40.9,"s":132,"g":2.3,"n":""},"화장품가게":{"a":3412,"m":1243.6,"r":40.9,"s":137,"g":-4.2,"n":""},"문구점":{"a":909.3,"m":220,"r":40.9,"s":50,"g":6.4,"n":""},"약국":{"a":10218.2,"m":5418.1,"r":40.9,"s":165,"g":-0.6,"n":""},"시계ㆍ귀금속점":{"a":10796.5,"m":1955.5,"r":40.9,"s":34,"g":3,"n":""},"안경점":{"a":2147.2,"m":1235.6,"r":40.9,"s":59,"g":-3.3,"n":""},"옷가게":{"a":1023.4,"m":427.3,"r":40.9,"s":288,"g":-6.8,"n":""},"식료품가게":{"a":10400,"m":8000,"r":40.9,"s":126,"g":-7.3,"n":""},"과일가게":{"a":57390.9,"m":9924,"r":40.9,"s":31,"g":-8.8,"n":""},"정육점":{"a":10747.9,"m":2638.5,"r":40.9,"s":74,"g":-5.1,"n":""},"휴대폰가게":{"a":3091,"m":1490.5,"r":40.9,"s":52,"g":-7.1,"n":""},"편의점":{"a":3432.9,"m":2174.0,"r":40.9,"s":257,"g":-4.8,"n":""},"슈퍼마켓":{"a":7061.3,"m":3910.7,"r":40.9,"s":94,"g":-6.9,"n":""},"노래방":{"a":2732.7,"m":1738.5,"r":40.9,"s":88,"g":-6.4,"n":""},"가전제품수리점":{"a":844.5,"m":840,"r":40.9,"s":86,"g":-3.4,"n":""},"세탁소":{"a":785.7,"m":489.9,"r":40.9,"s":142,"g":-1.4,"n":""},"피부관리업":{"a":2270,"m":707,"r":40.9,"s":237,"g":2.2,"n":""},"미용실":{"a":1311.6,"m":575.1,"r":40.9,"s":577,"g":-0.2,"n":""},"자동차수리점":{"a":1896,"m":814.6,"r":40.9,"s":121,"g":-0.8,"n":""},"헬스클럽":{"a":4682.1,"m":782.7,"r":40.9,"s":92,"g":2.2,"n":""},"pc방":{"a":3749.7,"m":2284.7,"r":40.9,"s":34,"g":-2.9,"n":""},"실외골프연습장":{"a":5331.4,"m":7621.3,"r":40.9,"s":6,"g":null,"n":""},"당구장":{"a":1717.6,"m":1556.8,"r":40.9,"s":76,"g":-1.3,"n":""},"한방병원ㆍ한의원":{"a":1205.8,"m":867.3,"r":40.9,"s":92,"g":null,"n":""},"치과의원":{"a":3509.1,"m":2125.2,"r":40.9,"s":133,"g":2.3,"n":""},"기타일반의원":{"a":59555.3,"m":42053.8,"r":40.9,"s":24,"g":9.1,"n":""},"스포츠교육기관":{"a":2107.5,"m":780.5,"r":40.9,"s":199,"g":3.1,"n":""},"예술학원":{"a":456.6,"m":327.8,"r":40.9,"s":164,"g":3.8,"n":""},"교습소ㆍ공부방":{"a":2345.8,"m":1514.2,"r":40.9,"s":338,"g":8,"n":""},"커피음료점":{"a":1575.9,"m":266.2,"r":40.9,"s":464,"g":-4.7,"n":""},"호프주점":{"a":6242.8,"m":2863.3,"r":40.9,"s":88,"g":-8.3,"n":""},"분식점":{"a":1052.3,"m":673.9,"r":40.9,"s":314,"g":-4,"n":""},"기타음식점":{"a":670.7,"m":515.5,"r":40.9,"s":148,"g":-2.6,"n":""},"패스트푸드점":{"a":8444,"m":4929,"r":40.9,"s":217,"g":-6.1,"n":""},"제과점":{"a":3375,"m":2957.5,"r":40.9,"s":160,"g":-3,"n":""},"기타외국식음식점":{"a":958.8,"m":325,"r":40.9,"s":234,"g":-1.7,"n":""},"일식음식점":{"a":6087,"m":1799,"r":40.9,"s":195,"g":-2.5,"n":""},"중식음식점":{"a":2071.6,"m":487.3,"r":40.9,"s":156,"g":-3.1,"n":""},"한식음식점":{"a":2121.1,"m":1530.7,"r":40.9,"s":1735,"g":2.4,"n":""},"애완용품점":{"a":1012,"m":991,"r":40.9,"s":49,"g":4.3,"n":""},"서점":{"a":2207.5,"m":816,"r":40.9,"s":73,"g":-7.6,"n":""},"신발가게":{"a":765.2,"m":374,"r":40.9,"s":22,"g":-8.3,"n":""},"생선가게":{"a":11092.8,"m":10012,"r":40.9,"s":29,"g":-3.3,"n":""},"곡물가게":{"a":6500,"m":5000,"r":40.9,"s":15,"g":-16.7,"n":""},"가구점":{"a":34595.2,"m":34167.2,"r":40.9,"s":49,"g":null,"n":""},"여관ㆍ모텔":{"a":5892,"m":365.6,"r":40.9,"s":59,"g":-13.2,"n":""},"교습학원":{"a":1719,"m":934.5,"r":40.9,"s":324,"g":2.5,"n":""},"컴퓨터판매점":{"a":163.4,"m":163.4,"r":40.9,"s":13,"g":null,"n":""},"의료용품가게":{"a":735.1,"m":735.1,"r":40.9,"s":21,"g":-4.5,"n":""},"자전거판매점":{"a":3900,"m":3000,"r":40.9,"s":6,"g":-14.3,"n":""},"스포츠용품점":{"a":11043.7,"m":11043.7,"r":40.9,"s":23,"g":null,"n":""},"독서실":{"a":4.9,"m":4.9,"r":40.9,"s":65,"g":-9.7,"n":""},"부동산중개업":{"a":850,"m":500,"r":40.9,"s":700,"g":-2,"n":""}},"은평구":{"통신판매업":{"a":11.2,"m":11.2,"r":42,"s":6122,"g":0.1,"n":""},"애완용품점":{"a":1640,"m":238,"r":42,"s":90,"g":-9.1,"n":""},"꽃가게":{"a":1160.5,"m":388,"r":42,"s":125,"g":0.8,"n":""},"스포츠용품점":{"a":5542.5,"m":468.6,"r":42,"s":54,"g":-20.6,"n":""},"화장품가게":{"a":1150.4,"m":598.4,"r":42,"s":238,"g":-10.2,"n":""},"약국":{"a":7394.1,"m":8423.3,"r":42,"s":238,"g":1.7,"n":""},"옷가게":{"a":1334.6,"m":465.2,"r":42,"s":505,"g":-9.7,"n":""},"식료품가게":{"a":10400,"m":8000,"r":42,"s":177,"g":2.9,"n":""},"정육점":{"a":6498,"m":3590.4,"r":42,"s":131,"g":3.1,"n":""},"편의점":{"a":3847.5,"m":3737.4,"r":42,"s":313,"g":-6.8,"n":""},"슈퍼마켓":{"a":12110.6,"m":9650.7,"r":42,"s":121,"g":null,"n":""},"가전제품수리점":{"a":760.5,"m":307.5,"r":42,"s":231,"g":7.9,"n":""},"세탁소":{"a":708,"m":595.5,"r":42,"s":208,"g":-4.2,"n":""},"피부관리업":{"a":1217,"m":553,"r":42,"s":415,"g":1.5,"n":""},"미용실":{"a":1027.8,"m":963,"r":42,"s":944,"g":-0.4,"n":""},"헬스클럽":{"a":1877.1,"m":711.3,"r":42,"s":108,"g":null,"n":""},"한방병원ㆍ한의원":{"a":1691.4,"m":1006.9,"r":42,"s":164,"g":4.5,"n":""},"치과의원":{"a":3901,"m":2288.1,"r":42,"s":195,"g":-1.5,"n":""},"기타일반의원":{"a":42825.2,"m":25070.9,"r":42,"s":42,"g":5,"n":""},"스포츠교육기관":{"a":2214.5,"m":1360,"r":42,"s":267,"g":0.8,"n":""},"예술학원":{"a":720.6,"m":380.9,"r":42,"s":235,"g":-6.4,"n":""},"교습학원":{"a":1081.5,"m":480,"r":42,"s":467,"g":1.5,"n":""},"교습소ㆍ공부방":{"a":1479,"m":894,"r":42,"s":502,"g":2.9,"n":""},"커피음료점":{"a":629.4,"m":595,"r":42,"s":476,"g":-4.6,"n":""},"호프주점":{"a":4456.4,"m":4016.9,"r":42,"s":164,"g":-13.7,"n":""},"분식점":{"a":852.8,"m":815.1,"r":42,"s":349,"g":-6.9,"n":""},"기타음식점":{"a":958,"m":745.3,"r":42,"s":93,"g":-13.9,"n":""},"제과점":{"a":4948,"m":3812,"r":42,"s":181,"g":7.7,"n":""},"기타외국식음식점":{"a":631.6,"m":382.6,"r":42,"s":168,"g":-5.1,"n":""},"일식음식점":{"a":3688.5,"m":1341.5,"r":42,"s":168,"g":-3.5,"n":""},"중식음식점":{"a":1384,"m":1457.3,"r":42,"s":134,"g":-2.9,"n":""},"한식음식점":{"a":1963.6,"m":2037.9,"r":42,"s":1899,"g":-2.5,"n":""},"철물점":{"a":3870,"m":3020,"r":42,"s":62,"g":-10.1,"n":""},"가구점":{"a":10522.4,"m":2904.8,"r":42,"s":38,"g":2.7,"n":""},"시계ㆍ귀금속점":{"a":2355.5,"m":1350.5,"r":42,"s":54,"g":-3.6,"n":""},"안경점":{"a":1751.1,"m":1237.5,"r":42,"s":75,"g":-2.6,"n":""},"휴대폰가게":{"a":228.5,"m":11.5,"r":42,"s":114,"g":-4.2,"n":""},"노래방":{"a":2091,"m":1780.5,"r":42,"s":161,"g":-5.8,"n":""},"여관ㆍ모텔":{"a":8267.2,"m":7077.6,"r":42,"s":43,"g":-10.4,"n":""},"자동차수리점":{"a":2019.5,"m":2194.1,"r":42,"s":167,"g":-5.1,"n":""},"패스트푸드점":{"a":4602,"m":2440,"r":42,"s":312,"g":-3.1,"n":""},"실내장식가게":{"a":5025,"m":1207,"r":42,"s":682,"g":2.9,"n":""},"과일가게":{"a":4275.9,"m":3593.4,"r":42,"s":62,"g":1.6,"n":""},"당구장":{"a":1661.6,"m":1254.4,"r":42,"s":111,"g":-2.6,"n":""},"문구점":{"a":7273,"m":1190.6,"r":42,"s":45,"g":-6.2,"n":""},"서점":{"a":1810.5,"m":910.5,"r":42,"s":74,"g":1.4,"n":""},"신발가게":{"a":4311.2,"m":2107.2,"r":42,"s":41,"g":-4.7,"n":""},"생선가게":{"a":2648,"m":897.1,"r":42,"s":43,"g":null,"n":""},"자전거판매점":{"a":1856,"m":1856,"r":42,"s":16,"g":null,"n":""},"곡물가게":{"a":9635,"m":3885,"r":42,"s":24,"g":-14.3,"n":""},"컴퓨터판매점":{"a":110.4,"m":89.5,"r":42,"s":35,"g":-16.7,"n":""},"pc방":{"a":1961.6,"m":1630.4,"r":42,"s":39,"g":-13.3,"n":""},"의료용품가게":{"a":539.3,"m":188,"r":42,"s":55,"g":-5.2,"n":""},"실외골프연습장":{"a":3949.5,"m":1235.2,"r":42,"s":5,"g":-16.7,"n":""},"가전제품판매점":{"a":358.5,"m":358.5,"r":42,"s":43,"g":null,"n":""},"부동산중개업":{"a":600,"m":350,"r":42,"s":850,"g":-2.5,"n":""}},"노원구":{"화장품가게":{"a":3386.8,"m":945.6,"r":24.8,"s":229,"g":-14.2,"n":""},"서점":{"a":4024.5,"m":3607.5,"r":24.8,"s":86,"g":-3.4,"n":""},"의료용품가게":{"a":1579.4,"m":423.3,"r":24.8,"s":64,"g":-1.5,"n":""},"옷가게":{"a":5724.1,"m":476.7,"r":24.8,"s":461,"g":-9.8,"n":""},"휴대폰가게":{"a":931.5,"m":528,"r":24.8,"s":111,"g":-2.6,"n":""},"슈퍼마켓":{"a":15216.9,"m":12141.7,"r":24.8,"s":120,"g":-7.7,"n":""},"세탁소":{"a":1086,"m":429,"r":24.8,"s":162,"g":-1.2,"n":""},"피부관리업":{"a":1200,"m":578,"r":24.8,"s":474,"g":2.4,"n":""},"미용실":{"a":1345.2,"m":708,"r":24.8,"s":820,"g":1,"n":""},"치과의원":{"a":4854.3,"m":2277.9,"r":24.8,"s":203,"g":0.5,"n":""},"기타일반의원":{"a":70388.3,"m":44288.3,"r":24.8,"s":47,"g":2.2,"n":""},"스포츠교육기관":{"a":2746,"m":2298.5,"r":24.8,"s":312,"g":-2.5,"n":""},"예술학원":{"a":1035.1,"m":624.1,"r":24.8,"s":246,"g":-4.3,"n":""},"교습학원":{"a":1698,"m":829.5,"r":24.8,"s":591,"g":-5.1,"n":""},"교습소ㆍ공부방":{"a":1676.5,"m":621,"r":24.8,"s":824,"g":3.9,"n":""},"커피음료점":{"a":1093.6,"m":607.2,"r":24.8,"s":537,"g":-1.5,"n":""},"호프주점":{"a":3600,"m":1773.6,"r":24.8,"s":186,"g":-5.1,"n":""},"분식점":{"a":869.4,"m":726.9,"r":24.8,"s":372,"g":-5.8,"n":""},"중식음식점":{"a":1078.2,"m":939.4,"r":24.8,"s":151,"g":2,"n":""},"한식음식점":{"a":2402.5,"m":1253.7,"r":24.8,"s":1784,"g":-1.4,"n":""},"꽃가게":{"a":1470.5,"m":1039.5,"r":24.8,"s":123,"g":null,"n":""},"문구점":{"a":2357.3,"m":1095.8,"r":24.8,"s":69,"g":-11.5,"n":""},"약국":{"a":8654.2,"m":6401.6,"r":24.8,"s":236,"g":-1.3,"n":""},"안경점":{"a":1911.7,"m":1432,"r":24.8,"s":82,"g":3.8,"n":""},"식료품가게":{"a":17188,"m":4774,"r":24.8,"s":193,"g":-4,"n":""},"과일가게":{"a":2396.2,"m":1713.9,"r":24.8,"s":60,"g":1.7,"n":""},"정육점":{"a":3389.8,"m":3190.6,"r":24.8,"s":109,"g":-2.7,"n":""},"편의점":{"a":3082.0,"m":3530.4,"r":24.8,"s":299,"g":-3.5,"n":""},"한방병원ㆍ한의원":{"a":2268.6,"m":782.1,"r":24.8,"s":151,"g":-1.3,"n":""},"기타음식점":{"a":1454.7,"m":1123.1,"r":24.8,"s":116,"g":-2.5,"n":""},"패스트푸드점":{"a":7489,"m":5841,"r":24.8,"s":333,"g":0.9,"n":""},"제과점":{"a":4834,"m":3658.8,"r":24.8,"s":187,"g":-1.1,"n":""},"기타외국식음식점":{"a":900.7,"m":267.3,"r":24.8,"s":160,"g":-3,"n":""},"철물점":{"a":7856.5,"m":1416,"r":24.8,"s":49,"g":-2,"n":""},"시계ㆍ귀금속점":{"a":5784.5,"m":1291,"r":24.8,"s":42,"g":-10.6,"n":""},"노래방":{"a":2346.3,"m":2325.9,"r":24.8,"s":218,"g":-4,"n":""},"헬스클럽":{"a":3183,"m":1583.1,"r":24.8,"s":126,"g":3.3,"n":""},"pc방":{"a":4057.3,"m":3092.2,"r":24.8,"s":47,"g":6.8,"n":""},"애완용품점":{"a":2520,"m":1125,"r":24.8,"s":74,"g":2.8,"n":""},"생선가게":{"a":1435.1,"m":633.3,"r":24.8,"s":27,"g":null,"n":""},"컴퓨터판매점":{"a":6987,"m":1498,"r":24.8,"s":38,"g":-5,"n":""},"여관ㆍ모텔":{"a":11837.6,"m":3249.6,"r":24.8,"s":23,"g":null,"n":""},"자동차수리점":{"a":1893.5,"m":1624.4,"r":24.8,"s":184,"g":-0.5,"n":""},"실외골프연습장":{"a":2106.2,"m":2245.9,"r":24.8,"s":23,"g":-11.5,"n":""},"당구장":{"a":1998.8,"m":1758.8,"r":24.8,"s":123,"g":null,"n":""},"일식음식점":{"a":3478.5,"m":2695.5,"r":24.8,"s":199,"g":8.7,"n":""},"통신판매업":{"a":37.6,"m":32.8,"r":24.8,"s":5828,"g":0.7,"n":""},"실내장식가게":{"a":3811,"m":295,"r":24.8,"s":655,"g":1.7,"n":""},"자전거판매점":{"a":2725.5,"m":2101.5,"r":24.8,"s":23,"g":null,"n":""},"가전제품수리점":{"a":687,"m":771,"r":24.8,"s":211,"g":8.2,"n":""},"신발가게":{"a":2039.6,"m":658,"r":24.8,"s":30,"g":-14.3,"n":""},"곡물가게":{"a":6500,"m":5000,"r":24.8,"s":17,"g":-5.6,"n":""},"가전제품판매점":{"a":11174.5,"m":1756.5,"r":24.8,"s":37,"g":null,"n":""},"가구점":{"a":13554.4,"m":1672,"r":24.8,"s":38,"g":null,"n":""},"스포츠용품점":{"a":37.4,"m":21.9,"r":24.8,"s":47,"g":6.8,"n":""},"장난감가게":{"a":1837,"m":1837,"r":24.8,"s":20,"g":-4.8,"n":""},"부동산중개업":{"a":600,"m":350,"r":24.8,"s":1200,"g":-2.8,"n":""}},"도봉구":{"의료용품가게":{"a":23191.5,"m":4119.1,"r":31,"s":28,"g":7.7,"n":""},"약국":{"a":15876.2,"m":9353,"r":31,"s":126,"g":-1.6,"n":""},"안경점":{"a":1058.6,"m":824.3,"r":31,"s":50,"g":null,"n":""},"옷가게":{"a":1253.7,"m":402.4,"r":31,"s":539,"g":-5.3,"n":""},"식료품가게":{"a":9903.5,"m":2955,"r":31,"s":153,"g":-1.9,"n":""},"컴퓨터판매점":{"a":186.6,"m":187,"r":31,"s":15,"g":-11.8,"n":""},"편의점":{"a":3646.9,"m":3749.9,"r":31,"s":225,"g":-3,"n":""},"슈퍼마켓":{"a":12805.1,"m":10700.8,"r":31,"s":92,"g":-1.1,"n":""},"노래방":{"a":2340.9,"m":2035.8,"r":31,"s":152,"g":-3.2,"n":""},"세탁소":{"a":503.4,"m":360.3,"r":31,"s":120,"g":-1.6,"n":""},"미용실":{"a":890.4,"m":741.6,"r":31,"s":598,"g":-0.7,"n":""},"자동차수리점":{"a":3141.4,"m":1087.7,"r":31,"s":161,"g":1.9,"n":""},"헬스클럽":{"a":1404.9,"m":861.6,"r":31,"s":78,"g":4,"n":""},"당구장":{"a":1693.6,"m":1318.4,"r":31,"s":100,"g":-2,"n":""},"한방병원ㆍ한의원":{"a":2345.4,"m":1455.4,"r":31,"s":87,"g":2.4,"n":""},"치과의원":{"a":5843.2,"m":3735.1,"r":31,"s":107,"g":-0.9,"n":""},"기타일반의원":{"a":65310.4,"m":39203,"r":31,"s":21,"g":-4.5,"n":""},"스포츠교육기관":{"a":3431,"m":2154.5,"r":31,"s":163,"g":null,"n":""},"예술학원":{"a":1204.2,"m":910.6,"r":31,"s":107,"g":-6.1,"n":""},"교습소ㆍ공부방":{"a":1871.8,"m":941.3,"r":31,"s":335,"g":1.2,"n":""},"커피음료점":{"a":724.3,"m":477.7,"r":31,"s":324,"g":-1.2,"n":""},"호프주점":{"a":2163.1,"m":1303.6,"r":31,"s":146,"g":-7,"n":""},"분식점":{"a":1040.7,"m":681.2,"r":31,"s":210,"g":-9.9,"n":""},"기타음식점":{"a":1740.7,"m":1239.9,"r":31,"s":52,"g":-7.1,"n":""},"제과점":{"a":7917,"m":3527.8,"r":31,"s":103,"g":-3.7,"n":""},"중식음식점":{"a":1262.4,"m":1119.1,"r":31,"s":80,"g":2.6,"n":""},"한식음식점":{"a":1987,"m":1693,"r":31,"s":1235,"g":-0.4,"n":""},"실내장식가게":{"a":4550,"m":982,"r":31,"s":597,"g":2.8,"n":""},"철물점":{"a":11269.5,"m":2260,"r":31,"s":39,"g":null,"n":""},"애완용품점":{"a":3250,"m":2500,"r":31,"s":55,"g":-3.5,"n":""},"꽃가게":{"a":507,"m":573,"r":31,"s":69,"g":null,"n":""},"화장품가게":{"a":1917.6,"m":881.2,"r":31,"s":139,"g":-1.4,"n":""},"문구점":{"a":2523.8,"m":773.8,"r":31,"s":30,"g":-14.3,"n":""},"시계ㆍ귀금속점":{"a":2816.5,"m":2308,"r":31,"s":37,"g":null,"n":""},"신발가게":{"a":481.2,"m":481.2,"r":31,"s":20,"g":5.3,"n":""},"과일가게":{"a":7165.7,"m":2800.4,"r":31,"s":43,"g":10.3,"n":""},"생선가게":{"a":4913.7,"m":1161.2,"r":31,"s":27,"g":-6.9,"n":""},"정육점":{"a":6608.6,"m":3993.1,"r":31,"s":95,"g":-1,"n":""},"곡물가게":{"a":6500,"m":5000,"r":31,"s":15,"g":7.1,"n":""},"피부관리업":{"a":1829,"m":1311,"r":31,"s":281,"g":4.8,"n":""},"패스트푸드점":{"a":7657,"m":4394,"r":31,"s":187,"g":null,"n":""},"통신판매업":{"a":4,"m":4,"r":31,"s":4098,"g":1.3,"n":""},"가전제품판매점":{"a":15768.5,"m":1792,"r":31,"s":31,"g":-6.1,"n":""},"가구점":{"a":8699.2,"m":8627.2,"r":31,"s":17,"g":13.3,"n":""},"자전거판매점":{"a":478.5,"m":478.5,"r":31,"s":10,"g":null,"n":""},"스포츠용품점":{"a":5202.5,"m":533.2,"r":31,"s":89,"g":-5.3,"n":""},"서점":{"a":12895,"m":1482.5,"r":31,"s":39,"g":-9.3,"n":""},"휴대폰가게":{"a":836,"m":616.5,"r":31,"s":114,"g":4.6,"n":""},"여관ㆍ모텔":{"a":9213.6,"m":2103.2,"r":31,"s":16,"g":6.7,"n":""},"가전제품수리점":{"a":99,"m":66,"r":31,"s":159,"g":7.4,"n":""},"pc방":{"a":4516.7,"m":4560.9,"r":31,"s":25,"g":-19.4,"n":""},"실외골프연습장":{"a":7391.2,"m":1982.9,"r":31,"s":4,"g":-20,"n":""},"기타외국식음식점":{"a":185.4,"m":184.7,"r":31,"s":70,"g":-5.4,"n":""},"일식음식점":{"a":4388,"m":3330,"r":31,"s":92,"g":-8.9,"n":""},"교습학원":{"a":216,"m":39,"r":31,"s":249,"g":-1.2,"n":""},"부동산중개업":{"a":520,"m":300,"r":31,"s":600,"g":-3,"n":""}},"강북구":{"실내장식가게":{"a":8824,"m":9073,"r":39.7,"s":625,"g":0.6,"n":""},"철물점":{"a":910,"m":652,"r":39.7,"s":45,"g":-4.3,"n":""},"가구점":{"a":16150.4,"m":5442.4,"r":39.7,"s":26,"g":13,"n":""},"애완용품점":{"a":823,"m":467,"r":39.7,"s":62,"g":8.8,"n":""},"꽃가게":{"a":1142.5,"m":505.5,"r":39.7,"s":71,"g":-4,"n":""},"옷가게":{"a":2249.7,"m":602.1,"r":39.7,"s":347,"g":-4.7,"n":""},"스포츠용품점":{"a":758.6,"m":685.9,"r":39.7,"s":35,"g":null,"n":""},"화장품가게":{"a":3506,"m":2840.4,"r":39.7,"s":138,"g":-4.2,"n":""},"문구점":{"a":498.8,"m":174.2,"r":39.7,"s":33,"g":-8.3,"n":""},"의료용품가게":{"a":1073.1,"m":885.2,"r":39.7,"s":42,"g":-14.3,"n":""},"약국":{"a":11124.7,"m":9597.5,"r":39.7,"s":169,"g":0.6,"n":""},"식료품가게":{"a":5692,"m":2848,"r":39.7,"s":157,"g":-3.1,"n":""},"과일가게":{"a":24898.7,"m":9043.1,"r":39.7,"s":45,"g":-10,"n":""},"정육점":{"a":8937.9,"m":5024.3,"r":39.7,"s":100,"g":-2,"n":""},"곡물가게":{"a":6500,"m":5000,"r":39.7,"s":18,"g":null,"n":""},"휴대폰가게":{"a":2703.5,"m":212,"r":39.7,"s":99,"g":1,"n":""},"편의점":{"a":3702.5,"m":3050.2,"r":39.7,"s":236,"g":-2.5,"n":""},"슈퍼마켓":{"a":14924.7,"m":13430.9,"r":39.7,"s":93,"g":2.2,"n":""},"노래방":{"a":2158.5,"m":1105.8,"r":39.7,"s":247,"g":-2,"n":""},"여관ㆍ모텔":{"a":5847.2,"m":3995.2,"r":39.7,"s":102,"g":-6.4,"n":""},"세탁소":{"a":491.7,"m":588,"r":39.7,"s":120,"g":-0.8,"n":""},"미용실":{"a":890.4,"m":600.3,"r":39.7,"s":688,"g":1.9,"n":""},"자동차수리점":{"a":1908.3,"m":1514.2,"r":39.7,"s":166,"g":1.2,"n":""},"헬스클럽":{"a":2862.9,"m":1055.7,"r":39.7,"s":67,"g":13.6,"n":""},"당구장":{"a":1812,"m":566.4,"r":39.7,"s":100,"g":3.1,"n":""},"한방병원ㆍ한의원":{"a":2236.9,"m":1824.8,"r":39.7,"s":92,"g":null,"n":""},"치과의원":{"a":5188.4,"m":3359.9,"r":39.7,"s":121,"g":-6.2,"n":""},"기타일반의원":{"a":98733,"m":82873.3,"r":39.7,"s":21,"g":5,"n":""},"스포츠교육기관":{"a":1966.5,"m":1605.5,"r":39.7,"s":146,"g":3.5,"n":""},"예술학원":{"a":486,"m":440.4,"r":39.7,"s":81,"g":-9,"n":""},"교습소ㆍ공부방":{"a":955.7,"m":842.7,"r":39.7,"s":248,"g":-0.8,"n":""},"커피음료점":{"a":798.1,"m":487.7,"r":39.7,"s":386,"g":-9,"n":""},"호프주점":{"a":4275.6,"m":1004.4,"r":39.7,"s":209,"g":-8.3,"n":""},"분식점":{"a":766.6,"m":579.6,"r":39.7,"s":252,"g":-3.8,"n":""},"기타음식점":{"a":1042.4,"m":944.6,"r":39.7,"s":77,"g":-1.3,"n":""},"패스트푸드점":{"a":4023,"m":2824,"r":39.7,"s":202,"g":3.6,"n":""},"제과점":{"a":5744.5,"m":4831.3,"r":39.7,"s":85,"g":-7.6,"n":""},"기타외국식음식점":{"a":454.4,"m":140.4,"r":39.7,"s":116,"g":-1.7,"n":""},"중식음식점":{"a":889.3,"m":716.9,"r":39.7,"s":118,"g":4.4,"n":""},"한식음식점":{"a":2175,"m":1691.7,"r":39.7,"s":1689,"g":-1.9,"n":""},"통신판매업":{"a":68,"m":48,"r":39.7,"s":3933,"g":0.1,"n":""},"생선가게":{"a":13314.1,"m":7391.3,"r":39.7,"s":36,"g":12.5,"n":""},"일식음식점":{"a":2818,"m":1553.5,"r":39.7,"s":144,"g":4.3,"n":""},"서점":{"a":4648.5,"m":1188.5,"r":39.7,"s":50,"g":null,"n":""},"시계ㆍ귀금속점":{"a":45070.5,"m":2876.5,"r":39.7,"s":40,"g":8.1,"n":""},"안경점":{"a":2395.2,"m":1861.9,"r":39.7,"s":42,"g":-2.3,"n":""},"신발가게":{"a":24810.8,"m":3122,"r":39.7,"s":38,"g":-5,"n":""},"컴퓨터판매점":{"a":189.6,"m":139.1,"r":39.7,"s":35,"g":9.4,"n":""},"가전제품수리점":{"a":603,"m":600,"r":39.7,"s":161,"g":1.9,"n":""},"피부관리업":{"a":869,"m":316,"r":39.7,"s":366,"g":3.7,"n":""},"pc방":{"a":1913.6,"m":1384,"r":39.7,"s":40,"g":-4.8,"n":""},"실외골프연습장":{"a":18038.5,"m":1747.3,"r":39.7,"s":1,"g":null,"n":""},"가전제품판매점":{"a":6500,"m":5000,"r":39.7,"s":30,"g":-14.3,"n":""},"장난감가게":{"a":750,"m":750,"r":39.7,"s":15,"g":null,"n":""},"교습학원":{"a":10.5,"m":10.5,"r":39.7,"s":152,"g":-4.4,"n":""},"부동산중개업":{"a":480,"m":280,"r":39.7,"s":700,"g":-3.2,"n":""}},"성북구":{"실내장식가게":{"a":2884,"m":1265,"r":58.3,"s":609,"g":4.8,"n":""},"철물점":{"a":9648.5,"m":1554.5,"r":58.3,"s":55,"g":12.2,"n":""},"가전제품판매점":{"a":4651.5,"m":658,"r":58.3,"s":50,"g":4.2,"n":""},"가구점":{"a":4390.4,"m":3882.4,"r":58.3,"s":31,"g":-18.4,"n":""},"애완용품점":{"a":1428,"m":577,"r":58.3,"s":54,"g":-10,"n":""},"꽃가게":{"a":1472,"m":804,"r":58.3,"s":134,"g":null,"n":""},"옷가게":{"a":1102.7,"m":618.2,"r":58.3,"s":438,"g":-2.7,"n":""},"자전거판매점":{"a":3900,"m":3000,"r":58.3,"s":9,"g":null,"n":""},"화장품가게":{"a":2325.6,"m":602.8,"r":58.3,"s":183,"g":-3.2,"n":""},"문구점":{"a":1595.2,"m":192.4,"r":58.3,"s":67,"g":-6.9,"n":""},"서점":{"a":4276.5,"m":3071,"r":58.3,"s":68,"g":11.5,"n":""},"의료용품가게":{"a":441.5,"m":372.3,"r":58.3,"s":38,"g":8.6,"n":""},"약국":{"a":7987.5,"m":7608.4,"r":58.3,"s":211,"g":1.9,"n":""},"시계ㆍ귀금속점":{"a":2758.5,"m":1543,"r":58.3,"s":45,"g":4.7,"n":""},"안경점":{"a":1463.5,"m":754.3,"r":58.3,"s":83,"g":-1.2,"n":""},"신발가게":{"a":12395.6,"m":2070.8,"r":58.3,"s":23,"g":-4.2,"n":""},"식료품가게":{"a":5983.5,"m":1518,"r":58.3,"s":175,"g":-5.4,"n":""},"과일가게":{"a":1895.9,"m":902.9,"r":58.3,"s":48,"g":null,"n":""},"생선가게":{"a":9255.8,"m":3763.3,"r":58.3,"s":26,"g":-13.3,"n":""},"정육점":{"a":3707.8,"m":2697,"r":58.3,"s":106,"g":-1.9,"n":""},"휴대폰가게":{"a":2017,"m":368,"r":58.3,"s":78,"g":-1.3,"n":""},"편의점":{"a":3321.9,"m":2750.9,"r":58.3,"s":287,"g":-1.4,"n":""},"슈퍼마켓":{"a":9668.9,"m":7662.8,"r":58.3,"s":123,"g":null,"n":""},"노래방":{"a":3309.6,"m":1101.9,"r":58.3,"s":122,"g":-4.7,"n":""},"여관ㆍ모텔":{"a":8018.4,"m":4740.8,"r":58.3,"s":43,"g":-4.4,"n":""},"세탁소":{"a":640.2,"m":486.9,"r":58.3,"s":200,"g":-2.9,"n":""},"피부관리업":{"a":1119,"m":563,"r":58.3,"s":393,"g":6.2,"n":""},"미용실":{"a":1285.8,"m":990.6,"r":58.3,"s":794,"g":1,"n":""},"자동차수리점":{"a":1974.6,"m":1110.7,"r":58.3,"s":162,"g":-4.7,"n":""},"헬스클럽":{"a":4987.8,"m":2711.1,"r":58.3,"s":103,"g":13.2,"n":""},"pc방":{"a":1596.1,"m":1087.9,"r":58.3,"s":34,"g":-5.6,"n":""},"실외골프연습장":{"a":4993.7,"m":3704,"r":58.3,"s":4,"g":-20,"n":""},"당구장":{"a":1915.6,"m":1302,"r":58.3,"s":93,"g":1.1,"n":""},"한방병원ㆍ한의원":{"a":1913.4,"m":1067.1,"r":58.3,"s":124,"g":-0.8,"n":""},"치과의원":{"a":3713.7,"m":3175.6,"r":58.3,"s":154,"g":1.3,"n":""},"기타일반의원":{"a":48464.6,"m":41740.8,"r":58.3,"s":36,"g":-2.7,"n":""},"스포츠교육기관":{"a":2289,"m":2349.5,"r":58.3,"s":306,"g":5.9,"n":""},"예술학원":{"a":882.4,"m":430.1,"r":58.3,"s":215,"g":-2.3,"n":""},"교습소ㆍ공부방":{"a":1398.3,"m":774.7,"r":58.3,"s":544,"g":3,"n":""},"커피음료점":{"a":1339.4,"m":614.1,"r":58.3,"s":634,"g":0.8,"n":""},"호프주점":{"a":5163.3,"m":2037,"r":58.3,"s":113,"g":-5.8,"n":""},"분식점":{"a":753.1,"m":388.6,"r":58.3,"s":394,"g":-4.8,"n":""},"기타음식점":{"a":942,"m":784.1,"r":58.3,"s":135,"g":-6.2,"n":""},"패스트푸드점":{"a":10788,"m":6154,"r":58.3,"s":289,"g":-4,"n":""},"제과점":{"a":4178.3,"m":4137.8,"r":58.3,"s":153,"g":3.4,"n":""},"기타외국식음식점":{"a":495.6,"m":232.6,"r":58.3,"s":234,"g":0.4,"n":""},"일식음식점":{"a":3445,"m":2255.5,"r":58.3,"s":171,"g":3.6,"n":""},"중식음식점":{"a":1169.7,"m":732.9,"r":58.3,"s":157,"g":-4.8,"n":""},"한식음식점":{"a":2209.4,"m":1342.2,"r":58.3,"s":1783,"g":-1.3,"n":""},"곡물가게":{"a":6500,"m":5000,"r":58.3,"s":20,"g":-9.1,"n":""},"컴퓨터판매점":{"a":2232.8,"m":2187.3,"r":58.3,"s":24,"g":-7.7,"n":""},"가전제품수리점":{"a":58.5,"m":46.5,"r":58.3,"s":200,"g":12.4,"n":""},"스포츠용품점":{"a":83.9,"m":83.9,"r":58.3,"s":36,"g":null,"n":""},"교습학원":{"a":249,"m":153,"r":58.3,"s":371,"g":3.9,"n":""},"부동산중개업":{"a":600,"m":350,"r":58.3,"s":928,"g":-2.5,"n":""},"장난감가게":{"a":117,"m":117,"r":58.3,"s":19,"g":null,"n":""},"통신판매업":{"a":0.8,"m":0.8,"r":58.3,"s":6268,"g":3.4,"n":""}},"중랑구":{"통신판매업":{"a":41.6,"m":6.4,"r":44.8,"s":6047,"g":4.1,"n":""},"꽃가게":{"a":874,"m":364.5,"r":44.8,"s":101,"g":-8.2,"n":""},"화장품가게":{"a":2794.4,"m":1831.2,"r":44.8,"s":219,"g":-11,"n":""},"문구점":{"a":2935,"m":1133.9,"r":44.8,"s":51,"g":null,"n":""},"서점":{"a":3683,"m":2652.5,"r":44.8,"s":53,"g":6,"n":""},"약국":{"a":11714,"m":8224.6,"r":44.8,"s":194,"g":1.6,"n":""},"시계ㆍ귀금속점":{"a":2352.5,"m":2150.5,"r":44.8,"s":46,"g":-4.2,"n":""},"안경점":{"a":1469.1,"m":1787.4,"r":44.8,"s":71,"g":null,"n":""},"옷가게":{"a":1105.6,"m":775.6,"r":44.8,"s":474,"g":-5.6,"n":""},"식료품가게":{"a":17838,"m":2329.5,"r":44.8,"s":185,"g":-6.6,"n":""},"과일가게":{"a":8252.7,"m":4814.8,"r":44.8,"s":54,"g":null,"n":""},"정육점":{"a":8868.8,"m":5234.8,"r":44.8,"s":143,"g":-2.7,"n":""},"편의점":{"a":3014.3,"m":2334.0,"r":44.8,"s":303,"g":4.5,"n":""},"슈퍼마켓":{"a":15215.1,"m":14538.7,"r":44.8,"s":142,"g":0.7,"n":""},"세탁소":{"a":870.3,"m":703.5,"r":44.8,"s":214,"g":1.4,"n":""},"피부관리업":{"a":797,"m":666,"r":44.8,"s":445,"g":7.2,"n":""},"미용실":{"a":914.4,"m":881.1,"r":44.8,"s":812,"g":0.2,"n":""},"헬스클럽":{"a":1927.8,"m":1632.9,"r":44.8,"s":88,"g":2.3,"n":""},"실외골프연습장":{"a":39367.2,"m":4080.1,"r":44.8,"s":4,"g":null,"n":""},"당구장":{"a":1861.2,"m":1505.2,"r":44.8,"s":116,"g":-4.1,"n":""},"한방병원ㆍ한의원":{"a":1816.5,"m":898.5,"r":44.8,"s":117,"g":-0.8,"n":""},"치과의원":{"a":3537,"m":2440.2,"r":44.8,"s":168,"g":2.4,"n":""},"기타일반의원":{"a":64131,"m":62145.1,"r":44.8,"s":29,"g":null,"n":""},"스포츠교육기관":{"a":2136,"m":1195,"r":44.8,"s":200,"g":-4.3,"n":""},"예술학원":{"a":550.9,"m":339.1,"r":44.8,"s":161,"g":-2.4,"n":""},"교습학원":{"a":1681.5,"m":325.5,"r":44.8,"s":234,"g":1.3,"n":""},"교습소ㆍ공부방":{"a":1641.4,"m":553.3,"r":44.8,"s":265,"g":4.3,"n":""},"커피음료점":{"a":668.3,"m":447.5,"r":44.8,"s":435,"g":-2.7,"n":""},"호프주점":{"a":2119.1,"m":1114.7,"r":44.8,"s":293,"g":-9,"n":""},"분식점":{"a":792,"m":677.9,"r":44.8,"s":343,"g":6.2,"n":""},"기타음식점":{"a":1092.6,"m":1008.7,"r":44.8,"s":75,"g":null,"n":""},"패스트푸드점":{"a":12339,"m":1476,"r":44.8,"s":253,"g":-4.9,"n":""},"제과점":{"a":6317.3,"m":5596,"r":44.8,"s":142,"g":null,"n":""},"일식음식점":{"a":4951.5,"m":2101,"r":44.8,"s":150,"g":2.7,"n":""},"중식음식점":{"a":1117.6,"m":785.2,"r":44.8,"s":111,"g":6.7,"n":""},"한식음식점":{"a":2259.9,"m":1702.5,"r":44.8,"s":1950,"g":-1.7,"n":""},"실내장식가게":{"a":1536,"m":556,"r":44.8,"s":826,"g":2.2,"n":""},"철물점":{"a":3997,"m":887.5,"r":44.8,"s":76,"g":-1.3,"n":""},"애완용품점":{"a":2261,"m":1002,"r":44.8,"s":83,"g":7.8,"n":""},"컴퓨터판매점":{"a":1061.1,"m":713.1,"r":44.8,"s":32,"g":6.7,"n":""},"노래방":{"a":2364,"m":1553.4,"r":44.8,"s":308,"g":-2.2,"n":""},"가전제품수리점":{"a":1401,"m":967.5,"r":44.8,"s":257,"g":4.9,"n":""},"자동차수리점":{"a":1557.7,"m":1321.9,"r":44.8,"s":239,"g":-2.9,"n":""},"pc방":{"a":3836.6,"m":2849.3,"r":44.8,"s":50,"g":-3.9,"n":""},"휴대폰가게":{"a":2040.5,"m":1297.5,"r":44.8,"s":135,"g":null,"n":""},"가전제품판매점":{"a":12473,"m":1168.5,"r":44.8,"s":71,"g":2.9,"n":""},"가구점":{"a":4776,"m":3800.8,"r":44.8,"s":29,"g":-12.1,"n":""},"장난감가게":{"a":3900,"m":3000,"r":44.8,"s":15,"g":7.1,"n":""},"자전거판매점":{"a":3153.5,"m":3000,"r":44.8,"s":20,"g":5.3,"n":""},"스포츠용품점":{"a":915.4,"m":547.3,"r":44.8,"s":46,"g":-9.8,"n":""},"의료용품가게":{"a":1507.6,"m":1659.7,"r":44.8,"s":43,"g":-10.4,"n":""},"신발가게":{"a":52800.4,"m":1889.6,"r":44.8,"s":35,"g":-5.4,"n":""},"생선가게":{"a":4782.3,"m":2937.4,"r":44.8,"s":41,"g":null,"n":""},"곡물가게":{"a":20115.5,"m":3731.5,"r":44.8,"s":36,"g":null,"n":""},"여관ㆍ모텔":{"a":6532.8,"m":2224.8,"r":44.8,"s":73,"g":-5.2,"n":""},"기타외국식음식점":{"a":686.7,"m":94.8,"r":44.8,"s":104,"g":-6.3,"n":""},"부동산중개업":{"a":500,"m":300,"r":44.8,"s":819,"g":-4.4,"n":""}},"동대문구":{"실내장식가게":{"a":17508,"m":441,"r":44.4,"s":552,"g":7.6,"n":""},"꽃가게":{"a":1794,"m":704.5,"r":44.4,"s":108,"g":20,"n":""},"서점":{"a":19069.5,"m":2702,"r":44.4,"s":51,"g":2,"n":""},"약국":{"a":21070.3,"m":10005,"r":44.4,"s":237,"g":6.8,"n":""},"옷가게":{"a":2847.8,"m":957.9,"r":44.4,"s":501,"g":3.7,"n":"동대문 패션몰 도매 포함"},"식료품가게":{"a":40837.5,"m":1637.5,"r":44.4,"s":263,"g":1.1,"n":"동대문 청과물시장 도매 포함"},"정육점":{"a":13908.6,"m":5756.1,"r":44.4,"s":137,"g":-1.4,"n":""},"편의점":{"a":4465.9,"m":3295.0,"r":44.4,"s":312,"g":-2.5,"n":""},"슈퍼마켓":{"a":16000.9,"m":4986.4,"r":44.4,"s":128,"g":-5.2,"n":""},"노래방":{"a":2064,"m":1757.4,"r":44.4,"s":156,"g":-4.3,"n":""},"여관ㆍ모텔":{"a":6322.4,"m":3713.6,"r":44.4,"s":89,"g":-5.3,"n":""},"세탁소":{"a":615.3,"m":751.8,"r":44.4,"s":210,"g":2.4,"n":""},"피부관리업":{"a":635,"m":529,"r":44.4,"s":388,"g":6.3,"n":""},"미용실":{"a":1046.7,"m":683.4,"r":44.4,"s":655,"g":0.8,"n":""},"자동차수리점":{"a":2401.8,"m":1323.7,"r":44.4,"s":247,"g":2.5,"n":""},"치과의원":{"a":3579.3,"m":3002.2,"r":44.4,"s":170,"g":0.6,"n":""},"기타일반의원":{"a":54660.4,"m":49002.9,"r":44.4,"s":33,"g":null,"n":""},"스포츠교육기관":{"a":1529.5,"m":1081.5,"r":44.4,"s":236,"g":3.5,"n":""},"예술학원":{"a":631,"m":312.3,"r":44.4,"s":204,"g":1.5,"n":""},"교습학원":{"a":6816,"m":7119,"r":44.4,"s":340,"g":7.6,"n":""},"교습소ㆍ공부방":{"a":3239.5,"m":1399.4,"r":44.4,"s":288,"g":8.3,"n":""},"커피음료점":{"a":919,"m":609.8,"r":44.4,"s":540,"g":-2.7,"n":""},"호프주점":{"a":3633.7,"m":2833.1,"r":44.4,"s":164,"g":-7.3,"n":""},"분식점":{"a":977,"m":922.8,"r":44.4,"s":342,"g":-10,"n":""},"기타음식점":{"a":1269.6,"m":938.7,"r":44.4,"s":92,"g":-10.7,"n":""},"제과점":{"a":4189.8,"m":3057.8,"r":44.4,"s":154,"g":5.5,"n":""},"중식음식점":{"a":1257.2,"m":1047.7,"r":44.4,"s":205,"g":2.5,"n":""},"한식음식점":{"a":2031.6,"m":1668.4,"r":44.4,"s":2178,"g":0.6,"n":""},"애완용품점":{"a":2889,"m":423,"r":44.4,"s":53,"g":-11.7,"n":""},"화장품가게":{"a":3731.6,"m":512,"r":44.4,"s":184,"g":-8.9,"n":""},"문구점":{"a":3331.6,"m":1869.7,"r":44.4,"s":52,"g":8.3,"n":""},"시계ㆍ귀금속점":{"a":1172,"m":878,"r":44.4,"s":41,"g":null,"n":""},"안경점":{"a":1375.6,"m":741.3,"r":44.4,"s":69,"g":null,"n":""},"과일가게":{"a":291806.1,"m":594.6,"r":44.4,"s":102,"g":3,"n":"동대문 청과물시장 도매 포함"},"헬스클럽":{"a":1938.3,"m":1071.3,"r":44.4,"s":113,"g":3.7,"n":""},"pc방":{"a":2055.3,"m":1445.9,"r":44.4,"s":36,"g":-7.7,"n":""},"당구장":{"a":2479.6,"m":1225.2,"r":44.4,"s":111,"g":null,"n":""},"한방병원ㆍ한의원":{"a":1164.9,"m":815.1,"r":44.4,"s":157,"g":1.9,"n":""},"패스트푸드점":{"a":4577,"m":2497,"r":44.4,"s":271,"g":-3.2,"n":""},"기타외국식음식점":{"a":1106.6,"m":721.3,"r":44.4,"s":191,"g":3.2,"n":""},"일식음식점":{"a":2808.5,"m":862,"r":44.4,"s":177,"g":null,"n":""},"의료용품가게":{"a":3420.5,"m":960.6,"r":44.4,"s":45,"g":28.6,"n":""},"가전제품판매점":{"a":6500,"m":5000,"r":44.4,"s":40,"g":null,"n":""},"휴대폰가게":{"a":2107,"m":122.5,"r":44.4,"s":106,"g":0.9,"n":""},"실외골프연습장":{"a":30560.4,"m":4418,"r":44.4,"s":1,"g":null,"n":""},"철물점":{"a":5808.5,"m":2383.5,"r":44.4,"s":56,"g":1.8,"n":""},"스포츠용품점":{"a":683.9,"m":417.3,"r":44.4,"s":50,"g":null,"n":""},"신발가게":{"a":3362.4,"m":3479.6,"r":44.4,"s":31,"g":-11.4,"n":""},"컴퓨터판매점":{"a":158.8,"m":158.8,"r":44.4,"s":28,"g":null,"n":""},"생선가게":{"a":37101.8,"m":730,"r":44.4,"s":84,"g":7.7,"n":""},"곡물가게":{"a":6500,"m":5000,"r":44.4,"s":34,"g":-10.5,"n":""},"통신판매업":{"a":96.8,"m":41.6,"r":44.4,"s":6714,"g":6.8,"n":""},"가구점":{"a":42028.8,"m":1457.6,"r":44.4,"s":35,"g":12.9,"n":""},"가전제품수리점":{"a":1065,"m":388.5,"r":44.4,"s":133,"g":5.6,"n":""},"자전거판매점":{"a":3900,"m":3000,"r":44.4,"s":14,"g":null,"n":""},"장난감가게":{"a":1461.5,"m":1461.5,"r":44.4,"s":22,"g":29.4,"n":""},"부동산중개업":{"a":780,"m":450,"r":44.4,"s":900,"g":-2,"n":""}},"광진구":{"실내장식가게":{"a":7253,"m":3437,"r":43.4,"s":575,"g":5.1,"n":""},"철물점":{"a":47017,"m":3586,"r":43.4,"s":53,"g":-1.9,"n":""},"가전제품판매점":{"a":31394.5,"m":1200,"r":43.4,"s":54,"g":-1.8,"n":""},"가구점":{"a":88124.8,"m":5824.8,"r":43.4,"s":32,"g":-11.1,"n":""},"꽃가게":{"a":866,"m":485.5,"r":43.4,"s":132,"g":2.3,"n":""},"옷가게":{"a":2387.4,"m":1715.4,"r":43.4,"s":406,"g":-5.8,"n":""},"장난감가게":{"a":3900,"m":3000,"r":43.4,"s":22,"g":37.5,"n":""},"스포츠용품점":{"a":1910.9,"m":166.7,"r":43.4,"s":62,"g":8.8,"n":""},"화장품가게":{"a":2249.6,"m":1821.2,"r":43.4,"s":223,"g":-8.6,"n":""},"문구점":{"a":1319.6,"m":1004.3,"r":43.4,"s":40,"g":-4.8,"n":""},"서점":{"a":3856.5,"m":2909,"r":43.4,"s":55,"g":7.8,"n":""},"의료용품가게":{"a":7187.1,"m":2319,"r":43.4,"s":61,"g":7,"n":""},"약국":{"a":7961.6,"m":7100.6,"r":43.4,"s":197,"g":2.6,"n":""},"시계ㆍ귀금속점":{"a":2794,"m":2199.5,"r":43.4,"s":60,"g":-1.6,"n":""},"안경점":{"a":1564.7,"m":1116.6,"r":43.4,"s":74,"g":1.4,"n":""},"신발가게":{"a":14250.4,"m":3869.2,"r":43.4,"s":34,"g":-15,"n":""},"식료품가게":{"a":8630,"m":6790,"r":43.4,"s":150,"g":-0.7,"n":""},"과일가게":{"a":6079.9,"m":1472.3,"r":43.4,"s":52,"g":2,"n":""},"정육점":{"a":8241.9,"m":5710,"r":43.4,"s":85,"g":1.2,"n":""},"휴대폰가게":{"a":14102.5,"m":2526,"r":43.4,"s":254,"g":0.8,"n":""},"컴퓨터판매점":{"a":15916.8,"m":265.8,"r":43.4,"s":64,"g":1.6,"n":""},"편의점":{"a":4518.1,"m":3878.0,"r":43.4,"s":318,"g":-2.5,"n":""},"슈퍼마켓":{"a":13218.2,"m":7460,"r":43.4,"s":120,"g":3.5,"n":""},"노래방":{"a":2473.2,"m":1621.2,"r":43.4,"s":284,"g":-3.1,"n":""},"여관ㆍ모텔":{"a":8122.4,"m":5356.8,"r":43.4,"s":51,"g":-1.9,"n":""},"가전제품수리점":{"a":243,"m":247.5,"r":43.4,"s":155,"g":23,"n":""},"세탁소":{"a":2549.1,"m":592.8,"r":43.4,"s":205,"g":-1,"n":""},"피부관리업":{"a":712,"m":384,"r":43.4,"s":533,"g":8.1,"n":""},"미용실":{"a":1196.7,"m":966.3,"r":43.4,"s":782,"g":2,"n":""},"자동차수리점":{"a":1778.9,"m":1568.2,"r":43.4,"s":150,"g":-1.3,"n":""},"헬스클럽":{"a":3598.2,"m":1454.4,"r":43.4,"s":127,"g":null,"n":""},"pc방":{"a":2314.1,"m":2102,"r":43.4,"s":54,"g":1.9,"n":""},"실외골프연습장":{"a":9317.3,"m":6227.2,"r":43.4,"s":6,"g":-14.3,"n":""},"당구장":{"a":1634.8,"m":1326,"r":43.4,"s":137,"g":-1.4,"n":""},"한방병원ㆍ한의원":{"a":1783.2,"m":1793.3,"r":43.4,"s":120,"g":-0.8,"n":""},"치과의원":{"a":3648.2,"m":3246.1,"r":43.4,"s":160,"g":2.6,"n":""},"기타일반의원":{"a":69576,"m":59139.2,"r":43.4,"s":37,"g":12.1,"n":""},"스포츠교육기관":{"a":2394.5,"m":1116.5,"r":43.4,"s":258,"g":6.6,"n":""},"예술학원":{"a":1112.1,"m":682.4,"r":43.4,"s":201,"g":4.2,"n":""},"교습학원":{"a":849,"m":558,"r":43.4,"s":345,"g":2.4,"n":""},"교습소ㆍ공부방":{"a":3189.8,"m":956.7,"r":43.4,"s":280,"g":2.6,"n":""},"커피음료점":{"a":1262.4,"m":810.3,"r":43.4,"s":632,"g":1.3,"n":""},"호프주점":{"a":4938.7,"m":2853.7,"r":43.4,"s":216,"g":-10.4,"n":""},"분식점":{"a":1006.7,"m":668.6,"r":43.4,"s":371,"g":-2.9,"n":""},"기타음식점":{"a":1083.5,"m":680.9,"r":43.4,"s":112,"g":-13.2,"n":""},"패스트푸드점":{"a":6070,"m":2523,"r":43.4,"s":298,"g":1.7,"n":""},"제과점":{"a":5292.3,"m":3481,"r":43.4,"s":167,"g":-3.5,"n":""},"기타외국식음식점":{"a":536.4,"m":277.3,"r":43.4,"s":276,"g":6.6,"n":""},"일식음식점":{"a":3728.5,"m":2125,"r":43.4,"s":295,"g":5,"n":""},"중식음식점":{"a":2132.8,"m":1041.8,"r":43.4,"s":239,"g":2.6,"n":""},"한식음식점":{"a":2465.4,"m":2144,"r":43.4,"s":1999,"g":-0.2,"n":""},"애완용품점":{"a":3106,"m":712,"r":43.4,"s":73,"g":4.3,"n":""},"곡물가게":{"a":18740.5,"m":2383,"r":43.4,"s":19,"g":-13.6,"n":""},"자전거판매점":{"a":4241.5,"m":2652.5,"r":43.4,"s":25,"g":4.2,"n":""},"생선가게":{"a":3110.4,"m":2745,"r":43.4,"s":28,"g":null,"n":""},"통신판매업":{"a":14.4,"m":14.4,"r":43.4,"s":6265,"g":7,"n":""},"부동산중개업":{"a":860,"m":500,"r":43.4,"s":800,"g":-1.5,"n":""}},"성동구":{"통신판매업":{"a":75.2,"m":105.6,"r":60.1,"s":5994,"g":2.4,"n":""},"실내장식가게":{"a":1214,"m":244,"r":60.1,"s":513,"g":6.9,"n":""},"애완용품점":{"a":3138,"m":2033,"r":60.1,"s":61,"g":10.9,"n":""},"꽃가게":{"a":1624.5,"m":483.5,"r":60.1,"s":142,"g":2.9,"n":""},"옷가게":{"a":6662.3,"m":1086,"r":60.1,"s":368,"g":-3.9,"n":""},"화장품가게":{"a":5324.4,"m":426.4,"r":60.1,"s":180,"g":-6.2,"n":""},"문구점":{"a":10915.6,"m":3252.7,"r":60.1,"s":40,"g":-18.4,"n":""},"의료용품가게":{"a":8417.7,"m":1530.9,"r":60.1,"s":39,"g":21.9,"n":""},"약국":{"a":6150.5,"m":3478.6,"r":60.1,"s":167,"g":3.1,"n":""},"시계ㆍ귀금속점":{"a":5221.5,"m":2621,"r":60.1,"s":35,"g":-7.9,"n":""},"식료품가게":{"a":8569,"m":5034.5,"r":60.1,"s":127,"g":null,"n":""},"과일가게":{"a":3021.3,"m":1158.8,"r":60.1,"s":29,"g":-6.5,"n":""},"생선가게":{"a":6979.3,"m":5841.8,"r":60.1,"s":11,"g":-21.4,"n":""},"정육점":{"a":5120.9,"m":1012,"r":60.1,"s":138,"g":0.7,"n":"마장 축산물시장 도매 포함"},"곡물가게":{"a":6500,"m":5000,"r":60.1,"s":14,"g":-12.5,"n":""},"휴대폰가게":{"a":2765,"m":487.5,"r":60.1,"s":73,"g":-6.4,"n":""},"컴퓨터판매점":{"a":54532.9,"m":2409.4,"r":60.1,"s":28,"g":7.7,"n":""},"편의점":{"a":4418.8,"m":2660.5,"r":60.1,"s":258,"g":1.2,"n":""},"슈퍼마켓":{"a":7812.7,"m":4693.6,"r":60.1,"s":114,"g":4.6,"n":""},"노래방":{"a":3558.3,"m":2118,"r":60.1,"s":121,"g":-4,"n":""},"세탁소":{"a":594.9,"m":530.1,"r":60.1,"s":147,"g":2.8,"n":""},"피부관리업":{"a":896,"m":342,"r":60.1,"s":388,"g":6.9,"n":""},"미용실":{"a":1122.6,"m":904.8,"r":60.1,"s":583,"g":3.2,"n":""},"자동차수리점":{"a":1463.8,"m":952.8,"r":60.1,"s":293,"g":-1.7,"n":""},"당구장":{"a":1559.2,"m":1066.8,"r":60.1,"s":74,"g":-5.1,"n":""},"한방병원ㆍ한의원":{"a":1346.3,"m":1141.1,"r":60.1,"s":100,"g":3.1,"n":""},"치과의원":{"a":3624,"m":3627.1,"r":60.1,"s":126,"g":-0.8,"n":""},"기타일반의원":{"a":40638.4,"m":27868.3,"r":60.1,"s":33,"g":3.1,"n":""},"스포츠교육기관":{"a":871.5,"m":707,"r":60.1,"s":255,"g":5.4,"n":""},"예술학원":{"a":591.6,"m":323.9,"r":60.1,"s":195,"g":2.1,"n":""},"교습소ㆍ공부방":{"a":1453.3,"m":1185,"r":60.1,"s":231,"g":1.8,"n":""},"커피음료점":{"a":1323.6,"m":634.3,"r":60.1,"s":581,"g":-5.1,"n":""},"호프주점":{"a":5883.8,"m":3936.4,"r":60.1,"s":98,"g":-10.9,"n":""},"분식점":{"a":1077.9,"m":772,"r":60.1,"s":266,"g":0.4,"n":""},"기타음식점":{"a":1245.9,"m":733.2,"r":60.1,"s":89,"g":-6.3,"n":""},"패스트푸드점":{"a":5550,"m":2151,"r":60.1,"s":263,"g":1.5,"n":""},"제과점":{"a":2074,"m":1855.8,"r":60.1,"s":193,"g":1.1,"n":""},"일식음식점":{"a":3358,"m":2621,"r":60.1,"s":261,"g":3.6,"n":""},"중식음식점":{"a":1498.9,"m":1142.8,"r":60.1,"s":131,"g":null,"n":""},"한식음식점":{"a":2816.4,"m":1678.8,"r":60.1,"s":1712,"g":-3.1,"n":""},"철물점":{"a":42534.5,"m":3093,"r":60.1,"s":28,"g":-3.5,"n":""},"여관ㆍ모텔":{"a":4512.8,"m":2960.8,"r":60.1,"s":54,"g":5.9,"n":""},"서점":{"a":5200,"m":4000,"r":60.1,"s":39,"g":-7.1,"n":""},"안경점":{"a":511.7,"m":450.7,"r":60.1,"s":62,"g":8.8,"n":""},"신발가게":{"a":68025.6,"m":1816.4,"r":60.1,"s":39,"g":-11.4,"n":""},"헬스클럽":{"a":1044.3,"m":1100.7,"r":60.1,"s":102,"g":5.2,"n":""},"pc방":{"a":6036.3,"m":4609.2,"r":60.1,"s":29,"g":-3.3,"n":""},"실외골프연습장":{"a":7792.9,"m":3145.8,"r":60.1,"s":7,"g":-12.5,"n":""},"기타외국식음식점":{"a":509.6,"m":286.1,"r":60.1,"s":441,"g":0.2,"n":""},"자전거판매점":{"a":3900,"m":3000,"r":60.1,"s":14,"g":null,"n":""},"스포츠용품점":{"a":73.3,"m":64.6,"r":60.1,"s":58,"g":-1.7,"n":""},"가전제품수리점":{"a":171,"m":171,"r":60.1,"s":89,"g":3.5,"n":""},"교습학원":{"a":2524.5,"m":636,"r":60.1,"s":263,"g":3.5,"n":""},"가전제품판매점":{"a":927,"m":927,"r":60.1,"s":26,"g":4,"n":""},"가구점":{"a":11.2,"m":11.2,"r":60.1,"s":33,"g":13.8,"n":""},"부동산중개업":{"a":1100,"m":650,"r":60.1,"s":700,"g":-1,"n":""}},"용산구":{"철물점":{"a":13275.5,"m":1757.5,"r":50.9,"s":32,"g":3.2,"n":""},"애완용품점":{"a":84,"m":84,"r":50.9,"s":48,"g":4.3,"n":""},"화장품가게":{"a":10323.6,"m":657.6,"r":50.9,"s":135,"g":-8.8,"n":""},"서점":{"a":9541,"m":997.5,"r":50.9,"s":64,"g":-7.2,"n":""},"약국":{"a":7485.6,"m":4517.5,"r":50.9,"s":115,"g":-0.9,"n":""},"시계ㆍ귀금속점":{"a":2105.5,"m":331.5,"r":50.9,"s":34,"g":null,"n":""},"안경점":{"a":1250.6,"m":974.9,"r":50.9,"s":49,"g":-2,"n":""},"옷가게":{"a":2375.1,"m":374.9,"r":50.9,"s":528,"g":-0.2,"n":""},"식료품가게":{"a":10683.5,"m":1716.5,"r":50.9,"s":159,"g":-2.5,"n":""},"과일가게":{"a":14706.7,"m":1225,"r":50.9,"s":22,"g":null,"n":""},"정육점":{"a":4964.3,"m":3114.5,"r":50.9,"s":56,"g":-5.1,"n":""},"휴대폰가게":{"a":7075,"m":1657,"r":50.9,"s":76,"g":-3.8,"n":""},"편의점":{"a":4410.4,"m":3715.0,"r":50.9,"s":228,"g":-0.9,"n":""},"슈퍼마켓":{"a":11865.8,"m":10477,"r":50.9,"s":105,"g":8.2,"n":""},"여관ㆍ모텔":{"a":6280,"m":3312.8,"r":50.9,"s":49,"g":-2,"n":""},"가전제품수리점":{"a":6391.5,"m":6391.5,"r":50.9,"s":71,"g":-6.6,"n":""},"세탁소":{"a":779.4,"m":688.2,"r":50.9,"s":125,"g":-3.1,"n":""},"피부관리업":{"a":2008,"m":557,"r":50.9,"s":253,"g":11,"n":""},"미용실":{"a":1609.8,"m":856.2,"r":50.9,"s":400,"g":2.8,"n":""},"자동차수리점":{"a":3031.3,"m":1897.1,"r":50.9,"s":110,"g":-6.8,"n":""},"기타일반의원":{"a":40166.7,"m":21456.9,"r":50.9,"s":18,"g":null,"n":""},"스포츠교육기관":{"a":1233.5,"m":861,"r":50.9,"s":216,"g":9.6,"n":""},"예술학원":{"a":650,"m":154,"r":50.9,"s":106,"g":5,"n":""},"교습소ㆍ공부방":{"a":949.4,"m":398.3,"r":50.9,"s":167,"g":null,"n":""},"커피음료점":{"a":1558.1,"m":950.7,"r":50.9,"s":568,"g":-2.7,"n":""},"호프주점":{"a":16529.8,"m":6361.7,"r":50.9,"s":99,"g":-5.7,"n":""},"분식점":{"a":1467.7,"m":878.9,"r":50.9,"s":254,"g":-5.2,"n":""},"기타음식점":{"a":1961.7,"m":1223.7,"r":50.9,"s":71,"g":-5.3,"n":""},"패스트푸드점":{"a":14787,"m":7204,"r":50.9,"s":197,"g":0.5,"n":""},"기타외국식음식점":{"a":1718.3,"m":480.9,"r":50.9,"s":971,"g":-0.1,"n":""},"한식음식점":{"a":3451.1,"m":1405.5,"r":50.9,"s":1638,"g":1.3,"n":""},"꽃가게":{"a":1196,"m":589.5,"r":50.9,"s":218,"g":0.5,"n":""},"자전거판매점":{"a":868,"m":868,"r":50.9,"s":7,"g":16.7,"n":""},"통신판매업":{"a":398.4,"m":11.2,"r":50.9,"s":4643,"g":3.1,"n":""},"실내장식가게":{"a":1486,"m":665,"r":50.9,"s":417,"g":3,"n":""},"문구점":{"a":10901.9,"m":197.6,"r":50.9,"s":40,"g":5.3,"n":""},"의료용품가게":{"a":1854.3,"m":1877.8,"r":50.9,"s":30,"g":null,"n":""},"신발가게":{"a":15080,"m":3166.8,"r":50.9,"s":38,"g":-9.5,"n":""},"컴퓨터판매점":{"a":158056.2,"m":33399,"r":50.9,"s":121,"g":-1.6,"n":"용산 전자상가 도매 포함"},"노래방":{"a":3067.5,"m":1646.7,"r":50.9,"s":61,"g":-7.6,"n":""},"헬스클럽":{"a":2844.6,"m":1456.2,"r":50.9,"s":77,"g":20.3,"n":""},"실외골프연습장":{"a":3438.8,"m":1914.8,"r":50.9,"s":9,"g":null,"n":""},"당구장":{"a":1476,"m":559.2,"r":50.9,"s":44,"g":-2.2,"n":""},"한방병원ㆍ한의원":{"a":1829.4,"m":2114,"r":50.9,"s":62,"g":null,"n":""},"치과의원":{"a":3537.2,"m":3480.4,"r":50.9,"s":95,"g":-2.1,"n":""},"교습학원":{"a":10725,"m":2785.5,"r":50.9,"s":129,"g":4,"n":""},"제과점":{"a":2411,"m":2534.5,"r":50.9,"s":186,"g":12.7,"n":""},"일식음식점":{"a":7058,"m":1672,"r":50.9,"s":271,"g":-0.7,"n":""},"중식음식점":{"a":2570,"m":2361.6,"r":50.9,"s":127,"g":-3.8,"n":""},"생선가게":{"a":7290.3,"m":5110.8,"r":50.9,"s":13,"g":-13.3,"n":""},"가구점":{"a":692.8,"m":823.2,"r":50.9,"s":41,"g":17.1,"n":""},"스포츠용품점":{"a":697.3,"m":164,"r":50.9,"s":66,"g":6.5,"n":""},"가전제품판매점":{"a":6500,"m":5000,"r":50.9,"s":72,"g":null,"n":"용산 전자상가 도매 포함"},"장난감가게":{"a":3900,"m":3000,"r":50.9,"s":23,"g":27.8,"n":""},"곡물가게":{"a":6500,"m":5000,"r":50.9,"s":14,"g":7.7,"n":""},"pc방":{"a":1502,"m":1502,"r":50.9,"s":12,"g":-7.7,"n":""},"부동산중개업":{"a":1300,"m":750,"r":50.9,"s":900,"g":-0.8,"n":""}},"중구":{"가구점":{"a":51912,"m":26420,"r":81,"s":65,"g":4.8,"n":""},"꽃가게":{"a":1950,"m":1500,"r":81,"s":245,"g":-1.2,"n":""},"스포츠용품점":{"a":13005,"m":915.6,"r":81,"s":89,"g":3.5,"n":""},"문구점":{"a":31665.1,"m":3953,"r":81,"s":52,"g":-3.7,"n":""},"의료용품가게":{"a":11587,"m":9892.7,"r":81,"s":37,"g":-15.9,"n":""},"약국":{"a":8242.9,"m":5536.3,"r":81,"s":191,"g":12.3,"n":""},"신발가게":{"a":13960.8,"m":3932.4,"r":81,"s":136,"g":-3.5,"n":""},"식료품가게":{"a":27278.5,"m":6920,"r":81,"s":359,"g":-3.2,"n":""},"과일가게":{"a":104022.3,"m":26279.5,"r":81,"s":27,"g":-6.9,"n":"청과 도매시장 인근 영향"},"정육점":{"a":22818.1,"m":7227.3,"r":81,"s":60,"g":-6.2,"n":"마장 축산물시장 도매 포함"},"컴퓨터판매점":{"a":5434.7,"m":4077.7,"r":81,"s":17,"g":-19.1,"n":""},"편의점":{"a":7179.3,"m":2703.0,"r":81,"s":308,"g":0.3,"n":""},"슈퍼마켓":{"a":11198.1,"m":10931.3,"r":81,"s":149,"g":12,"n":""},"노래방":{"a":5316,"m":3750,"r":81,"s":58,"g":-4.9,"n":""},"여관ㆍ모텔":{"a":38627.2,"m":3980,"r":81,"s":114,"g":-0.9,"n":""},"부동산중개업":{"a":3200,"m":2380,"r":81,"s":830,"g":-0.4,"n":""},"세탁소":{"a":1025.7,"m":537.6,"r":81,"s":84,"g":-4.5,"n":""},"미용실":{"a":2338.2,"m":981.6,"r":81,"s":324,"g":-0.9,"n":""},"자동차수리점":{"a":2408.1,"m":1501,"r":81,"s":56,"g":5.7,"n":""},"한방병원ㆍ한의원":{"a":2181.7,"m":817.4,"r":81,"s":96,"g":1.1,"n":""},"치과의원":{"a":4947.9,"m":2314.4,"r":81,"s":185,"g":-5.6,"n":""},"기타일반의원":{"a":38857.4,"m":24402.9,"r":81,"s":44,"g":7.3,"n":""},"커피음료점":{"a":3375,"m":773.6,"r":81,"s":751,"g":1.8,"n":""},"호프주점":{"a":12512,"m":5951,"r":81,"s":116,"g":-10.1,"n":""},"분식점":{"a":2122.4,"m":1276.3,"r":81,"s":346,"g":-7.2,"n":""},"기타음식점":{"a":555.3,"m":261.8,"r":81,"s":294,"g":-3.6,"n":""},"제과점":{"a":7884.8,"m":4064,"r":81,"s":164,"g":8.6,"n":""},"기타외국식음식점":{"a":1502.1,"m":720.7,"r":81,"s":531,"g":4.1,"n":""},"중식음식점":{"a":3441.8,"m":1402.7,"r":81,"s":214,"g":-2.7,"n":""},"한식음식점":{"a":4523,"m":1941.9,"r":81,"s":2537,"g":0.6,"n":""},"통신판매업":{"a":144,"m":37.6,"r":81,"s":4293,"g":0.1,"n":""},"실내장식가게":{"a":139868,"m":1767,"r":81,"s":281,"g":-2.4,"n":""},"철물점":{"a":8960.5,"m":5141.5,"r":81,"s":46,"g":2.2,"n":""},"가전제품판매점":{"a":2918,"m":3446,"r":81,"s":111,"g":-7.5,"n":""},"화장품가게":{"a":3900,"m":3000,"r":81,"s":215,"g":-3.1,"n":""},"시계ㆍ귀금속점":{"a":67843.5,"m":5448.5,"r":81,"s":100,"g":1,"n":"종로 귀금속 상가 도매 포함"},"안경점":{"a":3088.1,"m":575.6,"r":81,"s":158,"g":0.6,"n":""},"옷가게":{"a":4431.2,"m":1121.7,"r":81,"s":1823,"g":-2.7,"n":"동대문 패션몰 인근"},"생선가게":{"a":6252.8,"m":2054.4,"r":81,"s":31,"g":-3.1,"n":"노량진·중부 수산시장 인근"},"곡물가게":{"a":6500,"m":5000,"r":81,"s":18,"g":-10,"n":""},"피부관리업":{"a":4470,"m":905,"r":81,"s":261,"g":14,"n":""},"헬스클럽":{"a":3387.9,"m":1471.8,"r":81,"s":62,"g":null,"n":""},"당구장":{"a":3823.6,"m":1325.6,"r":81,"s":79,"g":-7.1,"n":""},"스포츠교육기관":{"a":2278.5,"m":2164.5,"r":81,"s":102,"g":7.4,"n":""},"예술학원":{"a":212.9,"m":155.4,"r":81,"s":55,"g":5.8,"n":""},"교습소ㆍ공부방":{"a":992.9,"m":326.1,"r":81,"s":74,"g":8.8,"n":""},"패스트푸드점":{"a":16231,"m":6049,"r":81,"s":218,"g":3.8,"n":""},"일식음식점":{"a":11522,"m":3878.5,"r":81,"s":295,"g":5.4,"n":""},"pc방":{"a":2713.8,"m":3466.7,"r":81,"s":15,"g":-16.7,"n":""},"서점":{"a":5200,"m":4000,"r":81,"s":86,"g":4.9,"n":""},"휴대폰가게":{"a":15042.5,"m":3411,"r":81,"s":85,"g":-2.3,"n":""},"장난감가게":{"a":3900,"m":3000,"r":81,"s":18,"g":5.9,"n":""},"실외골프연습장":{"a":5671.9,"m":3803.7,"r":81,"s":5,"g":-16.7,"n":""},"교습학원":{"a":2323.5,"m":2323.5,"r":81,"s":79,"g":-1.2,"n":""},"애완용품점":{"a":3250,"m":2500,"r":81,"s":39,"g":5.4,"n":""},"가전제품수리점":{"a":217.5,"m":217.5,"r":81,"s":63,"g":5,"n":""}},"종로구":{"통신판매업":{"a":36.8,"m":41.6,"r":73,"s":4034,"g":6.8,"n":""},"실내장식가게":{"a":55698,"m":2147,"r":73,"s":264,"g":-2.6,"n":""},"철물점":{"a":2538.5,"m":1661.5,"r":73,"s":34,"g":-2.9,"n":""},"가전제품판매점":{"a":6893.5,"m":466.5,"r":73,"s":70,"g":4.5,"n":""},"꽃가게":{"a":1950,"m":1500,"r":73,"s":175,"g":-4.4,"n":""},"옷가게":{"a":2480.8,"m":860.3,"r":73,"s":675,"g":null,"n":""},"화장품가게":{"a":3900,"m":3000,"r":73,"s":124,"g":8.8,"n":""},"문구점":{"a":23304.4,"m":1601.1,"r":73,"s":70,"g":6.1,"n":""},"서점":{"a":5200,"m":4000,"r":73,"s":93,"g":2.2,"n":""},"약국":{"a":14703.1,"m":3085.4,"r":73,"s":197,"g":-1.5,"n":""},"시계ㆍ귀금속점":{"a":69117,"m":395.5,"r":73,"s":557,"g":4.5,"n":"종로 귀금속 상가 도매 포함"},"안경점":{"a":990.2,"m":549.3,"r":73,"s":60,"g":9.1,"n":""},"신발가게":{"a":5850,"m":4500,"r":73,"s":57,"g":-13.6,"n":""},"식료품가게":{"a":3198,"m":1389,"r":73,"s":234,"g":-2.1,"n":""},"과일가게":{"a":9296.7,"m":6371.6,"r":73,"s":23,"g":-8,"n":""},"정육점":{"a":6401.2,"m":3701.3,"r":73,"s":48,"g":null,"n":""},"곡물가게":{"a":8977,"m":1219,"r":73,"s":23,"g":null,"n":""},"휴대폰가게":{"a":5778.5,"m":1667,"r":73,"s":49,"g":6.5,"n":""},"편의점":{"a":5247.9,"m":2124.8,"r":73,"s":248,"g":-2.4,"n":""},"슈퍼마켓":{"a":11845.5,"m":5796.3,"r":73,"s":116,"g":8.4,"n":""},"노래방":{"a":4509,"m":3117.3,"r":73,"s":60,"g":-3.2,"n":""},"여관ㆍ모텔":{"a":8204,"m":1742.4,"r":73,"s":117,"g":-10.7,"n":""},"세탁소":{"a":586.8,"m":352.2,"r":73,"s":93,"g":-2.1,"n":""},"피부관리업":{"a":1579,"m":430,"r":73,"s":192,"g":-2,"n":""},"미용실":{"a":1251.3,"m":661.8,"r":73,"s":264,"g":-0.8,"n":""},"헬스클럽":{"a":3923.7,"m":2591.1,"r":73,"s":74,"g":7.2,"n":""},"pc방":{"a":1057,"m":547,"r":73,"s":24,"g":4.3,"n":""},"당구장":{"a":3056,"m":698.4,"r":73,"s":83,"g":-9.8,"n":""},"기타일반의원":{"a":38519.1,"m":16078.9,"r":73,"s":31,"g":-3.1,"n":""},"커피음료점":{"a":3281.2,"m":514.6,"r":73,"s":792,"g":-0.8,"n":""},"호프주점":{"a":13048.1,"m":3038.6,"r":73,"s":152,"g":-12.6,"n":""},"분식점":{"a":1933.3,"m":465.5,"r":73,"s":391,"g":-2.5,"n":""},"기타음식점":{"a":1594.4,"m":909.3,"r":73,"s":137,"g":-3.5,"n":""},"패스트푸드점":{"a":8840,"m":3466,"r":73,"s":208,"g":-5,"n":""},"제과점":{"a":8000,"m":4002.8,"r":73,"s":166,"g":10.7,"n":""},"기타외국식음식점":{"a":2212.6,"m":2068.9,"r":73,"s":623,"g":3,"n":""},"일식음식점":{"a":13787,"m":4649.5,"r":73,"s":280,"g":7.3,"n":""},"중식음식점":{"a":3562.5,"m":1419.4,"r":73,"s":177,"g":2.3,"n":""},"한식음식점":{"a":3670.3,"m":1241,"r":73,"s":2609,"g":1.6,"n":""},"한방병원ㆍ한의원":{"a":1505.8,"m":662.4,"r":73,"s":116,"g":0.9,"n":""},"치과의원":{"a":2679.5,"m":773.9,"r":73,"s":145,"g":null,"n":""},"교습소ㆍ공부방":{"a":1120.8,"m":604,"r":73,"s":117,"g":-3.3,"n":""},"의료용품가게":{"a":9173,"m":5910.1,"r":73,"s":45,"g":-13.5,"n":""},"애완용품점":{"a":5024,"m":1080,"r":73,"s":42,"g":-4.5,"n":""},"스포츠용품점":{"a":9688.4,"m":9688.4,"r":73,"s":50,"g":-3.9,"n":""},"실외골프연습장":{"a":29967,"m":14983.6,"r":73,"s":1,"g":null,"n":""},"예술학원":{"a":836.9,"m":598.3,"r":73,"s":94,"g":6.8,"n":""},"가전제품수리점":{"a":1888.5,"m":688.5,"r":73,"s":67,"g":6.3,"n":""},"자동차수리점":{"a":3526.4,"m":1794.8,"r":73,"s":44,"g":12.8,"n":""},"스포츠교육기관":{"a":3924.5,"m":2708.5,"r":73,"s":118,"g":0.8,"n":""},"교습학원":{"a":8980.5,"m":8980.5,"r":73,"s":132,"g":-2.9,"n":""},"컴퓨터판매점":{"a":7946.5,"m":7946.5,"r":73,"s":21,"g":-12.5,"n":""},"생선가게":{"a":1365.7,"m":1365.7,"r":73,"s":16,"g":-20,"n":""},"가구점":{"a":4098.4,"m":4098.4,"r":73,"s":18,"g":5.9,"n":""},"부동산중개업":{"a":1200,"m":700,"r":73,"s":800,"g":-1,"n":""}}};
-const SEOUL_AVG=4922.2;
-const META={"실내장식가게":{"p":15.2,"s":50,"e":1.5,"c":0.45,"cat":"소매","o":5},"철물점":{"p":10.6,"s":35,"e":1.5,"c":0.5,"cat":"소매","o":5},"가구점":{"p":24.2,"s":80,"e":1.5,"c":0.45,"cat":"소매","o":5},"애완용품점":{"p":9.1,"s":30,"e":1.5,"c":0.4,"cat":"소매","o":5},"꽃가게":{"p":7.6,"s":25,"e":1.5,"c":0.45,"cat":"소매","o":6},"옷가게":{"p":13.6,"s":45,"e":2,"c":0.45,"cat":"소매","o":5},"장난감가게":{"p":10.6,"s":35,"e":1.5,"c":0.4,"cat":"소매","o":5},"자전거판매점":{"p":12.1,"s":40,"e":1.5,"c":0.45,"cat":"소매","o":5},"스포츠용품점":{"p":15.2,"s":50,"e":2,"c":0.45,"cat":"소매","o":5},"화장품가게":{"p":9.1,"s":30,"e":2,"c":0.4,"cat":"소매","o":5},"문구점":{"p":9.1,"s":30,"e":1.5,"c":0.4,"cat":"소매","o":5},"서점":{"p":15.2,"s":50,"e":2,"c":0.5,"cat":"소매","o":5},"의료용품가게":{"p":10.6,"s":35,"e":1.5,"c":0.45,"cat":"소매","o":6},"약국":{"p":12.1,"s":40,"e":2,"c":0.6,"cat":"소매","o":7},"시계ㆍ귀금속점":{"p":7.6,"s":25,"e":1.5,"c":0.45,"cat":"소매","o":5},"안경점":{"p":10.6,"s":35,"e":2,"c":0.4,"cat":"소매","o":5},"식료품가게":{"p":10.6,"s":35,"e":2,"c":0.55,"cat":"소매","o":6},"과일가게":{"p":7.6,"s":25,"e":2,"c":0.5,"cat":"소매","o":6},"정육점":{"p":7.6,"s":25,"e":2,"c":0.6,"cat":"소매","o":6},"컴퓨터판매점":{"p":9.1,"s":30,"e":1.5,"c":0.5,"cat":"소매","o":5},"편의점":{"p":15.2,"s":50,"e":3,"c":0.78,"cat":"소매","o":9},"슈퍼마켓":{"p":30.3,"s":100,"e":3,"c":0.68,"cat":"소매","o":8},"노래방":{"p":30.3,"s":100,"e":2,"c":0.15,"cat":"서비스·기타","o":10},"여관ㆍ모텔":{"p":30.3,"s":200,"e":3,"c":0.15,"cat":"음식·숙박","o":10},"세탁소":{"p":9.1,"s":30,"e":1.5,"c":0.2,"cat":"서비스·기타","o":5},"피부관리업":{"p":13.6,"s":45,"e":2,"c":0.15,"cat":"서비스·기타","o":5},"미용실":{"p":12.1,"s":40,"e":2.5,"c":0.1,"cat":"서비스·기타","o":5},"자동차수리점":{"p":24.2,"s":80,"e":3,"c":0.3,"cat":"서비스·기타","o":6},"헬스클럽":{"p":35,"s":250,"e":3,"c":0.1,"cat":"서비스·기타","o":12},"pc방":{"p":45.5,"s":150,"e":1.5,"c":0.2,"cat":"서비스·기타","o":15},"실외골프연습장":{"p":60.6,"s":400,"e":3,"c":0.15,"cat":"서비스·기타","o":8},"당구장":{"p":20,"s":130,"e":1.5,"c":0.1,"cat":"서비스·기타","o":6},"한방병원ㆍ한의원":{"p":18.2,"s":60,"e":2.5,"c":0.2,"cat":"서비스·기타","o":6},"치과의원":{"p":18.2,"s":60,"e":3,"c":0.35,"cat":"서비스·기타","o":6},"스포츠교육기관":{"p":25,"s":150,"e":3,"c":0.1,"cat":"서비스·기타","o":4},"예술학원":{"p":24.2,"s":80,"e":3,"c":0.05,"cat":"서비스·기타","o":4},"교습소ㆍ공부방":{"p":12.1,"s":40,"e":1.5,"c":0.05,"cat":"서비스·기타","o":4},"커피음료점":{"p":18.2,"s":60,"e":3,"c":0.3,"cat":"음식·숙박","o":12},"호프주점":{"p":19.7,"s":65,"e":2.5,"c":0.4,"cat":"음식·숙박","o":10},"분식점":{"p":10.6,"s":35,"e":2,"c":0.42,"cat":"음식·숙박","o":9},"기타음식점":{"p":15.2,"s":50,"e":2.5,"c":0.4,"cat":"음식·숙박","o":10},"패스트푸드점":{"p":18.2,"s":60,"e":3.5,"c":0.48,"cat":"음식·숙박","o":11},"제과점":{"p":13.6,"s":45,"e":2.5,"c":0.45,"cat":"음식·숙박","o":10},"기타외국식음식점":{"p":16.7,"s":55,"e":3,"c":0.4,"cat":"음식·숙박","o":10},"중식음식점":{"p":18.2,"s":60,"e":3,"c":0.43,"cat":"음식·숙박","o":9},"한식음식점":{"p":19.7,"s":65,"e":3.5,"c":0.42,"cat":"음식·숙박","o":10},"기타일반의원":{"p":18.2,"s":60,"e":3,"c":0.25,"cat":"서비스·기타","o":6},"교습학원":{"p":24.2,"s":100,"e":3,"c":0.05,"cat":"서비스·기타","o":4},"일식음식점":{"p":16.7,"s":55,"e":3,"c":0.45,"cat":"음식·숙박","o":9},"신발가게":{"p":10.6,"s":35,"e":1.5,"c":0.45,"cat":"소매","o":5},"생선가게":{"p":7.6,"s":25,"e":2,"c":0.55,"cat":"소매","o":6},"곡물가게":{"p":7.6,"s":25,"e":1.5,"c":0.5,"cat":"소매","o":5},"휴대폰가게":{"p":7.6,"s":25,"e":2,"c":0.4,"cat":"소매","o":5},"가전제품수리점":{"p":9.1,"s":30,"e":1.5,"c":0.3,"cat":"소매","o":5},"통신판매업":{"p":9.1,"s":30,"e":2,"c":0.333,"cat":"서비스·기타","o":6},"가전제품판매점":{"p":15.2,"s":50,"e":2,"c":0.5,"cat":"소매","o":5},"부동산중개업":{"p":7.6,"s":25,"e":2,"c":0.05,"cat":"서비스·기타","o":4},"독서실":{"p":30.3,"s":100,"e":1,"c":0.053,"cat":"서비스·기타","o":6}};
-const CAT_INDS={"서비스·기타":["pc방","교습소ㆍ공부방","교습학원","기타일반의원","노래방","당구장","독서실","미용실","부동산중개업","세탁소","스포츠교육기관","실외골프연습장","예술학원","자동차수리점","치과의원","통신판매업","피부관리업","한방병원ㆍ한의원","헬스클럽"],"소매":["가구점","가전제품수리점","가전제품판매점","곡물가게","과일가게","꽃가게","문구점","생선가게","서점","슈퍼마켓","스포츠용품점","시계ㆍ귀금속점","식료품가게","신발가게","실내장식가게","안경점","애완용품점","약국","옷가게","의료용품가게","자전거판매점","장난감가게","정육점","철물점","컴퓨터판매점","편의점","화장품가게","휴대폰가게"],"음식·숙박":["기타외국식음식점","기타음식점","분식점","여관ㆍ모텔","일식음식점","제과점","중식음식점","커피음료점","패스트푸드점","한식음식점","호프주점"]};
-const GUS=["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"];
-const MIN_WAGE=10030, HOURS=209;
-
-// 상태
-let st={gu:null,cat:null,ind:null,pyeong:null,emp:null,other:null};
-let tmpNum={pyeong:15,emp:2,other:5};
-
-// ── 구 그리드 생성 ──
-(function(){
-  const g=document.getElementById('guGrid');
-  GUS.forEach(gu=>{
-    const b=document.createElement('button');
-    b.className='gu-btn'; b.textContent=gu.replace('구','');
-    b.onclick=()=>selectGu(gu);
-    g.appendChild(b);
-  });
-})();
-
-// ── 적합도(테마2)에서 값 넘겨받기 ──
-(function(){
-  const params = new URLSearchParams(location.search);
-  const pGu  = params.get('gu');
-  const pInd = params.get('ind');
-  if(!pGu || !pInd) return;
-  // cat 탐색
-  let pCat = null;
-  Object.keys(CAT_INDS).forEach(cat=>{ if(CAT_INDS[cat].includes(pInd)) pCat=cat; });
-  if(!pCat) return;
-  // 상태 설정
-  st.gu=pGu; st.cat=pCat; st.ind=pInd;
-  const m = META[pInd];
-  if(!m) return;
-  // UI — 셀렉터 버튼 업데이트
-  const s1=document.getElementById('s1');
-  s1.textContent=pGu; s1.classList.add('done'); s1.classList.remove('pulse');
-  const s2=document.getElementById('s2');
-  s2.textContent=pCat; s2.classList.add('done');
-  const s3=document.getElementById('s3');
-  s3.textContent=pInd; s3.classList.add('done');
-  const s4=document.getElementById('s4');
-  s4.value=m.p; s4.classList.add('done');
-  const s5=document.getElementById('s5');
-  s5.textContent=m.e+'명'; s5.classList.add('done');
-  // 기타비용 기본값
-  const s6=document.getElementById('s6');
-  if(s6){ s6.value=m.o||5; s6.classList.add('done'); }
-  // 결과 즉시 출력
-  setTimeout(()=>{ calc(); }, 50);
-})();
-
-// ── 카테고리 목록 ──
-(function(){
-  const cats=['음식·숙박','소매','서비스·기타'];
-  const icons={'음식·숙박':'🍜','소매':'🛍️','서비스·기타':'💼'};
-  const cl=document.getElementById('catList');
-  cats.forEach(cat=>{
-    const b=document.createElement('button');
-    b.style.cssText='background:var(--card2);border:1px solid var(--txt3)33;border-radius:14px;padding:16px 18px;text-align:left;cursor:pointer;color:var(--txt);font-size:14px;font-weight:600;display:flex;align-items:center;gap:12px';
-    b.innerHTML=`<span style="font-size:22px">${icons[cat]}</span><div><div>${cat}</div><div style="font-size:11px;color:var(--txt2);font-weight:400;margin-top:2px">${CAT_INDS[cat].length}개 업종</div></div>`;
-    b.onclick=()=>selectCat(cat);
-    cl.appendChild(b);
-  });
-})();
-
-function fmt(n){
-  if(n===null||n===undefined) return '-';
-  return Math.round(n).toLocaleString();
-}
-
-// ── 시트 열기/닫기 ──
-let curSheet=null;
-function openSheet(id){
-  closeSheet();
-  const s=document.getElementById(id);
-  const o=document.getElementById('overlay');
-  s.classList.add('on'); o.classList.add('on');
-  curSheet=id;
-}
-function closeSheet(){
-  if(curSheet){
-    document.getElementById(curSheet).classList.remove('on');
-    document.getElementById('overlay').classList.remove('on');
-    curSheet=null;
+// ============================================================
+// DATA  (점포-행정동_25년.csv 목업 — 실데이터 교체 예정)
+// ============================================================
+const DATA = {
+  region: {
+    open: [
+      { label: '성동구', val: 8.4 },
+      { label: '마포구', val: 7.9 },
+      { label: '용산구', val: 7.6 },
+      { label: '강남구', val: 7.2 },
+      { label: '송파구', val: 6.8 },
+    ],
+    close: [
+      { label: '중랑구', val: 9.1 },
+      { label: '도봉구', val: 8.7 },
+      { label: '강북구', val: 8.3 },
+      { label: '금천구', val: 8.0 },
+      { label: '노원구', val: 7.6 },
+    ],
+    drillOpen: {
+      '성동구': ['카페/커피', '한식', '베이커리', '편의점', '헬스/스포츠'],
+      '마포구': ['치킨', '카페/커피', '한식', '술집', '편의점'],
+      '용산구': ['카페/커피', '외국음식', '한식', '편의점', '술집'],
+      '강남구': ['카페/커피', '의원/병원', '한식', '편의점', '약국'],
+      '송파구': ['편의점', '카페/커피', '한식', '학원', '헬스/스포츠'],
+    },
+    drillClose: {
+      '중랑구': ['한식', '분식/김밥', '편의점', '옷가게', '미용실'],
+      '도봉구': ['한식', '분식/김밥', '옷가게', '카페/커피', '철물점'],
+      '강북구': ['한식', '분식/김밥', '편의점', '노래방', '옷가게'],
+      '금천구': ['한식', '편의점', '옷가게', '분식/김밥', '노래방'],
+      '노원구': ['한식', '분식/김밥', '편의점', '학원', '옷가게'],
+    }
+  },
+  biz: {
+    open: [
+      { label: '카페/커피', val: 12.3 },
+      { label: '배달전문', val: 11.8 },
+      { label: '헬스/스포츠', val: 10.4 },
+      { label: '반려동물', val: 9.7 },
+      { label: '편의점', val: 8.9 },
+    ],
+    close: [
+      { label: '일반한식', val: 14.2 },
+      { label: '분식/김밥', val: 13.1 },
+      { label: '노래방', val: 12.8 },
+      { label: '옷가게', val: 11.9 },
+      { label: '인쇄/복사', val: 11.4 },
+    ],
+    drillOpen: {
+      '카페/커피': ['강남구', '마포구', '성동구', '서초구', '용산구'],
+      '배달전문':  ['송파구', '강남구', '관악구', '마포구', '구로구'],
+      '헬스/스포츠':['강남구', '서초구', '용산구', '성동구', '마포구'],
+      '반려동물':  ['마포구', '강남구', '성동구', '용산구', '서초구'],
+      '편의점':    ['관악구', '노원구', '강서구', '구로구', '성북구'],
+    },
+    drillClose: {
+      '일반한식':  ['중랑구', '도봉구', '강북구', '금천구', '노원구'],
+      '분식/김밥': ['도봉구', '강북구', '노원구', '은평구', '중랑구'],
+      '노래방':    ['중랑구', '강북구', '도봉구', '구로구', '노원구'],
+      '옷가게':    ['중구', '종로구', '영등포구', '강북구', '도봉구'],
+      '인쇄/복사': ['종로구', '중구', '강북구', '도봉구', '구로구'],
+    }
   }
-}
-function open1(){openSheet('sheet1')}
-function open2(){openSheet('sheet2')}
-function open3(){
-  if(!st.cat){alert('대분류를 먼저 선택해주세요!');return;}
-  buildIndList(); openSheet('sheet3');
-}
-function onS4Input(){
-  const v=parseFloat(document.getElementById('s4').value);
-  if(!isNaN(v)&&v>0){
-    st.pyeong=v;
-    document.getElementById('s4').classList.add('done');
-    calc();
-  }
-}
-function open5(){
-  if(!st.ind){alert('업종을 먼저 선택해주세요!');return;}
-  const m=META[st.ind];
-  tmpNum.emp=m.e;
-  document.getElementById('empVal').textContent=m.e;
-  document.getElementById('empHint').textContent=`업종 평균 ${m.e}명`;
-  openSheet('sheet5');
-}
-function onS6Input(){
-  const v=parseFloat(document.getElementById('s6').value);
-  if(!isNaN(v)&&v>=0&&v<=100){
-    st.other=v;
-    document.getElementById('s6').classList.add('done');
-    calc();
-  }
-}
-
-// ── 선택 함수들 ──
-function selectGu(gu){ gaGu(gu);
-  st.gu=gu;
-  document.getElementById('s1').textContent=gu;
-  document.getElementById('s1').classList.add('done');
-  document.getElementById('s1').classList.remove('pulse');
-  closeSheet();
-  highlightNext();
-  lokiSay(`${gu}에서 창업을 계획 중이시군요! 👍`);
-  calc();
-}
-function selectCat(cat){
-  st.cat=cat; st.ind=null; st.pyeong=null; st.emp=null;
-  document.getElementById('s2').textContent=cat;
-  document.getElementById('s2').classList.add('done');
-  document.getElementById('s3').textContent='업종 선택';
-  document.getElementById('s3').classList.remove('done');
-  document.getElementById('s4').value='';
-  document.getElementById('s4').classList.remove('done');
-  document.getElementById('s5').textContent='채용인원';
-  document.getElementById('s5').classList.remove('done');
-  closeSheet();
-  highlightNext();
-  lokiSay(`${cat} 분야를 선택하셨네요. 어떤 업종인지 골라볼까요? 🏪`);
-  calc();
-}
-function buildIndList(){
-  const ul=document.getElementById('indList');
-  ul.innerHTML='';
-  CAT_INDS[st.cat].forEach(ind=>{
-    const b=document.createElement('button');
-    b.className='ind-btn'+(st.ind===ind?' sel':'');
-    b.textContent=ind;
-    b.onclick=()=>selectInd(ind);
-    ul.appendChild(b);
-  });
-}
-function selectInd(ind){ gaInd(ind);
-  st.ind=ind; st.pyeong=null; st.emp=null;
-  const m=META[ind];
-  document.getElementById('s3').textContent=ind;
-  document.getElementById('s3').classList.add('done');
-  document.getElementById('s4').value=m.p;
-  document.getElementById('s4').classList.add('done');
-  document.getElementById('s5').textContent=m.e+'명';
-  document.getElementById('s5').classList.add('done');
-  st.pyeong=m.p; st.emp=m.e;
-  st.other=m.o;
-  document.getElementById('s6').value=m.o;
-  document.getElementById('s6').classList.add('done');
-  closeSheet();
-  highlightNext();
-  lokiSay(getLokiComment(ind));
-  calc();
-}
-function adj(type,delta){
-  let v=tmpNum[type]+delta;
-  if(type==='pyeong') v=Math.max(5,Math.min(300,Math.round(v*2)/2));
-  if(type==='emp') v=Math.max(0.5,Math.min(30,Math.round(v*2)/2));
-  if(type==='other') v=Math.max(0,Math.min(30,Math.round(v)));
-  tmpNum[type]=v;
-  const ids={pyeong:'pyeongVal',emp:'empVal',other:'otherVal'};
-  document.getElementById(ids[type]).textContent=v;
-}
-function confirmNum(type){
-  const labels={pyeong:'평형 선택',emp:'채용인원',other:'기타%'};
-  const ids={pyeong:'s4',emp:'s5',other:'s6'};
-  const units={pyeong:'평',emp:'명',other:'%'};
-  st[type]=tmpNum[type];
-  document.getElementById(ids[type]).textContent=tmpNum[type]+units[type];
-  document.getElementById(ids[type]).classList.add('done');
-  closeSheet();
-  if(type==='emp') lokiSay(`총 ${tmpNum.emp}명 채용 계획이시군요. 인건비를 반영합니다.`);
-  calc();
-}
-
-// ── 계산 ──
-function calc(){
-  if(!st.gu||!st.ind) return;
-  const row=LOOKUP[st.gu]?.[st.ind];
-  if(!row) return;
-  const m=META[st.ind];
-  const pyeong=st.pyeong||m.p;
-  const sqm=pyeong*3.3;
-  const emp=st.emp||m.e;
-  const otherPct=(st.other!==null&&st.other!==undefined?st.other:(m.o||5))/100;
-
-  const sales=row.a;
-  const rent=Math.round(row.r*sqm/10*10)/10;
-  const labor=Math.round(MIN_WAGE*HOURS*emp/10000*10)/10;
-  const cogs=Math.round(sales*m.c*10)/10;
-  const other=Math.round(sales*otherPct*10)/10;
-  const net=Math.round((sales-rent-labor-cogs-other)*10)/10;
-  const rate=sales>0?Math.round(net/sales*1000)/10:0;
-
-  gaCalc(st.gu,st.ind,net);
-  document.getElementById('rSales').textContent=fmt(sales);
-  document.getElementById('rNet').textContent=(net>=0?'':'-')+fmt(Math.abs(net));
-  const nb=document.getElementById('rNetBox');
-  nb.className='rnum '+(net>=0?'net-pos':'net-neg');
-
-  // 시나리오 계산 (상위/중위/하위)
-  const fixedCost = rent + labor;
-  function calcNet(s){ return Math.round((s - fixedCost - s*m.c - s*otherPct)*10)/10; }
-  const hiSales = row.a;
-  const midSales = row.m;
-  const loSales = Math.round(row.m * 0.6 * 10) / 10;
-  const hiNet = calcNet(hiSales);
-  const midNet = calcNet(midSales);
-  const loNet = calcNet(loSales);
-
-  // 비용구조 폭포수 (중위 기준 — 시나리오 계산 후 호출)
-  buildWaterfall(midSales, Math.round(midSales*m.c*10)/10, Math.round(midSales*otherPct*10)/10, rent, labor, midNet, m, otherPct, row);
-  const maxAbsNet = Math.max(Math.abs(hiNet), Math.abs(midNet), 1);
-  function scPct(v){ return Math.min(Math.round(Math.max(v,0)/maxAbsNet*100), 100); }
-  function scEl(id, netVal, salesVal){
-    const el = document.getElementById(id+'Net');
-    el.textContent = (netVal>=0?'':'-') + fmt(Math.abs(netVal));
-    el.className = 'sc-net ' + (netVal>=0?'pos':'neg');
-    document.getElementById(id+'Sales').textContent = '매출 ' + fmt(salesVal) + '만원';
-    setTimeout(()=>{ document.getElementById(id+'Bar').style.width = scPct(netVal)+'%'; }, 50);
-  }
-  scEl('scHi', hiNet, hiSales);
-  scEl('scMid', midNet, midSales);
-  scEl('scLo', loNet, loSales);
-
-  document.getElementById('resultWrap').classList.add('show');
-
-  // 전제 박스 subtitle 업데이트
-  document.getElementById('premiseSub').textContent = `(${st.gu} · ${st.ind} · ${pyeong}평 · ${emp}명 기준)`;
-  document.getElementById('pGuInd').textContent = `${st.gu} ${st.ind}`;
-
-  // 적합도 버튼 텍스트 업데이트
-
-  // LOKI 분석 리포트
-  buildReport(st.gu, st.ind, row, m, hiSales, midSales, loSales, hiNet, midNet, loNet, rent, labor, cogs, other, emp, pyeong, otherPct);
-
-  // LOKI 결과 멘트 (중위 기준 + 업종 특이사항 한 줄)
-  if(sales>0){
-    const midRate = midSales>0 ? Math.round(midNet/midSales*1000)/10 : 0;
-    let resultMsg = '';
-    if(midNet>=0 && midRate>=15) resultMsg=`보통 가게 기준 월 순이익 <b>${fmt(midNet)}만원</b>. 잘 되면 <b>${fmt(hiNet)}만원</b>도 가능해요 😊`;
-    else if(midNet>=0) resultMsg=`보통 가게 기준 <b>${fmt(midNet)}만원</b> 흑자. 아래 시나리오와 비교도 꼭 확인해 보세요.`;
-    else resultMsg=`중위 기준 <b>${fmt(Math.abs(midNet))}만원</b> 적자 예상이에요. 평형·인원 조정이나 다른 지역도 비교해보세요 🤔`;
-    const note=IND_NOTES[st.ind];
-    if(note) resultMsg+=`<br><span style="display:block;margin-top:6px;padding:6px 8px;background:var(--acc)11;border-left:2px solid var(--acc)66;border-radius:0 6px 6px 0;font-size:11px;color:var(--txt2)"><b>* ${st.ind} 특이사항</b><br>${note}</span>`;
-    lokiSay(resultMsg);
-  }
-}
-
-function buildWaterfall(sales, cogs, other, rent, labor, net, m, otherPct, row){
-  const gross = Math.round((sales - cogs)*10)/10;
-  const beforeFixed = Math.round((gross - other)*10)/10;
-  const cogsPct = Math.round(m.c*100);
-  const otherP = Math.round(otherPct*100);
-  const isPos = net >= 0;
-  const VAR='#f7615a', FIX='#f7a548', POS='#2ecc8a';
-
-  function resultBlock(label, badge, value, sub){
-    return `<div class="wfall-result">
-      <div class="wf-r-label">${label}${badge?` <span style="font-size:10px;background:${VAR}22;color:${VAR};padding:1px 6px;border-radius:10px;margin-left:4px">${badge}</span>`:''}</div>
-      <div class="wf-r-val">${value}</div>
-      ${sub?`<div class="wf-r-sub">${sub}</div>`:''}
-    </div>`;
-  }
-  function deductRow(color, label, sub, amount){
-    return `<div class="wf-drow">
-      <div class="wf-dleft">
-        <div class="wf-dbar" style="background:${color}"></div>
-        <div><div class="wf-dlbl">${label}</div>${sub?`<div class="wf-dsub">${sub}</div>`:''}</div>
-      </div>
-      <div class="wf-damt" style="color:${color}">-${fmt(amount)}만</div>
-    </div>`;
-  }
-
-  const html = `
-    <div class="wfall-title">💸 비용 구조 (중위 기준)</div>
-    <div class="wfall-sub">
-      <span class="wf-leg"><span class="wf-leg-dot" style="background:${VAR}"></span>변동비</span>
-      <span class="wf-leg"><span class="wf-leg-dot" style="background:${FIX}"></span>고정비</span>
-      <span class="wf-leg"><span class="wf-leg-dot" style="background:${POS}"></span>순이익</span>
-    </div>
-
-    ${resultBlock('월 매출', null, fmt(sales)+'만원', null)}
-    <div class="wfall-deducts">
-      ${deductRow(VAR, '상품원가', `${cogsPct}%${row.n?` · `+row.n.slice(0,18)+'…':''}`, cogs)}
-    </div>
-
-    ${resultBlock('매출총이익', `${Math.round((1-m.c)*100)}%만 남음`, fmt(gross)+'만원', '여기서 임대료·인건비·기타 모두 해결')}
-    <div class="wfall-deducts">
-      ${deductRow(VAR, '기타비용', `카드수수료·폐기·공과금 등 ${otherP}%`, other)}
-    </div>
-
-    ${resultBlock('고정비 차감 전', null, fmt(beforeFixed)+'만원', '임대료 + 인건비로 쓸 수 있는 금액')}
-    <div class="wfall-deducts">
-      ${deductRow(FIX, '임대료', `${row.r}천원/㎡ 기준`, rent)}
-      ${deductRow(FIX, '인건비', `직원 기준`, labor)}
-    </div>
-
-    <div class="wfall-final ${isPos?'wfall-final-pos':'wfall-final-neg'}">
-      <div>
-        <div class="wf-f-lbl" style="color:${isPos?POS:VAR}">월 순이익 (중위 기준)</div>
-        <div class="wf-f-val" style="color:${isPos?POS:VAR}">${isPos?'+':''}${fmt(net)}만원</div>
-        <div class="wf-f-sub">${isPos?'세금·초기비용 제외 추정치':'적자 — 매출 조건 또는 규모 조정 검토 필요'}</div>
-      </div>
-      <div style="font-size:32px">${isPos&&net>200?'😊':isPos?'🤔':'😰'}</div>
-    </div>`;
-
-  document.getElementById('wfallWrap').innerHTML = html;
-}
-
-
-function buildReport(gu, ind, row, _meta, hiSales, midSales, loSales, hiNet, midNet, loNet, rent, labor, cogs, other, emp, pyeong, otherPct){
-  const hiRate  = hiSales  > 0 ? Math.round(hiNet /hiSales *1000)/10 : 0;
-  const midRate = midSales > 0 ? Math.round(midNet/midSales*1000)/10 : 0;
-  const spread  = midSales > 0 ? Math.round((hiSales - midSales)/midSales*100) : 0;
-  const spreadDesc = spread>80?'매우 큰':spread>40?'상당한':spread>20?'어느 정도':'크지 않은';
-  const seoulCmp = hiSales>SEOUL_AVG?'서울 평균보다 높은':hiSales>SEOUL_AVG*0.7?'서울 평균 수준의':'서울 평균보다 낮은';
-  const growthWord = row.g>3?'성장':row.g>0?'소폭 성장':row.g>-3?'정체':row.g>-8?'감소':'가파른 감소';
-  const growthColor = row.g>0?'hi':row.g>-5?'warn':'lo';
-  const storeLevel = row.s>500?'매우 많은':row.s>200?'많은':row.s>80?'일반적인 수준의':'비교적 적은';
-  const bigCost = rent>labor&&rent>cogs?['임대료',fmt(rent)]:cogs>labor?['원가',fmt(cogs)]:['인건비',fmt(labor)];
-  const fixedRatio = hiSales>0?Math.round((rent+labor)/hiSales*100):0;
-
-  // 1. 매출 수준
-  let s1=`${gu} ${ind}의 잘 되는 가게(상위 25%)는 월 <b>${fmt(hiSales)}만원</b>의 매출을 올리고 있으며, 이는 ${seoulCmp} 수준입니다. `;
-  s1+=`보통 가게(중위 50%)는 <b>${fmt(midSales)}만원</b>으로 상위와의 격차가 <b>${spread}%</b>에 달합니다. `;
-  s1+=spread>50?`이처럼 ${spreadDesc} 격차는 <span class="warn">가게별 편차가 크다</span>는 뜻으로, 입지·운영 역량이 결과를 크게 좌우합니다. `:`격차가 ${spreadDesc}편으로, 운영 효율이 수익을 결정하는 경향이 있습니다. `;
-  s1+=`하위 25% 가게 추정 매출은 <b>${fmt(loSales)}만원</b> 수준으로, 최악의 시나리오도 반드시 고려해야 합니다.`;
-  document.getElementById('repSales').innerHTML=s1;
-
-  // 2. 수익 구조
-  let s2=`비용 구조에서 가장 큰 항목은 <b>${bigCost[0]}(${bigCost[1]}만원)</b>입니다. `;
-  s2+=`임대료·인건비 등 고정비가 매출의 <b>${fixedRatio}%</b>를 차지하므로, `;
-  s2+=fixedRatio>35?`<span class="warn">매출이 조금만 줄어도 수익성이 빠르게 악화됩니다.</span> `:`비교적 안정적인 고정비 구조입니다. `;
-  if(midNet>=0){
-    s2+=`보통 가게 기준 순이익률은 <b class="hi">${midRate}%</b>로, `;
-    s2+=midRate>=15?`업종 평균 대비 양호한 수준입니다. `:midRate>=5?`최소한의 이익은 발생하지만 여유가 크지 않습니다. `:`흑자이지만 수익률이 낮아 리스크 관리가 중요합니다. `;
-  } else {
-    s2+=`<span class="lo">보통 가게 기준 순이익이 -${fmt(Math.abs(midNet))}만원으로 적자 구간</span>에 해당합니다. `;
-    s2+=`면적 ${pyeong}평·${emp}명 조건에서 매출이 중위에 머물 경우 손실이 발생한다는 의미입니다. `;
-  }
-  s2+=`잘 되는 가게(상위 25%)의 순이익률은 <b>${hiRate}%</b>로, 같은 고정비 구조에서도 매출 규모에 따라 수익성 차이가 큽니다.`;
-  document.getElementById('repProfit').innerHTML=s2;
-
-  // 3. 시장 현황
-  let s3=`${gu}에는 현재 ${ind} 업소가 <b>${(row.s||0).toLocaleString()}개</b> 영업 중으로, 서울 내에서 ${storeLevel} 경쟁 밀도입니다. `;
-  s3+=`최근 분기 기준 이 업종 매출은 <span class="${growthColor}"><b>${Math.abs(row.g||0)}% ${growthWord}</b></span>했습니다. `;
-  if((row.g||0)<-5) s3+=`<span class="warn">시장 자체가 수축하는 국면</span>으로, 신규 진입 시 기존 가게의 점유율을 뺏어오는 경쟁을 해야 합니다. `;
-  else if((row.g||0)<0) s3+=`소폭 감소 추세이지만 안정적인 수요 기반이 있는 업종입니다. `;
-  else s3+=`매출이 증가하는 성장 국면으로, 신규 진입 타이밍으로 나쁘지 않습니다. `;
-  s3+=`단, 이 통계는 구(區) 전체 평균이므로 동(洞) 단위 세부 상권 분석은 별도로 필요합니다.`;
-  document.getElementById('repMarket').innerHTML=s3;
-
-  // 4. 핵심 리스크
-  const risks=[];
-  if((row.g||0)<-3) risks.push(`<span class="lo">매출 감소 추세(-${Math.abs(row.g)}%)</span>: 업종 자체의 수요가 줄어드는 시장입니다.`);
-  if(spread>60) risks.push(`<span class="warn">높은 가게 간 편차(${spread}%)</span>: 입지·운영 능력에 따라 결과가 극단적으로 갈립니다.`);
-  if(fixedRatio>38) risks.push(`<span class="warn">높은 고정비 비중(${fixedRatio}%)</span>: 비수기나 매출 하락 시 적자 전환이 빠릅니다.`);
-  if(loNet<0) risks.push(`<span class="lo">하위 25% 적자</span>: 하위 가게는 현재 조건에서 월 ${fmt(Math.abs(loNet))}만원 손실 추정입니다.`);
-  if((row.s||0)>300) risks.push(`<span class="warn">높은 경쟁 밀도(${row.s}개 업소)</span>: 신규 가게가 상권에서 자리잡는 데 시간이 걸릴 수 있습니다.`);
-  if(risks.length===0) risks.push(`현재 입력 조건에서 치명적인 리스크 지표는 없습니다. 단, <span class="warn">임차 계약 조건·상권 변화·초기투자 회수 기간</span>은 반드시 직접 확인하세요.`);
-  document.getElementById('repRisk').innerHTML=risks.map(r=>`• ${r}`).join('<br>');
-
-  // 5. 종합 의견
-  // 수익성 점수 (4점 만점)
-  const profitScore = (midNet>=0?2:0) + (midRate>=10?1:0) + (fixedRatio<=35?1:0);
-  // 시장 점수 (2점 만점) — 성장성 + 경쟁 밀도
-  const mktScore = ((row.g||0)>=0?1:0) + ((row.s||0)<=300?1:0);
-  const totalScore = profitScore + mktScore;
-
-  // 수익성·시장 각각 진단
-  const profitLabel = profitScore>=3 ? `<span class="hi">수익성 양호</span>` : profitScore>=2 ? `<span class="warn">수익성 보통</span>` : `<span class="lo">수익성 주의</span>`;
-  const mktLabel    = mktScore>=2    ? `<span class="hi">시장 여건 좋음</span>` : mktScore>=1   ? `<span class="warn">시장 여건 보통</span>` : `<span class="lo">시장 경쟁 치열</span>`;
-
-  let s5=`LOKI 종합 평가 — ${profitLabel} · ${mktLabel}<br>`;
-
-  if(totalScore>=5){
-    s5+=`${gu} ${ind}는 수익성과 시장 여건이 모두 양호한 편입니다. `;
-  } else if(profitScore>=2 && mktScore<=1){
-    s5+=`${gu} ${ind}는 <b>매출 규모는 크지만 경쟁이 치열한 시장</b>입니다. 수익 계산상 흑자가 가능하더라도, 신규 가게가 기존 점유율을 뺏어오는 데 시간과 비용이 필요합니다. `;
-  } else if(profitScore<=1 && mktScore>=1){
-    s5+=`시장 성장성은 있지만 현재 비용 구조에서 수익성이 낮습니다. 면적·인원 조정이나 임대 조건 협상으로 고정비를 줄이는 게 우선입니다. `;
-  } else {
-    s5+=`수익성과 시장 여건 모두 신중한 접근이 필요한 상황입니다. 같은 업종이라도 더 유리한 지역이 있을 수 있으니 지역을 바꿔 비교해보세요. `;
-  }
-  s5+=`면적 <b>${pyeong}평·직원 ${emp}명</b> 조건이 전제이며, 규모 조정이나 인건비 절감으로 수익성이 달라질 수 있습니다. `;
-  s5+=`상위와 하위의 순이익 차이가 <b>${fmt(Math.abs(hiNet-loNet))}만원</b>에 달하는 만큼, <b>입지 선정과 초기 운영 전략</b>이 성패를 가릅니다. `;
-  s5+=`수익 계산은 평균 통계 기반이므로, 실제 상권 방문과 인근 동종 업체 탐문을 반드시 병행하세요.`;
-  document.getElementById('repSummary').innerHTML=s5;
-}
-
-function highlightNext(){
-  ['s1','s2','s3','s4','s5','s6'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(!el.classList.contains('done')) { el.classList.add('pulse'); return; }
-    el.classList.remove('pulse');
-  });
-}
-
-const CAT_COMMENTS={
-  '소매':'소매업은 매장 크기와 입지에 따라 매출 편차가 큽니다. 이 계산기는 업종별 평균 평형·인원을 기본값으로 적용하며, 직접 수정해 나의 조건으로 확인해 보세요.',
-  '음식·숙박':'음식업은 원가율과 회전율이 수익성을 좌우합니다. 이 계산기는 업종별 평균 원가율을 적용했으며, 메뉴 구성과 식재료 관리에 따라 실제 원가가 달라질 수 있습니다.',
-  '서비스·기타':'서비스업은 인건비 비중이 높고 고객 재방문율이 매출을 결정합니다. 고정비(임대료·인건비)가 전체 비용의 절반 이상을 차지하므로 초기 고객 확보 전략이 핵심입니다.'
 };
-const IND_NOTES={
-  '편의점':'CU·GS25·세븐일레븐 등 브랜드별 원가율(로열티 포함)이 60~70%로 상이합니다. 이 계산기는 65%를 적용했으며, 심야 운영 여부와 본사 계약 조건이 실수익을 크게 좌우합니다.',
-  '슈퍼마켓':'본사 계약 없이 독립 운영이 많아 매입처 협상력이 수익에 직결됩니다. 식품 유통기한 관리에 따른 폐기 손실도 실제 원가에 포함해야 합니다.',
-  '약국':'처방전 조제 매출 비중에 따라 원가율이 55~70%로 달라집니다. 인근 의원·병원 유무가 매출을 결정하는 핵심 입지 조건입니다.',
-  '커피음료점':'스페셜티 카페와 프랜차이즈 간 원가율 차이가 큽니다. 이 계산기는 40%를 적용했으나 프랜차이즈는 로열티 포함 시 5~10%p 높아질 수 있습니다.',
-  '한식음식점':'배달 채널 비중에 따라 원가율이 5~10%p 달라집니다. 배달 수수료(15~30%)는 기타비용에 미반영으로 배달 비중이 높을수록 실수익은 더 낮을 수 있습니다.',
-  '호프주점':'주류 원가율은 안정적(35~45%)이지만 심야 인건비(야간수당)가 추가됩니다. 주말 매출 집중도가 높아 평일 고정비 관리가 중요합니다.',
-  '분식점':'배달 플랫폼 수수료 부담이 큰 업종입니다. 배달 비중 50% 이상 시 기타비용이 이 계산기 기준(6%)보다 훨씬 높을 수 있습니다.',
-  '제과점':'프랜차이즈(파리바게뜨·뚜레쥬르)는 본사 공급 원재료 비중이 높아 독립 운영 대비 원가율이 5~8%p 높습니다.',
-  '미용실':'원장 1인 운영과 직원 채용 시 수익 구조가 완전히 달라집니다. 디자이너 수당(매출의 30~50% 성과급) 적용 시 인건비가 크게 증가합니다.',
-  '피부관리업':'1인 운영 가능한 업종으로 인건비 절감 시 순이익률이 크게 개선됩니다. 고가 관리 장비와 재료비 관리가 핵심 비용 변수입니다.',
-  'pc방':'PC 장비 감가상각과 게임 이용료가 고정비에 추가됩니다. 이 계산기 기타비용 10%에 이를 포함했으나 좌석 수와 단가 설정에 따라 수익이 크게 달라집니다.',
-  '헬스클럽':'PT 매출 비중에 따라 수익 구조가 크게 달라집니다. 초기 설비 투자비(1~3억)가 크며 손익분기까지 1년 이상 소요되는 경우가 많습니다.',
-  '교습학원':'강사 인건비가 최대 비용이며 입시 시즌 매출 집중으로 비수기 고정비 관리가 중요합니다. 학원법 등록 요건과 강사 자격도 미리 확인해야 합니다.',
-  '부동산중개업':'중개 수수료 수입 특성상 월 매출 변동성이 매우 큽니다. 이 매출값은 평균이며 실제로는 지역 부동산 경기에 따라 달마다 크게 달라질 수 있습니다.',
-  '세탁소':'초기 장비 투자비(2,000~5,000만원)가 크지만 1인 운영이 가능해 인건비 절감 여지가 있습니다. 드라이클리닝·물세탁 비중에 따라 원가율이 달라집니다.',
-  '치과의원':'의료 면허와 장비 투자비(5천만~1억)가 필수입니다. 건강보험 환자 비중에 따라 실수입이 달라지며, 의료 장비 리스 비용도 함께 고려해야 합니다.'
+
+const SURVIVAL = [
+  { name: '배달전문',    open: 11.8, close: 7.2,  q: [210, 195, 220, 208] },
+  { name: '카페/커피',   open: 12.3, close: 8.9,  q: [320, 298, 345, 312] },
+  { name: '헬스/스포츠', open: 10.4, close: 7.8,  q: [88,  92,  96,  102] },
+  { name: '반려동물',    open: 9.7,  close: 7.3,  q: [45,  52,  61,  68]  },
+  { name: '편의점',      open: 8.9,  close: 7.1,  q: [180, 175, 188, 172] },
+  { name: '베이커리',    open: 7.4,  close: 6.2,  q: [102, 98,  110, 95]  },
+  { name: '의원/병원',   open: 5.1,  close: 4.8,  q: [72,  68,  75,  70]  },
+  { name: '일반한식',    open: 6.2,  close: 14.2, q: [620, 590, 645, 580] },
+  { name: '분식/김밥',   open: 5.8,  close: 13.1, q: [410, 385, 430, 398] },
+  { name: '노래방',      open: 2.1,  close: 12.8, q: [215, 198, 232, 208] },
+  { name: '옷가게',      open: 4.3,  close: 11.9, q: [380, 355, 398, 362] },
+  { name: '인쇄/복사',   open: 1.8,  close: 11.4, q: [92,  88,  96,  82]  },
+];
+
+// ※ index.html CAT_INDS 와 완전 동일하게 맞춤
+const subCategories = {
+  '음식·숙박': ['기타외국식음식점','기타음식점','분식점','여관ㆍ모텔','일식음식점','제과점','중식음식점','커피음료점','패스트푸드점','한식음식점','호프주점'],
+  '소매':      ['가구점','가전제품수리점','가전제품판매점','곡물가게','과일가게','꽃가게','문구점','생선가게','서점','슈퍼마켓','스포츠용품점','시계ㆍ귀금속점','식료품가게','신발가게','실내장식가게','안경점','애완용품점','약국','옷가게','의료용품가게','자전거판매점','장난감가게','정육점','철물점','컴퓨터판매점','편의점','화장품가게','휴대폰가게'],
+  '서비스·기타':['pc방','교습소ㆍ공부방','교습학원','기타일반의원','노래방','당구장','독서실','미용실','부동산중개업','세탁소','스포츠교육기관','실외골프연습장','예술학원','자동차수리점','치과의원','통신판매업','피부관리업','한방병원ㆍ한의원','헬스클럽'],
 };
-function getIndOverview(ind){
-  const m=META[ind];
-  const cat=m?m.cat:'';
-  const catMsg=CAT_COMMENTS[cat]||`${ind} 업종의 예상 수익을 계산합니다. 아래 조건을 확인해 주세요.`;
-  const note=IND_NOTES[ind];
-  let html=catMsg;
-  if(note) html+=`<br><span style="display:block;margin-top:6px;padding:6px 8px;background:var(--acc)11;border-left:2px solid var(--acc)66;border-radius:0 6px 6px 0;font-size:11px;color:var(--txt2)"><b>* ${ind} 특이사항</b><br>${note}</span>`;
-  return html;
+
+// ============================================================
+// SECTION 1
+// ============================================================
+let currentMode = 'region';
+let drillChart1Instance = null;
+let drillChart2Instance = null;
+let trendChartInstance = null;
+
+function switchMode(mode) {
+  currentMode = mode;
+  document.getElementById('toggleRegion').classList.toggle('active', mode === 'region');
+  document.getElementById('toggleBiz').classList.toggle('active', mode === 'biz');
+  document.getElementById('openTitle').textContent  = mode === 'region' ? '개업율 TOP 5 지역' : '개업 TOP 5 업종';
+  document.getElementById('closeTitle').textContent = mode === 'region' ? '폐업율 TOP 5 지역' : '폐업 TOP 5 업종';
+  renderRankList('openList',  DATA[mode].open,  'open');
+  renderRankList('closeList', DATA[mode].close, 'close');
+  closeDrilldown();
 }
-function getLokiComment(ind){ return getIndOverview(ind); }
-function lokiSay(msg){
-  document.getElementById('lokiMsg').innerHTML=msg;
+
+function renderRankList(elId, items, type) {
+  const max = items[0].val;
+  const el = document.getElementById(elId);
+  el.innerHTML = items.map((d, i) => `
+    <div class="rank-item" onclick="openDrilldown('${d.label}', '${type}')">
+      <div class="rank-num">${i + 1}</div>
+      <div class="rank-label">${d.label}</div>
+      <div class="rank-bar-wrap">
+        <div class="rank-bar-bg">
+          <div class="rank-bar-fill ${type}" style="width:${(d.val / max * 100).toFixed(0)}%"></div>
+        </div>
+      </div>
+      <div class="rank-val" style="color:var(--${type === 'open' ? 'accent2' : 'danger'})">${d.val}%</div>
+    </div>
+  `).join('');
 }
-function copyURL(){
-  gaShare();
-  const url=location.href;
-  navigator.clipboard?.writeText(url).then(()=>{
-    const b=document.querySelector('.copy-btn');
-    b.textContent='✅ 복사됨!';
-    setTimeout(()=>b.textContent='🔗 공유',1500);
-  }).catch(()=>alert('URL: '+url));
+
+// ============================================================
+// DRILLDOWN
+// ============================================================
+function openDrilldown(label, type) {
+  const panel = document.getElementById('drilldownPanel');
+  const modeLabel = currentMode === 'region' ? '업종별' : '지역별';
+  document.getElementById('drilldownTitle').textContent = `📍 ${label} — ${modeLabel} 드릴다운`;
+  panel.classList.add('visible');
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+
+  const openLabels  = (DATA[currentMode].drillOpen[label]  || ['업종A','업종B','업종C','업종D','업종E']);
+  const closeLabels = (DATA[currentMode].drillClose[label] || ['업종A','업종B','업종C','업종D','업종E']);
+  const openVals    = [8.4, 7.1, 6.8, 6.2, 5.9];
+  const closeVals   = [11.2, 10.8, 9.4, 8.7, 7.9];
+
+  if (drillChart1Instance) { drillChart1Instance.destroy(); drillChart1Instance = null; }
+  if (drillChart2Instance) { drillChart2Instance.destroy(); drillChart2Instance = null; }
+
+  drillChart1Instance = makeDrillChart('drillChart1', openLabels,  openVals,  'rgba(0,201,167,0.75)');
+  drillChart2Instance = makeDrillChart('drillChart2', closeLabels, closeVals, 'rgba(255,79,109,0.75)');
 }
-function showSrc(){document.getElementById('srcModal').classList.add('on')}
-function hideSrc(){document.getElementById('srcModal').classList.remove('on')}
-document.getElementById('srcModal').addEventListener('click',function(e){if(e.target===this)hideSrc()});
+
+function makeDrillChart(id, labels, vals, color) {
+  const ctx = document.getElementById(id).getContext('2d');
+  return new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ data: vals, backgroundColor: color, borderRadius: 4, borderSkipped: false }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: '#272d3d' }, ticks: { color: '#8b92a8', font: { size: 11 } } },
+        y: { grid: { display: false }, ticks: { color: '#e8eaf0', font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+function closeDrilldown() {
+  document.getElementById('drilldownPanel').classList.remove('visible');
+}
+
+// ============================================================
+// SECTION 2: BRIDGE
+// ============================================================
+function updateSubCategory() {
+  const cat = document.getElementById('selCategory').value;
+  const sel = document.getElementById('selBizType');
+  sel.innerHTML = '<option value="">업종 선택</option>';
+  if (cat && subCategories[cat]) {
+    subCategories[cat].forEach(b => {
+      const o = document.createElement('option');
+      o.value = b; o.textContent = b; sel.appendChild(o);
+    });
+  }
+}
+
+function updateBridgePreview() {
+  const gu  = document.getElementById('selGu').value;
+  const biz = document.getElementById('selBizType').value;
+  const preview = document.getElementById('bridgePreview');
+  if (gu && biz) {
+    preview.classList.add('visible');
+    preview.innerHTML = `<strong>${gu} · ${biz}</strong> 의 예상 수익을 계산합니다`;
+    document.getElementById('btnText').textContent = `${gu} ${biz} 수익계산기 열기`;
+  } else {
+    preview.classList.remove('visible');
+    document.getElementById('btnText').textContent = '예상 순이익 확인';
+  }
+}
+
+function goToCalculator() {
+  const gu  = document.getElementById('selGu').value;
+  const biz = document.getElementById('selBizType').value;
+  if (!gu || !biz) { alert('지역과 업종을 모두 선택해주세요'); return; }
+  window.location.href = `calc.html?gu=${encodeURIComponent(gu)}&ind=${encodeURIComponent(biz)}`;
+}
+
+// ============================================================
+// SECTION 3: 생존지수
+// ============================================================
+let selectedBiz = null;
+
+function renderBizChips() {
+  document.getElementById('bizChips').innerHTML = SURVIVAL.map(d => {
+    const chipId = 'chip_' + d.name.replace(/[\/\s]/g, '_');
+    return `<div class="s3-chip" id="${chipId}" onclick="selectBiz('${d.name}')">${d.name}</div>`;
+  }).join('');
+}
+
+function renderCompareList() {
+  const sorted = [...SURVIVAL].sort((a, b) => (b.open - b.close) - (a.open - a.close));
+  document.getElementById('compareList').innerHTML = sorted.map((d, i) => {
+    const score = (d.open - d.close).toFixed(1);
+    const cls   = parseFloat(score) >= 0 ? 'pos' : 'neg';
+    const isActive = d.name === selectedBiz;
+    return `
+      <div class="compare-item" onclick="selectBiz('${d.name}')"
+           style="${isActive ? 'background:rgba(79,124,255,0.1);' : ''}">
+        <div class="compare-rank">${i + 1}</div>
+        <div class="compare-name">${d.name}</div>
+        <div class="compare-score ${cls}">${parseFloat(score) >= 0 ? '+' : ''}${score}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function selectBiz(name) {
+  selectedBiz = name;
+  const d = SURVIVAL.find(x => x.name === name);
+  if (!d) return;
+
+  document.querySelectorAll('.s3-chip').forEach(c => c.classList.remove('active'));
+  const chipEl = document.getElementById('chip_' + name.replace(/[\/\s]/g, '_'));
+  if (chipEl) {
+    chipEl.classList.add('active');
+    chipEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  const score = d.open - d.close;
+  const scoreEl = document.getElementById('survivalScore');
+  scoreEl.textContent = (score >= 0 ? '+' : '') + score.toFixed(1);
+  scoreEl.className = 'survival-score ' + (score >= 0 ? 'positive' : 'negative');
+  document.getElementById('survivalScoreLabel').textContent = name;
+  document.getElementById('survivalCardTitle').textContent  = `📊 ${name} 생존지수`;
+  document.getElementById('openRate').textContent  = d.open  + '%';
+  document.getElementById('closeRate').textContent = d.close + '%';
+
+  const pct = Math.max(5, Math.min(95, 50 + score * 4));
+  const gauge = document.getElementById('survivalGauge');
+  gauge.style.width      = pct + '%';
+  gauge.style.background = score >= 0 ? 'var(--accent2)' : 'var(--danger)';
+
+  drawTrendChart(d);
+  renderCompareList();
+}
+
+function drawTrendChart(d) {
+  if (trendChartInstance) { trendChartInstance.destroy(); trendChartInstance = null; }
+  const ctx = document.getElementById('trendChart').getContext('2d');
+  trendChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['25Q1', '25Q2', '25Q3', '25Q4'],
+      datasets: [{
+        label: '폐업 점포수',
+        data: d.q,
+        borderColor: 'rgba(255,79,109,0.9)',
+        backgroundColor: 'rgba(255,79,109,0.08)',
+        borderWidth: 2.5,
+        fill: true,
+        tension: 0.35,
+        pointBackgroundColor: 'rgba(255,79,109,1)',
+        pointRadius: 5,
+        pointHoverRadius: 7,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: '#272d3d' }, ticks: { color: '#8b92a8', font: { size: 11 } } },
+        y: { grid: { color: '#272d3d' }, ticks: { color: '#8b92a8', font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+// ============================================================
+// CTA
+// ============================================================
+
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('DOMContentLoaded', () => {
+  switchMode('region');
+  renderBizChips();
+  renderCompareList();
+  selectBiz('카페/커피');
+});
 </script>
 </body>
 </html>

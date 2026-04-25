@@ -1,0 +1,29 @@
+# ── 원본 데이터 ──
+raw data/
+
+# ── 작업 기록 ──
+대화저장/
+docs/
+
+# ── 구버전 백업 ──
+history/
+old/
+
+# ── 미사용/임시 ──
+audit/
+scripts/
+info/
+theme2/
+
+# ── 구버전 파일 ──
+radar.html
+
+# ── 미사용 에셋 ──
+loki_character.png
+loki_robot_logo.svg
+loki_robot_logo_v2.svg
+
+# ── macOS 시스템 ──
+.DS_Store
+**/.DS_Store
+.~lock.*

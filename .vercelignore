@@ -1,0 +1,8 @@
+audit/
+history/
+docs/
+scripts/
+raw data/
+대화저장/
+.git/
+*.md
