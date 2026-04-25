@@ -224,9 +224,11 @@
     display: none; position: fixed; z-index: 201;
     top: 50%; left: 50%; transform: translate(-50%, -50%);
     background: var(--bg2); border: 1px solid var(--accent);
-    border-radius: var(--radius); padding: 28px 24px;
-    width: 92%; max-width: 720px; max-height: 80vh; overflow-y: auto;
+    border-radius: var(--radius); padding: 24px 16px;
+    width: calc(100vw - 32px); max-width: 720px; max-height: 85vh; overflow-y: auto;
+    box-sizing: border-box;
   }
+  @media (min-width: 480px) { .drill-modal { padding: 28px 24px; } }
   .drill-modal.visible { display: block; }
   .drill-modal-header {
     display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;
