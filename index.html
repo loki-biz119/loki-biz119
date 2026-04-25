@@ -190,9 +190,17 @@
   }
   .rank-bar-fill.open { background: var(--accent2); }
   .rank-bar-fill.close { background: var(--danger); }
-  .rank-val {
-    font-size: 13px; font-weight: 700; min-width: 40px; text-align: right;
+  .rank-stat {
+    font-size: 14px; font-weight: 700; min-width: 48px; text-align: right;
   }
+  .rank-count {
+    font-size: 12px; color: var(--text3); min-width: 40px; text-align: right;
+  }
+  .drill-sub {
+    font-size: 13px; font-weight: 700; margin-bottom: 12px;
+  }
+  .drill-sub.open { color: var(--accent2); }
+  .drill-sub.close { color: var(--danger); }
 
   /* drilldown */
   .drilldown-panel {
@@ -388,6 +396,11 @@
   }
   .footer-logo { font-size: 16px; font-weight: 800; color: var(--text2); }
   .footer-note { font-size: 12px; color: var(--text3); }
+  .footer-disclaimer {
+    font-size: 11px; color: var(--text3); margin-top: 12px;
+    max-width: 640px; line-height: 1.7;
+  }
+  .footer-disclaimer a { color: var(--accent); text-decoration: none; }
 
   /* ===== TAGS ===== */
   .tag-open {
@@ -451,7 +464,7 @@
     <div class="section-tag">SECTION 01</div>
     <div class="section-title">개업 · 폐업 순위</div>
     <div class="divider"></div>
-    <div class="section-desc">클릭하면 해당 지역/업종의 세부 드릴다운 데이터를 확인할 수 있습니다</div>
+    <div class="section-desc">데이터를 클릭하시면 세부 데이터를 확인하실 수 있습니다.</div>
   </div>
 
   <div class="s1-controls">
@@ -459,23 +472,23 @@
       <button class="toggle-btn active" id="toggleRegion" onclick="switchMode('region')">🗺 지역별</button>
       <button class="toggle-btn" id="toggleBiz" onclick="switchMode('biz')">🏪 업종별</button>
     </div>
-    <div style="font-size:12px;color:var(--text3);">개업율 = 개업수 / 유사업종점포수 × 100</div>
+    
   </div>
 
   <div class="rank-grid" id="rankGrid">
     <div class="rank-card">
       <div class="rank-card-title">
         <span class="dot dot-open"></span>
-        <span id="openTitle">개업율 TOP 5 지역</span>
-        <span class="tag-open">상승세</span>
+        <span id="openTitle">개업율 상승 지역 TOP 5</span>
+        
       </div>
       <div class="rank-list" id="openList"></div>
     </div>
     <div class="rank-card">
       <div class="rank-card-title">
         <span class="dot dot-close"></span>
-        <span id="closeTitle">폐업율 TOP 5 지역</span>
-        <span class="tag-close">주의</span>
+        <span id="closeTitle">폐업율 상승 지역 TOP 5</span>
+        
       </div>
       <div class="rank-list" id="closeList"></div>
     </div>
@@ -489,12 +502,12 @@
     </div>
     <div class="drilldown-grid">
       <div>
-        <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:var(--accent2);">▲ 개업 TOP 5</div>
-        <div class="chart-wrap"><canvas id="drillChart1"></canvas></div>
+        <div class="drill-sub open">▲ 개업 TOP 5</div>
+        <div class="rank-list" id="drillOpenList"></div>
       </div>
       <div>
-        <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:var(--danger);">▼ 폐업 TOP 5</div>
-        <div class="chart-wrap"><canvas id="drillChart2"></canvas></div>
+        <div class="drill-sub close">▼ 폐업 TOP 5</div>
+        <div class="rank-list" id="drillCloseList"></div>
       </div>
     </div>
   </div>
@@ -617,6 +630,7 @@
 <footer>
   <div class="footer-logo">LOKI</div>
   <div class="footer-note">출처: 서울시 소상공인 점포 행정동 데이터 · 직방 상가 임대료 DB · 공공데이터포털</div>
+  <div class="footer-disclaimer">이 사이트의 모든 데이터는 공공데이터포털, 서울시열린데이터광장, 각 지자체데이터포털, 소상공인365, 통계청, 대형부동산플랫폼 임대료 데이터 등을 토대로 제작되었습니다.<br>데이터 문의 및 기타 문의사항은 <a href="mailto:findingmylifegauge@gmail.com">findingmylifegauge@gmail.com</a> 으로 문의 바랍니다.</div>
 </footer>
 
 
@@ -627,62 +641,62 @@
 const DATA = {
   region: {
     open: [
-      { label: '성동구', val: 8.4 },
-      { label: '마포구', val: 7.9 },
-      { label: '용산구', val: 7.6 },
-      { label: '강남구', val: 7.2 },
-      { label: '송파구', val: 6.8 },
+      { label: '성동구', val: 8.4, count: 142 },
+      { label: '마포구', val: 7.9, count: 198 },
+      { label: '용산구', val: 7.6, count: 87 },
+      { label: '강남구', val: 7.2, count: 312 },
+      { label: '송파구', val: 6.8, count: 245 },
     ],
     close: [
-      { label: '중랑구', val: 9.1 },
-      { label: '도봉구', val: 8.7 },
-      { label: '강북구', val: 8.3 },
-      { label: '금천구', val: 8.0 },
-      { label: '노원구', val: 7.6 },
+      { label: '중랑구', val: 9.1, count: 168 },
+      { label: '도봉구', val: 8.7, count: 134 },
+      { label: '강북구', val: 8.3, count: 121 },
+      { label: '금천구', val: 8.0, count: 98 },
+      { label: '노원구', val: 7.6, count: 187 },
     ],
     drillOpen: {
-      '성동구': ['카페/커피', '한식', '베이커리', '편의점', '헬스/스포츠'],
-      '마포구': ['치킨', '카페/커피', '한식', '술집', '편의점'],
-      '용산구': ['카페/커피', '외국음식', '한식', '편의점', '술집'],
-      '강남구': ['카페/커피', '의원/병원', '한식', '편의점', '약국'],
-      '송파구': ['편의점', '카페/커피', '한식', '학원', '헬스/스포츠'],
+      '성동구': [{ label:'카페/커피', val:12.1, count:34 },{ label:'한식',     val:9.8,  count:28 },{ label:'베이커리', val:8.4,  count:18 },{ label:'편의점',   val:7.2,  count:12 },{ label:'헬스/스포츠',val:6.8,count:9 }],
+      '마포구': [{ label:'치킨',     val:11.2, count:41 },{ label:'카페/커피', val:10.8, count:38 },{ label:'한식',     val:9.4,  count:32 },{ label:'술집',     val:8.1,  count:22 },{ label:'편의점',   val:6.9,count:15 }],
+      '용산구': [{ label:'카페/커피', val:13.2, count:29 },{ label:'외국음식', val:10.5, count:18 },{ label:'한식',     val:8.9,  count:24 },{ label:'편의점',   val:7.4,  count:11 },{ label:'술집',     val:6.2,count:13 }],
+      '강남구': [{ label:'카페/커피', val:11.8, count:87 },{ label:'의원/병원', val:9.2,  count:54 },{ label:'한식',     val:8.6,  count:74 },{ label:'편의점',   val:7.1,  count:45 },{ label:'약국',     val:5.8,count:28 }],
+      '송파구': [{ label:'편의점',   val:9.4,  count:62 },{ label:'카페/커피', val:8.8,  count:54 },{ label:'한식',     val:8.1,  count:68 },{ label:'학원',     val:7.3,  count:38 },{ label:'헬스/스포츠',val:6.4,count:22 }],
     },
     drillClose: {
-      '중랑구': ['한식', '분식/김밥', '편의점', '옷가게', '미용실'],
-      '도봉구': ['한식', '분식/김밥', '옷가게', '카페/커피', '철물점'],
-      '강북구': ['한식', '분식/김밥', '편의점', '노래방', '옷가게'],
-      '금천구': ['한식', '편의점', '옷가게', '분식/김밥', '노래방'],
-      '노원구': ['한식', '분식/김밥', '편의점', '학원', '옷가게'],
+      '중랑구': [{ label:'한식',     val:15.2, count:58 },{ label:'분식/김밥', val:13.4, count:34 },{ label:'편의점',   val:11.8, count:28 },{ label:'옷가게',   val:10.2, count:21 },{ label:'미용실',   val:8.7,count:19 }],
+      '도봉구': [{ label:'한식',     val:14.8, count:48 },{ label:'분식/김밥', val:12.9, count:29 },{ label:'옷가게',   val:11.4, count:18 },{ label:'카페/커피', val:9.8,  count:22 },{ label:'철물점',   val:8.1,count:12 }],
+      '강북구': [{ label:'한식',     val:13.9, count:44 },{ label:'분식/김밥', val:12.1, count:27 },{ label:'편의점',   val:10.6, count:22 },{ label:'노래방',   val:9.4,  count:14 },{ label:'옷가게',   val:8.2,count:16 }],
+      '금천구': [{ label:'한식',     val:13.2, count:38 },{ label:'편의점',   val:11.7, count:18 },{ label:'옷가게',   val:10.3, count:14 },{ label:'분식/김밥', val:9.1,  count:21 },{ label:'노래방',   val:7.8,count:11 }],
+      '노원구': [{ label:'한식',     val:12.8, count:52 },{ label:'분식/김밥', val:11.4, count:38 },{ label:'편의점',   val:9.8,  count:32 },{ label:'학원',     val:8.7,  count:29 },{ label:'옷가게',   val:7.2,count:18 }],
     }
   },
   biz: {
     open: [
-      { label: '카페/커피', val: 12.3 },
-      { label: '배달전문',  val: 11.8 },
-      { label: '헬스/스포츠', val: 10.4 },
-      { label: '반려동물',  val: 9.7 },
-      { label: '편의점',    val: 8.9 },
+      { label: '카페/커피',    val: 12.3, count: 892 },
+      { label: '배달전문',     val: 11.8, count: 743 },
+      { label: '헬스/스포츠',  val: 10.4, count: 314 },
+      { label: '반려동물',     val: 9.7,  count: 218 },
+      { label: '편의점',       val: 8.9,  count: 567 },
     ],
     close: [
-      { label: '일반한식',  val: 14.2 },
-      { label: '분식/김밥', val: 13.1 },
-      { label: '노래방',    val: 12.8 },
-      { label: '옷가게',    val: 11.9 },
-      { label: '인쇄/복사', val: 11.4 },
+      { label: '일반한식',     val: 14.2, count: 1842 },
+      { label: '분식/김밥',    val: 13.1, count: 934 },
+      { label: '노래방',       val: 12.8, count: 412 },
+      { label: '옷가게',       val: 11.9, count: 728 },
+      { label: '인쇄/복사',    val: 11.4, count: 187 },
     ],
     drillOpen: {
-      '카페/커피':   ['강남구', '마포구', '성동구', '서초구', '용산구'],
-      '배달전문':    ['송파구', '강남구', '관악구', '마포구', '구로구'],
-      '헬스/스포츠': ['강남구', '서초구', '용산구', '성동구', '마포구'],
-      '반려동물':    ['마포구', '강남구', '성동구', '용산구', '서초구'],
-      '편의점':      ['관악구', '노원구', '강서구', '구로구', '성북구'],
+      '카페/커피':   [{ label:'강남구', val:14.2, count:87 },{ label:'마포구', val:12.8, count:54 },{ label:'성동구', val:11.4, count:38 },{ label:'서초구', val:10.9, count:62 },{ label:'용산구', val:9.8,count:29 }],
+      '배달전문':    [{ label:'송파구', val:13.8, count:72 },{ label:'강남구', val:12.4, count:68 },{ label:'관악구', val:11.2, count:58 },{ label:'마포구', val:10.6, count:44 },{ label:'구로구', val:9.4,count:38 }],
+      '헬스/스포츠': [{ label:'강남구', val:12.8, count:48 },{ label:'서초구', val:11.4, count:34 },{ label:'용산구', val:10.2, count:22 },{ label:'성동구', val:9.6,  count:19 },{ label:'마포구', val:8.4,count:17 }],
+      '반려동물':    [{ label:'마포구', val:11.8, count:32 },{ label:'강남구', val:10.4, count:28 },{ label:'성동구', val:9.2,  count:18 },{ label:'용산구', val:8.6,  count:14 },{ label:'서초구', val:7.4,count:12 }],
+      '편의점':      [{ label:'관악구', val:10.4, count:82 },{ label:'노원구', val:9.8,  count:74 },{ label:'강서구', val:9.2,  count:68 },{ label:'구로구', val:8.6,  count:54 },{ label:'성북구', val:7.8,count:48 }],
     },
     drillClose: {
-      '일반한식':  ['중랑구', '도봉구', '강북구', '금천구', '노원구'],
-      '분식/김밥': ['도봉구', '강북구', '노원구', '은평구', '중랑구'],
-      '노래방':    ['중랑구', '강북구', '도봉구', '구로구', '노원구'],
-      '옷가게':    ['중구', '종로구', '영등포구', '강북구', '도봉구'],
-      '인쇄/복사': ['종로구', '중구', '강북구', '도봉구', '구로구'],
+      '일반한식':  [{ label:'중랑구', val:16.4, count:142 },{ label:'도봉구', val:14.8, count:118 },{ label:'강북구', val:13.6, count:98 },{ label:'금천구', val:12.4, count:82 },{ label:'노원구', val:11.2,count:124 }],
+      '분식/김밥': [{ label:'도봉구', val:14.2, count:74 },{ label:'강북구', val:13.1, count:58 },{ label:'노원구', val:12.4, count:84 },{ label:'은평구', val:11.8, count:62 },{ label:'중랑구', val:10.9,count:54 }],
+      '노래방':    [{ label:'중랑구', val:15.8, count:48 },{ label:'강북구', val:14.2, count:38 },{ label:'도봉구', val:13.4, count:32 },{ label:'구로구', val:12.1, count:28 },{ label:'노원구', val:11.4,count:34 }],
+      '옷가게':    [{ label:'중구',   val:14.6, count:94 },{ label:'종로구', val:13.2, count:78 },{ label:'영등포구',val:12.4,count:68 },{ label:'강북구', val:11.8, count:48 },{ label:'도봉구', val:10.4,count:38 }],
+      '인쇄/복사': [{ label:'종로구', val:13.8, count:28 },{ label:'중구',   val:12.4, count:22 },{ label:'강북구', val:11.2, count:14 },{ label:'도봉구', val:10.4, count:11 },{ label:'구로구', val:9.2,count:9 }],
     }
   }
 };
@@ -721,26 +735,22 @@ function switchMode(mode) {
   currentMode = mode;
   document.getElementById('toggleRegion').classList.toggle('active', mode === 'region');
   document.getElementById('toggleBiz').classList.toggle('active', mode === 'biz');
-  document.getElementById('openTitle').textContent  = mode === 'region' ? '개업율 TOP 5 지역' : '개업 TOP 5 업종';
-  document.getElementById('closeTitle').textContent = mode === 'region' ? '폐업율 TOP 5 지역' : '폐업 TOP 5 업종';
+  document.getElementById('openTitle').textContent  = mode === 'region' ? '개업율 상승 지역 TOP 5' : '개업율 상승 업종 TOP 5';
+  document.getElementById('closeTitle').textContent = mode === 'region' ? '폐업율 상승 지역 TOP 5' : '폐업율 상승 업종 TOP 5';
   renderRankList('openList',  DATA[mode].open,  'open');
   renderRankList('closeList', DATA[mode].close, 'close');
   closeDrilldown();
 }
 
 function renderRankList(elId, items, type) {
-  const max = items[0].val;
+  const col = type === 'open' ? 'var(--accent2)' : 'var(--danger)';
   const el = document.getElementById(elId);
   el.innerHTML = items.map((d, i) => `
-    <div class="rank-item" onclick="openDrilldown('${d.label}', '${type}')">
+    <div class="rank-item" onclick="openDrilldown('${d.label}')">
       <div class="rank-num">${i + 1}</div>
       <div class="rank-label">${d.label}</div>
-      <div class="rank-bar-wrap">
-        <div class="rank-bar-bg">
-          <div class="rank-bar-fill ${type}" style="width:${(d.val / max * 100).toFixed(0)}%"></div>
-        </div>
-      </div>
-      <div class="rank-val" style="color:var(--${type === 'open' ? 'accent2' : 'danger'})">${d.val}%</div>
+      <div class="rank-stat" style="color:${col};font-weight:700;font-size:14px;">${d.val}%</div>
+      <div class="rank-count">${d.count.toLocaleString()}개</div>
     </div>
   `).join('');
 }
@@ -748,43 +758,32 @@ function renderRankList(elId, items, type) {
 // ============================================================
 // DRILLDOWN
 // ============================================================
-function openDrilldown(label, type) {
+function openDrilldown(label) {
   const panel = document.getElementById('drilldownPanel');
-  const modeLabel = currentMode === 'region' ? '업종별' : '지역별';
-  document.getElementById('drilldownTitle').textContent = `📍 ${label} — ${modeLabel} 드릴다운`;
+  const subLabel = currentMode === 'region' ? '개업·폐업 업종' : '개업·폐업 지역';
+  document.getElementById('drilldownTitle').textContent = `📍 ${label}의 ${subLabel} TOP 5`;
   panel.classList.add('visible');
   setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
 
-  const openLabels  = (DATA[currentMode].drillOpen[label]  || ['업종A','업종B','업종C','업종D','업종E']);
-  const closeLabels = (DATA[currentMode].drillClose[label] || ['업종A','업종B','업종C','업종D','업종E']);
-  const openVals    = [8.4, 7.1, 6.8, 6.2, 5.9];
-  const closeVals   = [11.2, 10.8, 9.4, 8.7, 7.9];
+  const openItems  = DATA[currentMode].drillOpen[label]  || [];
+  const closeItems = DATA[currentMode].drillClose[label] || [];
 
-  if (drillChart1Instance) { drillChart1Instance.destroy(); drillChart1Instance = null; }
-  if (drillChart2Instance) { drillChart2Instance.destroy(); drillChart2Instance = null; }
-
-  drillChart1Instance = makeDrillChart('drillChart1', openLabels,  openVals,  'rgba(0,201,167,0.75)');
-  drillChart2Instance = makeDrillChart('drillChart2', closeLabels, closeVals, 'rgba(255,79,109,0.75)');
+  renderDrillList('drillOpenList',  openItems,  'open');
+  renderDrillList('drillCloseList', closeItems, 'close');
 }
 
-function makeDrillChart(id, labels, vals, color) {
-  const ctx = document.getElementById(id).getContext('2d');
-  return new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{ data: vals, backgroundColor: color, borderRadius: 4, borderSkipped: false }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { color: '#272d3d' }, ticks: { color: '#8b92a8', font: { size: 11 } } },
-        y: { grid: { display: false }, ticks: { color: '#e8eaf0', font: { size: 11 } } }
-      }
-    }
-  });
+function renderDrillList(elId, items, type) {
+  const col = type === 'open' ? 'var(--accent2)' : 'var(--danger)';
+  const el = document.getElementById(elId);
+  if (!items.length) { el.innerHTML = '<div style="color:var(--text3);font-size:13px;padding:12px 0">데이터 준비 중</div>'; return; }
+  el.innerHTML = items.map((d, i) => `
+    <div class="rank-item" style="cursor:default;">
+      <div class="rank-num">${i + 1}</div>
+      <div class="rank-label">${d.label}</div>
+      <div class="rank-stat" style="color:${col};font-weight:700;font-size:14px;">${d.val}%</div>
+      <div class="rank-count">${d.count.toLocaleString()}개</div>
+    </div>
+  `).join('');
 }
 
 function closeDrilldown() {
