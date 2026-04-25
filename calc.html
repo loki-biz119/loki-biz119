@@ -236,8 +236,9 @@ nav{position:sticky;top:0;z-index:100;
 .num-inline::placeholder{color:var(--txt3);font-weight:400;font-size:13px}
 .num-inline:focus{border-color:var(--green);box-shadow:0 2px 8px var(--green)33;color:var(--green)}
 .num-inline.done{border-color:var(--green)88;color:var(--green)}
-.avg-hint{display:inline-flex;align-items:center;font-size:12px;color:#7c88ff;cursor:pointer;background:rgba(79,124,255,0.1);border-radius:10px;padding:2px 9px;margin-left:6px;border:1px solid rgba(79,124,255,0.2);transition:background 0.15s;white-space:nowrap}
-.avg-hint:hover{background:rgba(79,124,255,0.22)}
+.avg-hint{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#7c88ff;cursor:pointer;background:rgba(79,124,255,0.12);border-radius:10px;padding:3px 10px 3px 8px;margin-left:6px;border:1.5px solid rgba(79,124,255,0.45);transition:all 0.15s;white-space:nowrap;font-weight:600;text-decoration:underline;text-decoration-color:rgba(79,124,255,0.4);text-decoration-style:dotted}
+.avg-hint::before{content:"↵";font-size:11px;opacity:0.7}
+.avg-hint:hover{background:rgba(79,124,255,0.25);border-color:rgba(79,124,255,0.8);color:#a0aaff}
 
 .sheet-confirm{margin:16px 20px 0;background:linear-gradient(135deg,var(--acc),var(--acc2));
   border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:700;
@@ -356,6 +357,12 @@ nav{position:sticky;top:0;z-index:100;
       <span class="sel" id="s5" onclick="open5()">채용인원</span>
       <span class="avg-hint" id="s5Hint" style="display:none" onclick="fillAvg('emp')"></span>
       <span class="txt">을 채용하고</span>
+    </div>
+    <div class="srow" style="flex-wrap:wrap;gap:6px">
+      <span class="txt">원가율을</span>
+      <input class="num-inline" id="s7" type="number" step="any" min="0" max="100" placeholder="%" oninput="onS7Input()" onfocus="this.select()">
+      <span class="txt">%로</span>
+      <span class="avg-hint" id="s7Hint" style="display:none" onclick="fillAvg('cost')"></span>
     </div>
     <div class="srow">
       <span class="txt">기타비용을 매출의</span>
@@ -545,7 +552,7 @@ const GUS=["강남구", "강동구", "강북구", "강서구", "관악구", "광
 const MIN_WAGE=10030, HOURS=209;
 
 // 상태
-let st={gu:null,cat:null,ind:null,pyeong:null,emp:null,other:null};
+let st={gu:null,cat:null,ind:null,pyeong:null,emp:null,other:null,costRate:null};
 let tmpNum={pyeong:15,emp:2,other:5};
 
 // ── 구 그리드 생성 ──
@@ -585,6 +592,8 @@ let tmpNum={pyeong:15,emp:2,other:5};
   if(s4h){ s4h.textContent=`(${pInd} 평균 매장 크기 ${m.p}평)`; s4h.style.display='inline-flex'; }
   const s5h=document.getElementById('s5Hint');
   if(s5h){ s5h.textContent=`(${pInd} 평균 채용인원 ${m.e}명)`; s5h.style.display='inline-flex'; }
+  const s7h=document.getElementById('s7Hint');
+  if(s7h){ s7h.textContent=`(${pInd} 업종 평균 ${Math.round(m.c*100)}%)`; s7h.style.display='inline-flex'; }
   // calc()는 사용자가 값 입력 후 자동 실행됨
 })();
 
@@ -599,6 +608,10 @@ function fillAvg(type){
     tmpNum.emp=m.e;
     document.getElementById('empVal').textContent=m.e;
     confirmNum('emp');
+  } else if(type==='cost'){
+    const el=document.getElementById('s7');
+    el.value=Math.round(m.c*100);
+    onS7Input();
   }
 }
 
@@ -658,6 +671,11 @@ function open5(){
   document.getElementById('empVal').textContent=m.e;
   document.getElementById('empHint').textContent=`업종 평균 ${m.e}명`;
   openSheet('sheet5');
+}
+function onS7Input(){
+  const v=parseFloat(document.getElementById('s7').value);
+  st.costRate=(!isNaN(v)&&v>=0&&v<=100)?v/100:null;
+  if(st.gu&&st.ind) calc();
 }
 function onS6Input(){
   const v=parseFloat(document.getElementById('s6').value);
@@ -758,7 +776,8 @@ function calc(){
   const sales=row.a;
   const rent=Math.round(row.r*sqm/10*10)/10;
   const labor=Math.round(MIN_WAGE*HOURS*emp/10000*10)/10;
-  const cogs=Math.round(sales*m.c*10)/10;
+  const costRate = (st.costRate !== null && st.costRate !== undefined) ? st.costRate : m.c;
+  const cogs=Math.round(sales*costRate*10)/10;
   const other=Math.round(sales*otherPct*10)/10;
   const net=Math.round((sales-rent-labor-cogs-other)*10)/10;
   const rate=sales>0?Math.round(net/sales*1000)/10:0;
@@ -771,7 +790,7 @@ function calc(){
 
   // 시나리오 계산 (상위/중위/하위)
   const fixedCost = rent + labor;
-  function calcNet(s){ return Math.round((s - fixedCost - s*m.c - s*otherPct)*10)/10; }
+  function calcNet(s){ return Math.round((s - fixedCost - s*costRate - s*otherPct)*10)/10; }
   const hiSales = row.a;
   const midSales = row.m;
   const loSales = Math.round(row.m * 0.6 * 10) / 10;
