@@ -786,72 +786,74 @@ const DATA = {
   region: {
     open: [
       {label:'강서구', val:2.3, count:725, total:31578},
-      {label:'관악구', val:2.2, count:480, total:21627},
       {label:'마포구', val:2.2, count:724, total:32603},
       {label:'강북구', val:2.2, count:304, total:13776},
-      {label:'광진구', val:2.2, count:455, total:20568},
+      {label:'관악구', val:2.2, count:480, total:21627},
+      {label:'광진구', val:2.2, count:455, total:20568}
     ],
     close: [
       {label:'강북구', val:2.9, count:400, total:13776},
-      {label:'관악구', val:2.7, count:584, total:21627},
       {label:'강서구', val:2.7, count:841, total:31578},
+      {label:'관악구', val:2.7, count:584, total:21627},
       {label:'서대문구', val:2.7, count:418, total:15348},
-      {label:'강동구', val:2.6, count:629, total:24150},
+      {label:'광진구', val:2.6, count:539, total:20568}
     ],
     drillOpen: {
-      '강서구': [{'label': '반려동물', 'val': 4.8, 'count': 12, 'total': 248}, {'label': '일반한식', 'val': 4.6, 'count': 141, 'total': 3094}, {'label': '슈퍼마켓', 'val': 4.5, 'count': 30, 'total': 663}, {'label': '노래방', 'val': 4.0, 'count': 13, 'total': 329}, {'label': '베이커리', 'val': 3.6, 'count': 14, 'total': 384}],
-      '관악구': [{'label': '베이커리', 'val': 6.0, 'count': 15, 'total': 249}, {'label': '일반한식', 'val': 5.4, 'count': 130, 'total': 2417}, {'label': '치킨/배달', 'val': 4.9, 'count': 14, 'total': 283}, {'label': '카페/커피', 'val': 3.8, 'count': 35, 'total': 928}, {'label': '분식/김밥', 'val': 3.4, 'count': 18, 'total': 524}],
-      '마포구': [{'label': '슈퍼마켓', 'val': 5.6, 'count': 35, 'total': 630}, {'label': '일반한식', 'val': 3.8, 'count': 122, 'total': 3232}, {'label': '치킨/배달', 'val': 3.3, 'count': 9, 'total': 269}, {'label': '분식/김밥', 'val': 3.2, 'count': 21, 'total': 652}, {'label': '카페/커피', 'val': 2.7, 'count': 63, 'total': 2361}],
-      '강북구': [{'label': '슈퍼마켓', 'val': 6.1, 'count': 23, 'total': 374}, {'label': '반려동물', 'val': 4.9, 'count': 5, 'total': 103}, {'label': '일반한식', 'val': 4.6, 'count': 84, 'total': 1809}, {'label': '치킨/배달', 'val': 4.5, 'count': 9, 'total': 200}, {'label': '분식/김밥', 'val': 3.4, 'count': 10, 'total': 297}],
-      '광진구': [{'label': '반려동물', 'val': 6.1, 'count': 8, 'total': 132}, {'label': '슈퍼마켓', 'val': 5.1, 'count': 21, 'total': 412}, {'label': '일반한식', 'val': 4.3, 'count': 91, 'total': 2108}, {'label': '분식/김밥', 'val': 3.9, 'count': 17, 'total': 431}, {'label': '노래방', 'val': 3.3, 'count': 11, 'total': 331}],
-      '서대문구': [{'label': '반려동물', 'val': 5.7, 'count': 6, 'total': 105}, {'label': '분식/김밥', 'val': 4.0, 'count': 16, 'total': 401}, {'label': '카페/커피', 'val': 3.5, 'count': 31, 'total': 876}, {'label': '일반한식', 'val': 3.2, 'count': 51, 'total': 1608}, {'label': '슈퍼마켓', 'val': 2.9, 'count': 11, 'total': 375}],
-      '강동구': [{'label': '카페/커피', 'val': 4.4, 'count': 41, 'total': 934}, {'label': '슈퍼마켓', 'val': 3.9, 'count': 20, 'total': 512}, {'label': '치킨/배달', 'val': 3.7, 'count': 10, 'total': 272}, {'label': '베이커리', 'val': 3.6, 'count': 12, 'total': 332}, {'label': '반려동물', 'val': 3.5, 'count': 7, 'total': 198}],
+      '서대문구': [{'label': '분식점', 'val': 4.0, 'count': 16, 'total': 401}, {'label': '카페·커피숍', 'val': 3.5, 'count': 31, 'total': 876}, {'label': '한식당', 'val': 3.2, 'count': 51, 'total': 1608}, {'label': '슈퍼마켓', 'val': 2.9, 'count': 11, 'total': 375}, {'label': '편의점', 'val': 2.6, 'count': 8, 'total': 302}],
+      '강북구': [{'label': '슈퍼마켓', 'val': 6.1, 'count': 23, 'total': 374}, {'label': '한식당', 'val': 4.6, 'count': 84, 'total': 1809}, {'label': '카페·커피숍', 'val': 2.2, 'count': 12, 'total': 548}, {'label': '미용실', 'val': 1.9, 'count': 15, 'total': 775}, {'label': '호프집·주점', 'val': 1.7, 'count': 9, 'total': 530}],
+      '강서구': [{'label': '패스트푸드', 'val': 4.7, 'count': 16, 'total': 343}, {'label': '한식당', 'val': 4.6, 'count': 141, 'total': 3094}, {'label': '슈퍼마켓', 'val': 4.5, 'count': 30, 'total': 663}, {'label': '노래방', 'val': 4.0, 'count': 13, 'total': 329}, {'label': '피부관리실', 'val': 4.0, 'count': 31, 'total': 769}],
+      '광진구': [{'label': '슈퍼마켓', 'val': 5.1, 'count': 21, 'total': 412}, {'label': '한식당', 'val': 4.3, 'count': 91, 'total': 2108}, {'label': '분식점', 'val': 3.9, 'count': 17, 'total': 431}, {'label': '피부관리실', 'val': 3.9, 'count': 16, 'total': 412}, {'label': '노래방', 'val': 3.3, 'count': 11, 'total': 331}],
+      '관악구': [{'label': '한식당', 'val': 5.4, 'count': 130, 'total': 2417}, {'label': '피부관리실', 'val': 5.0, 'count': 21, 'total': 423}, {'label': '카페·커피숍', 'val': 3.8, 'count': 35, 'total': 928}, {'label': '분식점', 'val': 3.4, 'count': 18, 'total': 524}, {'label': '스포츠교실', 'val': 2.6, 'count': 9, 'total': 343}],
+      '마포구': [{'label': '슈퍼마켓', 'val': 5.6, 'count': 35, 'total': 630}, {'label': '피부관리실', 'val': 4.8, 'count': 32, 'total': 671}, {'label': '양식당', 'val': 4.4, 'count': 37, 'total': 832}, {'label': '한식당', 'val': 3.8, 'count': 122, 'total': 3232}, {'label': '패스트푸드', 'val': 3.8, 'count': 15, 'total': 390}]
     },
     drillClose: {
-      '강서구': [{'label': '치킨/배달', 'val': 5.3, 'count': 18, 'total': 337}, {'label': '편의점', 'val': 5.0, 'count': 25, 'total': 500}, {'label': '분식/김밥', 'val': 4.9, 'count': 30, 'total': 617}, {'label': '일반한식', 'val': 4.7, 'count': 145, 'total': 3094}, {'label': '노래방', 'val': 4.3, 'count': 14, 'total': 329}],
-      '관악구': [{'label': '카페/커피', 'val': 5.8, 'count': 54, 'total': 928}, {'label': '치킨/배달', 'val': 5.7, 'count': 16, 'total': 283}, {'label': '일반한식', 'val': 4.6, 'count': 112, 'total': 2417}, {'label': '베이커리', 'val': 4.0, 'count': 10, 'total': 249}, {'label': '분식/김밥', 'val': 3.8, 'count': 20, 'total': 524}],
-      '마포구': [{'label': '베이커리', 'val': 4.2, 'count': 24, 'total': 567}, {'label': '치킨/배달', 'val': 4.1, 'count': 11, 'total': 269}, {'label': '일반한식', 'val': 3.9, 'count': 125, 'total': 3232}, {'label': '분식/김밥', 'val': 3.5, 'count': 23, 'total': 652}, {'label': '카페/커피', 'val': 3.1, 'count': 73, 'total': 2361}],
-      '강북구': [{'label': '카페/커피', 'val': 6.2, 'count': 34, 'total': 548}, {'label': '분식/김밥', 'val': 5.1, 'count': 15, 'total': 297}, {'label': '치킨/배달', 'val': 5.0, 'count': 10, 'total': 200}, {'label': '일반한식', 'val': 4.1, 'count': 74, 'total': 1809}, {'label': '슈퍼마켓', 'val': 3.5, 'count': 13, 'total': 374}],
-      '광진구': [{'label': '카페/커피', 'val': 4.9, 'count': 48, 'total': 978}, {'label': '분식/김밥', 'val': 4.9, 'count': 21, 'total': 431}, {'label': '치킨/배달', 'val': 4.3, 'count': 10, 'total': 234}, {'label': '노래방', 'val': 4.2, 'count': 14, 'total': 331}, {'label': '일반한식', 'val': 4.2, 'count': 88, 'total': 2108}],
-      '서대문구': [{'label': '편의점', 'val': 6.6, 'count': 20, 'total': 302}, {'label': '치킨/배달', 'val': 4.4, 'count': 8, 'total': 182}, {'label': '카페/커피', 'val': 4.3, 'count': 38, 'total': 876}, {'label': '분식/김밥', 'val': 4.2, 'count': 17, 'total': 401}, {'label': '일반한식', 'val': 4.0, 'count': 65, 'total': 1608}],
-      '강동구': [{'label': '카페/커피', 'val': 5.4, 'count': 50, 'total': 934}, {'label': '노래방', 'val': 4.9, 'count': 11, 'total': 224}, {'label': '편의점', 'val': 4.1, 'count': 14, 'total': 345}, {'label': '일반한식', 'val': 4.0, 'count': 90, 'total': 2270}, {'label': '분식/김밥', 'val': 3.7, 'count': 19, 'total': 508}],
-    }
+      '서대문구': [{'label': '편의점', 'val': 6.6, 'count': 20, 'total': 302}, {'label': '카페·커피숍', 'val': 4.3, 'count': 38, 'total': 876}, {'label': '호프집·주점', 'val': 4.3, 'count': 23, 'total': 533}, {'label': '분식점', 'val': 4.2, 'count': 17, 'total': 401}, {'label': '온라인쇼핑몰', 'val': 4.0, 'count': 21, 'total': 520}],
+      '강북구': [{'label': '카페·커피숍', 'val': 6.2, 'count': 34, 'total': 548}, {'label': '호프집·주점', 'val': 4.5, 'count': 24, 'total': 530}, {'label': '한식당', 'val': 4.1, 'count': 74, 'total': 1809}, {'label': '슈퍼마켓', 'val': 3.5, 'count': 13, 'total': 374}, {'label': '옷가게', 'val': 2.7, 'count': 19, 'total': 694}],
+      '강서구': [{'label': '일식당', 'val': 5.9, 'count': 18, 'total': 307}, {'label': '치킨/배달', 'val': 5.3, 'count': 18, 'total': 337}, {'label': '패스트푸드', 'val': 5.2, 'count': 18, 'total': 343}, {'label': '편의점', 'val': 5.0, 'count': 25, 'total': 500}, {'label': '분식점', 'val': 4.9, 'count': 30, 'total': 617}],
+      '광진구': [{'label': '분식점', 'val': 4.9, 'count': 21, 'total': 431}, {'label': '카페·커피숍', 'val': 4.9, 'count': 48, 'total': 978}, {'label': '한식당', 'val': 4.2, 'count': 88, 'total': 2108}, {'label': '노래방', 'val': 4.2, 'count': 14, 'total': 331}, {'label': '호프집·주점', 'val': 4.0, 'count': 28, 'total': 703}],
+      '관악구': [{'label': '카페·커피숍', 'val': 5.8, 'count': 54, 'total': 928}, {'label': '호프집·주점', 'val': 5.2, 'count': 39, 'total': 754}, {'label': '한식당', 'val': 4.6, 'count': 112, 'total': 2417}, {'label': '분식점', 'val': 3.8, 'count': 20, 'total': 524}, {'label': '스포츠교실', 'val': 3.8, 'count': 13, 'total': 343}],
+      '마포구': [{'label': '패스트푸드', 'val': 6.4, 'count': 25, 'total': 390}, {'label': '중식당', 'val': 5.9, 'count': 21, 'total': 356}, {'label': '호프집·주점', 'val': 5.7, 'count': 68, 'total': 1183}, {'label': '양식당', 'val': 4.4, 'count': 37, 'total': 832}, {'label': '베이커리·제과점', 'val': 4.2, 'count': 24, 'total': 567}]
+    },
   },
   biz: {
     open: [
+      {label:'피부관리실', val:4.8, count:487, total:10132},
+      {label:'장난감가게', val:4.7, count:50, total:1060},
+      {label:'어학원', val:4.6, count:121, total:2617},
       {label:'반려동물샵', val:4.4, count:116, total:2614},
-      {label:'슈퍼마켓', val:4.1, count:541, total:13038},
-      {label:'한식당', val:3.6, count:2136, total:58922},
-      {label:'베이커리·제과점', val:3.3, count:238, total:7234},
-      {label:'분식점', val:3.2, count:378, total:11908},
+      {label:'여관·모텔', val:4.2, count:136, total:3255}
     ],
     close: [
+      {label:'PC방', val:4.9, count:61, total:1237},
+      {label:'오락시설', val:4.5, count:57, total:1262},
+      {label:'패스트푸드', val:4.4, count:274, total:6285},
       {label:'치킨/배달', val:4.4, count:253, total:5803},
-      {label:'분식점', val:3.9, count:466, total:11908},
-      {label:'카페·커피숍', val:3.7, count:1017, total:27443},
-      {label:'한식당', val:3.7, count:2160, total:58922},
-      {label:'노래방', val:3.4, count:187, total:5547},
+      {label:'호프집·주점', val:4.0, count:634, total:15880}
     ],
     drillOpen: {
-      '슈퍼마켓': [{'label': '중구', 'val': 6.4, 'count': 46, 'total': 715}, {'label': '강남구', 'val': 6.3, 'count': 56, 'total': 891}, {'label': '강북구', 'val': 6.1, 'count': 23, 'total': 374}, {'label': '성동구', 'val': 5.8, 'count': 24, 'total': 411}, {'label': '마포구', 'val': 5.6, 'count': 35, 'total': 630}],
-      '한식당': [{'label': '관악구', 'val': 5.4, 'count': 130, 'total': 2417}, {'label': '강서구', 'val': 4.6, 'count': 141, 'total': 3094}, {'label': '강북구', 'val': 4.6, 'count': 84, 'total': 1809}, {'label': '광진구', 'val': 4.3, 'count': 91, 'total': 2108}, {'label': '동대문구', 'val': 3.9, 'count': 91, 'total': 2307}],
-      '반려동물샵': [{'label': '광진구', 'val': 6.1, 'count': 8, 'total': 132}, {'label': '은평구', 'val': 6.0, 'count': 10, 'total': 167}, {'label': '서대문구', 'val': 5.7, 'count': 6, 'total': 105}, {'label': '성동구', 'val': 5.2, 'count': 7, 'total': 135}, {'label': '서초구', 'val': 5.0, 'count': 9, 'total': 179}],
-      '베이커리·제과점': [{'label': '관악구', 'val': 6.0, 'count': 15, 'total': 249}, {'label': '구로구', 'val': 5.3, 'count': 11, 'total': 209}, {'label': '영등포구', 'val': 4.6, 'count': 15, 'total': 324}, {'label': '노원구', 'val': 4.5, 'count': 12, 'total': 266}, {'label': '용산구', 'val': 4.0, 'count': 12, 'total': 299}],
-      '분식점': [{'label': '도봉구', 'val': 5.3, 'count': 15, 'total': 285}, {'label': '금천구', 'val': 4.0, 'count': 13, 'total': 321}, {'label': '서대문구', 'val': 4.0, 'count': 16, 'total': 401}, {'label': '광진구', 'val': 3.9, 'count': 17, 'total': 431}, {'label': '종로구', 'val': 3.9, 'count': 18, 'total': 465}],
+      '피부관리실': [{'label': '영등포구', 'val': 7.3, 'count': 34, 'total': 465}, {'label': '금천구', 'val': 7.0, 'count': 13, 'total': 186}, {'label': '구로구', 'val': 6.3, 'count': 22, 'total': 349}, {'label': '성동구', 'val': 5.9, 'count': 17, 'total': 288}, {'label': '중구', 'val': 5.6, 'count': 12, 'total': 213}],
+      '장난감가게': [{'label': '마포구', 'val': 11.9, 'count': 13, 'total': 109}, {'label': '송파구', 'val': 8.6, 'count': 5, 'total': 58}, {'label': '서초구', 'val': 8.0, 'count': 6, 'total': 75}, {'label': '용산구', 'val': 3.4, 'count': 2, 'total': 59}, {'label': '강서구', 'val': 2.7, 'count': 2, 'total': 75}],
+      '어학원': [{'label': '광진구', 'val': 10.2, 'count': 6, 'total': 59}, {'label': '동작구', 'val': 9.4, 'count': 8, 'total': 85}, {'label': '양천구', 'val': 9.3, 'count': 10, 'total': 108}, {'label': '동대문구', 'val': 8.6, 'count': 7, 'total': 81}, {'label': '강서구', 'val': 8.5, 'count': 11, 'total': 130}],
+      '반려동물샵': [{'label': '서대문구', 'val': 7.8, 'count': 6, 'total': 77}, {'label': '광진구', 'val': 7.4, 'count': 7, 'total': 94}, {'label': '강북구', 'val': 6.8, 'count': 5, 'total': 73}, {'label': '서초구', 'val': 6.7, 'count': 8, 'total': 120}, {'label': '성동구', 'val': 6.7, 'count': 7, 'total': 105}],
+      '여관·모텔': [{'label': '종로구', 'val': 8.8, 'count': 25, 'total': 283}, {'label': '마포구', 'val': 8.4, 'count': 8, 'total': 95}, {'label': '강동구', 'val': 7.0, 'count': 8, 'total': 114}, {'label': '서초구', 'val': 5.6, 'count': 5, 'total': 90}, {'label': '송파구', 'val': 5.6, 'count': 9, 'total': 162}],
+      'PC방': [{'label': '송파구', 'val': 4.0, 'count': 3, 'total': 75}, {'label': '강서구', 'val': 3.3, 'count': 2, 'total': 61}, {'label': '광진구', 'val': 1.5, 'count': 1, 'total': 66}, {'label': '강남구', 'val': 1.4, 'count': 1, 'total': 72}, {'label': '강동구', 'val': 0.0, 'count': 0, 'total': 65}],
+      '오락시설': [{'label': '영등포구', 'val': 7.2, 'count': 6, 'total': 83}, {'label': '노원구', 'val': 6.0, 'count': 3, 'total': 50}, {'label': '마포구', 'val': 5.7, 'count': 7, 'total': 122}, {'label': '송파구', 'val': 3.8, 'count': 3, 'total': 80}, {'label': '관악구', 'val': 1.9, 'count': 1, 'total': 54}],
+      '패스트푸드': [{'label': '양천구', 'val': 6.3, 'count': 12, 'total': 191}, {'label': '강동구', 'val': 6.1, 'count': 16, 'total': 262}, {'label': '관악구', 'val': 5.8, 'count': 15, 'total': 258}, {'label': '성동구', 'val': 5.3, 'count': 12, 'total': 226}, {'label': '구로구', 'val': 5.3, 'count': 10, 'total': 189}],
       '치킨/배달': [{'label': '관악구', 'val': 4.9, 'count': 14, 'total': 283}, {'label': '금천구', 'val': 4.6, 'count': 8, 'total': 173}, {'label': '강북구', 'val': 4.5, 'count': 9, 'total': 200}, {'label': '서초구', 'val': 3.9, 'count': 8, 'total': 204}, {'label': '영등포구', 'val': 3.9, 'count': 10, 'total': 254}],
-      '카페·커피숍': [{'label': '강동구', 'val': 4.4, 'count': 41, 'total': 934}, {'label': '중랑구', 'val': 3.9, 'count': 26, 'total': 665}, {'label': '관악구', 'val': 3.8, 'count': 35, 'total': 928}, {'label': '강남구', 'val': 3.6, 'count': 92, 'total': 2579}, {'label': '중구', 'val': 3.6, 'count': 50, 'total': 1377}],
-      '노래방': [{'label': '강서구', 'val': 4.0, 'count': 13, 'total': 329}, {'label': '중랑구', 'val': 4.0, 'count': 14, 'total': 352}, {'label': '관악구', 'val': 3.3, 'count': 9, 'total': 275}, {'label': '광진구', 'val': 3.3, 'count': 11, 'total': 331}, {'label': '강북구', 'val': 2.9, 'count': 8, 'total': 279}],
+      '호프집·주점': [{'label': '금천구', 'val': 4.0, 'count': 17, 'total': 429}, {'label': '강남구', 'val': 3.8, 'count': 44, 'total': 1152}, {'label': '중랑구', 'val': 3.1, 'count': 19, 'total': 617}, {'label': '송파구', 'val': 2.9, 'count': 24, 'total': 828}, {'label': '은평구', 'val': 2.9, 'count': 15, 'total': 519}]
     },
     drillClose: {
-      '슈퍼마켓': [{'label': '양천구', 'val': 4.4, 'count': 19, 'total': 431}, {'label': '광진구', 'val': 3.9, 'count': 16, 'total': 412}, {'label': '동작구', 'val': 3.7, 'count': 15, 'total': 409}, {'label': '강북구', 'val': 3.5, 'count': 13, 'total': 374}, {'label': '은평구', 'val': 3.1, 'count': 14, 'total': 456}],
-      '한식당': [{'label': '송파구', 'val': 4.9, 'count': 171, 'total': 3500}, {'label': '강서구', 'val': 4.7, 'count': 145, 'total': 3094}, {'label': '관악구', 'val': 4.6, 'count': 112, 'total': 2417}, {'label': '광진구', 'val': 4.2, 'count': 88, 'total': 2108}, {'label': '강북구', 'val': 4.1, 'count': 74, 'total': 1809}],
-      '반려동물샵': [{'label': '동작구', 'val': 6.6, 'count': 5, 'total': 76}, {'label': '금천구', 'val': 4.8, 'count': 4, 'total': 83}, {'label': '은평구', 'val': 3.6, 'count': 6, 'total': 167}, {'label': '성북구', 'val': 3.2, 'count': 4, 'total': 124}, {'label': '광진구', 'val': 3.0, 'count': 4, 'total': 132}],
-      '베이커리·제과점': [{'label': '동대문구', 'val': 5.5, 'count': 12, 'total': 220}, {'label': '은평구', 'val': 4.4, 'count': 12, 'total': 272}, {'label': '서초구', 'val': 4.3, 'count': 18, 'total': 421}, {'label': '마포구', 'val': 4.2, 'count': 24, 'total': 567}, {'label': '성동구', 'val': 4.2, 'count': 12, 'total': 283}],
-      '분식점': [{'label': '금천구', 'val': 5.6, 'count': 18, 'total': 321}, {'label': '송파구', 'val': 5.4, 'count': 41, 'total': 759}, {'label': '동작구', 'val': 5.3, 'count': 20, 'total': 380}, {'label': '강북구', 'val': 5.1, 'count': 15, 'total': 297}, {'label': '노원구', 'val': 5.0, 'count': 23, 'total': 464}],
+      '피부관리실': [{'label': '서대문구', 'val': 3.4, 'count': 7, 'total': 204}, {'label': '구로구', 'val': 3.4, 'count': 12, 'total': 349}, {'label': '동대문구', 'val': 3.2, 'count': 9, 'total': 285}, {'label': '노원구', 'val': 3.1, 'count': 11, 'total': 353}, {'label': '강서구', 'val': 3.1, 'count': 24, 'total': 769}],
+      '장난감가게': [{'label': '강남구', 'val': 2.9, 'count': 2, 'total': 70}, {'label': '서초구', 'val': 2.7, 'count': 2, 'total': 75}, {'label': '영등포구', 'val': 1.9, 'count': 1, 'total': 54}, {'label': '용산구', 'val': 1.7, 'count': 1, 'total': 59}, {'label': '강서구', 'val': 1.3, 'count': 1, 'total': 75}],
+      '어학원': [{'label': '동작구', 'val': 3.5, 'count': 3, 'total': 85}, {'label': '영등포구', 'val': 3.4, 'count': 3, 'total': 89}, {'label': '성동구', 'val': 2.9, 'count': 2, 'total': 70}, {'label': '노원구', 'val': 2.4, 'count': 4, 'total': 166}, {'label': '서대문구', 'val': 2.3, 'count': 2, 'total': 88}],
+      '반려동물샵': [{'label': '동작구', 'val': 10.0, 'count': 5, 'total': 50}, {'label': '금천구', 'val': 6.0, 'count': 4, 'total': 67}, {'label': '성북구', 'val': 4.6, 'count': 4, 'total': 87}, {'label': '용산구', 'val': 4.4, 'count': 3, 'total': 68}, {'label': '광진구', 'val': 4.3, 'count': 4, 'total': 94}],
+      '여관·모텔': [{'label': '금천구', 'val': 10.5, 'count': 8, 'total': 76}, {'label': '강동구', 'val': 7.9, 'count': 9, 'total': 114}, {'label': '광진구', 'val': 5.9, 'count': 6, 'total': 102}, {'label': '노원구', 'val': 5.9, 'count': 3, 'total': 51}, {'label': '송파구', 'val': 4.9, 'count': 8, 'total': 162}],
+      'PC방': [{'label': '강서구', 'val': 13.1, 'count': 8, 'total': 61}, {'label': '송파구', 'val': 9.3, 'count': 7, 'total': 75}, {'label': '구로구', 'val': 7.3, 'count': 4, 'total': 55}, {'label': '강남구', 'val': 5.6, 'count': 4, 'total': 72}, {'label': '노원구', 'val': 5.1, 'count': 3, 'total': 59}],
+      '오락시설': [{'label': '관악구', 'val': 9.3, 'count': 5, 'total': 54}, {'label': '영등포구', 'val': 8.4, 'count': 7, 'total': 83}, {'label': '강서구', 'val': 8.2, 'count': 5, 'total': 61}, {'label': '강남구', 'val': 5.1, 'count': 6, 'total': 117}, {'label': '노원구', 'val': 4.0, 'count': 2, 'total': 50}],
+      '패스트푸드': [{'label': '마포구', 'val': 6.4, 'count': 25, 'total': 390}, {'label': '송파구', 'val': 6.2, 'count': 27, 'total': 432}, {'label': '성북구', 'val': 6.1, 'count': 13, 'total': 214}, {'label': '중랑구', 'val': 5.8, 'count': 9, 'total': 155}, {'label': '도봉구', 'val': 5.8, 'count': 7, 'total': 121}],
       '치킨/배달': [{'label': '영등포구', 'val': 7.5, 'count': 19, 'total': 254}, {'label': '금천구', 'val': 7.5, 'count': 13, 'total': 173}, {'label': '송파구', 'val': 6.0, 'count': 21, 'total': 348}, {'label': '서초구', 'val': 5.9, 'count': 12, 'total': 204}, {'label': '동작구', 'val': 5.9, 'count': 12, 'total': 205}],
-      '카페·커피숍': [{'label': '강북구', 'val': 6.2, 'count': 34, 'total': 548}, {'label': '관악구', 'val': 5.8, 'count': 54, 'total': 928}, {'label': '강동구', 'val': 5.4, 'count': 50, 'total': 934}, {'label': '양천구', 'val': 5.2, 'count': 35, 'total': 679}, {'label': '중랑구', 'val': 5.0, 'count': 33, 'total': 665}],
-      '노래방': [{'label': '구로구', 'val': 5.2, 'count': 15, 'total': 291}, {'label': '강동구', 'val': 4.9, 'count': 11, 'total': 224}, {'label': '영등포구', 'val': 4.6, 'count': 15, 'total': 328}, {'label': '성동구', 'val': 4.5, 'count': 6, 'total': 133}, {'label': '강서구', 'val': 4.3, 'count': 14, 'total': 329}],
-    }
+      '호프집·주점': [{'label': '마포구', 'val': 5.7, 'count': 68, 'total': 1183}, {'label': '관악구', 'val': 5.2, 'count': 39, 'total': 754}, {'label': '은평구', 'val': 5.0, 'count': 26, 'total': 519}, {'label': '강남구', 'val': 4.8, 'count': 55, 'total': 1152}, {'label': '성동구', 'val': 4.7, 'count': 20, 'total': 422}]
+    },
   }
 };
 
