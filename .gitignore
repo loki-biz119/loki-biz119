@@ -23,6 +23,9 @@ loki_character.png
 loki_robot_logo.svg
 loki_robot_logo_v2.svg
 
+# ── 콘텐츠 (블로그/쇼츠 초안) ──
+content/
+
 # ── macOS 시스템 ──
 .DS_Store
 **/.DS_Store
