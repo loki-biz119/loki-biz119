@@ -2,379 +2,544 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>LOKI Score — 상권 적합도</title>
-<meta name="description" content="내 업종이 이 동네에 맞는지 AI가 분석해드립니다. 서울 25개 구 × 58개 업종 실데이터 기반">
-<meta property="og:title" content="LOKI Score — 상권 적합도 분석">
-<meta property="og:description" content="창업 전에 꼭 확인하세요. 내 업종이 이 동네에 맞는지 점수로 알려드립니다">
-<meta property="og:url" content="https://loki-score.netlify.app/theme2/">
-<meta name="theme-color" content="#0d0f1a">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230d0f1a'/><circle cx='50' cy='18' r='8' fill='%234f8ef7'/><rect x='22' y='38' width='56' height='38' rx='14' fill='%231e2235' stroke='%234f8ef7' stroke-width='3'/><rect x='31' y='50' width='14' height='10' rx='5' fill='%234f8ef7'/><rect x='55' y='50' width='14' height='10' rx='5' fill='%234f8ef7'/></svg>">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QZ2LZSMNWW"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QZ2LZSMNWW');</script><style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{--bg:#0d0f1a;--card:#161928;--card2:#1e2235;--acc:#4f8ef7;--acc2:#7c5cf7;--gold:#f7c948;--green:#2ecc8a;--red:#f7615a;--orange:#f7a548;--txt:#e8ecf4;--txt2:#8892a8;--txt3:#4a5268;--radius:18px;--shadow:0 8px 32px rgba(0,0,0,.45);}
-body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;min-height:100vh;overflow-x:hidden}
-.hdr{display:flex;align-items:center;gap:10px;padding:18px 20px 12px;background:linear-gradient(180deg,#0a0c16 0%,transparent 100%)}
-.logo{font-size:19px;font-weight:800;letter-spacing:-.5px}.logo span{color:var(--acc)}.logo em{color:var(--gold);font-style:normal}
-.badge{background:var(--acc2);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;letter-spacing:.5px;margin-left:4px}
-.theme-nav{margin-left:auto;display:flex;gap:6px}
-.tnav-btn{background:var(--card2);border:1px solid var(--txt3)44;color:var(--txt2);font-size:11px;padding:4px 10px;border-radius:20px;cursor:pointer;text-decoration:none;display:inline-block}
-.tnav-btn.active{background:var(--orange)22;border-color:var(--orange);color:var(--orange);font-weight:700}
-.loki-wrap{display:flex;align-items:flex-end;gap:14px;padding:8px 20px 16px}
-.loki-bubble{background:var(--card2);border:1px solid var(--acc2)33;border-radius:16px 16px 16px 4px;padding:12px 15px;font-size:13.5px;line-height:1.6;color:var(--txt);flex:1;position:relative}
-.loki-bubble::after{content:'';position:absolute;left:-8px;bottom:12px;border:8px solid transparent;border-right-color:var(--card2)}
-.loki-name{font-size:10px;color:var(--acc);font-weight:700;margin-bottom:4px;letter-spacing:.5px}
-.theme-card{margin:0 16px 16px;background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid #ffffff0a}
-.theme-label{display:flex;align-items:center;gap:8px;margin-bottom:18px}
-.theme-num{background:linear-gradient(135deg,var(--orange),var(--acc2));width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
-.theme-title{font-size:16px;font-weight:700}
-.scenario{font-size:15px;color:var(--txt);display:flex;flex-direction:column;gap:10px}
-.srow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;line-height:1.4;min-height:36px}
-.srow span.txt{font-size:15px;color:var(--txt);white-space:nowrap}
-.sel{display:inline-flex;align-items:center;gap:3px;background:var(--card2);border:1.5px solid var(--orange);border-radius:8px;padding:5px 10px 5px 9px;color:var(--orange);font-weight:700;cursor:pointer;transition:.2s;min-width:72px;text-align:center;white-space:nowrap;box-shadow:0 2px 8px var(--orange)22;font-size:13px;height:32px}
-.sel::after{content:'▾';font-size:10px;opacity:.6;margin-left:2px}
-.sel:active{background:var(--orange)33;transform:scale(.97)}
-.sel.done{background:var(--green)18;border-color:var(--green)88;color:var(--green);box-shadow:0 2px 6px var(--green)1a}
-.sel.done::after{content:'✓';font-size:10px;opacity:.6}
-.pulse{animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--orange)44}50%{box-shadow:0 0 0 6px transparent}}
-.result-wrap{margin-top:20px;display:none}.result-wrap.show{display:block}
-.grade-box{display:flex;align-items:center;gap:16px;background:var(--card2);border-radius:16px;padding:18px 20px;margin-bottom:14px;border:1px solid var(--txt3)22;transition:.4s}
-.grade-letter{font-size:56px;font-weight:900;letter-spacing:-2px;line-height:1;transition:.4s}
-.grade-info{flex:1}
-.grade-label{font-size:12px;color:var(--txt2);margin-bottom:3px}
-.grade-tag{font-size:18px;font-weight:800;margin-bottom:5px}
-.grade-score-row{font-size:13px;color:var(--txt2)}
-.grade-score-row span{font-size:22px;font-weight:800;color:var(--txt);margin-right:2px}
-.score-bars{background:var(--card2);border-radius:14px;padding:16px;margin-bottom:14px}
-.score-bar-title{font-size:12px;color:var(--txt2);margin-bottom:12px;font-weight:600}
-.sbar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.sbar-row:last-child{margin-bottom:0}
-.sbar-label{font-size:12px;color:var(--txt2);width:52px;flex-shrink:0}
-.sbar-track{flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
-.sbar-fill{height:100%;border-radius:4px;transition:width .6s ease;width:0}
-.sbar-val{font-size:12px;font-weight:700;width:32px;text-align:right;flex-shrink:0}
-.alt-title{font-size:13px;color:var(--txt2);margin-bottom:10px;font-weight:600}
-.alt-cards{display:flex;flex-direction:column;gap:8px}
-.alt-card{background:var(--card2);border-radius:12px;padding:14px;border:1px solid var(--txt3)22;cursor:pointer;transition:.15s}
-.alt-card:active{border-color:var(--orange);background:var(--orange)0a}
-.alt-rank{font-size:10px;font-weight:700;color:var(--gold);margin-bottom:5px}
-.alt-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.alt-gu{font-size:16px;font-weight:800}
-.alt-badge{padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700}
-.alt-desc{font-size:11px;color:var(--txt2);line-height:1.6}
-.mini-bars{display:flex;gap:4px;margin-top:8px}
-.mini-bar-wrap{flex:1;text-align:center}
-.mini-bar-lbl{font-size:9px;color:var(--txt3);margin-bottom:3px}
-.mini-bar-track{height:4px;background:var(--bg);border-radius:2px;overflow:hidden}
-.mini-bar-fill{height:100%;border-radius:2px}
-.overlay{position:fixed;inset:0;background:#000000cc;z-index:100;opacity:0;pointer-events:none;transition:.25s}
-.overlay.on{opacity:1;pointer-events:all}
-.sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-radius:24px 24px 0 0;z-index:101;transform:translateY(100%);transition:.3s cubic-bezier(.32,0,.67,0);max-height:85vh;display:flex;flex-direction:column}
-.sheet.on{transform:translateY(0)}
-.sheet-handle{width:40px;height:4px;background:var(--txt3);border-radius:2px;margin:12px auto 0}
-.sheet-title{font-size:15px;font-weight:700;padding:16px 20px 12px;border-bottom:1px solid var(--txt3)22}
-.sheet-body{overflow-y:auto;flex:1;padding:16px 20px 32px}
-.gu-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.gu-btn{background:var(--card2);border:1px solid var(--txt3)33;border-radius:10px;padding:10px 4px;text-align:center;font-size:12px;cursor:pointer;transition:.15s;color:var(--txt)}
-.gu-btn:active,.gu-btn.sel{background:var(--orange)22;border-color:var(--orange);color:var(--orange);font-weight:700}
-.cat-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
-.cat-tab{background:var(--card2);border:1px solid var(--txt3)33;border-radius:10px;padding:10px 14px;font-size:12px;cursor:pointer;transition:.15s;color:var(--txt)}
-.cat-tab:active,.cat-tab.sel{background:var(--acc2)33;border-color:var(--acc2);color:var(--acc2);font-weight:700}
-.ind-list{display:flex;flex-direction:column;gap:6px}
-.ind-btn{background:var(--card2);border:1px solid var(--txt3)22;border-radius:10px;padding:12px 14px;font-size:13px;cursor:pointer;transition:.15s;color:var(--txt);text-align:left}
-.ind-btn:active,.ind-btn.sel{background:var(--orange)22;border-color:var(--orange);color:var(--orange);font-weight:700}
-.to-theme1{display:flex;align-items:center;gap:12px;margin:0 16px 24px;background:linear-gradient(135deg,var(--acc)18,var(--card2));border-radius:14px;padding:16px;border:1px solid var(--acc)55;cursor:pointer;text-decoration:none}
-.to-theme1:active{transform:scale(.98);opacity:.9}
-.to-theme1 .t1-icon{font-size:24px;flex-shrink:0}
-.to-theme1 .t1-txt{flex:1;line-height:1.5}
-.to-theme1 .t1-q{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
-.to-theme1 .t1-sub{font-size:11px;color:var(--txt3)}
-.to-theme1 .t1-arr{margin-left:auto;color:var(--acc);font-size:20px;flex-shrink:0}
-</style>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LOKI 창업레이더 — 서울 업종별 창업 리포트</title>
 <script src="data/loki_data.js"></script>
-</head><body>
-<div class="hdr">
-  <div class="logo"><span>LOKI</span> <em>Score</em></div>
-  <div class="badge">BETA</div>
-  <div class="theme-nav">
-    <a class="tnav-btn" href="index.html">업종별 리포트</a>
-    <a class="tnav-btn" href="calc.html">수익 계산기</a>
-    <a class="tnav-btn active" href="radar.html">창업레이더</a>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F4F6FA;--white:#fff;--border:#E2E6EE;--border2:#C8CFDD;
+  --t1:#1A1D2E;--t2:#4A5168;--t3:#8B93A8;
+  --acc:#3B5BDB;--acc-bg:#EEF2FF;--acc-bd:#C5D0FB;
+  --grn:#2F9E44;--grn-bg:#EBFBEE;--grn-bd:#B2F2BB;
+  --red:#E03131;--red-bg:#FFF5F5;--red-bd:#FFC9C9;
+  --amb:#D97706;--amb-bg:#FFFBEB;--amb-bd:#FDE68A;
+  --blu:#1971C2;--blu-bg:#E7F5FF;--blu-bd:#74C0FC;
+  --r:10px;--rs:8px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--t1)}
+.gnb{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;height:52px;display:flex;align-items:center;padding:0 24px}
+.gnb-logo{font-size:15px;font-weight:900;color:var(--t1);letter-spacing:-.3px;margin-right:28px;white-space:nowrap}
+.gnb-logo span{color:var(--acc)}
+.gnb-menu{display:flex}
+.gnb-item{padding:0 14px;height:52px;display:flex;align-items:center;font-size:13px;font-weight:600;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;border-left:none;border-right:none;border-top:none;transition:all .15s;white-space:nowrap;background:none;font-family:inherit}
+.gnb-item:hover{color:var(--t1)}
+.gnb-item.active{color:var(--acc);border-bottom-color:var(--acc)}
+.gnb-item.soon{opacity:.5;cursor:default}
+.gnb-badge{font-size:9px;background:var(--amb-bg);color:var(--amb);border:1px solid var(--amb-bd);border-radius:8px;padding:1px 5px;margin-left:5px;font-weight:700}
+#vL{display:block}
+#vR{display:none}
+.land{background:var(--white);min-height:calc(100vh - 52px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:52px 24px 48px}
+.land-badge{display:inline-flex;align-items:center;background:var(--acc-bg);color:var(--acc);border:1px solid var(--acc-bd);border-radius:20px;font-size:11px;font-weight:700;padding:4px 14px;margin-bottom:22px;letter-spacing:.4px}
+.land-h1{font-size:27px;font-weight:900;color:var(--t1);text-align:center;line-height:1.35;max-width:520px;margin-bottom:10px}
+.land-h1 em{color:var(--acc);font-style:normal}
+.land-sub{font-size:13px;color:var(--t2);text-align:center;max-width:460px;line-height:1.7;margin-bottom:36px}
+.sel-wrap{width:100%;max-width:460px;display:flex;flex-direction:column;gap:10px}
+select{width:100%;padding:12px 16px;font-size:14px;color:var(--t1);background:var(--white);border:1.5px solid var(--border2);border-radius:var(--r);appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238B93A8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;outline:none;transition:border-color .15s;font-family:inherit}
+select:focus{border-color:var(--acc)}
+#sel-sub-wrap{display:none}
+.cta{width:100%;padding:13px;background:var(--acc);color:#fff;border:none;border-radius:var(--r);font-size:15px;font-weight:700;cursor:pointer;transition:all .15s;opacity:.4;pointer-events:none;font-family:inherit;margin-top:2px}
+.cta.on{opacity:1;pointer-events:all}
+.cta.on:hover{background:#2F4AC2}
+.land-foot{margin-top:36px;text-align:center;font-size:11px;color:var(--t3);line-height:1.9}
+.land-foot a{color:var(--t3);text-decoration:none}
+.res-head{background:var(--white);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:12px}
+.res-back{background:none;border:1px solid var(--border2);font-size:12px;color:var(--t2);cursor:pointer;padding:5px 11px;border-radius:var(--rs);font-weight:600;font-family:inherit}
+.res-back:hover{background:var(--bg)}
+.res-hl{flex:1;text-align:center;font-size:15px;font-weight:800;color:var(--t1)}
+.res-hl em{color:var(--acc);font-style:normal}
+.res-body{padding:18px 16px;display:flex;flex-direction:column;gap:12px;max-width:760px;margin:0 auto}
+.sec-lbl{font-size:10px;font-weight:800;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;padding:0 2px;margin-top:4px}
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
+.cttl{font-size:13px;font-weight:800;color:var(--t1);display:flex;align-items:center;gap:7px;margin-bottom:2px}
+.tag{font-size:9px;font-weight:700;background:var(--acc-bg);color:var(--acc);padding:2px 7px;border-radius:10px}
+.csub{font-size:11px;color:var(--t3);margin-bottom:10px}
+.interp{background:var(--bg);border-left:3px solid var(--acc-bd);border-radius:0 5px 5px 0;padding:8px 11px;font-size:11px;color:var(--t2);line-height:1.65;margin-top:10px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.verdict{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 18px}
+.v-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.v-badge{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:800;white-space:nowrap;flex-shrink:0}
+.vp{background:var(--grn-bg);color:var(--grn);border:1px solid var(--grn-bd)}
+.vc{background:var(--amb-bg);color:var(--amb);border:1px solid var(--amb-bd)}
+.vr{background:var(--blu-bg);color:var(--blu);border:1px solid var(--blu-bd)}
+.vd{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd)}
+.v-title{font-size:15px;font-weight:800;color:var(--t1);line-height:1.35}
+.v-desc{font-size:12px;color:var(--t2);line-height:1.65;margin-top:8px}
+.v-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
+.vm{background:var(--bg);border-radius:var(--rs);padding:9px 8px;text-align:center}
+.vm-l{font-size:9px;color:var(--t3);margin-bottom:3px}
+.vm-v{font-size:17px;font-weight:800}
+.up{color:var(--grn)}.dn{color:var(--red)}.nu{color:var(--t1)}
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
+.kpi-c{background:var(--bg);border-radius:var(--rs);padding:10px 12px;text-align:center}
+.kpi-l{font-size:10px;color:var(--t3);margin-bottom:4px}
+.kpi-v{font-size:19px;font-weight:800;color:var(--t1)}
+.surv{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.surv-row{display:flex;align-items:center;gap:8px}
+.surv-lbl{font-size:11px;color:var(--t2);width:40px;flex-shrink:0;font-weight:600}
+.surv-track{flex:1;height:16px;background:var(--bg);border-radius:4px;overflow:hidden}
+.surv-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:10px;font-weight:700;color:#fff}
+.comp-wrap{display:flex;align-items:center;gap:14px;margin:8px 0}
+.comp-items{flex:1;display:flex;flex-direction:column;gap:7px}
+.comp-item{display:flex;align-items:center;gap:8px}
+.comp-il{font-size:11px;color:var(--t2);width:72px;flex-shrink:0}
+.comp-bar{flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
+.comp-fill{height:100%;border-radius:4px}
+.comp-iv{font-size:11px;font-weight:700;color:var(--t2);width:28px;text-align:right;flex-shrink:0}
+.comp-label{text-align:center;font-size:22px;font-weight:800;min-width:60px}
+.lc-row{display:flex;gap:3px;margin:10px 0}
+.lc-seg{flex:1;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700}
+.seas-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}
+.seas-cell{text-align:center}
+.seas-bw{height:44px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:4px}
+.seas-bar{width:22px;border-radius:3px 3px 0 0}
+.seas-lbl{font-size:10px;color:var(--t3)}
+.sim-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:6px}
+.sim-tbl th{font-size:10px;color:var(--t3);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--border);text-align:left}
+.sim-tbl td{padding:8px 8px;border-bottom:1px solid var(--border);color:var(--t2);vertical-align:middle}
+.sim-tbl tr:last-child td{border-bottom:none}
+.sim-tbl tr.hi td{background:var(--acc-bg);font-weight:700;color:var(--t1)}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
+.vbadge{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700}
+.rank-list{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.rank-item{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:var(--rs);padding:9px 12px}
+.rank-no{width:22px;height:22px;border-radius:50%;background:var(--acc);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rank-no.g{background:var(--amb)}
+.rank-info{flex:1}
+.rank-nm{font-size:13px;font-weight:700;color:var(--t1)}
+.rank-detail{font-size:10px;color:var(--t3);margin-top:2px}
+.rank-bw{width:70px;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.rank-bf{height:100%;background:var(--acc);border-radius:3px}
+.gu-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:8px 0}
+.gu-cell{border-radius:5px;padding:7px 4px;text-align:center}
+.gu-nm{font-size:8px;margin-bottom:2px}
+.gu-val{font-size:10px;font-weight:800}
+.leg{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.leg-item{font-size:10px;display:flex;align-items:center;gap:3px;color:var(--t3)}
+.leg-dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+.rent-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:8px}
+.rent-tbl th{font-size:10px;color:var(--t3);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--border);text-align:left}
+.rent-tbl td{padding:8px 8px;border-bottom:1px solid var(--border);color:var(--t2)}
+.rent-tbl tr:last-child td{border-bottom:none}
+.rlv{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.lv-h{background:var(--red-bg);color:var(--red)}
+.lv-m{background:var(--amb-bg);color:var(--amb)}
+.lv-l{background:var(--grn-bg);color:var(--grn)}
+.rec-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.rec-item{border:1px solid var(--border);border-radius:var(--rs);padding:11px 14px;display:flex;align-items:flex-start;gap:12px}
+.rec-rank{font-size:22px;font-weight:800;color:var(--acc-bd);flex-shrink:0;line-height:1}
+.rec-nm{font-size:13px;font-weight:800;color:var(--t1);margin-bottom:5px}
+.rec-tags{display:flex;gap:5px;flex-wrap:wrap}
+.rtag{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
+.t-b{background:var(--blu-bg);color:var(--blu)}
+.t-g{background:var(--grn-bg);color:var(--grn)}
+.t-a{background:var(--amb-bg);color:var(--amb)}
+.t-r{background:var(--red-bg);color:var(--red)}
+#loading{display:none;position:fixed;inset:0;background:rgba(255,255,255,.85);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.spinner{width:32px;height:32px;border:3px solid var(--border2);border-top-color:var(--acc);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loading-txt{font-size:13px;color:var(--t2);font-weight:600}
+@media(max-width:600px){.two{grid-template-columns:1fr}.v-metrics{grid-template-columns:repeat(2,1fr)}.land-h1{font-size:21px}}
+</style>
+</head>
+<body>
+
+<div id="loading"><div class="spinner"></div><div id="loading-txt">리포트 생성 중...</div></div>
+
+<nav class="gnb">
+  <div class="gnb-logo">LOK<span>I</span> 창업레이더</div>
+  <div class="gnb-menu">
+    <a class="gnb-item" href="index.html">업종별 리포트</a>
+    <a class="gnb-item" href="calc.html">수익 계산기</a>
+    <a class="gnb-item active" href="radar.html">창업레이더</a>
   </div>
-</div>
-<div class="loki-wrap">
-  <svg width="56" height="64" viewBox="0 0 56 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <line x1="28" y1="4" x2="28" y2="12" stroke="#4f8ef7" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="28" cy="3" r="3" fill="#4f8ef7"/>
-    <rect x="10" y="12" width="36" height="28" rx="10" fill="#1e2235" stroke="#4f8ef7" stroke-width="1.5"/>
-    <rect x="16" y="21" width="9" height="6" rx="3" fill="#4f8ef7"/>
-    <rect x="31" y="21" width="9" height="6" rx="3" fill="#4f8ef7"/>
-    <rect x="18" y="23" width="3" height="2" rx="1" fill="#fff" opacity=".7"/>
-    <rect x="33" y="23" width="3" height="2" rx="1" fill="#fff" opacity=".7"/>
-    <path d="M20 33 Q28 37 36 33" stroke="#4f8ef7" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-    <rect x="24" y="40" width="8" height="5" rx="2" fill="#1e2235" stroke="#4f8ef7" stroke-width="1"/>
-    <rect x="8" y="45" width="40" height="19" rx="8" fill="#161928" stroke="#7c5cf7" stroke-width="1.5"/>
-    <path d="M28 47 L25 54 L28 56 L31 54 Z" fill="#7c5cf7"/>
-    <circle cx="20" cy="53" r="2.5" fill="#2ecc8a" opacity=".9"/>
-    <circle cx="36" cy="53" r="2.5" fill="#f7c948" opacity=".9"/>
-  </svg>
-  <div class="loki-bubble">
-    <div class="loki-name">LOKI · AI 창업 컨설턴트</div>
-    <span id="lokiMsg">안녕하세요! 창업 전에 꼭 확인하세요 🔍<br>업종과 동네를 고르면 상권 적합도를 바로 분석해 드릴게요!</span>
-  </div>
-</div>
-<div class="theme-card">
-  <div class="theme-label">
-    <div class="theme-num">2</div>
-    <div class="theme-title">상권 적합도 <small style="font-size:12px;color:var(--txt2);font-weight:500">서울편</small></div>
-  </div>
-  <div class="scenario">
-    <div class="srow">
-      <span class="txt">서울시</span>
-      <span class="sel pulse" id="s1" onclick="open1()">지역 선택</span>
-      <span class="txt">에서</span>
-    </div>
-    <div class="srow">
-      <span class="sel" id="s2" onclick="open2()">대분류 선택</span>
-      <span class="txt">분야의</span>
-    </div>
-    <div class="srow">
-      <span class="sel" id="s3" onclick="open3()">업종 선택</span>
-      <span class="txt">업종으로 창업한다면?</span>
-    </div>
-  </div>
-  <div class="result-wrap" id="resultWrap">
-    <div style="height:1px;background:var(--txt3)33;margin:18px 0 16px"></div>
-    <div class="grade-box" id="gradeBox">
-      <div class="grade-letter" id="gradeLetter">?</div>
-      <div class="grade-info">
-        <div class="grade-label">상권 적합도 등급</div>
-        <div class="grade-tag" id="gradeTag">-</div>
-        <div class="grade-score-row"><span id="gradeScore">-</span>점 / 100점</div>
+</nav>
+
+<div id="vL">
+  <div class="land">
+    <div class="land-badge">서울 창업레이더 · 실데이터 기반</div>
+    <h1 class="land-h1">서울에서 자영업 창업 준비하세요?<br>그럼 <em>감이 아닌 데이터로</em> 먼저 검증하세요.</h1>
+    <p class="land-sub">서울공공데이터 및 대형 부동산 플랫폼 임대료 등을 기반으로<br>서울의 지역별·업종별 동향을 한눈에 확인하세요.</p>
+    <div class="sel-wrap">
+      <select id="sel-cat" onchange="onCatChange()">
+        <option value="">업종 카테고리를 선택하세요</option>
+      </select>
+      <div id="sel-sub-wrap">
+        <select id="sel-ind" onchange="onIndChange()">
+          <option value="">세부 업종을 선택하세요</option>
+        </select>
       </div>
+      <button class="cta" id="cta-btn" onclick="goReport()">리포트 생성</button>
     </div>
-    <div class="score-bars">
-      <div class="score-bar-title">📊 항목별 점수 <span style="font-size:10px;color:var(--txt3)">(25개 구 상대 백분위)</span></div>
-      <div class="sbar-row">
-        <div class="sbar-label">매출 수준</div>
-        <div class="sbar-track"><div class="sbar-fill" id="bSales" style="background:var(--acc)"></div></div>
-        <div class="sbar-val" id="vSales">-</div>
-      </div>
-      <div class="sbar-row">
-        <div class="sbar-label">경쟁 강도</div>
-        <div class="sbar-track"><div class="sbar-fill" id="bComp" style="background:var(--green)"></div></div>
-        <div class="sbar-val" id="vComp">-</div>
-      </div>
-      <div class="sbar-row">
-        <div class="sbar-label">성장성</div>
-        <div class="sbar-track"><div class="sbar-fill" id="bGrow" style="background:var(--gold)"></div></div>
-        <div class="sbar-val" id="vGrow">-</div>
-      </div>
-      <div class="sbar-row">
-        <div class="sbar-label">임대 효율</div>
-        <div class="sbar-track"><div class="sbar-fill" id="bEff" style="background:var(--orange)"></div></div>
-        <div class="sbar-val" id="vEff">-</div>
-      </div>
-      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--txt3)22;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px" id="ctxNums"></div>
-    </div>
-    <div class="alt-title" id="altTitle"></div>
-    <div class="alt-cards" id="altCards"></div>
-    <div style="margin-top:14px;padding:12px 14px;background:var(--card2);border-radius:12px;font-size:11px;color:var(--txt3);line-height:1.6">
-      ※ 적합도 점수 = 매출수준(40%) + 경쟁강도(30%) + 성장성(20%) + 임대효율(10%) — 25개 구 상대 백분위 기반<br>
-      출처: 서울시 상권분석 서비스 추정매출 · 한국부동산원 임대동향조사 (2024~2025)<br>
-      <span style="color:#f59e0b;font-size:10px">※ 매출 데이터는 소상공인시장진흥공단 비교 검증 후 보정계수(÷2.7) 적용. 조정된 추정치입니다.</span>
+    <div class="land-foot">
+      문의: <a href="mailto:findingmylifegauge@gmail.com">findingmylifegauge@gmail.com</a><br>
+      LOKI 창업레이더 ⓒ 2026 All Rights Reserved
     </div>
   </div>
 </div>
-<a class="to-theme1" href="calc.html" id="t1link">
-  <div class="t1-icon">💰</div>
-  <div class="t1-txt">
-    <div class="t1-q" id="t1linkQ">그럼 실제로 얼마나 남을까요?</div>
-    <div class="t1-sub">수익 계산기에서 순이익 바로 확인 →</div>
+
+<div id="vR">
+  <div class="res-head">
+    <button class="res-back" onclick="showLanding()">← 다시 선택</button>
+    <div class="res-hl">서울 · <em id="res-nm"></em> 동향 및 상세 리포트</div>
   </div>
-  <div class="t1-arr">›</div>
-</a>
-<div class="overlay" id="overlay" onclick="closeSheet()"></div>
-<div class="sheet" id="sheet1">
-  <div class="sheet-handle"></div>
-  <div class="sheet-title">📍 지역 선택 (서울)</div>
-  <div class="sheet-body"><div class="gu-grid" id="guGrid"></div></div>
+  <div class="res-body" id="res-body"></div>
 </div>
-<div class="sheet" id="sheet2">
-  <div class="sheet-handle"></div>
-  <div class="sheet-title">📂 분야(대분류) 선택</div>
-  <div class="sheet-body"><div id="catList"></div></div>
-</div>
-<div class="sheet" id="sheet3">
-  <div class="sheet-handle"></div>
-  <div class="sheet-title">🏪 업종 선택</div>
-  <div class="sheet-body">
-    <div class="cat-tabs" id="catTabs2"></div>
-    <div class="ind-list" id="indList"></div>
-  </div>
-</div>
+
 <script>
-const T2=(typeof LOKI_SOT!=='undefined'&&LOKI_SOT.radar)?LOKI_SOT.radar.t2:{};
-const RADAR_NAME_MAP=(typeof LOKI_SOT!=='undefined'&&LOKI_SOT.radar)?LOKI_SOT.radar.name_map:{};
-const CAT_INDS={"서비스·기타":["pc방","교습소ㆍ공부방","교습학원","기타일반의원","노래방","당구장","독서실","미용실","부동산중개업","세탁소","스포츠교육기관","실외골프연습장","예술학원","자동차수리점","치과의원","통신판매업","피부관리업","한방병원ㆍ한의원","헬스클럽"],"소매":["가구점","가전제품수리점","가전제품판매점","곡물가게","과일가게","꽃가게","문구점","생선가게","서점","슈퍼마켓","스포츠용품점","시계ㆍ귀금속점","식료품가게","신발가게","실내장식가게","안경점","애완용품점","약국","옷가게","의료용품가게","자전거판매점","장난감가게","정육점","철물점","컴퓨터판매점","편의점","화장품가게","휴대폰가게"],"음식·숙박":["기타외국식음식점","기타음식점","분식점","여관ㆍ모텔","일식음식점","제과점","중식음식점","커피음료점","패스트푸드점","한식음식점","호프주점"]};
-const GU_LIST=["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"];
-
-const GRADES={
-  S:{color:'#2ecc8a',label:'블루오션 🟢',desc:'경쟁은 적고 매출은 높은 황금 자리예요! 지금 들어가도 늦지 않아요.'},
-  A:{color:'#4f8ef7',label:'유망 🔵',desc:'경쟁이 있지만 시장 자체가 크네요. 차별화 포인트만 있으면 승산 있어요!'},
-  B:{color:'#f7c948',label:'보통 🟡',desc:'평균적인 시장이에요. 철저한 준비와 차별화 전략이 필요해요.'},
-  C:{color:'#f7a548',label:'신중 🟠',desc:'몇 가지 리스크가 있어요. 더 조사해보고 결정하는 걸 추천해요.'},
-  D:{color:'#f7615a',label:'레드오션 🔴',desc:'경쟁이 치열하거나 수익성이 낮아요. 아래 대안 지역을 꼭 확인해보세요!'},
+const CATS={
+  food:  {nm:'음식·숙박',    inds:['한식음식점','중식음식점','일식음식점','양식음식점','치킨전문점','분식전문점','제과점','커피-음료','호프-간이주점','패스트푸드점']},
+  retail:{nm:'소매',         inds:['일반의류','화장품','슈퍼마켓','의약품','시계및귀금속','서적','신발','핸드폰','편의점','안경']},
+  svc:   {nm:'서비스·기타',  inds:['미용실','네일숍','세탁소','피부관리실','사진관','부동산중개업','인테리어','일반교습학원','예술학원','외국어학원','스포츠 강습','독서실','스포츠클럽','일반의원','치과의원','한의원','노래방','당구장','PC방']},
 };
-const st={gu:null,cat:null,ind:null};
 
-(function(){
-  const g=document.getElementById('guGrid');
-  GU_LIST.forEach(gu=>{
-    const b=document.createElement('button');
-    b.className='gu-btn';b.textContent=gu;
-    b.onclick=()=>selectGu(gu);g.appendChild(b);
-  });
-})();
+const VS={
+  '긍정':{cls:'vp',icon:'✓',border:'var(--grn-bd)'},
+  '검토':{cls:'vr',icon:'→',border:'var(--blu-bd)'},
+  '신중':{cls:'vc',icon:'⚠',border:'var(--amb-bd)'},
+  '위험':{cls:'vd',icon:'✕',border:'var(--red-bd)'},
+};
 
-// 테마1에서 값 넘겨받기 (URL params)
-(function(){
-  const params=new URLSearchParams(location.search);
-  const pGu=params.get('gu');
-  const pInd=params.get('ind');
-  if(!pGu||!pInd) return;
-  // cat 찾기
-  let pCat=null;
-  Object.keys(CAT_INDS).forEach(cat=>{if(CAT_INDS[cat].includes(pInd))pCat=cat;});
-  if(!pCat) return;
-  // 상태 설정
-  st.gu=pGu; st.cat=pCat; st.ind=pInd;
-  // UI 업데이트
-  const s1=document.getElementById('s1');
-  s1.textContent=pGu; s1.classList.add('done'); s1.classList.remove('pulse');
-  const s2=document.getElementById('s2');
-  s2.textContent=pCat; s2.classList.add('done');
-  const s3=document.getElementById('s3');
-  s3.textContent=pInd; s3.classList.add('done');
-  // 결과 즉시 표시
-  calc();
-})();
+const VM={
+  '긍정':(n)=>`${n} — 성장 신호 확인, 진입 시점으로 긍정적`,
+  '검토':(n)=>`${n} — 안정적이나 차별화 전략 필요`,
+  '신중':(n)=>`${n} — 완만한 감소세, 입지·타이밍 신중 검토`,
+  '위험':(n)=>`${n} — 폐업 압박 높음, 진입 전 충분한 검증 필요`,
+};
 
-function grade(s){if(s>=85)return'S';if(s>=70)return'A';if(s>=55)return'B';if(s>=40)return'C';return'D';}
-function lokiSay(m){document.getElementById('lokiMsg').innerHTML=m;}
-function openSheet(id){document.getElementById('overlay').classList.add('on');document.getElementById(id).classList.add('on');}
-function closeSheet(){document.getElementById('overlay').classList.remove('on');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('on'));}
-function open1(){openSheet('sheet1');}
-function open2(){buildCatList();openSheet('sheet2');}
-function open3(){if(!st.cat){open2();return;}buildIndList();openSheet('sheet3');}
+const VD={
+  '긍정':(n,m)=>`서울 ${n}은 순증가율 ${m.net_growth>0?'+':''}${m.net_growth}%로 성장세를 유지합니다. 폐업률(${m.close_rate}%)이 안정 수준이며 경쟁 우위 확보가 가능한 환경입니다.`,
+  '검토':(n,m)=>`서울 ${n}은 비교적 안정적이나 개업률(${m.open_rate}%)·폐업률(${m.close_rate}%)이 유사해 차별화 없이는 생존이 쉽지 않습니다. 상권·타깃 분석 후 진입을 권장합니다.`,
+  '신중':(n,m)=>`서울 ${n}은 순증가율 ${m.net_growth}%로 완만한 감소세입니다. 기존 점포와 가격·품질 경쟁이 심하고 폐업 비율도 높아 면밀한 사전 조사가 필수입니다.`,
+  '위험':(n,m)=>`서울 ${n}은 폐업률 ${m.close_rate}%, 순증가율 ${m.net_growth}%로 시장이 수축 중입니다. 신규 진입 시 강력한 브랜드 또는 특화 전략 없이는 생존이 매우 어렵습니다.`,
+};
 
-function buildCatList(){
-  const ul=document.getElementById('catList');ul.innerHTML='';
-  Object.keys(CAT_INDS).forEach(cat=>{
-    const b=document.createElement('button');
-    b.className='cat-tab'+(st.cat===cat?' sel':'');
-    b.textContent=cat;b.style.marginBottom='8px';
-    b.onclick=()=>selectCat(cat);ul.appendChild(b);
+function init(){
+  if(typeof LOKI_SOT==='undefined'){alert('데이터 파일을 찾을 수 없습니다.');return;}
+  const cs=document.getElementById('sel-cat');
+  Object.entries(CATS).forEach(([k,v])=>{
+    const o=document.createElement('option');o.value=k;o.textContent=v.nm;cs.appendChild(o);
   });
 }
-function buildIndList(){
-  const tabs=document.getElementById('catTabs2');tabs.innerHTML='';
-  Object.keys(CAT_INDS).forEach(cat=>{
-    const b=document.createElement('button');
-    b.className='cat-tab'+(st.cat===cat?' sel':'');
-    b.textContent=cat;b.onclick=()=>{st.cat=cat;buildIndList();};tabs.appendChild(b);
-  });
-  const ul=document.getElementById('indList');ul.innerHTML='';
-  CAT_INDS[st.cat].forEach(ind=>{
-    const b=document.createElement('button');
-    b.className='ind-btn'+(st.ind===ind?' sel':'');
-    b.textContent=ind;b.onclick=()=>selectInd(ind);ul.appendChild(b);
-  });
+
+function onCatChange(){
+  const k=document.getElementById('sel-cat').value;
+  const sw=document.getElementById('sel-sub-wrap');
+  const si=document.getElementById('sel-ind');
+  document.getElementById('cta-btn').classList.remove('on');
+  if(!k){sw.style.display='none';return;}
+  const inds=CATS[k].inds.filter(nm=>LOKI_SOT.industries[nm]);
+  si.innerHTML='<option value="">세부 업종을 선택하세요</option>'+inds.map(nm=>`<option value="${nm}">${nm}</option>`).join('');
+  sw.style.display='block';
 }
-function selectGu(gu){
-  st.gu=gu;
-  const el=document.getElementById('s1');
-  el.textContent=gu;el.classList.add('done');el.classList.remove('pulse');
-  closeSheet();
-  lokiSay(gu+'에서 창업을 알아보시는군요! 업종도 골라주세요 👇');
-  if(st.ind)calc();
+
+function onIndChange(){
+  document.getElementById('cta-btn').classList[document.getElementById('sel-ind').value?'add':'remove']('on');
 }
-function selectCat(cat){
-  st.cat=cat;st.ind=null;
-  document.getElementById('s2').textContent=cat;
-  document.getElementById('s2').classList.add('done');
-  document.getElementById('s3').textContent='업종 선택';
-  document.getElementById('s3').classList.remove('done');
-  closeSheet();buildIndList();openSheet('sheet3');
+
+function showLanding(){
+  document.getElementById('vR').style.display='none';
+  document.getElementById('vL').style.display='block';
+  window.scrollTo(0,0);
 }
-function selectInd(ind){
-  st.ind=ind;
-  document.getElementById('s3').textContent=ind;
-  document.getElementById('s3').classList.add('done');
-  closeSheet();
-  gtag('event','t2_select_industry',{industry:ind});
-  if(st.gu)calc();
-  else lokiSay(ind+' 업종이군요! 이제 동네를 골라주세요 📍');
+
+function goReport(){
+  const nm=document.getElementById('sel-ind').value;
+  if(!nm||!LOKI_SOT.industries[nm])return;
+  document.getElementById('loading').style.display='flex';
+  setTimeout(()=>{
+    buildReport(nm);
+    document.getElementById('loading').style.display='none';
+    document.getElementById('vL').style.display='none';
+    document.getElementById('vR').style.display='block';
+    window.scrollTo(0,0);
+  },350);
 }
-function setBar(fid,vid,val){
-  document.getElementById(fid).style.width=val+'%';
-  const c=val>=70?'var(--green)':val>=45?'var(--gold)':'var(--red)';
-  document.getElementById(vid).textContent=val;
-  document.getElementById(vid).style.color=c;
-}
-function selectGuAlt(gu){
-  st.gu=gu;
-  document.getElementById('s1').textContent=gu;
-  document.getElementById('s1').classList.add('done');
-  document.getElementById('s1').classList.remove('pulse');
-  calc();window.scrollTo({top:0,behavior:'smooth'});
-}
-function calc(){
-  const d=T2[st.ind]&&T2[st.ind][st.gu];
-  if(!d)return;
-  const g=grade(d.sc),gi=GRADES[g];
-  document.getElementById('gradeLetter').textContent=g;
-  document.getElementById('gradeLetter').style.color=gi.color;
-  document.getElementById('gradeBox').style.border='1px solid '+gi.color+'44';
-  document.getElementById('gradeTag').textContent=gi.label;
-  document.getElementById('gradeTag').style.color=gi.color;
-  document.getElementById('gradeScore').textContent=d.sc;
-  setBar('bSales','vSales',d.ps);
-  setBar('bComp','vComp',d.pc);
-  setBar('bGrow','vGrow',d.pg);
-  setBar('bEff','vEff',d.pe);
-  const gtext=d.g!==null?(d.g>0?'+'+d.g+'%':d.g+'%'):'–';
-  document.getElementById('ctxNums').innerHTML=
-    '<div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px"><div style="font-size:10px;color:var(--txt3);margin-bottom:4px">월평균매출</div><div style="font-size:15px;font-weight:800;color:var(--acc)">'+d.a.toLocaleString()+'<span style="font-size:10px;font-weight:400;color:var(--txt2)">만원</span></div></div>'+
-    '<div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px"><div style="font-size:10px;color:var(--txt3);margin-bottom:4px">경쟁업소수</div><div style="font-size:15px;font-weight:800;color:var(--green)">'+d.s.toLocaleString()+'<span style="font-size:10px;font-weight:400;color:var(--txt2)">개</span></div></div>'+
-    '<div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px"><div style="font-size:10px;color:var(--txt3);margin-bottom:4px">전분기대비</div><div style="font-size:15px;font-weight:800;color:var(--gold)">'+gtext+'</div></div>';
-  const all=Object.entries(T2[st.ind]).filter(([gu])=>gu!==st.gu).sort((a,b)=>b[1].sc-a[1].sc).slice(0,3);
-  const em=['🥇','🥈','🥉'];
-  document.getElementById('altTitle').textContent=(g==='S'||g==='A')?'✨ '+st.gu+'보다 더 좋은 대안 지역':'💡 '+st.ind+' 업종에 더 유리한 대안 지역';
-  document.getElementById('altCards').innerHTML=all.map(([gu,ad],i)=>{
-    const ag=grade(ad.sc),agi=GRADES[ag];
-    const diff=ad.sc-d.sc,ds=diff>=0?'+'+diff+'점':diff+'점';
-    const agt=ad.g!==null?(ad.g>0?'+'+ad.g+'%':ad.g+'%'):'–';
-    const bars=[['매출',ad.ps,'var(--acc)'],['경쟁',ad.pc,'var(--green)'],['성장',ad.pg,'var(--gold)'],['효율',ad.pe,'var(--orange)']];
-    return '<div class="alt-card" data-gu="'+gu+'" onclick="selectGuAlt(this.dataset.gu)">'+
-      '<div class="alt-rank">'+em[i]+' '+( i+1)+'위 대안</div>'+
-      '<div class="alt-top"><div class="alt-gu">'+gu+'</div>'+
-      '<div class="alt-badge" style="background:'+agi.color+'22;color:'+agi.color+';border:1px solid '+agi.color+'44">'+ag+' · '+ad.sc+'점</div></div>'+
-      '<div class="alt-desc">월평균매출 <b style="color:var(--txt)">'+ad.a.toLocaleString()+'만원</b> · 경쟁업소 <b style="color:var(--txt)">'+ad.s.toLocaleString()+'개</b> · 성장률 <b style="color:var(--txt)">'+agt+'</b>'+
-      '<span style="float:right;color:'+(diff>=0?'var(--green)':'var(--red)')+'">'+ds+'</span></div>'+
-      '<div class="mini-bars">'+bars.map(([l,v,c])=>'<div class="mini-bar-wrap"><div class="mini-bar-lbl">'+l+'</div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:'+v+'%;background:'+c+'"></div></div></div>').join('')+'</div>'+
-      '</div>';
+
+/* ── 차트/컴포넌트 헬퍼 ── */
+function trendSVG(trend){
+  const byY={};
+  trend.forEach(t=>{const y=String(t.q).slice(0,4);byY[y]=(byY[y]||0)+t.sc;});
+  const yrs=Object.keys(byY).sort().slice(-7);
+  const vals=yrs.map(y=>byY[y]);
+  const mn=Math.min(...vals),mx=Math.max(...vals);
+  const W=340,H=80,PX=20,PY=14;
+  const x=(i)=>PX+i/(vals.length-1)*(W-PX*2);
+  const y=(v)=>H-PY-(mx===mn?0.5:(v-mn)/(mx-mn))*(H-PY*2);
+  const pts=vals.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
+  const dots=vals.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3.5" fill="${i===vals.length-1?'#3B5BDB':'#fff'}" stroke="#3B5BDB" stroke-width="2"/>`).join('');
+  const lbls=yrs.map((yr,i)=>`<text x="${x(i)}" y="${H-1}" text-anchor="middle" font-size="9" fill="#8B93A8">${yr}</text>`).join('');
+  const vlbls=[0,Math.round(vals.length/2),vals.length-1].map(i=>{
+    const anc=i===0?'start':i===vals.length-1?'end':'middle';
+    return `<text x="${x(i)}" y="${y(vals[i])-6}" text-anchor="${anc}" font-size="9" fill="#4A5168" font-weight="600">${vals[i].toLocaleString()}</text>`;
   }).join('');
-  document.getElementById('t1link').href='calc.html?gu='+encodeURIComponent(st.gu)+'&ind='+encodeURIComponent(st.ind);
-  document.getElementById('t1linkQ').textContent=`그럼 ${st.gu} ${st.ind}, 실제로 얼마나 남을까요?`;
-  document.getElementById('resultWrap').classList.add('show');
-  lokiSay(gi.desc+'<br><span style="font-size:12px;color:var(--txt2)">대안 지역도 눌러서 바로 비교해보세요 👇</span>');
-  gtag('event','t2_calc',{gu:st.gu,industry:st.ind,grade:g,score:d.sc});
-  document.getElementById('resultWrap').scrollIntoView({behavior:'smooth',block:'nearest'});
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}" style="overflow:visible">
+  <defs><linearGradient id="tg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#3B5BDB" stop-opacity=".1"/><stop offset="100%" stop-color="#3B5BDB" stop-opacity="0"/></linearGradient></defs>
+  <line x1="${PX}" y1="${H-PY}" x2="${W-PX}" y2="${H-PY}" stroke="#E2E6EE" stroke-width=".5"/>
+  <polygon points="${pts} ${W-PX},${H-PY} ${PX},${H-PY}" fill="url(#tg)"/>
+  <polyline points="${pts}" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  ${dots}${lbls}${vlbls}</svg>`;
 }
 
+function survBars(cr){
+  const s1=Math.max(2,Math.round((1-cr/100)**4*100));
+  const s3=Math.max(1,Math.round((1-cr/100)**12*100));
+  const s5=Math.max(0,Math.round((1-cr/100)**20*100));
+  const col=v=>v>=60?'#3B5BDB':v>=35?'#7B9EF5':'#AABFED';
+  const row=(l,v)=>`<div class="surv-row"><div class="surv-lbl">${l}</div>
+    <div class="surv-track"><div class="surv-fill" style="width:${v}%;background:${col(v)}">${v>=15?v+'%':''}</div></div>
+    <div style="font-size:11px;font-weight:700;color:var(--t2);width:34px;text-align:right">${v}%</div></div>`;
+  return row('1년차',s1)+row('3년차',s3)+row('5년차',s5);
+}
+
+function compSection(ind){
+  const all=Object.values(LOKI_SOT.industries);
+  const allCR=all.map(d=>d.metrics.close_rate);
+  const allOR=all.map(d=>d.metrics.open_rate);
+  const allSC=all.map(d=>d.metrics.store_count);
+  const norm=(v,mn,mx)=>mx===mn?50:Math.round((v-mn)/(mx-mn)*100);
+  const crS=norm(ind.metrics.close_rate,Math.min(...allCR),Math.max(...allCR));
+  const orS=norm(ind.metrics.open_rate,Math.min(...allOR),Math.max(...allOR));
+  const scS=norm(ind.metrics.store_count,Math.min(...allSC),Math.max(...allSC));
+  const lvl=crS>60?'높음':crS>35?'중간':'낮음';
+  const lvlC=crS>60?'#E03131':crS>35?'#D97706':'#2F9E44';
+  const item=(l,s,c)=>`<div class="comp-item"><div class="comp-il">${l}</div>
+    <div class="comp-bar"><div class="comp-fill" style="width:${s}%;background:${c};height:100%"></div></div>
+    <div class="comp-iv">${s}</div></div>`;
+  return `<div class="comp-wrap">
+    <div class="comp-label" style="color:${lvlC}">${lvl}</div>
+    <div class="comp-items">
+      ${item('폐업 압박도',crS,crS>60?'#E03131':crS>35?'#F59E0B':'#3B5BDB')}
+      ${item('신규진입 빈도',orS,orS>60?'#3B5BDB':'#F59E0B')}
+      ${item('시장 포화도',scS,scS>60?'#E03131':scS>35?'#F59E0B':'#3B5BDB')}
+    </div></div>`;
+}
+
+function lcBar(net){
+  let pos=net>3?1:net>1?2:net>-0.5?3:4;
+  const segs=[
+    {nm:'도입기',bg:'#EEF2FF',tc:'#3B5BDB'},
+    {nm:'성장기',bg:'#EBFBEE',tc:'#2F9E44'},
+    {nm:'성숙기↑',bg:'#DBEAFE',tc:'#1971C2'},
+    {nm:'성숙기↓',bg:'#3B5BDB',tc:'#fff'},
+    {nm:'쇠퇴기', bg:'#FFFBEB',tc:'#D97706'},
+  ];
+  return segs.map((s,i)=>{
+    const a=i===pos;
+    return `<div class="lc-seg" style="background:${a?s.bg:'#F4F6FA'};color:${a?s.tc:'#C8CFDD'};font-weight:${a?800:600}">${a?s.nm+' ◀':s.nm}</div>`;
+  }).join('');
+}
+
+function seasBars(trend){
+  const last=parseInt(String(trend[trend.length-1].q).slice(0,4));
+  const rec=trend.filter(t=>parseInt(String(t.q).slice(0,4))>=last-3);
+  const byQ={1:[],2:[],3:[],4:[]};
+  rec.forEach(t=>{const q=parseInt(String(t.q).slice(4));if(byQ[q])byQ[q].push(t.sc);});
+  const avgs=[1,2,3,4].map(q=>byQ[q].length?Math.round(byQ[q].reduce((a,b)=>a+b)/byQ[q].length):0);
+  const mx=Math.max(...avgs)||1;
+  return avgs.map((v,i)=>{
+    const h=Math.max(4,Math.round(v/mx*42));
+    return `<div class="seas-cell"><div class="seas-bw"><div class="seas-bar" style="height:${h}px;background:${v===mx?'#3B5BDB':'#93B4F5'}"></div></div><div class="seas-lbl">${['1Q','2Q','3Q','4Q'][i]}</div></div>`;
+  }).join('');
+}
+
+function simTable(nm,ind){
+  let peers=[];
+  Object.entries(CATS).forEach(([k,v])=>{if(v.inds.includes(nm))peers=v.inds.filter(n=>LOKI_SOT.industries[n]&&n!==nm).slice(0,4);});
+  if(peers.length<2){
+    const sc=ind.metrics.store_count;
+    peers=Object.entries(LOKI_SOT.industries).filter(([n])=>n!==nm)
+      .sort((a,b)=>Math.abs(a[1].metrics.store_count-sc)-Math.abs(b[1].metrics.store_count-sc))
+      .slice(0,4).map(([n])=>n);
+  }
+  const dots=['#3B5BDB','#7B9EF5','#93C5FD','#6EE7B7','#A78BFA'];
+  const vc={'긍정':'#2F9E44','검토':'#1971C2','신중':'#D97706','위험':'#E03131'};
+  const rows=[[nm,ind,true],...peers.map(n=>[n,LOKI_SOT.industries[n],false])];
+  return `<table class="sim-tbl"><thead><tr><th>업종</th><th>점포수</th><th>개업률</th><th>폐업률</th><th>순증가율</th><th>판정</th></tr></thead><tbody>
+  ${rows.map(([n,d,hi],idx)=>{if(!d)return'';const m=d.metrics,v=d.verdict;
+    return `<tr${hi?' class="hi"':''}>
+      <td><span class="dot" style="background:${dots[idx%5]}"></span>${n}</td>
+      <td>${m.store_count.toLocaleString()}</td>
+      <td style="color:${m.open_rate>2.5?'#2F9E44':'#4A5168'}">${m.open_rate}%</td>
+      <td style="color:${m.close_rate>3.5?'#E03131':m.close_rate>2.5?'#D97706':'#4A5168'}">${m.close_rate}%</td>
+      <td style="color:${m.net_growth>0?'#2F9E44':m.net_growth<-1?'#E03131':'#4A5168'}">${m.net_growth>0?'+':''}${m.net_growth}%</td>
+      <td><span class="vbadge ${VS[v].cls}">${v}</span></td></tr>`;
+  }).join('')}</tbody></table>`;
+}
+
+function topDist(nm,ind){
+  const sorted=Object.entries(ind.districts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const mx=sorted[0]?.[1]||1;
+  return sorted.map(([gu,cnt],i)=>{
+    const rd=LOKI_SOT.districts[gu];
+    const detail=`${Math.round(cnt)}개 점포${rd?' · 평당 '+rd.rent_per_pyeong+'만원':''}`;
+    return `<div class="rank-item">
+      <div class="rank-no${i===0?' g':''}">${i+1}</div>
+      <div class="rank-info"><div class="rank-nm">${gu}</div><div class="rank-detail">${detail}</div></div>
+      <div class="rank-bw"><div class="rank-bf" style="width:${Math.round(cnt/mx*100)}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function guGrid(ind){
+  const ents=Object.entries(ind.districts).sort((a,b)=>b[1]-a[1]);
+  const vals=ents.map(e=>e[1]).filter(v=>v>0);
+  if(!vals.length)return'<p style="color:var(--t3);font-size:12px">자치구 데이터 없음</p>';
+  const mn=Math.min(...vals),mx=Math.max(...vals);
+  const lvlBg=['#E6F1FB','#B5D4F4','#7EB3FF','#4F8EF7','#3B5BDB'];
+  const lvlTc=['#4A5168','#185FA5','#0C4A9E','#fff','#fff'];
+  const cells=ents.map(([gu,cnt])=>{
+    const r=mx>mn?(cnt-mn)/(mx-mn):0.5;
+    const l=Math.min(4,Math.floor(r*5));
+    return `<div class="gu-cell" style="background:${lvlBg[l]}">
+      <div class="gu-nm" style="color:${lvlTc[l]}">${gu.replace('구','')}</div>
+      <div class="gu-val" style="color:${lvlTc[l]}">${Math.round(cnt)}</div></div>`;
+  }).join('');
+  const leg=['낮음','보통','중간','높음','최고'].map((l,i)=>
+    `<span class="leg-item"><span class="leg-dot" style="background:${lvlBg[i]};${i===0?'border:1px solid #C5D0FB':''}"></span>${l}</span>`
+  ).join('');
+  return `<div class="gu-grid">${cells}</div><div class="leg">${leg}</div>`;
+}
+
+function rentTable(nm,ind){
+  const top=Object.entries(ind.districts).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([n])=>n);
+  const rows=top.map(gu=>{
+    const d=LOKI_SOT.districts[gu];if(!d)return'';
+    const r=d.rent_per_pyeong,cnt=Math.round(ind.districts[gu]||0);
+    const lvl=r>11?'lv-h':r>9?'lv-m':'lv-l',lt=r>11?'높음':r>9?'중간':'낮음';
+    return `<tr><td>${gu}</td><td>${r}만원/평</td><td>${cnt}개</td><td><span class="rlv ${lvl}">${lt}</span></td></tr>`;
+  }).join('');
+  return `<table class="rent-tbl"><thead><tr><th>자치구</th><th>평당 월임대료</th><th>점포수</th><th>수준</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function recDist(){
+  const top=Object.entries(LOKI_SOT.districts).sort((a,b)=>b[1].scores.total-a[1].scores.total).slice(0,3);
+  return top.map(([n,d],i)=>{
+    const tags=[];
+    if(d.rent_per_pyeong<8.5)tags.push(['t-g','임대료 낮음']);
+    else if(d.rent_per_pyeong<10)tags.push(['t-a','임대료 중간']);
+    else tags.push(['t-r','임대료 높음']);
+    if(d.scores.competition>60)tags.push(['t-g','경쟁 적음']);
+    else if(d.scores.competition>40)tags.push(['t-b','경쟁 중간']);
+    else tags.push(['t-r','경쟁 심함']);
+    if(d.avg_open_rate>2)tags.push(['t-b','창업 활성']);
+    return `<div class="rec-item">
+      <div class="rec-rank">0${i+1}</div>
+      <div><div class="rec-nm">${n}</div>
+      <div class="rec-tags">${tags.map(([c,t])=>`<span class="rtag ${c}">${t}</span>`).join('')}</div></div>
+    </div>`;
+  }).join('');
+}
+
+/* ── 리포트 빌드 ── */
+function buildReport(nm){
+  const ind=LOKI_SOT.industries[nm];if(!ind)return;
+  const m=ind.metrics,v=ind.verdict,vs=VS[v];
+  document.getElementById('res-nm').textContent=nm;
+  const topPct=Math.round(Object.values(LOKI_SOT.industries).filter(d=>d.metrics.startup_share>m.startup_share).length/Object.keys(LOKI_SOT.industries).length*100);
+
+  document.getElementById('res-body').innerHTML=`
+    <div class="sec-lbl">A · 업종 현황</div>
+    <div class="verdict" style="border-color:${vs.border}">
+      <div class="v-top">
+        <span class="v-badge ${vs.cls}">${vs.icon} ${v}</span>
+        <div class="v-title">${VM[v](nm)}</div>
+      </div>
+      <div class="v-desc">${VD[v](nm,m)}</div>
+      <div class="v-metrics">
+        <div class="vm"><div class="vm-l">개업률</div><div class="vm-v ${m.open_rate>m.close_rate?'up':'nu'}">${m.open_rate}%</div></div>
+        <div class="vm"><div class="vm-l">폐업률</div><div class="vm-v ${m.close_rate>3.5?'dn':'nu'}">${m.close_rate}%</div></div>
+        <div class="vm"><div class="vm-l">순증가율</div><div class="vm-v ${m.net_growth>0?'up':'dn'}">${m.net_growth>0?'+':''}${m.net_growth}%</div></div>
+        <div class="vm"><div class="vm-l">창업점유율</div><div class="vm-v nu">${m.startup_share}%</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cttl"><span class="tag">A1</span>서울 ${nm} 점포 수 추이</div>
+      <div class="csub">연도별 전체 점포수 변화 (서울 25개 자치구 합산)</div>
+      ${trendSVG(ind.trend)}
+      <div class="interp">최근 기준 서울 전체 ${m.store_count.toLocaleString()}개 점포 운영 중. 창업 시장 내 점유율 ${m.startup_share}% (전체 업종 중 상위 ${topPct}% 수준).</div>
+    </div>
+
+    <div class="two">
+      <div class="card">
+        <div class="cttl"><span class="tag">A2</span>핵심 지표</div>
+        <div class="kpi-grid">
+          <div class="kpi-c"><div class="kpi-l">점포수</div><div class="kpi-v">${m.store_count.toLocaleString()}</div></div>
+          <div class="kpi-c"><div class="kpi-l">순증가율</div><div class="kpi-v ${m.net_growth>0?'up':'dn'}">${m.net_growth>0?'+':''}${m.net_growth}%</div></div>
+          <div class="kpi-c"><div class="kpi-l">개업률</div><div class="kpi-v up">${m.open_rate}%</div></div>
+          <div class="kpi-c"><div class="kpi-l">폐업률</div><div class="kpi-v ${m.close_rate>3.5?'dn':'nu'}">${m.close_rate}%</div></div>
+        </div>
+        <div class="interp" style="font-size:10px">폐업률이 개업률을 ${m.close_rate>m.open_rate?'상회':'하회'}하는 ${m.close_rate>m.open_rate?'순감':'순증'} 상태.</div>
+      </div>
+      <div class="card">
+        <div class="cttl"><span class="tag">A3</span>생존율 추정</div>
+        <div class="csub">폐업률 기반 누적 생존 확률</div>
+        <div class="surv">${survBars(m.close_rate)}</div>
+        <div class="interp" style="font-size:10px">분기 폐업률(${m.close_rate}%) 기준 복리 계산. 실제 생존율은 상권·운영 역량에 따라 달라집니다.</div>
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="card">
+        <div class="cttl"><span class="tag">A4</span>경쟁강도</div>
+        <div class="csub">서울 100개 업종 전체 대비</div>
+        ${compSection(ind)}
+        <div class="interp" style="font-size:10px">폐업 압박도는 업종 내 경쟁 과열 지표. 높을수록 차별화 전략이 필수입니다.</div>
+      </div>
+      <div class="card">
+        <div class="cttl"><span class="tag">A6</span>계절성</div>
+        <div class="csub">최근 3년 분기별 평균 점포수</div>
+        <div class="seas-grid">${seasBars(ind.trend)}</div>
+        <div class="interp" style="font-size:10px">분기별 점포수 변화로 계절 수요 패턴을 추정합니다. 비수기 자금 계획에 활용하세요.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cttl"><span class="tag">A5</span>업종 생명주기</div>
+      <div class="csub">순증가율(${m.net_growth>0?'+':''}${m.net_growth}%) 기반 현재 포지션</div>
+      <div class="lc-row">${lcBar(m.net_growth)}</div>
+      <div class="interp">생명주기는 순증가율·폐업률 추세를 기반으로 추정됩니다. 성숙기 후반·쇠퇴기일수록 차별화와 입지 선택이 더욱 중요합니다.</div>
+    </div>
+
+    <div class="card">
+      <div class="cttl"><span class="tag">A8</span>유사 업종 비교</div>
+      <div class="csub">동일 카테고리 및 규모 유사 업종 지표 비교</div>
+      ${simTable(nm,ind)}
+      <div class="interp">강조(파란 배경) 행이 현재 선택 업종입니다. 폐업률·생존율이 양호한 업종을 대안으로 검토해보세요.</div>
+    </div>
+
+    <div class="sec-lbl" style="margin-top:6px">B · 지역별 분석</div>
+    <div class="card">
+      <div class="cttl"><span class="tag">B0</span>자치구별 점포수 TOP 5</div>
+      <div class="rank-list">${topDist(nm,ind)}</div>
+      <div class="interp">점포 집중 자치구는 유동인구·수요가 높지만 경쟁도 치열합니다. 임대료 대비 경쟁강도를 함께 고려하세요.</div>
+    </div>
+
+    <div class="card">
+      <div class="cttl"><span class="tag">B1</span>자치구 밀집도</div>
+      <div class="csub">점포수 기준 (진할수록 많음)</div>
+      ${guGrid(ind)}
+      <div class="interp">밀집도가 낮은 자치구는 경쟁이 적지만 배후 수요도 제한적일 수 있습니다.</div>
+    </div>
+
+    <div class="card">
+      <div class="cttl"><span class="tag">B2</span>주요 자치구 임대료</div>
+      <div class="csub">직방 데이터 기준 평당 월임대료</div>
+      ${rentTable(nm,ind)}
+      <div class="interp">10평 기준 월 임대료는 상기 금액의 10배입니다. 초기 자금 계획 수립 시 반드시 반영하세요.</div>
+    </div>
+
+    <div class="card">
+      <div class="cttl"><span class="tag">B3</span>창업 추천 자치구</div>
+      <div class="csub">경쟁강도(40%) + 임대료(40%) + 창업 활성도(20%) 종합 점수 기준</div>
+      <div class="rec-list">${recDist()}</div>
+      <div class="interp">낮은 폐업 압박과 합리적 임대료 기준으로 산출됩니다. 실제 창업 전 현장 조사와 병행하세요.</div>
+    </div>
+  `;
+}
+
+init();
 </script>
 </body>
 </html>
