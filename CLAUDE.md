@@ -8,7 +8,8 @@
 ## 프로젝트 개요
 서울 창업 분석 플랫폼. 서울시 공공데이터를 기반으로 업종별 창업 리포트, 수익 계산, 상권 적합도를 제공.
 
-**배포 URL**: https://loki-score.netlify.app  
+**배포 플랫폼**: Vercel (GitHub 연동 자동 배포)  
+**배포 방법**: `git push` → Vercel 자동 빌드  
 **워크스페이스**: `/Users/thewaytonirvana/Desktop/loki-biz119/`
 
 ---
