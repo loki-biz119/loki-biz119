@@ -27,6 +27,20 @@ import os
 from datetime import datetime
 
 # ─────────────────────────────────────
+# 서울 25개 자치구 인구 (2024년 기준, 행정안전부 주민등록인구통계)
+# 단위: 명
+# ─────────────────────────────────────
+GU_POPULATION = {
+    "강남구": 533000, "강동구": 456000, "강북구": 298000, "강서구": 581000,
+    "관악구": 492000, "광진구": 349000, "구로구": 401000, "금천구": 228000,
+    "노원구": 519000, "도봉구": 318000, "동대문구": 349000, "동작구": 393000,
+    "마포구": 374000, "서대문구": 310000, "서초구": 430000, "성동구": 293000,
+    "성북구": 437000, "송파구": 668000, "양천구": 454000, "영등포구": 384000,
+    "용산구": 229000, "은평구": 478000, "종로구": 151000, "중구": 128000,
+    "중랑구": 393000,
+}
+
+# ─────────────────────────────────────
 # 경로 설정
 # ─────────────────────────────────────
 BASE      = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -208,7 +222,7 @@ for q in all_quarters:
             "cl":  round(float(row["close_stores"] / row["store_count"] * 100), 2) if row["store_count"] > 0 else 0,
         })
 
-# 자치구별 점포수 (최신 분기)
+# 자치구별 점포수 (최신 분기, 하위 호환용)
 dist_data = {}
 for _, row in latest_df.iterrows():
     nm   = row["SVC_INDUTY_CD_NM"]
@@ -217,6 +231,28 @@ for _, row in latest_df.iterrows():
     if nm not in dist_data:
         dist_data[nm] = {}
     dist_data[nm][gu] = dist_data[nm].get(gu, 0) + float(cnt)
+
+# 자치구별 업종별 상세 지표 (개업률/폐업률/순증가율/점포밀도)
+dist_detail = {}
+for nm, grp in latest_df.groupby("SVC_INDUTY_CD_NM"):
+    dist_detail[nm] = {}
+    for _, row in grp.iterrows():
+        gu  = row["SIGNGU_CD_NM"]
+        sc  = float(row["STOR_CO"])
+        op  = float(row["OPBIZ_STOR_CO"])
+        cl  = float(row["CLSBIZ_STOR_CO"])
+        if sc == 0:
+            continue
+        pop  = GU_POPULATION.get(gu, 400000)
+        op_r = round(op / sc * 100, 2)
+        cl_r = round(cl / sc * 100, 2)
+        dist_detail[nm][gu] = {
+            "store_count":   int(sc),
+            "open_rate":     op_r,
+            "close_rate":    cl_r,
+            "net_growth":    round(op_r - cl_r, 2),
+            "store_density": round(sc / pop * 10000, 2),  # 점포수/만명
+        }
 
 print(f"  업종 {len(seoul)}개 처리 완료")
 
@@ -265,6 +301,39 @@ for _, r in gu_stats.head(5).iterrows():
 
 
 # ─────────────────────────────────────
+# 창업 유리 지역 산출 함수
+# 기준: 해당 업종 폐업률 ≤ 25개 구 중위값
+#       AND 점포밀도 ≤ 25개 구 중위값
+# ─────────────────────────────────────
+def get_startup_districts(nm):
+    detail = dist_detail.get(nm, {})
+    if len(detail) < 5:
+        return {"list": [], "criteria": {}, "count": 0}
+
+    close_rates   = [v["close_rate"]    for v in detail.values()]
+    densities     = [v["store_density"] for v in detail.values()]
+    median_close  = float(round(np.median(close_rates), 2))
+    median_density = float(round(np.median(densities), 2))
+
+    good = [
+        gu for gu, v in detail.items()
+        if v["close_rate"] <= median_close and v["store_density"] <= median_density
+    ]
+    # 폐업률 낮은 순 정렬
+    good_sorted = sorted(good, key=lambda g: detail[g]["close_rate"])
+
+    return {
+        "list":  good_sorted,
+        "count": len(good_sorted),
+        "criteria": {
+            "close_rate_median":  median_close,
+            "density_median":     median_density,
+            "description": f"폐업률 ≤ {median_close}% AND 점포밀도 ≤ {median_density}점포/만명",
+        },
+    }
+
+
+# ─────────────────────────────────────
 # 5. SOT JSON 조립
 # ─────────────────────────────────────
 industries = {}
@@ -290,6 +359,8 @@ for _, row in seoul.iterrows():
                 key=lambda x: x[1], reverse=True
             )
         },
+        "district_detail":    dist_detail.get(nm, {}),
+        "startup_districts":  get_startup_districts(nm),
     }
 
 districts = {}
@@ -328,9 +399,15 @@ sot = {
             "rent":        "40% (낮은 임대료)",
             "open":        "20% (높은 개업 활성도)",
         },
+        "startup_district_criteria": {
+            "rule": "폐업률 ≤ 25개 구 중위값 AND 점포밀도(점포수/만명) ≤ 25개 구 중위값",
+            "population_source": "행정안전부 주민등록인구통계 2024년 기준",
+            "density_unit": "점포수/만명",
+        },
         "data_sources": {
             "store_data":  "서울 열린데이터광장 OA-22173 (VwsmSignguStorW)",
             "rent_data":   "직방 서울 상가 임대료 DB (평당 월임대료)",
+            "population":  "행정안전부 주민등록인구통계 2024",
         },
     },
     "industries": industries,
