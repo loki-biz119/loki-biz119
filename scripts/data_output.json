@@ -1,0 +1,6105 @@
+{
+  "meta": {
+    "qtr": 20254,
+    "shareLine": 1.0,
+    "minStore": 1000
+  },
+  "region": {
+    "open": [
+      {
+        "label": "강서구",
+        "val": 2.3,
+        "count": 725,
+        "total": 31578
+      },
+      {
+        "label": "마포구",
+        "val": 2.2,
+        "count": 724,
+        "total": 32603
+      },
+      {
+        "label": "강북구",
+        "val": 2.2,
+        "count": 304,
+        "total": 13776
+      },
+      {
+        "label": "관악구",
+        "val": 2.2,
+        "count": 480,
+        "total": 21627
+      },
+      {
+        "label": "광진구",
+        "val": 2.2,
+        "count": 455,
+        "total": 20568
+      }
+    ],
+    "close": [
+      {
+        "label": "강북구",
+        "val": 2.9,
+        "count": 400,
+        "total": 13776
+      },
+      {
+        "label": "강서구",
+        "val": 2.7,
+        "count": 841,
+        "total": 31578
+      },
+      {
+        "label": "관악구",
+        "val": 2.7,
+        "count": 584,
+        "total": 21627
+      },
+      {
+        "label": "서대문구",
+        "val": 2.7,
+        "count": 418,
+        "total": 15348
+      },
+      {
+        "label": "광진구",
+        "val": 2.6,
+        "count": 539,
+        "total": 20568
+      }
+    ],
+    "all": [
+      {
+        "label": "강서구",
+        "open": 2.3,
+        "close": 2.7,
+        "net": -0.4,
+        "openCnt": 725,
+        "closeCnt": 841,
+        "total": 31578
+      },
+      {
+        "label": "마포구",
+        "open": 2.2,
+        "close": 2.5,
+        "net": -0.3,
+        "openCnt": 724,
+        "closeCnt": 829,
+        "total": 32603
+      },
+      {
+        "label": "강북구",
+        "open": 2.2,
+        "close": 2.9,
+        "net": -0.7,
+        "openCnt": 304,
+        "closeCnt": 400,
+        "total": 13776
+      },
+      {
+        "label": "관악구",
+        "open": 2.2,
+        "close": 2.7,
+        "net": -0.5,
+        "openCnt": 480,
+        "closeCnt": 584,
+        "total": 21627
+      },
+      {
+        "label": "광진구",
+        "open": 2.2,
+        "close": 2.6,
+        "net": -0.4,
+        "openCnt": 455,
+        "closeCnt": 539,
+        "total": 20568
+      },
+      {
+        "label": "강동구",
+        "open": 2.1,
+        "close": 2.6,
+        "net": -0.5,
+        "openCnt": 496,
+        "closeCnt": 629,
+        "total": 24150
+      },
+      {
+        "label": "성북구",
+        "open": 2.1,
+        "close": 2.3,
+        "net": -0.2,
+        "openCnt": 394,
+        "closeCnt": 442,
+        "total": 18853
+      },
+      {
+        "label": "중랑구",
+        "open": 2.1,
+        "close": 2.3,
+        "net": -0.2,
+        "openCnt": 368,
+        "closeCnt": 419,
+        "total": 17851
+      },
+      {
+        "label": "서대문구",
+        "open": 2.0,
+        "close": 2.7,
+        "net": -0.7,
+        "openCnt": 302,
+        "closeCnt": 418,
+        "total": 15348
+      },
+      {
+        "label": "성동구",
+        "open": 2.0,
+        "close": 2.1,
+        "net": -0.1,
+        "openCnt": 416,
+        "closeCnt": 433,
+        "total": 20641
+      },
+      {
+        "label": "동대문구",
+        "open": 1.9,
+        "close": 2.1,
+        "net": -0.2,
+        "openCnt": 421,
+        "closeCnt": 458,
+        "total": 21752
+      },
+      {
+        "label": "은평구",
+        "open": 1.9,
+        "close": 2.5,
+        "net": -0.6,
+        "openCnt": 368,
+        "closeCnt": 491,
+        "total": 19837
+      },
+      {
+        "label": "영등포구",
+        "open": 1.9,
+        "close": 2.3,
+        "net": -0.4,
+        "openCnt": 557,
+        "closeCnt": 677,
+        "total": 29888
+      },
+      {
+        "label": "노원구",
+        "open": 1.8,
+        "close": 2.4,
+        "net": -0.6,
+        "openCnt": 376,
+        "closeCnt": 487,
+        "total": 20435
+      },
+      {
+        "label": "도봉구",
+        "open": 1.8,
+        "close": 2.4,
+        "net": -0.6,
+        "openCnt": 238,
+        "closeCnt": 322,
+        "total": 13265
+      },
+      {
+        "label": "양천구",
+        "open": 1.8,
+        "close": 2.2,
+        "net": -0.4,
+        "openCnt": 357,
+        "closeCnt": 449,
+        "total": 20159
+      },
+      {
+        "label": "강남구",
+        "open": 1.8,
+        "close": 2.0,
+        "net": -0.2,
+        "openCnt": 1162,
+        "closeCnt": 1281,
+        "total": 63138
+      },
+      {
+        "label": "동작구",
+        "open": 1.8,
+        "close": 2.4,
+        "net": -0.6,
+        "openCnt": 299,
+        "closeCnt": 411,
+        "total": 16849
+      },
+      {
+        "label": "송파구",
+        "open": 1.7,
+        "close": 2.4,
+        "net": -0.7,
+        "openCnt": 742,
+        "closeCnt": 1015,
+        "total": 42841
+      },
+      {
+        "label": "금천구",
+        "open": 1.7,
+        "close": 2.3,
+        "net": -0.6,
+        "openCnt": 327,
+        "closeCnt": 428,
+        "total": 18808
+      },
+      {
+        "label": "종로구",
+        "open": 1.7,
+        "close": 1.9,
+        "net": -0.2,
+        "openCnt": 418,
+        "closeCnt": 472,
+        "total": 24903
+      },
+      {
+        "label": "용산구",
+        "open": 1.6,
+        "close": 1.8,
+        "net": -0.2,
+        "openCnt": 319,
+        "closeCnt": 362,
+        "total": 19836
+      },
+      {
+        "label": "서초구",
+        "open": 1.5,
+        "close": 1.8,
+        "net": -0.3,
+        "openCnt": 636,
+        "closeCnt": 728,
+        "total": 41236
+      },
+      {
+        "label": "구로구",
+        "open": 1.4,
+        "close": 2.3,
+        "net": -0.9,
+        "openCnt": 355,
+        "closeCnt": 559,
+        "total": 24703
+      },
+      {
+        "label": "중구",
+        "open": 1.2,
+        "close": 1.8,
+        "net": -0.6,
+        "openCnt": 469,
+        "closeCnt": 684,
+        "total": 38185
+      }
+    ],
+    "drillOpen": {
+      "광진구": [
+        {
+          "label": "슈퍼마켓",
+          "val": 5.1,
+          "count": 21,
+          "total": 412
+        },
+        {
+          "label": "한식당",
+          "val": 4.3,
+          "count": 91,
+          "total": 2108
+        },
+        {
+          "label": "분식점",
+          "val": 3.9,
+          "count": 17,
+          "total": 431
+        },
+        {
+          "label": "피부관리실",
+          "val": 3.9,
+          "count": 16,
+          "total": 412
+        },
+        {
+          "label": "노래방",
+          "val": 3.3,
+          "count": 11,
+          "total": 331
+        }
+      ],
+      "강서구": [
+        {
+          "label": "패스트푸드",
+          "val": 4.7,
+          "count": 16,
+          "total": 343
+        },
+        {
+          "label": "한식당",
+          "val": 4.6,
+          "count": 141,
+          "total": 3094
+        },
+        {
+          "label": "슈퍼마켓",
+          "val": 4.5,
+          "count": 30,
+          "total": 663
+        },
+        {
+          "label": "노래방",
+          "val": 4.0,
+          "count": 13,
+          "total": 329
+        },
+        {
+          "label": "피부관리실",
+          "val": 4.0,
+          "count": 31,
+          "total": 769
+        }
+      ],
+      "서대문구": [
+        {
+          "label": "분식점",
+          "val": 4.0,
+          "count": 16,
+          "total": 401
+        },
+        {
+          "label": "카페·커피숍",
+          "val": 3.5,
+          "count": 31,
+          "total": 876
+        },
+        {
+          "label": "한식당",
+          "val": 3.2,
+          "count": 51,
+          "total": 1608
+        },
+        {
+          "label": "슈퍼마켓",
+          "val": 2.9,
+          "count": 11,
+          "total": 375
+        },
+        {
+          "label": "편의점",
+          "val": 2.6,
+          "count": 8,
+          "total": 302
+        }
+      ],
+      "관악구": [
+        {
+          "label": "한식당",
+          "val": 5.4,
+          "count": 130,
+          "total": 2417
+        },
+        {
+          "label": "피부관리실",
+          "val": 5.0,
+          "count": 21,
+          "total": 423
+        },
+        {
+          "label": "카페·커피숍",
+          "val": 3.8,
+          "count": 35,
+          "total": 928
+        },
+        {
+          "label": "분식점",
+          "val": 3.4,
+          "count": 18,
+          "total": 524
+        },
+        {
+          "label": "스포츠교실",
+          "val": 2.6,
+          "count": 9,
+          "total": 343
+        }
+      ],
+      "마포구": [
+        {
+          "label": "슈퍼마켓",
+          "val": 5.6,
+          "count": 35,
+          "total": 630
+        },
+        {
+          "label": "피부관리실",
+          "val": 4.8,
+          "count": 32,
+          "total": 671
+        },
+        {
+          "label": "양식당",
+          "val": 4.4,
+          "count": 37,
+          "total": 832
+        },
+        {
+          "label": "한식당",
+          "val": 3.8,
+          "count": 122,
+          "total": 3232
+        },
+        {
+          "label": "패스트푸드",
+          "val": 3.8,
+          "count": 15,
+          "total": 390
+        }
+      ],
+      "강북구": [
+        {
+          "label": "슈퍼마켓",
+          "val": 6.1,
+          "count": 23,
+          "total": 374
+        },
+        {
+          "label": "한식당",
+          "val": 4.6,
+          "count": 84,
+          "total": 1809
+        },
+        {
+          "label": "카페·커피숍",
+          "val": 2.2,
+          "count": 12,
+          "total": 548
+        },
+        {
+          "label": "미용실",
+          "val": 1.9,
+          "count": 15,
+          "total": 775
+        },
+        {
+          "label": "호프집·주점",
+          "val": 1.7,
+          "count": 9,
+          "total": 530
+        }
+      ]
+    },
+    "drillClose": {
+      "광진구": [
+        {
+          "label": "분식점",
+          "val": 4.9,
+          "count": 21,
+          "total": 431
+        },
+        {
+          "label": "카페·커피숍",
+          "val": 4.9,
+          "count": 48,
+          "total": 978
+        },
+        {
+          "label": "한식당",
+          "val": 4.2,
+          "count": 88,
+          "total": 2108
+        },
+        {
+          "label": "노래방",
+          "val": 4.2,
+          "count": 14,
+          "total": 331
+        },
+        {
+          "label": "호프집·주점",
+          "val": 4.0,
+          "count": 28,
+          "total": 703
+        }
+      ],
+      "강서구": [
+        {
+          "label": "일식당",
+          "val": 5.9,
+          "count": 18,
+          "total": 307
+        },
+        {
+          "label": "치킨/배달",
+          "val": 5.3,
+          "count": 18,
+          "total": 337
+        },
+        {
+          "label": "패스트푸드",
+          "val": 5.2,
+          "count": 18,
+          "total": 343
+        },
+        {
+          "label": "편의점",
+          "val": 5.0,
+          "count": 25,
+          "total": 500
+        },
+        {
+          "label": "분식점",
+          "val": 4.9,
+          "count": 30,
+          "total": 617
+        }
+      ],
+      "서대문구": [
+        {
+          "label": "편의점",
+          "val": 6.6,
+          "count": 20,
+          "total": 302
+        },
+        {
+          "label": "카페·커피숍",
+          "val": 4.3,
+          "count": 38,
+          "total": 876
+        },
+        {
+          "label": "호프집·주점",
+          "val": 4.3,
+          "count": 23,
+          "total": 533
+        },
+        {
+          "label": "분식점",
+          "val": 4.2,
+          "count": 17,
+          "total": 401
+        },
+        {
+          "label": "온라인쇼핑몰",
+          "val": 4.0,
+          "count": 21,
+          "total": 520
+        }
+      ],
+      "관악구": [
+        {
+          "label": "카페·커피숍",
+          "val": 5.8,
+          "count": 54,
+          "total": 928
+        },
+        {
+          "label": "호프집·주점",
+          "val": 5.2,
+          "count": 39,
+          "total": 754
+        },
+        {
+          "label": "한식당",
+          "val": 4.6,
+          "count": 112,
+          "total": 2417
+        },
+        {
+          "label": "분식점",
+          "val": 3.8,
+          "count": 20,
+          "total": 524
+        },
+        {
+          "label": "스포츠교실",
+          "val": 3.8,
+          "count": 13,
+          "total": 343
+        }
+      ],
+      "마포구": [
+        {
+          "label": "패스트푸드",
+          "val": 6.4,
+          "count": 25,
+          "total": 390
+        },
+        {
+          "label": "중식당",
+          "val": 5.9,
+          "count": 21,
+          "total": 356
+        },
+        {
+          "label": "호프집·주점",
+          "val": 5.7,
+          "count": 68,
+          "total": 1183
+        },
+        {
+          "label": "양식당",
+          "val": 4.4,
+          "count": 37,
+          "total": 832
+        },
+        {
+          "label": "베이커리·제과점",
+          "val": 4.2,
+          "count": 24,
+          "total": 567
+        }
+      ],
+      "강북구": [
+        {
+          "label": "카페·커피숍",
+          "val": 6.2,
+          "count": 34,
+          "total": 548
+        },
+        {
+          "label": "호프집·주점",
+          "val": 4.5,
+          "count": 24,
+          "total": 530
+        },
+        {
+          "label": "한식당",
+          "val": 4.1,
+          "count": 74,
+          "total": 1809
+        },
+        {
+          "label": "슈퍼마켓",
+          "val": 3.5,
+          "count": 13,
+          "total": 374
+        },
+        {
+          "label": "옷가게",
+          "val": 2.7,
+          "count": 19,
+          "total": 694
+        }
+      ]
+    }
+  },
+  "biz": {
+    "open": [
+      {
+        "label": "피부관리실",
+        "val": 4.8,
+        "count": 487,
+        "total": 10132
+      },
+      {
+        "label": "장난감가게",
+        "val": 4.7,
+        "count": 50,
+        "total": 1060
+      },
+      {
+        "label": "어학원",
+        "val": 4.6,
+        "count": 121,
+        "total": 2617
+      },
+      {
+        "label": "반려동물샵",
+        "val": 4.4,
+        "count": 116,
+        "total": 2614
+      },
+      {
+        "label": "여관·모텔",
+        "val": 4.2,
+        "count": 136,
+        "total": 3255
+      }
+    ],
+    "close": [
+      {
+        "label": "PC방",
+        "val": 4.9,
+        "count": 61,
+        "total": 1237
+      },
+      {
+        "label": "오락시설",
+        "val": 4.5,
+        "count": 57,
+        "total": 1262
+      },
+      {
+        "label": "패스트푸드",
+        "val": 4.4,
+        "count": 274,
+        "total": 6285
+      },
+      {
+        "label": "치킨/배달",
+        "val": 4.4,
+        "count": 253,
+        "total": 5803
+      },
+      {
+        "label": "호프집·주점",
+        "val": 4.0,
+        "count": 634,
+        "total": 15880
+      }
+    ],
+    "bcg": [
+      {
+        "label": "장난감가게",
+        "open": 4.7,
+        "close": 1.1,
+        "net": 3.6,
+        "share": 0.4,
+        "judge": "진입 검토",
+        "total": 1060
+      },
+      {
+        "label": "어학원",
+        "open": 4.6,
+        "close": 1.7,
+        "net": 2.9,
+        "share": 1.0,
+        "judge": "진입 긍정",
+        "total": 2617
+      },
+      {
+        "label": "피부관리실",
+        "open": 4.8,
+        "close": 2.4,
+        "net": 2.4,
+        "share": 4.2,
+        "judge": "진입 긍정",
+        "total": 10132
+      },
+      {
+        "label": "섬유/직물",
+        "open": 3.9,
+        "close": 1.8,
+        "net": 2.1,
+        "share": 1.0,
+        "judge": "진입 긍정",
+        "total": 3141
+      },
+      {
+        "label": "반려동물샵",
+        "open": 4.4,
+        "close": 2.5,
+        "net": 1.9,
+        "share": 1.0,
+        "judge": "진입 긍정",
+        "total": 2614
+      },
+      {
+        "label": "예술품/갤러리",
+        "open": 2.9,
+        "close": 1.2,
+        "net": 1.7,
+        "share": 0.6,
+        "judge": "진입 검토",
+        "total": 2358
+      },
+      {
+        "label": "슈퍼마켓",
+        "open": 4.1,
+        "close": 2.4,
+        "net": 1.7,
+        "share": 4.6,
+        "judge": "진입 긍정",
+        "total": 13038
+      },
+      {
+        "label": "독서실",
+        "open": 3.6,
+        "close": 2.1,
+        "net": 1.5,
+        "share": 1.1,
+        "judge": "진입 긍정",
+        "total": 3519
+      },
+      {
+        "label": "여관·모텔",
+        "open": 4.2,
+        "close": 3.1,
+        "net": 1.1,
+        "share": 1.2,
+        "judge": "진입 긍정",
+        "total": 3255
+      },
+      {
+        "label": "꽃집·화초점",
+        "open": 2.2,
+        "close": 1.5,
+        "net": 0.7,
+        "share": 1.1,
+        "judge": "진입 긍정",
+        "total": 6179
+      },
+      {
+        "label": "철물점",
+        "open": 1.7,
+        "close": 1.2,
+        "net": 0.5,
+        "share": 0.3,
+        "judge": "진입 검토",
+        "total": 2231
+      },
+      {
+        "label": "식료품가게",
+        "open": 2.4,
+        "close": 2.0,
+        "net": 0.4,
+        "share": 2.0,
+        "judge": "진입 긍정",
+        "total": 9766
+      },
+      {
+        "label": "가전수리점",
+        "open": 1.4,
+        "close": 1.1,
+        "net": 0.3,
+        "share": 0.4,
+        "judge": "진입 검토",
+        "total": 3039
+      },
+      {
+        "label": "골프연습장",
+        "open": 2.2,
+        "close": 1.9,
+        "net": 0.3,
+        "share": 0.4,
+        "judge": "진입 검토",
+        "total": 2011
+      },
+      {
+        "label": "세차장·자동차관리",
+        "open": 2.5,
+        "close": 2.2,
+        "net": 0.3,
+        "share": 0.4,
+        "judge": "진입 검토",
+        "total": 1766
+      },
+      {
+        "label": "미용실",
+        "open": 1.6,
+        "close": 1.4,
+        "net": 0.2,
+        "share": 3.0,
+        "judge": "진입 긍정",
+        "total": 21928
+      },
+      {
+        "label": "가전제품판매점",
+        "open": 1.1,
+        "close": 1.0,
+        "net": 0.1,
+        "share": 0.2,
+        "judge": "진입 검토",
+        "total": 2465
+      },
+      {
+        "label": "사진관",
+        "open": 1.8,
+        "close": 1.7,
+        "net": 0.1,
+        "share": 1.1,
+        "judge": "진입 긍정",
+        "total": 6874
+      },
+      {
+        "label": "스포츠교실",
+        "open": 2.5,
+        "close": 2.5,
+        "net": 0.0,
+        "share": 2.0,
+        "judge": "진입 긍정",
+        "total": 9234
+      },
+      {
+        "label": "안경점",
+        "open": 1.3,
+        "close": 1.3,
+        "net": 0.0,
+        "share": 0.3,
+        "judge": "진입 검토",
+        "total": 2736
+      },
+      {
+        "label": "시계·귀금속점",
+        "open": 0.9,
+        "close": 0.9,
+        "net": 0.0,
+        "share": 0.5,
+        "judge": "진입 검토",
+        "total": 5839
+      },
+      {
+        "label": "가방/핸드백",
+        "open": 1.8,
+        "close": 1.8,
+        "net": 0.0,
+        "share": 0.4,
+        "judge": "진입 검토",
+        "total": 2965
+      },
+      {
+        "label": "세탁소",
+        "open": 1.9,
+        "close": 1.9,
+        "net": 0.0,
+        "share": 1.0,
+        "judge": "진입 긍정",
+        "total": 6099
+      },
+      {
+        "label": "인테리어업체",
+        "open": 1.5,
+        "close": 1.5,
+        "net": 0.0,
+        "share": 0.6,
+        "judge": "진입 검토",
+        "total": 4310
+      },
+      {
+        "label": "미용재료",
+        "open": 2.3,
+        "close": 2.4,
+        "net": -0.1,
+        "share": 0.3,
+        "judge": "진입 위험",
+        "total": 1464
+      },
+      {
+        "label": "자동차수리점",
+        "open": 0.7,
+        "close": 0.8,
+        "net": -0.1,
+        "share": 0.3,
+        "judge": "진입 위험",
+        "total": 4561
+      },
+      {
+        "label": "양식당",
+        "open": 3.4,
+        "close": 3.5,
+        "net": -0.1,
+        "share": 2.5,
+        "judge": "진입 신중",
+        "total": 8684
+      },
+      {
+        "label": "한식당",
+        "open": 3.6,
+        "close": 3.7,
+        "net": -0.1,
+        "share": 18.2,
+        "judge": "진입 신중",
+        "total": 58922
+      },
+      {
+        "label": "베이커리·제과점",
+        "open": 3.3,
+        "close": 3.4,
+        "net": -0.1,
+        "share": 2.0,
+        "judge": "진입 신중",
+        "total": 7234
+      },
+      {
+        "label": "문구점",
+        "open": 1.5,
+        "close": 1.7,
+        "net": -0.2,
+        "share": 0.6,
+        "judge": "진입 위험",
+        "total": 4484
+      },
+      {
+        "label": "서점",
+        "open": 1.4,
+        "close": 1.6,
+        "net": -0.2,
+        "share": 0.5,
+        "judge": "진입 위험",
+        "total": 4129
+      },
+      {
+        "label": "공부방·교습소",
+        "open": 1.8,
+        "close": 2.0,
+        "net": -0.2,
+        "share": 4.1,
+        "judge": "진입 신중",
+        "total": 26138
+      },
+      {
+        "label": "컴퓨터판매점",
+        "open": 0.7,
+        "close": 0.9,
+        "net": -0.2,
+        "share": 0.5,
+        "judge": "진입 위험",
+        "total": 9076
+      },
+      {
+        "label": "화장품가게",
+        "open": 1.6,
+        "close": 1.9,
+        "net": -0.3,
+        "share": 1.9,
+        "judge": "진입 신중",
+        "total": 13895
+      },
+      {
+        "label": "스포츠용품점",
+        "open": 1.4,
+        "close": 1.7,
+        "net": -0.3,
+        "share": 0.5,
+        "judge": "진입 위험",
+        "total": 3882
+      },
+      {
+        "label": "조명용품",
+        "open": 0.2,
+        "close": 0.6,
+        "net": -0.4,
+        "share": 0.1,
+        "judge": "진입 위험",
+        "total": 10923
+      },
+      {
+        "label": "예술학원",
+        "open": 1.8,
+        "close": 2.3,
+        "net": -0.5,
+        "share": 1.6,
+        "judge": "진입 신중",
+        "total": 10377
+      },
+      {
+        "label": "쌀가게",
+        "open": 0.7,
+        "close": 1.2,
+        "net": -0.5,
+        "share": 0.2,
+        "judge": "진입 위험",
+        "total": 2858
+      },
+      {
+        "label": "오락시설",
+        "open": 4.0,
+        "close": 4.5,
+        "net": -0.5,
+        "share": 0.4,
+        "judge": "진입 위험",
+        "total": 1262
+      },
+      {
+        "label": "가구점",
+        "open": 0.6,
+        "close": 1.2,
+        "net": -0.6,
+        "share": 0.2,
+        "judge": "진입 위험",
+        "total": 3314
+      },
+      {
+        "label": "핸드폰가게",
+        "open": 0.6,
+        "close": 1.2,
+        "net": -0.6,
+        "share": 0.3,
+        "judge": "진입 위험",
+        "total": 6322
+      },
+      {
+        "label": "정육점",
+        "open": 1.4,
+        "close": 2.0,
+        "net": -0.6,
+        "share": 0.8,
+        "judge": "진입 위험",
+        "total": 7000
+      },
+      {
+        "label": "자동차부품",
+        "open": 0.3,
+        "close": 1.0,
+        "net": -0.7,
+        "share": 0.1,
+        "judge": "진입 위험",
+        "total": 3481
+      },
+      {
+        "label": "중식당",
+        "open": 3.3,
+        "close": 4.0,
+        "net": -0.7,
+        "share": 1.8,
+        "judge": "진입 신중",
+        "total": 6199
+      },
+      {
+        "label": "카페·커피숍",
+        "open": 3.0,
+        "close": 3.7,
+        "net": -0.7,
+        "share": 7.1,
+        "judge": "진입 신중",
+        "total": 27443
+      },
+      {
+        "label": "여행사",
+        "open": 0.5,
+        "close": 1.2,
+        "net": -0.7,
+        "share": 0.3,
+        "judge": "진입 위험",
+        "total": 6751
+      },
+      {
+        "label": "분식점",
+        "open": 3.2,
+        "close": 3.9,
+        "net": -0.7,
+        "share": 3.2,
+        "judge": "진입 신중",
+        "total": 11908
+      },
+      {
+        "label": "당구장",
+        "open": 2.7,
+        "close": 3.5,
+        "net": -0.8,
+        "share": 0.9,
+        "judge": "진입 위험",
+        "total": 3797
+      },
+      {
+        "label": "옷가게",
+        "open": 1.0,
+        "close": 1.9,
+        "net": -0.9,
+        "share": 4.0,
+        "judge": "진입 신중",
+        "total": 46478
+      },
+      {
+        "label": "과일·채소가게",
+        "open": 1.0,
+        "close": 1.9,
+        "net": -0.9,
+        "share": 0.7,
+        "judge": "진입 위험",
+        "total": 8889
+      },
+      {
+        "label": "건물청소업",
+        "open": 0.1,
+        "close": 1.0,
+        "net": -0.9,
+        "share": 0.0,
+        "judge": "진입 위험",
+        "total": 5684
+      },
+      {
+        "label": "의료기기점",
+        "open": 0.2,
+        "close": 1.3,
+        "net": -1.1,
+        "share": 0.1,
+        "judge": "진입 위험",
+        "total": 3786
+      },
+      {
+        "label": "수산물가게",
+        "open": 0.3,
+        "close": 1.4,
+        "net": -1.1,
+        "share": 0.1,
+        "judge": "진입 위험",
+        "total": 5221
+      },
+      {
+        "label": "패스트푸드",
+        "open": 3.3,
+        "close": 4.4,
+        "net": -1.1,
+        "share": 1.8,
+        "judge": "진입 신중",
+        "total": 6285
+      },
+      {
+        "label": "노래방",
+        "open": 2.2,
+        "close": 3.4,
+        "net": -1.2,
+        "share": 1.0,
+        "judge": "진입 신중",
+        "total": 5547
+      },
+      {
+        "label": "재활용품점",
+        "open": 0.0,
+        "close": 1.3,
+        "net": -1.3,
+        "share": 0.0,
+        "judge": "진입 위험",
+        "total": 1196
+      },
+      {
+        "label": "치킨/배달",
+        "open": 3.1,
+        "close": 4.4,
+        "net": -1.3,
+        "share": 1.5,
+        "judge": "진입 신중",
+        "total": 5803
+      },
+      {
+        "label": "녹음실",
+        "open": 0.2,
+        "close": 1.5,
+        "net": -1.3,
+        "share": 0.0,
+        "judge": "진입 위험",
+        "total": 1096
+      },
+      {
+        "label": "통번역",
+        "open": 0.1,
+        "close": 1.4,
+        "net": -1.3,
+        "share": 0.0,
+        "judge": "진입 위험",
+        "total": 2099
+      },
+      {
+        "label": "유아의류",
+        "open": 0.6,
+        "close": 2.0,
+        "net": -1.4,
+        "share": 0.1,
+        "judge": "진입 위험",
+        "total": 1664
+      },
+      {
+        "label": "게스트하우스",
+        "open": 0.3,
+        "close": 1.7,
+        "net": -1.4,
+        "share": 0.0,
+        "judge": "진입 위험",
+        "total": 1426
+      },
+      {
+        "label": "공인중개사",
+        "open": 0.1,
+        "close": 1.6,
+        "net": -1.5,
+        "share": 0.2,
+        "judge": "진입 위험",
+        "total": 37223
+      },
+      {
+        "label": "신발가게",
+        "open": 0.3,
+        "close": 1.9,
+        "net": -1.6,
+        "share": 0.1,
+        "judge": "진입 위험",
+        "total": 4152
+      },
+      {
+        "label": "편의점",
+        "open": 1.6,
+        "close": 3.2,
+        "net": -1.6,
+        "share": 1.2,
+        "judge": "진입 신중",
+        "total": 8994
+      },
+      {
+        "label": "호프집·주점",
+        "open": 2.3,
+        "close": 4.0,
+        "net": -1.7,
+        "share": 3.2,
+        "judge": "진입 신중",
+        "total": 15880
+      },
+      {
+        "label": "네일숍",
+        "open": 0.0,
+        "close": 2.1,
+        "net": -2.1,
+        "share": 0.0,
+        "judge": "진입 위험",
+        "total": 4468
+      },
+      {
+        "label": "복권/로또",
+        "open": 0.0,
+        "close": 2.1,
+        "net": -2.1,
+        "share": 0.0,
+        "judge": "진입 위험",
+        "total": 1101
+      },
+      {
+        "label": "가정용품임대",
+        "open": 0.1,
+        "close": 2.4,
+        "net": -2.3,
+        "share": 0.0,
+        "judge": "진입 위험",
+        "total": 1029
+      },
+      {
+        "label": "헬스장·피트니스",
+        "open": 0.9,
+        "close": 3.2,
+        "net": -2.3,
+        "share": 0.4,
+        "judge": "진입 위험",
+        "total": 5605
+      },
+      {
+        "label": "일식당",
+        "open": 1.4,
+        "close": 3.9,
+        "net": -2.5,
+        "share": 0.8,
+        "judge": "진입 위험",
+        "total": 6792
+      },
+      {
+        "label": "온라인쇼핑몰",
+        "open": 0.1,
+        "close": 3.0,
+        "net": -2.9,
+        "share": 0.2,
+        "judge": "진입 위험",
+        "total": 19079
+      },
+      {
+        "label": "PC방",
+        "open": 1.0,
+        "close": 4.9,
+        "net": -3.9,
+        "share": 0.1,
+        "judge": "진입 위험",
+        "total": 1237
+      }
+    ],
+    "professional": [
+      {
+        "label": "회계사",
+        "open": 2.6,
+        "close": 0.6,
+        "net": 2.0,
+        "share": 0.2,
+        "judge": "진입 검토",
+        "total": 960
+      },
+      {
+        "label": "법무사",
+        "open": 1.7,
+        "close": 0.4,
+        "net": 1.3,
+        "share": 0.4,
+        "judge": "진입 검토",
+        "total": 2445
+      },
+      {
+        "label": "약국",
+        "open": 2.2,
+        "close": 1.6,
+        "net": 0.6,
+        "share": 1.7,
+        "judge": "진입 긍정",
+        "total": 9114
+      },
+      {
+        "label": "의원·병원",
+        "open": 1.2,
+        "close": 0.7,
+        "net": 0.5,
+        "share": 1.2,
+        "judge": "진입 긍정",
+        "total": 11723
+      },
+      {
+        "label": "한의원",
+        "open": 1.4,
+        "close": 1.0,
+        "net": 0.4,
+        "share": 0.5,
+        "judge": "진입 검토",
+        "total": 3866
+      },
+      {
+        "label": "동물병원",
+        "open": 0.9,
+        "close": 0.6,
+        "net": 0.3,
+        "share": 0.1,
+        "judge": "진입 검토",
+        "total": 1058
+      },
+      {
+        "label": "치과",
+        "open": 0.7,
+        "close": 0.8,
+        "net": -0.1,
+        "share": 0.3,
+        "judge": "진입 위험",
+        "total": 4961
+      },
+      {
+        "label": "변호사",
+        "open": 0.8,
+        "close": 1.1,
+        "net": -0.3,
+        "share": 0.3,
+        "judge": "진입 위험",
+        "total": 4737
+      },
+      {
+        "label": "변리사",
+        "open": 0.0,
+        "close": 0.5,
+        "net": -0.5,
+        "share": 0.0,
+        "judge": "진입 위험",
+        "total": 957
+      },
+      {
+        "label": "세무사",
+        "open": 0.2,
+        "close": 0.7,
+        "net": -0.5,
+        "share": 0.2,
+        "judge": "진입 위험",
+        "total": 7686
+      },
+      {
+        "label": "법무서비스",
+        "open": 0.2,
+        "close": 1.2,
+        "net": -1.0,
+        "share": 0.0,
+        "judge": "진입 위험",
+        "total": 2339
+      }
+    ],
+    "drillOpen": {
+      "피부관리실": [
+        {
+          "label": "영등포구",
+          "val": 7.3,
+          "count": 34,
+          "total": 465
+        },
+        {
+          "label": "금천구",
+          "val": 7.0,
+          "count": 13,
+          "total": 186
+        },
+        {
+          "label": "구로구",
+          "val": 6.3,
+          "count": 22,
+          "total": 349
+        },
+        {
+          "label": "성동구",
+          "val": 5.9,
+          "count": 17,
+          "total": 288
+        },
+        {
+          "label": "중구",
+          "val": 5.6,
+          "count": 12,
+          "total": 213
+        }
+      ],
+      "장난감가게": [
+        {
+          "label": "마포구",
+          "val": 11.9,
+          "count": 13,
+          "total": 109
+        },
+        {
+          "label": "송파구",
+          "val": 8.6,
+          "count": 5,
+          "total": 58
+        },
+        {
+          "label": "서초구",
+          "val": 8.0,
+          "count": 6,
+          "total": 75
+        },
+        {
+          "label": "용산구",
+          "val": 3.4,
+          "count": 2,
+          "total": 59
+        },
+        {
+          "label": "강서구",
+          "val": 2.7,
+          "count": 2,
+          "total": 75
+        }
+      ],
+      "어학원": [
+        {
+          "label": "광진구",
+          "val": 10.2,
+          "count": 6,
+          "total": 59
+        },
+        {
+          "label": "동작구",
+          "val": 9.4,
+          "count": 8,
+          "total": 85
+        },
+        {
+          "label": "양천구",
+          "val": 9.3,
+          "count": 10,
+          "total": 108
+        },
+        {
+          "label": "동대문구",
+          "val": 8.6,
+          "count": 7,
+          "total": 81
+        },
+        {
+          "label": "강서구",
+          "val": 8.5,
+          "count": 11,
+          "total": 130
+        }
+      ],
+      "반려동물샵": [
+        {
+          "label": "서대문구",
+          "val": 7.8,
+          "count": 6,
+          "total": 77
+        },
+        {
+          "label": "광진구",
+          "val": 7.4,
+          "count": 7,
+          "total": 94
+        },
+        {
+          "label": "강북구",
+          "val": 6.8,
+          "count": 5,
+          "total": 73
+        },
+        {
+          "label": "서초구",
+          "val": 6.7,
+          "count": 8,
+          "total": 120
+        },
+        {
+          "label": "성동구",
+          "val": 6.7,
+          "count": 7,
+          "total": 105
+        }
+      ],
+      "여관·모텔": [
+        {
+          "label": "종로구",
+          "val": 8.8,
+          "count": 25,
+          "total": 283
+        },
+        {
+          "label": "마포구",
+          "val": 8.4,
+          "count": 8,
+          "total": 95
+        },
+        {
+          "label": "강동구",
+          "val": 7.0,
+          "count": 8,
+          "total": 114
+        },
+        {
+          "label": "서초구",
+          "val": 5.6,
+          "count": 5,
+          "total": 90
+        },
+        {
+          "label": "송파구",
+          "val": 5.6,
+          "count": 9,
+          "total": 162
+        }
+      ],
+      "PC방": [
+        {
+          "label": "송파구",
+          "val": 4.0,
+          "count": 3,
+          "total": 75
+        },
+        {
+          "label": "강서구",
+          "val": 3.3,
+          "count": 2,
+          "total": 61
+        },
+        {
+          "label": "광진구",
+          "val": 1.5,
+          "count": 1,
+          "total": 66
+        },
+        {
+          "label": "강남구",
+          "val": 1.4,
+          "count": 1,
+          "total": 72
+        },
+        {
+          "label": "강동구",
+          "val": 0.0,
+          "count": 0,
+          "total": 65
+        }
+      ],
+      "오락시설": [
+        {
+          "label": "영등포구",
+          "val": 7.2,
+          "count": 6,
+          "total": 83
+        },
+        {
+          "label": "노원구",
+          "val": 6.0,
+          "count": 3,
+          "total": 50
+        },
+        {
+          "label": "마포구",
+          "val": 5.7,
+          "count": 7,
+          "total": 122
+        },
+        {
+          "label": "송파구",
+          "val": 3.8,
+          "count": 3,
+          "total": 80
+        },
+        {
+          "label": "관악구",
+          "val": 1.9,
+          "count": 1,
+          "total": 54
+        }
+      ],
+      "패스트푸드": [
+        {
+          "label": "양천구",
+          "val": 6.3,
+          "count": 12,
+          "total": 191
+        },
+        {
+          "label": "강동구",
+          "val": 6.1,
+          "count": 16,
+          "total": 262
+        },
+        {
+          "label": "관악구",
+          "val": 5.8,
+          "count": 15,
+          "total": 258
+        },
+        {
+          "label": "성동구",
+          "val": 5.3,
+          "count": 12,
+          "total": 226
+        },
+        {
+          "label": "구로구",
+          "val": 5.3,
+          "count": 10,
+          "total": 189
+        }
+      ],
+      "치킨/배달": [
+        {
+          "label": "관악구",
+          "val": 4.9,
+          "count": 14,
+          "total": 283
+        },
+        {
+          "label": "금천구",
+          "val": 4.6,
+          "count": 8,
+          "total": 173
+        },
+        {
+          "label": "강북구",
+          "val": 4.5,
+          "count": 9,
+          "total": 200
+        },
+        {
+          "label": "서초구",
+          "val": 3.9,
+          "count": 8,
+          "total": 204
+        },
+        {
+          "label": "영등포구",
+          "val": 3.9,
+          "count": 10,
+          "total": 254
+        }
+      ],
+      "호프집·주점": [
+        {
+          "label": "금천구",
+          "val": 4.0,
+          "count": 17,
+          "total": 429
+        },
+        {
+          "label": "강남구",
+          "val": 3.8,
+          "count": 44,
+          "total": 1152
+        },
+        {
+          "label": "중랑구",
+          "val": 3.1,
+          "count": 19,
+          "total": 617
+        },
+        {
+          "label": "송파구",
+          "val": 2.9,
+          "count": 24,
+          "total": 828
+        },
+        {
+          "label": "은평구",
+          "val": 2.9,
+          "count": 15,
+          "total": 519
+        }
+      ],
+      "섬유/직물": [
+        {
+          "label": "서대문구",
+          "val": 12.0,
+          "count": 6,
+          "total": 50
+        },
+        {
+          "label": "동작구",
+          "val": 9.5,
+          "count": 6,
+          "total": 63
+        },
+        {
+          "label": "중랑구",
+          "val": 8.7,
+          "count": 8,
+          "total": 92
+        },
+        {
+          "label": "강서구",
+          "val": 6.9,
+          "count": 10,
+          "total": 144
+        },
+        {
+          "label": "마포구",
+          "val": 6.4,
+          "count": 7,
+          "total": 109
+        }
+      ],
+      "예술품/갤러리": [
+        {
+          "label": "송파구",
+          "val": 9.0,
+          "count": 7,
+          "total": 78
+        },
+        {
+          "label": "성동구",
+          "val": 7.4,
+          "count": 5,
+          "total": 68
+        },
+        {
+          "label": "성북구",
+          "val": 5.6,
+          "count": 4,
+          "total": 71
+        },
+        {
+          "label": "중구",
+          "val": 3.6,
+          "count": 4,
+          "total": 111
+        },
+        {
+          "label": "강남구",
+          "val": 3.3,
+          "count": 12,
+          "total": 367
+        }
+      ],
+      "슈퍼마켓": [
+        {
+          "label": "중구",
+          "val": 6.4,
+          "count": 46,
+          "total": 715
+        },
+        {
+          "label": "강남구",
+          "val": 6.3,
+          "count": 56,
+          "total": 891
+        },
+        {
+          "label": "강북구",
+          "val": 6.1,
+          "count": 23,
+          "total": 374
+        },
+        {
+          "label": "성동구",
+          "val": 5.8,
+          "count": 24,
+          "total": 411
+        },
+        {
+          "label": "마포구",
+          "val": 5.6,
+          "count": 35,
+          "total": 630
+        }
+      ],
+      "독서실": [
+        {
+          "label": "중랑구",
+          "val": 10.7,
+          "count": 9,
+          "total": 84
+        },
+        {
+          "label": "강동구",
+          "val": 9.5,
+          "count": 14,
+          "total": 148
+        },
+        {
+          "label": "양천구",
+          "val": 5.1,
+          "count": 10,
+          "total": 195
+        },
+        {
+          "label": "성북구",
+          "val": 5.0,
+          "count": 7,
+          "total": 141
+        },
+        {
+          "label": "강북구",
+          "val": 4.9,
+          "count": 3,
+          "total": 61
+        }
+      ],
+      "꽃집·화초점": [
+        {
+          "label": "동대문구",
+          "val": 4.1,
+          "count": 5,
+          "total": 122
+        },
+        {
+          "label": "중랑구",
+          "val": 3.9,
+          "count": 5,
+          "total": 127
+        },
+        {
+          "label": "양천구",
+          "val": 3.9,
+          "count": 7,
+          "total": 179
+        },
+        {
+          "label": "관악구",
+          "val": 3.8,
+          "count": 6,
+          "total": 156
+        },
+        {
+          "label": "성북구",
+          "val": 3.6,
+          "count": 6,
+          "total": 169
+        }
+      ],
+      "철물점": [
+        {
+          "label": "성동구",
+          "val": 4.5,
+          "count": 3,
+          "total": 66
+        },
+        {
+          "label": "중랑구",
+          "val": 4.0,
+          "count": 4,
+          "total": 99
+        },
+        {
+          "label": "강서구",
+          "val": 3.8,
+          "count": 4,
+          "total": 104
+        },
+        {
+          "label": "서초구",
+          "val": 3.7,
+          "count": 3,
+          "total": 81
+        },
+        {
+          "label": "노원구",
+          "val": 3.7,
+          "count": 3,
+          "total": 81
+        }
+      ],
+      "식료품가게": [
+        {
+          "label": "성북구",
+          "val": 4.5,
+          "count": 11,
+          "total": 245
+        },
+        {
+          "label": "은평구",
+          "val": 4.5,
+          "count": 14,
+          "total": 308
+        },
+        {
+          "label": "광진구",
+          "val": 4.4,
+          "count": 13,
+          "total": 294
+        },
+        {
+          "label": "동작구",
+          "val": 4.1,
+          "count": 9,
+          "total": 222
+        },
+        {
+          "label": "성동구",
+          "val": 3.8,
+          "count": 11,
+          "total": 288
+        }
+      ],
+      "가전수리점": [
+        {
+          "label": "서대문구",
+          "val": 3.8,
+          "count": 3,
+          "total": 80
+        },
+        {
+          "label": "용산구",
+          "val": 3.5,
+          "count": 2,
+          "total": 57
+        },
+        {
+          "label": "송파구",
+          "val": 3.4,
+          "count": 5,
+          "total": 146
+        },
+        {
+          "label": "도봉구",
+          "val": 2.4,
+          "count": 3,
+          "total": 126
+        },
+        {
+          "label": "동대문구",
+          "val": 2.3,
+          "count": 3,
+          "total": 130
+        }
+      ],
+      "골프연습장": [
+        {
+          "label": "동대문구",
+          "val": 7.3,
+          "count": 4,
+          "total": 55
+        },
+        {
+          "label": "광진구",
+          "val": 5.9,
+          "count": 3,
+          "total": 51
+        },
+        {
+          "label": "영등포구",
+          "val": 3.6,
+          "count": 4,
+          "total": 111
+        },
+        {
+          "label": "관악구",
+          "val": 3.4,
+          "count": 2,
+          "total": 58
+        },
+        {
+          "label": "구로구",
+          "val": 3.4,
+          "count": 3,
+          "total": 88
+        }
+      ],
+      "세차장·자동차관리": [
+        {
+          "label": "동대문구",
+          "val": 8.2,
+          "count": 5,
+          "total": 61
+        },
+        {
+          "label": "송파구",
+          "val": 6.3,
+          "count": 8,
+          "total": 126
+        },
+        {
+          "label": "강서구",
+          "val": 4.3,
+          "count": 6,
+          "total": 140
+        },
+        {
+          "label": "노원구",
+          "val": 4.2,
+          "count": 3,
+          "total": 71
+        },
+        {
+          "label": "강북구",
+          "val": 3.6,
+          "count": 2,
+          "total": 55
+        }
+      ],
+      "미용실": [
+        {
+          "label": "성동구",
+          "val": 2.7,
+          "count": 18,
+          "total": 667
+        },
+        {
+          "label": "강남구",
+          "val": 2.6,
+          "count": 47,
+          "total": 1794
+        },
+        {
+          "label": "마포구",
+          "val": 2.6,
+          "count": 33,
+          "total": 1292
+        },
+        {
+          "label": "강동구",
+          "val": 2.1,
+          "count": 23,
+          "total": 1111
+        },
+        {
+          "label": "광진구",
+          "val": 2.1,
+          "count": 18,
+          "total": 869
+        }
+      ],
+      "가전제품판매점": [
+        {
+          "label": "성북구",
+          "val": 6.2,
+          "count": 4,
+          "total": 65
+        },
+        {
+          "label": "금천구",
+          "val": 3.6,
+          "count": 3,
+          "total": 84
+        },
+        {
+          "label": "양천구",
+          "val": 3.1,
+          "count": 2,
+          "total": 64
+        },
+        {
+          "label": "은평구",
+          "val": 2.6,
+          "count": 2,
+          "total": 76
+        },
+        {
+          "label": "강남구",
+          "val": 2.4,
+          "count": 4,
+          "total": 165
+        }
+      ],
+      "사진관": [
+        {
+          "label": "영등포구",
+          "val": 4.7,
+          "count": 12,
+          "total": 254
+        },
+        {
+          "label": "금천구",
+          "val": 3.7,
+          "count": 4,
+          "total": 109
+        },
+        {
+          "label": "구로구",
+          "val": 3.6,
+          "count": 6,
+          "total": 165
+        },
+        {
+          "label": "강북구",
+          "val": 3.5,
+          "count": 4,
+          "total": 113
+        },
+        {
+          "label": "서대문구",
+          "val": 2.9,
+          "count": 6,
+          "total": 204
+        }
+      ],
+      "스포츠교실": [
+        {
+          "label": "성북구",
+          "val": 4.7,
+          "count": 16,
+          "total": 344
+        },
+        {
+          "label": "영등포구",
+          "val": 4.1,
+          "count": 16,
+          "total": 386
+        },
+        {
+          "label": "서대문구",
+          "val": 4.0,
+          "count": 10,
+          "total": 248
+        },
+        {
+          "label": "금천구",
+          "val": 4.0,
+          "count": 6,
+          "total": 149
+        },
+        {
+          "label": "강서구",
+          "val": 3.4,
+          "count": 18,
+          "total": 536
+        }
+      ],
+      "안경점": [
+        {
+          "label": "마포구",
+          "val": 4.0,
+          "count": 6,
+          "total": 149
+        },
+        {
+          "label": "성동구",
+          "val": 3.3,
+          "count": 3,
+          "total": 92
+        },
+        {
+          "label": "용산구",
+          "val": 2.8,
+          "count": 2,
+          "total": 71
+        },
+        {
+          "label": "강서구",
+          "val": 2.4,
+          "count": 3,
+          "total": 127
+        },
+        {
+          "label": "동대문구",
+          "val": 2.3,
+          "count": 2,
+          "total": 86
+        }
+      ],
+      "시계·귀금속점": [
+        {
+          "label": "금천구",
+          "val": 3.6,
+          "count": 3,
+          "total": 83
+        },
+        {
+          "label": "노원구",
+          "val": 3.0,
+          "count": 3,
+          "total": 99
+        },
+        {
+          "label": "양천구",
+          "val": 2.9,
+          "count": 3,
+          "total": 102
+        },
+        {
+          "label": "서초구",
+          "val": 2.4,
+          "count": 6,
+          "total": 246
+        },
+        {
+          "label": "동대문구",
+          "val": 2.4,
+          "count": 2,
+          "total": 85
+        }
+      ],
+      "가방/핸드백": [
+        {
+          "label": "중랑구",
+          "val": 5.6,
+          "count": 3,
+          "total": 54
+        },
+        {
+          "label": "성동구",
+          "val": 4.6,
+          "count": 5,
+          "total": 109
+        },
+        {
+          "label": "강서구",
+          "val": 4.0,
+          "count": 4,
+          "total": 99
+        },
+        {
+          "label": "금천구",
+          "val": 3.4,
+          "count": 3,
+          "total": 87
+        },
+        {
+          "label": "용산구",
+          "val": 2.5,
+          "count": 4,
+          "total": 160
+        }
+      ],
+      "세탁소": [
+        {
+          "label": "용산구",
+          "val": 4.0,
+          "count": 6,
+          "total": 151
+        },
+        {
+          "label": "광진구",
+          "val": 4.0,
+          "count": 10,
+          "total": 249
+        },
+        {
+          "label": "성동구",
+          "val": 3.9,
+          "count": 7,
+          "total": 178
+        },
+        {
+          "label": "마포구",
+          "val": 3.0,
+          "count": 8,
+          "total": 265
+        },
+        {
+          "label": "동작구",
+          "val": 2.9,
+          "count": 7,
+          "total": 241
+        }
+      ],
+      "인테리어업체": [
+        {
+          "label": "도봉구",
+          "val": 3.2,
+          "count": 4,
+          "total": 124
+        },
+        {
+          "label": "서대문구",
+          "val": 2.7,
+          "count": 3,
+          "total": 113
+        },
+        {
+          "label": "서초구",
+          "val": 2.6,
+          "count": 5,
+          "total": 190
+        },
+        {
+          "label": "중랑구",
+          "val": 2.6,
+          "count": 4,
+          "total": 155
+        },
+        {
+          "label": "금천구",
+          "val": 2.5,
+          "count": 4,
+          "total": 159
+        }
+      ],
+      "미용재료": [
+        {
+          "label": "송파구",
+          "val": 6.2,
+          "count": 5,
+          "total": 81
+        },
+        {
+          "label": "은평구",
+          "val": 3.8,
+          "count": 2,
+          "total": 52
+        },
+        {
+          "label": "영등포구",
+          "val": 3.1,
+          "count": 2,
+          "total": 65
+        },
+        {
+          "label": "구로구",
+          "val": 2.9,
+          "count": 2,
+          "total": 70
+        },
+        {
+          "label": "강남구",
+          "val": 2.2,
+          "count": 2,
+          "total": 91
+        }
+      ],
+      "자동차수리점": [
+        {
+          "label": "강서구",
+          "val": 2.0,
+          "count": 6,
+          "total": 299
+        },
+        {
+          "label": "중랑구",
+          "val": 2.0,
+          "count": 4,
+          "total": 204
+        },
+        {
+          "label": "노원구",
+          "val": 1.3,
+          "count": 2,
+          "total": 152
+        },
+        {
+          "label": "성동구",
+          "val": 1.2,
+          "count": 3,
+          "total": 243
+        },
+        {
+          "label": "동작구",
+          "val": 1.1,
+          "count": 1,
+          "total": 92
+        }
+      ],
+      "양식당": [
+        {
+          "label": "강서구",
+          "val": 6.5,
+          "count": 18,
+          "total": 279
+        },
+        {
+          "label": "관악구",
+          "val": 6.2,
+          "count": 14,
+          "total": 226
+        },
+        {
+          "label": "중랑구",
+          "val": 5.9,
+          "count": 7,
+          "total": 119
+        },
+        {
+          "label": "구로구",
+          "val": 5.7,
+          "count": 7,
+          "total": 123
+        },
+        {
+          "label": "영등포구",
+          "val": 4.9,
+          "count": 17,
+          "total": 345
+        }
+      ],
+      "한식당": [
+        {
+          "label": "관악구",
+          "val": 5.4,
+          "count": 130,
+          "total": 2417
+        },
+        {
+          "label": "강서구",
+          "val": 4.6,
+          "count": 141,
+          "total": 3094
+        },
+        {
+          "label": "강북구",
+          "val": 4.6,
+          "count": 84,
+          "total": 1809
+        },
+        {
+          "label": "광진구",
+          "val": 4.3,
+          "count": 91,
+          "total": 2108
+        },
+        {
+          "label": "동대문구",
+          "val": 3.9,
+          "count": 91,
+          "total": 2307
+        }
+      ],
+      "베이커리·제과점": [
+        {
+          "label": "관악구",
+          "val": 6.0,
+          "count": 15,
+          "total": 249
+        },
+        {
+          "label": "구로구",
+          "val": 5.3,
+          "count": 11,
+          "total": 209
+        },
+        {
+          "label": "영등포구",
+          "val": 4.6,
+          "count": 15,
+          "total": 324
+        },
+        {
+          "label": "노원구",
+          "val": 4.5,
+          "count": 12,
+          "total": 266
+        },
+        {
+          "label": "용산구",
+          "val": 4.0,
+          "count": 12,
+          "total": 299
+        }
+      ],
+      "문구점": [
+        {
+          "label": "노원구",
+          "val": 3.5,
+          "count": 5,
+          "total": 141
+        },
+        {
+          "label": "양천구",
+          "val": 3.3,
+          "count": 5,
+          "total": 150
+        },
+        {
+          "label": "관악구",
+          "val": 2.8,
+          "count": 3,
+          "total": 107
+        },
+        {
+          "label": "광진구",
+          "val": 2.4,
+          "count": 3,
+          "total": 127
+        },
+        {
+          "label": "은평구",
+          "val": 2.4,
+          "count": 3,
+          "total": 126
+        }
+      ],
+      "서점": [
+        {
+          "label": "강북구",
+          "val": 3.9,
+          "count": 3,
+          "total": 76
+        },
+        {
+          "label": "마포구",
+          "val": 3.0,
+          "count": 9,
+          "total": 296
+        },
+        {
+          "label": "성북구",
+          "val": 2.8,
+          "count": 4,
+          "total": 142
+        },
+        {
+          "label": "송파구",
+          "val": 2.7,
+          "count": 6,
+          "total": 224
+        },
+        {
+          "label": "성동구",
+          "val": 2.6,
+          "count": 3,
+          "total": 114
+        }
+      ],
+      "공부방·교습소": [
+        {
+          "label": "종로구",
+          "val": 3.8,
+          "count": 12,
+          "total": 312
+        },
+        {
+          "label": "광진구",
+          "val": 2.9,
+          "count": 21,
+          "total": 731
+        },
+        {
+          "label": "강남구",
+          "val": 2.3,
+          "count": 76,
+          "total": 3349
+        },
+        {
+          "label": "송파구",
+          "val": 2.3,
+          "count": 43,
+          "total": 1842
+        },
+        {
+          "label": "강서구",
+          "val": 2.2,
+          "count": 31,
+          "total": 1413
+        }
+      ],
+      "컴퓨터판매점": [
+        {
+          "label": "양천구",
+          "val": 3.5,
+          "count": 5,
+          "total": 143
+        },
+        {
+          "label": "중랑구",
+          "val": 2.7,
+          "count": 4,
+          "total": 147
+        },
+        {
+          "label": "강서구",
+          "val": 2.0,
+          "count": 8,
+          "total": 391
+        },
+        {
+          "label": "도봉구",
+          "val": 1.3,
+          "count": 1,
+          "total": 79
+        },
+        {
+          "label": "구로구",
+          "val": 1.1,
+          "count": 6,
+          "total": 528
+        }
+      ],
+      "화장품가게": [
+        {
+          "label": "성동구",
+          "val": 3.0,
+          "count": 15,
+          "total": 496
+        },
+        {
+          "label": "강동구",
+          "val": 2.7,
+          "count": 12,
+          "total": 448
+        },
+        {
+          "label": "은평구",
+          "val": 2.4,
+          "count": 8,
+          "total": 327
+        },
+        {
+          "label": "용산구",
+          "val": 2.3,
+          "count": 8,
+          "total": 345
+        },
+        {
+          "label": "동대문구",
+          "val": 2.0,
+          "count": 5,
+          "total": 244
+        }
+      ],
+      "스포츠용품점": [
+        {
+          "label": "성북구",
+          "val": 4.8,
+          "count": 3,
+          "total": 62
+        },
+        {
+          "label": "동대문구",
+          "val": 3.4,
+          "count": 3,
+          "total": 88
+        },
+        {
+          "label": "노원구",
+          "val": 2.8,
+          "count": 3,
+          "total": 106
+        },
+        {
+          "label": "관악구",
+          "val": 2.5,
+          "count": 2,
+          "total": 79
+        },
+        {
+          "label": "영등포구",
+          "val": 2.5,
+          "count": 5,
+          "total": 203
+        }
+      ],
+      "조명용품": [
+        {
+          "label": "관악구",
+          "val": 0.7,
+          "count": 1,
+          "total": 147
+        },
+        {
+          "label": "노원구",
+          "val": 0.7,
+          "count": 1,
+          "total": 151
+        },
+        {
+          "label": "강동구",
+          "val": 0.5,
+          "count": 1,
+          "total": 191
+        },
+        {
+          "label": "성동구",
+          "val": 0.5,
+          "count": 1,
+          "total": 205
+        },
+        {
+          "label": "양천구",
+          "val": 0.5,
+          "count": 1,
+          "total": 191
+        }
+      ],
+      "예술학원": [
+        {
+          "label": "구로구",
+          "val": 3.4,
+          "count": 12,
+          "total": 356
+        },
+        {
+          "label": "성동구",
+          "val": 3.0,
+          "count": 10,
+          "total": 330
+        },
+        {
+          "label": "영등포구",
+          "val": 2.5,
+          "count": 10,
+          "total": 402
+        },
+        {
+          "label": "강남구",
+          "val": 2.4,
+          "count": 24,
+          "total": 993
+        },
+        {
+          "label": "강동구",
+          "val": 2.3,
+          "count": 12,
+          "total": 529
+        }
+      ],
+      "쌀가게": [
+        {
+          "label": "강북구",
+          "val": 3.9,
+          "count": 2,
+          "total": 51
+        },
+        {
+          "label": "은평구",
+          "val": 3.7,
+          "count": 2,
+          "total": 54
+        },
+        {
+          "label": "성북구",
+          "val": 3.3,
+          "count": 2,
+          "total": 61
+        },
+        {
+          "label": "노원구",
+          "val": 3.3,
+          "count": 2,
+          "total": 61
+        },
+        {
+          "label": "성동구",
+          "val": 1.8,
+          "count": 1,
+          "total": 57
+        }
+      ],
+      "가구점": [
+        {
+          "label": "마포구",
+          "val": 1.8,
+          "count": 2,
+          "total": 111
+        },
+        {
+          "label": "광진구",
+          "val": 1.7,
+          "count": 2,
+          "total": 121
+        },
+        {
+          "label": "강남구",
+          "val": 1.4,
+          "count": 7,
+          "total": 490
+        },
+        {
+          "label": "동대문구",
+          "val": 1.3,
+          "count": 1,
+          "total": 79
+        },
+        {
+          "label": "은평구",
+          "val": 1.1,
+          "count": 1,
+          "total": 95
+        }
+      ],
+      "핸드폰가게": [
+        {
+          "label": "서대문구",
+          "val": 3.0,
+          "count": 4,
+          "total": 134
+        },
+        {
+          "label": "은평구",
+          "val": 2.0,
+          "count": 5,
+          "total": 247
+        },
+        {
+          "label": "중랑구",
+          "val": 1.9,
+          "count": 5,
+          "total": 269
+        },
+        {
+          "label": "노원구",
+          "val": 1.2,
+          "count": 3,
+          "total": 246
+        },
+        {
+          "label": "성북구",
+          "val": 1.0,
+          "count": 2,
+          "total": 195
+        }
+      ],
+      "정육점": [
+        {
+          "label": "마포구",
+          "val": 3.4,
+          "count": 5,
+          "total": 146
+        },
+        {
+          "label": "강북구",
+          "val": 3.1,
+          "count": 5,
+          "total": 161
+        },
+        {
+          "label": "구로구",
+          "val": 3.1,
+          "count": 6,
+          "total": 194
+        },
+        {
+          "label": "서초구",
+          "val": 2.9,
+          "count": 5,
+          "total": 173
+        },
+        {
+          "label": "광진구",
+          "val": 2.8,
+          "count": 5,
+          "total": 179
+        }
+      ],
+      "자동차부품": [
+        {
+          "label": "성북구",
+          "val": 1.7,
+          "count": 1,
+          "total": 59
+        },
+        {
+          "label": "광진구",
+          "val": 1.3,
+          "count": 1,
+          "total": 77
+        },
+        {
+          "label": "노원구",
+          "val": 1.3,
+          "count": 1,
+          "total": 79
+        },
+        {
+          "label": "마포구",
+          "val": 1.2,
+          "count": 1,
+          "total": 81
+        },
+        {
+          "label": "관악구",
+          "val": 1.1,
+          "count": 1,
+          "total": 88
+        }
+      ],
+      "중식당": [
+        {
+          "label": "강북구",
+          "val": 6.9,
+          "count": 9,
+          "total": 131
+        },
+        {
+          "label": "종로구",
+          "val": 5.0,
+          "count": 11,
+          "total": 220
+        },
+        {
+          "label": "서대문구",
+          "val": 4.6,
+          "count": 9,
+          "total": 194
+        },
+        {
+          "label": "성동구",
+          "val": 4.3,
+          "count": 7,
+          "total": 161
+        },
+        {
+          "label": "강남구",
+          "val": 4.1,
+          "count": 20,
+          "total": 484
+        }
+      ],
+      "카페·커피숍": [
+        {
+          "label": "강동구",
+          "val": 4.4,
+          "count": 41,
+          "total": 934
+        },
+        {
+          "label": "중랑구",
+          "val": 3.9,
+          "count": 26,
+          "total": 665
+        },
+        {
+          "label": "관악구",
+          "val": 3.8,
+          "count": 35,
+          "total": 928
+        },
+        {
+          "label": "강남구",
+          "val": 3.6,
+          "count": 92,
+          "total": 2579
+        },
+        {
+          "label": "중구",
+          "val": 3.6,
+          "count": 50,
+          "total": 1377
+        }
+      ],
+      "여행사": [
+        {
+          "label": "동대문구",
+          "val": 2.8,
+          "count": 3,
+          "total": 109
+        },
+        {
+          "label": "은평구",
+          "val": 2.2,
+          "count": 2,
+          "total": 90
+        },
+        {
+          "label": "관악구",
+          "val": 1.3,
+          "count": 1,
+          "total": 77
+        },
+        {
+          "label": "금천구",
+          "val": 1.2,
+          "count": 2,
+          "total": 166
+        },
+        {
+          "label": "강동구",
+          "val": 1.0,
+          "count": 1,
+          "total": 97
+        }
+      ],
+      "분식점": [
+        {
+          "label": "도봉구",
+          "val": 5.3,
+          "count": 15,
+          "total": 285
+        },
+        {
+          "label": "서대문구",
+          "val": 4.0,
+          "count": 16,
+          "total": 401
+        },
+        {
+          "label": "금천구",
+          "val": 4.0,
+          "count": 13,
+          "total": 321
+        },
+        {
+          "label": "광진구",
+          "val": 3.9,
+          "count": 17,
+          "total": 431
+        },
+        {
+          "label": "종로구",
+          "val": 3.9,
+          "count": 18,
+          "total": 465
+        }
+      ],
+      "당구장": [
+        {
+          "label": "강서구",
+          "val": 4.6,
+          "count": 10,
+          "total": 217
+        },
+        {
+          "label": "노원구",
+          "val": 4.4,
+          "count": 8,
+          "total": 183
+        },
+        {
+          "label": "마포구",
+          "val": 4.2,
+          "count": 6,
+          "total": 142
+        },
+        {
+          "label": "동대문구",
+          "val": 4.0,
+          "count": 6,
+          "total": 149
+        },
+        {
+          "label": "성동구",
+          "val": 3.8,
+          "count": 4,
+          "total": 104
+        }
+      ],
+      "옷가게": [
+        {
+          "label": "성북구",
+          "val": 2.9,
+          "count": 30,
+          "total": 1027
+        },
+        {
+          "label": "용산구",
+          "val": 2.0,
+          "count": 25,
+          "total": 1231
+        },
+        {
+          "label": "도봉구",
+          "val": 2.0,
+          "count": 27,
+          "total": 1331
+        },
+        {
+          "label": "마포구",
+          "val": 1.9,
+          "count": 26,
+          "total": 1393
+        },
+        {
+          "label": "성동구",
+          "val": 1.9,
+          "count": 23,
+          "total": 1192
+        }
+      ],
+      "과일·채소가게": [
+        {
+          "label": "성동구",
+          "val": 2.8,
+          "count": 4,
+          "total": 142
+        },
+        {
+          "label": "동대문구",
+          "val": 1.9,
+          "count": 18,
+          "total": 924
+        },
+        {
+          "label": "노원구",
+          "val": 1.9,
+          "count": 4,
+          "total": 212
+        },
+        {
+          "label": "마포구",
+          "val": 1.8,
+          "count": 4,
+          "total": 224
+        },
+        {
+          "label": "구로구",
+          "val": 1.8,
+          "count": 4,
+          "total": 224
+        }
+      ],
+      "건물청소업": [
+        {
+          "label": "용산구",
+          "val": 0.8,
+          "count": 1,
+          "total": 122
+        },
+        {
+          "label": "성북구",
+          "val": 0.5,
+          "count": 1,
+          "total": 184
+        },
+        {
+          "label": "관악구",
+          "val": 0.4,
+          "count": 1,
+          "total": 278
+        },
+        {
+          "label": "강동구",
+          "val": 0.0,
+          "count": 0,
+          "total": 261
+        },
+        {
+          "label": "은평구",
+          "val": 0.0,
+          "count": 0,
+          "total": 260
+        }
+      ],
+      "의료기기점": [
+        {
+          "label": "강북구",
+          "val": 1.2,
+          "count": 1,
+          "total": 84
+        },
+        {
+          "label": "성북구",
+          "val": 1.1,
+          "count": 1,
+          "total": 95
+        },
+        {
+          "label": "송파구",
+          "val": 0.9,
+          "count": 3,
+          "total": 330
+        },
+        {
+          "label": "동대문구",
+          "val": 0.8,
+          "count": 1,
+          "total": 125
+        },
+        {
+          "label": "강서구",
+          "val": 0.4,
+          "count": 1,
+          "total": 239
+        }
+      ],
+      "수산물가게": [
+        {
+          "label": "노원구",
+          "val": 2.6,
+          "count": 2,
+          "total": 78
+        },
+        {
+          "label": "강동구",
+          "val": 1.2,
+          "count": 2,
+          "total": 162
+        },
+        {
+          "label": "동대문구",
+          "val": 1.0,
+          "count": 3,
+          "total": 293
+        },
+        {
+          "label": "금천구",
+          "val": 0.9,
+          "count": 1,
+          "total": 115
+        },
+        {
+          "label": "중랑구",
+          "val": 0.9,
+          "count": 1,
+          "total": 117
+        }
+      ],
+      "노래방": [
+        {
+          "label": "강서구",
+          "val": 4.0,
+          "count": 13,
+          "total": 329
+        },
+        {
+          "label": "중랑구",
+          "val": 4.0,
+          "count": 14,
+          "total": 352
+        },
+        {
+          "label": "광진구",
+          "val": 3.3,
+          "count": 11,
+          "total": 331
+        },
+        {
+          "label": "관악구",
+          "val": 3.3,
+          "count": 9,
+          "total": 275
+        },
+        {
+          "label": "강북구",
+          "val": 2.9,
+          "count": 8,
+          "total": 279
+        }
+      ],
+      "재활용품점": [
+        {
+          "label": "송파구",
+          "val": 0.0,
+          "count": 0,
+          "total": 51
+        },
+        {
+          "label": "강남구",
+          "val": 0.0,
+          "count": 0,
+          "total": 78
+        },
+        {
+          "label": "서초구",
+          "val": 0.0,
+          "count": 0,
+          "total": 66
+        },
+        {
+          "label": "영등포구",
+          "val": 0.0,
+          "count": 0,
+          "total": 79
+        },
+        {
+          "label": "금천구",
+          "val": 0.0,
+          "count": 0,
+          "total": 50
+        }
+      ],
+      "녹음실": [
+        {
+          "label": "서초구",
+          "val": 0.9,
+          "count": 1,
+          "total": 113
+        },
+        {
+          "label": "마포구",
+          "val": 0.4,
+          "count": 1,
+          "total": 226
+        },
+        {
+          "label": "송파구",
+          "val": 0.0,
+          "count": 0,
+          "total": 52
+        },
+        {
+          "label": "강남구",
+          "val": 0.0,
+          "count": 0,
+          "total": 242
+        },
+        {
+          "label": "영등포구",
+          "val": 0.0,
+          "count": 0,
+          "total": 70
+        }
+      ],
+      "통번역": [
+        {
+          "label": "종로구",
+          "val": 1.8,
+          "count": 2,
+          "total": 110
+        },
+        {
+          "label": "송파구",
+          "val": 0.0,
+          "count": 0,
+          "total": 151
+        },
+        {
+          "label": "중구",
+          "val": 0.0,
+          "count": 0,
+          "total": 80
+        },
+        {
+          "label": "용산구",
+          "val": 0.0,
+          "count": 0,
+          "total": 82
+        },
+        {
+          "label": "성동구",
+          "val": 0.0,
+          "count": 0,
+          "total": 71
+        }
+      ],
+      "유아의류": [
+        {
+          "label": "송파구",
+          "val": 1.8,
+          "count": 2,
+          "total": 114
+        },
+        {
+          "label": "금천구",
+          "val": 1.8,
+          "count": 1,
+          "total": 56
+        },
+        {
+          "label": "구로구",
+          "val": 1.2,
+          "count": 1,
+          "total": 80
+        },
+        {
+          "label": "강서구",
+          "val": 1.2,
+          "count": 1,
+          "total": 85
+        },
+        {
+          "label": "중구",
+          "val": 1.0,
+          "count": 3,
+          "total": 287
+        }
+      ],
+      "게스트하우스": [
+        {
+          "label": "용산구",
+          "val": 0.7,
+          "count": 1,
+          "total": 145
+        },
+        {
+          "label": "종로구",
+          "val": 0.4,
+          "count": 1,
+          "total": 244
+        },
+        {
+          "label": "마포구",
+          "val": 0.0,
+          "count": 0,
+          "total": 443
+        },
+        {
+          "label": "중구",
+          "val": 0.0,
+          "count": 0,
+          "total": 187
+        }
+      ],
+      "공인중개사": [
+        {
+          "label": "서대문구",
+          "val": 0.2,
+          "count": 2,
+          "total": 899
+        },
+        {
+          "label": "강서구",
+          "val": 0.2,
+          "count": 3,
+          "total": 1893
+        },
+        {
+          "label": "노원구",
+          "val": 0.2,
+          "count": 2,
+          "total": 891
+        },
+        {
+          "label": "용산구",
+          "val": 0.1,
+          "count": 1,
+          "total": 1314
+        },
+        {
+          "label": "강북구",
+          "val": 0.1,
+          "count": 1,
+          "total": 724
+        }
+      ],
+      "신발가게": [
+        {
+          "label": "강북구",
+          "val": 1.4,
+          "count": 1,
+          "total": 71
+        },
+        {
+          "label": "서초구",
+          "val": 1.2,
+          "count": 2,
+          "total": 167
+        },
+        {
+          "label": "동대문구",
+          "val": 1.1,
+          "count": 1,
+          "total": 93
+        },
+        {
+          "label": "성동구",
+          "val": 0.9,
+          "count": 2,
+          "total": 230
+        },
+        {
+          "label": "광진구",
+          "val": 0.9,
+          "count": 1,
+          "total": 117
+        }
+      ],
+      "편의점": [
+        {
+          "label": "양천구",
+          "val": 3.7,
+          "count": 11,
+          "total": 297
+        },
+        {
+          "label": "영등포구",
+          "val": 3.2,
+          "count": 15,
+          "total": 470
+        },
+        {
+          "label": "강서구",
+          "val": 3.0,
+          "count": 15,
+          "total": 500
+        },
+        {
+          "label": "서대문구",
+          "val": 2.6,
+          "count": 8,
+          "total": 302
+        },
+        {
+          "label": "마포구",
+          "val": 2.1,
+          "count": 10,
+          "total": 482
+        }
+      ],
+      "네일숍": [
+        {
+          "label": "강동구",
+          "val": 0.5,
+          "count": 1,
+          "total": 211
+        },
+        {
+          "label": "서초구",
+          "val": 0.4,
+          "count": 1,
+          "total": 223
+        },
+        {
+          "label": "은평구",
+          "val": 0.0,
+          "count": 0,
+          "total": 171
+        },
+        {
+          "label": "중구",
+          "val": 0.0,
+          "count": 0,
+          "total": 89
+        },
+        {
+          "label": "용산구",
+          "val": 0.0,
+          "count": 0,
+          "total": 95
+        }
+      ],
+      "복권/로또": [
+        {
+          "label": "송파구",
+          "val": 0.0,
+          "count": 0,
+          "total": 52
+        },
+        {
+          "label": "관악구",
+          "val": 0.0,
+          "count": 0,
+          "total": 64
+        },
+        {
+          "label": "영등포구",
+          "val": 0.0,
+          "count": 0,
+          "total": 61
+        },
+        {
+          "label": "구로구",
+          "val": 0.0,
+          "count": 0,
+          "total": 55
+        },
+        {
+          "label": "강서구",
+          "val": 0.0,
+          "count": 0,
+          "total": 62
+        }
+      ],
+      "가정용품임대": [
+        {
+          "label": "영등포구",
+          "val": 1.6,
+          "count": 1,
+          "total": 62
+        },
+        {
+          "label": "송파구",
+          "val": 0.0,
+          "count": 0,
+          "total": 73
+        },
+        {
+          "label": "강남구",
+          "val": 0.0,
+          "count": 0,
+          "total": 86
+        },
+        {
+          "label": "서초구",
+          "val": 0.0,
+          "count": 0,
+          "total": 78
+        },
+        {
+          "label": "강서구",
+          "val": 0.0,
+          "count": 0,
+          "total": 66
+        }
+      ],
+      "헬스장·피트니스": [
+        {
+          "label": "중구",
+          "val": 3.0,
+          "count": 3,
+          "total": 100
+        },
+        {
+          "label": "양천구",
+          "val": 2.0,
+          "count": 5,
+          "total": 253
+        },
+        {
+          "label": "강동구",
+          "val": 1.7,
+          "count": 4,
+          "total": 232
+        },
+        {
+          "label": "금천구",
+          "val": 1.7,
+          "count": 2,
+          "total": 116
+        },
+        {
+          "label": "마포구",
+          "val": 1.7,
+          "count": 5,
+          "total": 292
+        }
+      ],
+      "일식당": [
+        {
+          "label": "강동구",
+          "val": 4.3,
+          "count": 10,
+          "total": 231
+        },
+        {
+          "label": "은평구",
+          "val": 3.3,
+          "count": 5,
+          "total": 153
+        },
+        {
+          "label": "종로구",
+          "val": 2.4,
+          "count": 7,
+          "total": 294
+        },
+        {
+          "label": "노원구",
+          "val": 2.1,
+          "count": 4,
+          "total": 192
+        },
+        {
+          "label": "양천구",
+          "val": 2.0,
+          "count": 3,
+          "total": 152
+        }
+      ],
+      "온라인쇼핑몰": [
+        {
+          "label": "종로구",
+          "val": 0.6,
+          "count": 3,
+          "total": 482
+        },
+        {
+          "label": "금천구",
+          "val": 0.5,
+          "count": 3,
+          "total": 587
+        },
+        {
+          "label": "중구",
+          "val": 0.2,
+          "count": 1,
+          "total": 468
+        },
+        {
+          "label": "용산구",
+          "val": 0.2,
+          "count": 1,
+          "total": 583
+        },
+        {
+          "label": "광진구",
+          "val": 0.2,
+          "count": 1,
+          "total": 615
+        }
+      ]
+    },
+    "drillClose": {
+      "피부관리실": [
+        {
+          "label": "서대문구",
+          "val": 3.4,
+          "count": 7,
+          "total": 204
+        },
+        {
+          "label": "구로구",
+          "val": 3.4,
+          "count": 12,
+          "total": 349
+        },
+        {
+          "label": "동대문구",
+          "val": 3.2,
+          "count": 9,
+          "total": 285
+        },
+        {
+          "label": "노원구",
+          "val": 3.1,
+          "count": 11,
+          "total": 353
+        },
+        {
+          "label": "강서구",
+          "val": 3.1,
+          "count": 24,
+          "total": 769
+        }
+      ],
+      "장난감가게": [
+        {
+          "label": "강남구",
+          "val": 2.9,
+          "count": 2,
+          "total": 70
+        },
+        {
+          "label": "서초구",
+          "val": 2.7,
+          "count": 2,
+          "total": 75
+        },
+        {
+          "label": "영등포구",
+          "val": 1.9,
+          "count": 1,
+          "total": 54
+        },
+        {
+          "label": "용산구",
+          "val": 1.7,
+          "count": 1,
+          "total": 59
+        },
+        {
+          "label": "강서구",
+          "val": 1.3,
+          "count": 1,
+          "total": 75
+        }
+      ],
+      "어학원": [
+        {
+          "label": "동작구",
+          "val": 3.5,
+          "count": 3,
+          "total": 85
+        },
+        {
+          "label": "영등포구",
+          "val": 3.4,
+          "count": 3,
+          "total": 89
+        },
+        {
+          "label": "성동구",
+          "val": 2.9,
+          "count": 2,
+          "total": 70
+        },
+        {
+          "label": "노원구",
+          "val": 2.4,
+          "count": 4,
+          "total": 166
+        },
+        {
+          "label": "서대문구",
+          "val": 2.3,
+          "count": 2,
+          "total": 88
+        }
+      ],
+      "반려동물샵": [
+        {
+          "label": "동작구",
+          "val": 10.0,
+          "count": 5,
+          "total": 50
+        },
+        {
+          "label": "금천구",
+          "val": 6.0,
+          "count": 4,
+          "total": 67
+        },
+        {
+          "label": "성북구",
+          "val": 4.6,
+          "count": 4,
+          "total": 87
+        },
+        {
+          "label": "용산구",
+          "val": 4.4,
+          "count": 3,
+          "total": 68
+        },
+        {
+          "label": "광진구",
+          "val": 4.3,
+          "count": 4,
+          "total": 94
+        }
+      ],
+      "여관·모텔": [
+        {
+          "label": "금천구",
+          "val": 10.5,
+          "count": 8,
+          "total": 76
+        },
+        {
+          "label": "강동구",
+          "val": 7.9,
+          "count": 9,
+          "total": 114
+        },
+        {
+          "label": "광진구",
+          "val": 5.9,
+          "count": 6,
+          "total": 102
+        },
+        {
+          "label": "노원구",
+          "val": 5.9,
+          "count": 3,
+          "total": 51
+        },
+        {
+          "label": "송파구",
+          "val": 4.9,
+          "count": 8,
+          "total": 162
+        }
+      ],
+      "PC방": [
+        {
+          "label": "강서구",
+          "val": 13.1,
+          "count": 8,
+          "total": 61
+        },
+        {
+          "label": "송파구",
+          "val": 9.3,
+          "count": 7,
+          "total": 75
+        },
+        {
+          "label": "구로구",
+          "val": 7.3,
+          "count": 4,
+          "total": 55
+        },
+        {
+          "label": "강남구",
+          "val": 5.6,
+          "count": 4,
+          "total": 72
+        },
+        {
+          "label": "노원구",
+          "val": 5.1,
+          "count": 3,
+          "total": 59
+        }
+      ],
+      "오락시설": [
+        {
+          "label": "관악구",
+          "val": 9.3,
+          "count": 5,
+          "total": 54
+        },
+        {
+          "label": "영등포구",
+          "val": 8.4,
+          "count": 7,
+          "total": 83
+        },
+        {
+          "label": "강서구",
+          "val": 8.2,
+          "count": 5,
+          "total": 61
+        },
+        {
+          "label": "강남구",
+          "val": 5.1,
+          "count": 6,
+          "total": 117
+        },
+        {
+          "label": "노원구",
+          "val": 4.0,
+          "count": 2,
+          "total": 50
+        }
+      ],
+      "패스트푸드": [
+        {
+          "label": "마포구",
+          "val": 6.4,
+          "count": 25,
+          "total": 390
+        },
+        {
+          "label": "송파구",
+          "val": 6.2,
+          "count": 27,
+          "total": 432
+        },
+        {
+          "label": "성북구",
+          "val": 6.1,
+          "count": 13,
+          "total": 214
+        },
+        {
+          "label": "중랑구",
+          "val": 5.8,
+          "count": 9,
+          "total": 155
+        },
+        {
+          "label": "도봉구",
+          "val": 5.8,
+          "count": 7,
+          "total": 121
+        }
+      ],
+      "치킨/배달": [
+        {
+          "label": "영등포구",
+          "val": 7.5,
+          "count": 19,
+          "total": 254
+        },
+        {
+          "label": "금천구",
+          "val": 7.5,
+          "count": 13,
+          "total": 173
+        },
+        {
+          "label": "송파구",
+          "val": 6.0,
+          "count": 21,
+          "total": 348
+        },
+        {
+          "label": "서초구",
+          "val": 5.9,
+          "count": 12,
+          "total": 204
+        },
+        {
+          "label": "동작구",
+          "val": 5.9,
+          "count": 12,
+          "total": 205
+        }
+      ],
+      "호프집·주점": [
+        {
+          "label": "마포구",
+          "val": 5.7,
+          "count": 68,
+          "total": 1183
+        },
+        {
+          "label": "관악구",
+          "val": 5.2,
+          "count": 39,
+          "total": 754
+        },
+        {
+          "label": "은평구",
+          "val": 5.0,
+          "count": 26,
+          "total": 519
+        },
+        {
+          "label": "강남구",
+          "val": 4.8,
+          "count": 55,
+          "total": 1152
+        },
+        {
+          "label": "성동구",
+          "val": 4.7,
+          "count": 20,
+          "total": 422
+        }
+      ],
+      "섬유/직물": [
+        {
+          "label": "구로구",
+          "val": 6.1,
+          "count": 6,
+          "total": 99
+        },
+        {
+          "label": "도봉구",
+          "val": 4.5,
+          "count": 3,
+          "total": 67
+        },
+        {
+          "label": "동작구",
+          "val": 3.2,
+          "count": 2,
+          "total": 63
+        },
+        {
+          "label": "양천구",
+          "val": 3.2,
+          "count": 3,
+          "total": 95
+        },
+        {
+          "label": "관악구",
+          "val": 2.8,
+          "count": 2,
+          "total": 72
+        }
+      ],
+      "예술품/갤러리": [
+        {
+          "label": "송파구",
+          "val": 2.6,
+          "count": 2,
+          "total": 78
+        },
+        {
+          "label": "용산구",
+          "val": 1.8,
+          "count": 4,
+          "total": 223
+        },
+        {
+          "label": "성동구",
+          "val": 1.5,
+          "count": 1,
+          "total": 68
+        },
+        {
+          "label": "동대문구",
+          "val": 1.4,
+          "count": 2,
+          "total": 139
+        },
+        {
+          "label": "종로구",
+          "val": 1.2,
+          "count": 7,
+          "total": 591
+        }
+      ],
+      "슈퍼마켓": [
+        {
+          "label": "양천구",
+          "val": 4.4,
+          "count": 19,
+          "total": 431
+        },
+        {
+          "label": "광진구",
+          "val": 3.9,
+          "count": 16,
+          "total": 412
+        },
+        {
+          "label": "동작구",
+          "val": 3.7,
+          "count": 15,
+          "total": 409
+        },
+        {
+          "label": "강북구",
+          "val": 3.5,
+          "count": 13,
+          "total": 374
+        },
+        {
+          "label": "은평구",
+          "val": 3.1,
+          "count": 14,
+          "total": 456
+        }
+      ],
+      "독서실": [
+        {
+          "label": "동대문구",
+          "val": 6.4,
+          "count": 7,
+          "total": 110
+        },
+        {
+          "label": "서대문구",
+          "val": 4.3,
+          "count": 5,
+          "total": 115
+        },
+        {
+          "label": "중랑구",
+          "val": 3.6,
+          "count": 3,
+          "total": 84
+        },
+        {
+          "label": "마포구",
+          "val": 3.5,
+          "count": 6,
+          "total": 170
+        },
+        {
+          "label": "강북구",
+          "val": 3.3,
+          "count": 2,
+          "total": 61
+        }
+      ],
+      "꽃집·화초점": [
+        {
+          "label": "광진구",
+          "val": 3.4,
+          "count": 6,
+          "total": 175
+        },
+        {
+          "label": "강동구",
+          "val": 2.6,
+          "count": 7,
+          "total": 274
+        },
+        {
+          "label": "중랑구",
+          "val": 2.4,
+          "count": 3,
+          "total": 127
+        },
+        {
+          "label": "구로구",
+          "val": 2.2,
+          "count": 3,
+          "total": 136
+        },
+        {
+          "label": "영등포구",
+          "val": 2.1,
+          "count": 6,
+          "total": 286
+        }
+      ],
+      "철물점": [
+        {
+          "label": "종로구",
+          "val": 3.8,
+          "count": 2,
+          "total": 53
+        },
+        {
+          "label": "마포구",
+          "val": 2.6,
+          "count": 2,
+          "total": 77
+        },
+        {
+          "label": "영등포구",
+          "val": 2.4,
+          "count": 3,
+          "total": 125
+        },
+        {
+          "label": "양천구",
+          "val": 2.2,
+          "count": 2,
+          "total": 93
+        },
+        {
+          "label": "강북구",
+          "val": 1.9,
+          "count": 1,
+          "total": 53
+        }
+      ],
+      "식료품가게": [
+        {
+          "label": "성북구",
+          "val": 3.7,
+          "count": 9,
+          "total": 245
+        },
+        {
+          "label": "노원구",
+          "val": 3.6,
+          "count": 10,
+          "total": 276
+        },
+        {
+          "label": "마포구",
+          "val": 3.4,
+          "count": 15,
+          "total": 443
+        },
+        {
+          "label": "양천구",
+          "val": 3.2,
+          "count": 9,
+          "total": 280
+        },
+        {
+          "label": "구로구",
+          "val": 2.8,
+          "count": 11,
+          "total": 397
+        }
+      ],
+      "가전수리점": [
+        {
+          "label": "도봉구",
+          "val": 3.2,
+          "count": 4,
+          "total": 126
+        },
+        {
+          "label": "성동구",
+          "val": 2.9,
+          "count": 2,
+          "total": 70
+        },
+        {
+          "label": "강북구",
+          "val": 2.7,
+          "count": 3,
+          "total": 113
+        },
+        {
+          "label": "송파구",
+          "val": 2.7,
+          "count": 4,
+          "total": 146
+        },
+        {
+          "label": "서대문구",
+          "val": 2.5,
+          "count": 2,
+          "total": 80
+        }
+      ],
+      "골프연습장": [
+        {
+          "label": "광진구",
+          "val": 3.9,
+          "count": 2,
+          "total": 51
+        },
+        {
+          "label": "성동구",
+          "val": 3.6,
+          "count": 2,
+          "total": 56
+        },
+        {
+          "label": "금천구",
+          "val": 3.3,
+          "count": 2,
+          "total": 60
+        },
+        {
+          "label": "강동구",
+          "val": 3.1,
+          "count": 3,
+          "total": 96
+        },
+        {
+          "label": "노원구",
+          "val": 3.1,
+          "count": 3,
+          "total": 98
+        }
+      ],
+      "세차장·자동차관리": [
+        {
+          "label": "강북구",
+          "val": 7.3,
+          "count": 4,
+          "total": 55
+        },
+        {
+          "label": "노원구",
+          "val": 4.2,
+          "count": 3,
+          "total": 71
+        },
+        {
+          "label": "금천구",
+          "val": 3.5,
+          "count": 2,
+          "total": 57
+        },
+        {
+          "label": "관악구",
+          "val": 3.3,
+          "count": 2,
+          "total": 61
+        },
+        {
+          "label": "성북구",
+          "val": 3.3,
+          "count": 2,
+          "total": 60
+        }
+      ],
+      "미용실": [
+        {
+          "label": "중구",
+          "val": 2.1,
+          "count": 8,
+          "total": 380
+        },
+        {
+          "label": "금천구",
+          "val": 2.0,
+          "count": 11,
+          "total": 553
+        },
+        {
+          "label": "성동구",
+          "val": 1.9,
+          "count": 13,
+          "total": 667
+        },
+        {
+          "label": "강동구",
+          "val": 1.8,
+          "count": 20,
+          "total": 1111
+        },
+        {
+          "label": "송파구",
+          "val": 1.8,
+          "count": 26,
+          "total": 1426
+        }
+      ],
+      "가전제품판매점": [
+        {
+          "label": "양천구",
+          "val": 4.7,
+          "count": 3,
+          "total": 64
+        },
+        {
+          "label": "노원구",
+          "val": 3.2,
+          "count": 2,
+          "total": 62
+        },
+        {
+          "label": "은평구",
+          "val": 2.6,
+          "count": 2,
+          "total": 76
+        },
+        {
+          "label": "금천구",
+          "val": 2.4,
+          "count": 2,
+          "total": 84
+        },
+        {
+          "label": "구로구",
+          "val": 1.6,
+          "count": 2,
+          "total": 128
+        }
+      ],
+      "사진관": [
+        {
+          "label": "금천구",
+          "val": 3.7,
+          "count": 4,
+          "total": 109
+        },
+        {
+          "label": "관악구",
+          "val": 3.6,
+          "count": 7,
+          "total": 194
+        },
+        {
+          "label": "종로구",
+          "val": 3.0,
+          "count": 7,
+          "total": 235
+        },
+        {
+          "label": "양천구",
+          "val": 3.0,
+          "count": 4,
+          "total": 135
+        },
+        {
+          "label": "노원구",
+          "val": 2.7,
+          "count": 5,
+          "total": 183
+        }
+      ],
+      "스포츠교실": [
+        {
+          "label": "영등포구",
+          "val": 4.1,
+          "count": 16,
+          "total": 386
+        },
+        {
+          "label": "금천구",
+          "val": 4.0,
+          "count": 6,
+          "total": 149
+        },
+        {
+          "label": "관악구",
+          "val": 3.8,
+          "count": 13,
+          "total": 343
+        },
+        {
+          "label": "구로구",
+          "val": 3.1,
+          "count": 9,
+          "total": 292
+        },
+        {
+          "label": "노원구",
+          "val": 3.1,
+          "count": 12,
+          "total": 381
+        }
+      ],
+      "안경점": [
+        {
+          "label": "강서구",
+          "val": 5.5,
+          "count": 7,
+          "total": 127
+        },
+        {
+          "label": "은평구",
+          "val": 3.3,
+          "count": 3,
+          "total": 90
+        },
+        {
+          "label": "서초구",
+          "val": 2.8,
+          "count": 4,
+          "total": 144
+        },
+        {
+          "label": "용산구",
+          "val": 2.8,
+          "count": 2,
+          "total": 71
+        },
+        {
+          "label": "강남구",
+          "val": 2.0,
+          "count": 5,
+          "total": 254
+        }
+      ],
+      "시계·귀금속점": [
+        {
+          "label": "노원구",
+          "val": 4.0,
+          "count": 4,
+          "total": 99
+        },
+        {
+          "label": "은평구",
+          "val": 2.9,
+          "count": 3,
+          "total": 102
+        },
+        {
+          "label": "동작구",
+          "val": 1.9,
+          "count": 1,
+          "total": 53
+        },
+        {
+          "label": "구로구",
+          "val": 1.7,
+          "count": 2,
+          "total": 117
+        },
+        {
+          "label": "강동구",
+          "val": 1.5,
+          "count": 2,
+          "total": 136
+        }
+      ],
+      "가방/핸드백": [
+        {
+          "label": "노원구",
+          "val": 5.7,
+          "count": 5,
+          "total": 87
+        },
+        {
+          "label": "마포구",
+          "val": 3.9,
+          "count": 6,
+          "total": 154
+        },
+        {
+          "label": "관악구",
+          "val": 3.4,
+          "count": 2,
+          "total": 58
+        },
+        {
+          "label": "영등포구",
+          "val": 2.7,
+          "count": 4,
+          "total": 149
+        },
+        {
+          "label": "광진구",
+          "val": 2.4,
+          "count": 2,
+          "total": 82
+        }
+      ],
+      "세탁소": [
+        {
+          "label": "광진구",
+          "val": 3.6,
+          "count": 9,
+          "total": 249
+        },
+        {
+          "label": "서초구",
+          "val": 3.6,
+          "count": 10,
+          "total": 281
+        },
+        {
+          "label": "도봉구",
+          "val": 3.5,
+          "count": 5,
+          "total": 143
+        },
+        {
+          "label": "강서구",
+          "val": 3.3,
+          "count": 12,
+          "total": 367
+        },
+        {
+          "label": "마포구",
+          "val": 2.6,
+          "count": 7,
+          "total": 265
+        }
+      ],
+      "인테리어업체": [
+        {
+          "label": "성동구",
+          "val": 3.0,
+          "count": 4,
+          "total": 133
+        },
+        {
+          "label": "관악구",
+          "val": 2.5,
+          "count": 4,
+          "total": 163
+        },
+        {
+          "label": "노원구",
+          "val": 2.4,
+          "count": 4,
+          "total": 167
+        },
+        {
+          "label": "종로구",
+          "val": 2.1,
+          "count": 3,
+          "total": 140
+        },
+        {
+          "label": "송파구",
+          "val": 2.0,
+          "count": 5,
+          "total": 254
+        }
+      ],
+      "미용재료": [
+        {
+          "label": "영등포구",
+          "val": 7.7,
+          "count": 5,
+          "total": 65
+        },
+        {
+          "label": "서초구",
+          "val": 6.8,
+          "count": 4,
+          "total": 59
+        },
+        {
+          "label": "종로구",
+          "val": 5.9,
+          "count": 4,
+          "total": 68
+        },
+        {
+          "label": "강남구",
+          "val": 3.3,
+          "count": 3,
+          "total": 91
+        },
+        {
+          "label": "송파구",
+          "val": 2.5,
+          "count": 2,
+          "total": 81
+        }
+      ],
+      "자동차수리점": [
+        {
+          "label": "성북구",
+          "val": 2.6,
+          "count": 4,
+          "total": 151
+        },
+        {
+          "label": "금천구",
+          "val": 1.8,
+          "count": 3,
+          "total": 170
+        },
+        {
+          "label": "마포구",
+          "val": 1.6,
+          "count": 2,
+          "total": 128
+        },
+        {
+          "label": "양천구",
+          "val": 1.4,
+          "count": 3,
+          "total": 219
+        },
+        {
+          "label": "도봉구",
+          "val": 1.3,
+          "count": 2,
+          "total": 152
+        }
+      ],
+      "양식당": [
+        {
+          "label": "구로구",
+          "val": 8.9,
+          "count": 11,
+          "total": 123
+        },
+        {
+          "label": "양천구",
+          "val": 7.2,
+          "count": 11,
+          "total": 153
+        },
+        {
+          "label": "동작구",
+          "val": 5.9,
+          "count": 10,
+          "total": 170
+        },
+        {
+          "label": "동대문구",
+          "val": 5.1,
+          "count": 10,
+          "total": 198
+        },
+        {
+          "label": "은평구",
+          "val": 4.9,
+          "count": 8,
+          "total": 163
+        }
+      ],
+      "한식당": [
+        {
+          "label": "송파구",
+          "val": 4.9,
+          "count": 171,
+          "total": 3500
+        },
+        {
+          "label": "강서구",
+          "val": 4.7,
+          "count": 145,
+          "total": 3094
+        },
+        {
+          "label": "관악구",
+          "val": 4.6,
+          "count": 112,
+          "total": 2417
+        },
+        {
+          "label": "광진구",
+          "val": 4.2,
+          "count": 88,
+          "total": 2108
+        },
+        {
+          "label": "강북구",
+          "val": 4.1,
+          "count": 74,
+          "total": 1809
+        }
+      ],
+      "베이커리·제과점": [
+        {
+          "label": "동대문구",
+          "val": 5.5,
+          "count": 12,
+          "total": 220
+        },
+        {
+          "label": "은평구",
+          "val": 4.4,
+          "count": 12,
+          "total": 272
+        },
+        {
+          "label": "서초구",
+          "val": 4.3,
+          "count": 18,
+          "total": 421
+        },
+        {
+          "label": "마포구",
+          "val": 4.2,
+          "count": 24,
+          "total": 567
+        },
+        {
+          "label": "성동구",
+          "val": 4.2,
+          "count": 12,
+          "total": 283
+        }
+      ],
+      "문구점": [
+        {
+          "label": "강북구",
+          "val": 6.6,
+          "count": 5,
+          "total": 76
+        },
+        {
+          "label": "강동구",
+          "val": 4.6,
+          "count": 6,
+          "total": 131
+        },
+        {
+          "label": "중랑구",
+          "val": 2.7,
+          "count": 3,
+          "total": 113
+        },
+        {
+          "label": "양천구",
+          "val": 2.7,
+          "count": 4,
+          "total": 150
+        },
+        {
+          "label": "강서구",
+          "val": 2.4,
+          "count": 6,
+          "total": 250
+        }
+      ],
+      "서점": [
+        {
+          "label": "동작구",
+          "val": 3.7,
+          "count": 4,
+          "total": 109
+        },
+        {
+          "label": "관악구",
+          "val": 3.6,
+          "count": 5,
+          "total": 139
+        },
+        {
+          "label": "중랑구",
+          "val": 2.9,
+          "count": 3,
+          "total": 102
+        },
+        {
+          "label": "강동구",
+          "val": 2.7,
+          "count": 4,
+          "total": 148
+        },
+        {
+          "label": "강북구",
+          "val": 2.6,
+          "count": 2,
+          "total": 76
+        }
+      ],
+      "공부방·교습소": [
+        {
+          "label": "종로구",
+          "val": 2.9,
+          "count": 9,
+          "total": 312
+        },
+        {
+          "label": "관악구",
+          "val": 2.5,
+          "count": 21,
+          "total": 836
+        },
+        {
+          "label": "광진구",
+          "val": 2.5,
+          "count": 18,
+          "total": 731
+        },
+        {
+          "label": "송파구",
+          "val": 2.4,
+          "count": 45,
+          "total": 1842
+        },
+        {
+          "label": "강서구",
+          "val": 2.3,
+          "count": 33,
+          "total": 1413
+        }
+      ],
+      "컴퓨터판매점": [
+        {
+          "label": "강북구",
+          "val": 2.4,
+          "count": 2,
+          "total": 85
+        },
+        {
+          "label": "강동구",
+          "val": 1.9,
+          "count": 3,
+          "total": 160
+        },
+        {
+          "label": "강남구",
+          "val": 1.6,
+          "count": 10,
+          "total": 623
+        },
+        {
+          "label": "동대문구",
+          "val": 1.4,
+          "count": 2,
+          "total": 141
+        },
+        {
+          "label": "강서구",
+          "val": 1.3,
+          "count": 5,
+          "total": 391
+        }
+      ],
+      "화장품가게": [
+        {
+          "label": "중랑구",
+          "val": 5.0,
+          "count": 13,
+          "total": 262
+        },
+        {
+          "label": "강북구",
+          "val": 3.2,
+          "count": 6,
+          "total": 188
+        },
+        {
+          "label": "금천구",
+          "val": 3.0,
+          "count": 18,
+          "total": 603
+        },
+        {
+          "label": "강동구",
+          "val": 2.7,
+          "count": 12,
+          "total": 448
+        },
+        {
+          "label": "동대문구",
+          "val": 2.5,
+          "count": 6,
+          "total": 244
+        }
+      ],
+      "스포츠용품점": [
+        {
+          "label": "은평구",
+          "val": 3.7,
+          "count": 6,
+          "total": 164
+        },
+        {
+          "label": "강북구",
+          "val": 3.4,
+          "count": 2,
+          "total": 58
+        },
+        {
+          "label": "영등포구",
+          "val": 3.0,
+          "count": 6,
+          "total": 203
+        },
+        {
+          "label": "종로구",
+          "val": 2.9,
+          "count": 3,
+          "total": 105
+        },
+        {
+          "label": "금천구",
+          "val": 2.7,
+          "count": 5,
+          "total": 184
+        }
+      ],
+      "조명용품": [
+        {
+          "label": "강동구",
+          "val": 2.6,
+          "count": 5,
+          "total": 191
+        },
+        {
+          "label": "양천구",
+          "val": 2.1,
+          "count": 4,
+          "total": 191
+        },
+        {
+          "label": "도봉구",
+          "val": 1.8,
+          "count": 2,
+          "total": 110
+        },
+        {
+          "label": "마포구",
+          "val": 1.6,
+          "count": 4,
+          "total": 258
+        },
+        {
+          "label": "관악구",
+          "val": 1.4,
+          "count": 2,
+          "total": 147
+        }
+      ],
+      "예술학원": [
+        {
+          "label": "중구",
+          "val": 8.0,
+          "count": 7,
+          "total": 87
+        },
+        {
+          "label": "강북구",
+          "val": 6.9,
+          "count": 12,
+          "total": 175
+        },
+        {
+          "label": "구로구",
+          "val": 4.5,
+          "count": 16,
+          "total": 356
+        },
+        {
+          "label": "도봉구",
+          "val": 3.7,
+          "count": 9,
+          "total": 246
+        },
+        {
+          "label": "성북구",
+          "val": 3.6,
+          "count": 15,
+          "total": 411
+        }
+      ],
+      "쌀가게": [
+        {
+          "label": "마포구",
+          "val": 5.0,
+          "count": 4,
+          "total": 80
+        },
+        {
+          "label": "영등포구",
+          "val": 2.6,
+          "count": 3,
+          "total": 117
+        },
+        {
+          "label": "강남구",
+          "val": 2.5,
+          "count": 5,
+          "total": 203
+        },
+        {
+          "label": "강서구",
+          "val": 2.4,
+          "count": 2,
+          "total": 82
+        },
+        {
+          "label": "서대문구",
+          "val": 2.0,
+          "count": 1,
+          "total": 51
+        }
+      ],
+      "가구점": [
+        {
+          "label": "성북구",
+          "val": 5.6,
+          "count": 4,
+          "total": 72
+        },
+        {
+          "label": "광진구",
+          "val": 2.5,
+          "count": 3,
+          "total": 121
+        },
+        {
+          "label": "관악구",
+          "val": 2.5,
+          "count": 2,
+          "total": 80
+        },
+        {
+          "label": "금천구",
+          "val": 2.2,
+          "count": 2,
+          "total": 92
+        },
+        {
+          "label": "동작구",
+          "val": 2.0,
+          "count": 1,
+          "total": 50
+        }
+      ],
+      "핸드폰가게": [
+        {
+          "label": "은평구",
+          "val": 2.8,
+          "count": 7,
+          "total": 247
+        },
+        {
+          "label": "동작구",
+          "val": 2.7,
+          "count": 5,
+          "total": 184
+        },
+        {
+          "label": "도봉구",
+          "val": 2.6,
+          "count": 5,
+          "total": 192
+        },
+        {
+          "label": "동대문구",
+          "val": 2.1,
+          "count": 4,
+          "total": 195
+        },
+        {
+          "label": "강서구",
+          "val": 2.1,
+          "count": 7,
+          "total": 328
+        }
+      ],
+      "정육점": [
+        {
+          "label": "구로구",
+          "val": 6.7,
+          "count": 13,
+          "total": 194
+        },
+        {
+          "label": "강북구",
+          "val": 5.0,
+          "count": 8,
+          "total": 161
+        },
+        {
+          "label": "용산구",
+          "val": 4.4,
+          "count": 4,
+          "total": 90
+        },
+        {
+          "label": "중랑구",
+          "val": 4.2,
+          "count": 11,
+          "total": 261
+        },
+        {
+          "label": "도봉구",
+          "val": 4.1,
+          "count": 7,
+          "total": 172
+        }
+      ],
+      "자동차부품": [
+        {
+          "label": "성북구",
+          "val": 5.1,
+          "count": 3,
+          "total": 59
+        },
+        {
+          "label": "강동구",
+          "val": 3.2,
+          "count": 3,
+          "total": 95
+        },
+        {
+          "label": "구로구",
+          "val": 2.0,
+          "count": 3,
+          "total": 147
+        },
+        {
+          "label": "강남구",
+          "val": 2.0,
+          "count": 5,
+          "total": 256
+        },
+        {
+          "label": "양천구",
+          "val": 1.9,
+          "count": 2,
+          "total": 105
+        }
+      ],
+      "중식당": [
+        {
+          "label": "은평구",
+          "val": 7.7,
+          "count": 12,
+          "total": 156
+        },
+        {
+          "label": "강북구",
+          "val": 6.9,
+          "count": 9,
+          "total": 131
+        },
+        {
+          "label": "마포구",
+          "val": 5.9,
+          "count": 21,
+          "total": 356
+        },
+        {
+          "label": "서대문구",
+          "val": 5.7,
+          "count": 11,
+          "total": 194
+        },
+        {
+          "label": "도봉구",
+          "val": 5.6,
+          "count": 5,
+          "total": 90
+        }
+      ],
+      "카페·커피숍": [
+        {
+          "label": "강북구",
+          "val": 6.2,
+          "count": 34,
+          "total": 548
+        },
+        {
+          "label": "관악구",
+          "val": 5.8,
+          "count": 54,
+          "total": 928
+        },
+        {
+          "label": "강동구",
+          "val": 5.4,
+          "count": 50,
+          "total": 934
+        },
+        {
+          "label": "양천구",
+          "val": 5.2,
+          "count": 35,
+          "total": 679
+        },
+        {
+          "label": "중랑구",
+          "val": 5.0,
+          "count": 33,
+          "total": 665
+        }
+      ],
+      "여행사": [
+        {
+          "label": "동작구",
+          "val": 5.1,
+          "count": 3,
+          "total": 59
+        },
+        {
+          "label": "관악구",
+          "val": 3.9,
+          "count": 3,
+          "total": 77
+        },
+        {
+          "label": "동대문구",
+          "val": 2.8,
+          "count": 3,
+          "total": 109
+        },
+        {
+          "label": "구로구",
+          "val": 2.4,
+          "count": 5,
+          "total": 210
+        },
+        {
+          "label": "금천구",
+          "val": 2.4,
+          "count": 4,
+          "total": 166
+        }
+      ],
+      "분식점": [
+        {
+          "label": "금천구",
+          "val": 5.6,
+          "count": 18,
+          "total": 321
+        },
+        {
+          "label": "송파구",
+          "val": 5.4,
+          "count": 41,
+          "total": 759
+        },
+        {
+          "label": "동작구",
+          "val": 5.3,
+          "count": 20,
+          "total": 380
+        },
+        {
+          "label": "강북구",
+          "val": 5.1,
+          "count": 15,
+          "total": 297
+        },
+        {
+          "label": "노원구",
+          "val": 5.0,
+          "count": 23,
+          "total": 464
+        }
+      ],
+      "당구장": [
+        {
+          "label": "마포구",
+          "val": 7.0,
+          "count": 10,
+          "total": 142
+        },
+        {
+          "label": "강동구",
+          "val": 5.9,
+          "count": 10,
+          "total": 169
+        },
+        {
+          "label": "영등포구",
+          "val": 5.9,
+          "count": 11,
+          "total": 186
+        },
+        {
+          "label": "금천구",
+          "val": 5.7,
+          "count": 6,
+          "total": 105
+        },
+        {
+          "label": "양천구",
+          "val": 4.2,
+          "count": 6,
+          "total": 143
+        }
+      ],
+      "옷가게": [
+        {
+          "label": "구로구",
+          "val": 3.4,
+          "count": 37,
+          "total": 1104
+        },
+        {
+          "label": "중랑구",
+          "val": 3.0,
+          "count": 26,
+          "total": 874
+        },
+        {
+          "label": "광진구",
+          "val": 2.7,
+          "count": 29,
+          "total": 1087
+        },
+        {
+          "label": "강북구",
+          "val": 2.7,
+          "count": 19,
+          "total": 694
+        },
+        {
+          "label": "송파구",
+          "val": 2.6,
+          "count": 61,
+          "total": 2331
+        }
+      ],
+      "과일·채소가게": [
+        {
+          "label": "구로구",
+          "val": 4.9,
+          "count": 11,
+          "total": 224
+        },
+        {
+          "label": "성북구",
+          "val": 3.8,
+          "count": 6,
+          "total": 156
+        },
+        {
+          "label": "강동구",
+          "val": 3.6,
+          "count": 12,
+          "total": 331
+        },
+        {
+          "label": "광진구",
+          "val": 3.4,
+          "count": 6,
+          "total": 179
+        },
+        {
+          "label": "관악구",
+          "val": 3.1,
+          "count": 7,
+          "total": 228
+        }
+      ],
+      "건물청소업": [
+        {
+          "label": "은평구",
+          "val": 2.3,
+          "count": 6,
+          "total": 260
+        },
+        {
+          "label": "강동구",
+          "val": 1.9,
+          "count": 5,
+          "total": 261
+        },
+        {
+          "label": "동대문구",
+          "val": 1.7,
+          "count": 3,
+          "total": 180
+        },
+        {
+          "label": "구로구",
+          "val": 1.7,
+          "count": 4,
+          "total": 239
+        },
+        {
+          "label": "마포구",
+          "val": 1.7,
+          "count": 4,
+          "total": 240
+        }
+      ],
+      "의료기기점": [
+        {
+          "label": "관악구",
+          "val": 4.0,
+          "count": 4,
+          "total": 100
+        },
+        {
+          "label": "중구",
+          "val": 4.0,
+          "count": 4,
+          "total": 101
+        },
+        {
+          "label": "도봉구",
+          "val": 2.9,
+          "count": 2,
+          "total": 68
+        },
+        {
+          "label": "종로구",
+          "val": 2.5,
+          "count": 3,
+          "total": 118
+        },
+        {
+          "label": "노원구",
+          "val": 2.4,
+          "count": 3,
+          "total": 127
+        }
+      ],
+      "수산물가게": [
+        {
+          "label": "서대문구",
+          "val": 4.4,
+          "count": 4,
+          "total": 90
+        },
+        {
+          "label": "양천구",
+          "val": 3.6,
+          "count": 4,
+          "total": 112
+        },
+        {
+          "label": "관악구",
+          "val": 3.2,
+          "count": 4,
+          "total": 125
+        },
+        {
+          "label": "강서구",
+          "val": 3.2,
+          "count": 9,
+          "total": 281
+        },
+        {
+          "label": "성북구",
+          "val": 2.8,
+          "count": 2,
+          "total": 72
+        }
+      ],
+      "노래방": [
+        {
+          "label": "구로구",
+          "val": 5.2,
+          "count": 15,
+          "total": 291
+        },
+        {
+          "label": "강동구",
+          "val": 4.9,
+          "count": 11,
+          "total": 224
+        },
+        {
+          "label": "영등포구",
+          "val": 4.6,
+          "count": 15,
+          "total": 328
+        },
+        {
+          "label": "성동구",
+          "val": 4.5,
+          "count": 6,
+          "total": 133
+        },
+        {
+          "label": "강서구",
+          "val": 4.3,
+          "count": 14,
+          "total": 329
+        }
+      ],
+      "재활용품점": [
+        {
+          "label": "노원구",
+          "val": 3.7,
+          "count": 2,
+          "total": 54
+        },
+        {
+          "label": "동대문구",
+          "val": 3.4,
+          "count": 2,
+          "total": 58
+        },
+        {
+          "label": "강남구",
+          "val": 2.6,
+          "count": 2,
+          "total": 78
+        },
+        {
+          "label": "영등포구",
+          "val": 2.5,
+          "count": 2,
+          "total": 79
+        },
+        {
+          "label": "서초구",
+          "val": 1.5,
+          "count": 1,
+          "total": 66
+        }
+      ],
+      "녹음실": [
+        {
+          "label": "서초구",
+          "val": 2.7,
+          "count": 3,
+          "total": 113
+        },
+        {
+          "label": "마포구",
+          "val": 1.3,
+          "count": 3,
+          "total": 226
+        },
+        {
+          "label": "강남구",
+          "val": 0.8,
+          "count": 2,
+          "total": 242
+        },
+        {
+          "label": "송파구",
+          "val": 0.0,
+          "count": 0,
+          "total": 52
+        },
+        {
+          "label": "영등포구",
+          "val": 0.0,
+          "count": 0,
+          "total": 70
+        }
+      ],
+      "통번역": [
+        {
+          "label": "구로구",
+          "val": 5.3,
+          "count": 3,
+          "total": 57
+        },
+        {
+          "label": "동작구",
+          "val": 3.9,
+          "count": 2,
+          "total": 51
+        },
+        {
+          "label": "성북구",
+          "val": 3.2,
+          "count": 2,
+          "total": 63
+        },
+        {
+          "label": "관악구",
+          "val": 2.9,
+          "count": 2,
+          "total": 68
+        },
+        {
+          "label": "강서구",
+          "val": 2.9,
+          "count": 2,
+          "total": 70
+        }
+      ],
+      "유아의류": [
+        {
+          "label": "노원구",
+          "val": 8.5,
+          "count": 6,
+          "total": 71
+        },
+        {
+          "label": "금천구",
+          "val": 5.4,
+          "count": 3,
+          "total": 56
+        },
+        {
+          "label": "서초구",
+          "val": 2.8,
+          "count": 2,
+          "total": 71
+        },
+        {
+          "label": "강남구",
+          "val": 2.7,
+          "count": 3,
+          "total": 113
+        },
+        {
+          "label": "구로구",
+          "val": 2.5,
+          "count": 2,
+          "total": 80
+        }
+      ],
+      "게스트하우스": [
+        {
+          "label": "용산구",
+          "val": 4.1,
+          "count": 6,
+          "total": 145
+        },
+        {
+          "label": "종로구",
+          "val": 1.6,
+          "count": 4,
+          "total": 244
+        },
+        {
+          "label": "중구",
+          "val": 1.1,
+          "count": 2,
+          "total": 187
+        },
+        {
+          "label": "마포구",
+          "val": 0.7,
+          "count": 3,
+          "total": 443
+        }
+      ],
+      "공인중개사": [
+        {
+          "label": "강북구",
+          "val": 2.6,
+          "count": 19,
+          "total": 724
+        },
+        {
+          "label": "종로구",
+          "val": 2.5,
+          "count": 20,
+          "total": 806
+        },
+        {
+          "label": "중랑구",
+          "val": 2.5,
+          "count": 22,
+          "total": 880
+        },
+        {
+          "label": "도봉구",
+          "val": 2.4,
+          "count": 14,
+          "total": 588
+        },
+        {
+          "label": "구로구",
+          "val": 2.1,
+          "count": 24,
+          "total": 1147
+        }
+      ],
+      "신발가게": [
+        {
+          "label": "영등포구",
+          "val": 5.6,
+          "count": 10,
+          "total": 179
+        },
+        {
+          "label": "중랑구",
+          "val": 5.1,
+          "count": 4,
+          "total": 79
+        },
+        {
+          "label": "광진구",
+          "val": 4.3,
+          "count": 5,
+          "total": 117
+        },
+        {
+          "label": "성동구",
+          "val": 3.5,
+          "count": 8,
+          "total": 230
+        },
+        {
+          "label": "양천구",
+          "val": 3.4,
+          "count": 3,
+          "total": 89
+        }
+      ],
+      "편의점": [
+        {
+          "label": "서대문구",
+          "val": 6.6,
+          "count": 20,
+          "total": 302
+        },
+        {
+          "label": "강남구",
+          "val": 5.6,
+          "count": 43,
+          "total": 772
+        },
+        {
+          "label": "강서구",
+          "val": 5.0,
+          "count": 25,
+          "total": 500
+        },
+        {
+          "label": "서초구",
+          "val": 4.3,
+          "count": 19,
+          "total": 440
+        },
+        {
+          "label": "강동구",
+          "val": 4.1,
+          "count": 14,
+          "total": 345
+        }
+      ],
+      "네일숍": [
+        {
+          "label": "중구",
+          "val": 3.4,
+          "count": 3,
+          "total": 89
+        },
+        {
+          "label": "구로구",
+          "val": 3.1,
+          "count": 5,
+          "total": 163
+        },
+        {
+          "label": "양천구",
+          "val": 3.0,
+          "count": 5,
+          "total": 169
+        },
+        {
+          "label": "동대문구",
+          "val": 2.9,
+          "count": 4,
+          "total": 138
+        },
+        {
+          "label": "강동구",
+          "val": 2.8,
+          "count": 6,
+          "total": 211
+        }
+      ],
+      "복권/로또": [
+        {
+          "label": "영등포구",
+          "val": 6.6,
+          "count": 4,
+          "total": 61
+        },
+        {
+          "label": "관악구",
+          "val": 4.7,
+          "count": 3,
+          "total": 64
+        },
+        {
+          "label": "은평구",
+          "val": 3.5,
+          "count": 2,
+          "total": 57
+        },
+        {
+          "label": "광진구",
+          "val": 2.0,
+          "count": 1,
+          "total": 50
+        },
+        {
+          "label": "송파구",
+          "val": 0.0,
+          "count": 0,
+          "total": 52
+        }
+      ],
+      "가정용품임대": [
+        {
+          "label": "마포구",
+          "val": 4.7,
+          "count": 3,
+          "total": 64
+        },
+        {
+          "label": "송파구",
+          "val": 4.1,
+          "count": 3,
+          "total": 73
+        },
+        {
+          "label": "강남구",
+          "val": 2.3,
+          "count": 2,
+          "total": 86
+        },
+        {
+          "label": "강서구",
+          "val": 1.5,
+          "count": 1,
+          "total": 66
+        },
+        {
+          "label": "서초구",
+          "val": 1.3,
+          "count": 1,
+          "total": 78
+        }
+      ],
+      "헬스장·피트니스": [
+        {
+          "label": "도봉구",
+          "val": 5.8,
+          "count": 6,
+          "total": 103
+        },
+        {
+          "label": "광진구",
+          "val": 5.5,
+          "count": 12,
+          "total": 219
+        },
+        {
+          "label": "동작구",
+          "val": 5.3,
+          "count": 9,
+          "total": 169
+        },
+        {
+          "label": "구로구",
+          "val": 4.8,
+          "count": 8,
+          "total": 167
+        },
+        {
+          "label": "강동구",
+          "val": 4.7,
+          "count": 11,
+          "total": 232
+        }
+      ],
+      "일식당": [
+        {
+          "label": "은평구",
+          "val": 9.2,
+          "count": 14,
+          "total": 153
+        },
+        {
+          "label": "도봉구",
+          "val": 7.7,
+          "count": 7,
+          "total": 91
+        },
+        {
+          "label": "강북구",
+          "val": 7.4,
+          "count": 8,
+          "total": 108
+        },
+        {
+          "label": "용산구",
+          "val": 6.1,
+          "count": 16,
+          "total": 263
+        },
+        {
+          "label": "강서구",
+          "val": 5.9,
+          "count": 18,
+          "total": 307
+        }
+      ],
+      "온라인쇼핑몰": [
+        {
+          "label": "금천구",
+          "val": 4.4,
+          "count": 26,
+          "total": 587
+        },
+        {
+          "label": "노원구",
+          "val": 4.1,
+          "count": 26,
+          "total": 640
+        },
+        {
+          "label": "서대문구",
+          "val": 4.0,
+          "count": 21,
+          "total": 520
+        },
+        {
+          "label": "강남구",
+          "val": 4.0,
+          "count": 64,
+          "total": 1587
+        },
+        {
+          "label": "도봉구",
+          "val": 4.0,
+          "count": 16,
+          "total": 401
+        }
+      ]
+    }
+  }
+}

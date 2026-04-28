@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>LOKI Score — 상권 적합도</title>
+<meta name="description" content="내 업종이 이 동네에 맞는지 AI가 분석해드립니다. 서울 25개 구 × 58개 업종 실데이터 기반">
+<meta property="og:title" content="LOKI Score — 상권 적합도 분석">
+<meta property="og:description" content="창업 전에 꼭 확인하세요. 내 업종이 이 동네에 맞는지 점수로 알려드립니다">
+<meta property="og:url" content="https://loki-score.netlify.app/theme2/">
+<meta name="theme-color" content="#0d0f1a">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230d0f1a'/><circle cx='50' cy='18' r='8' fill='%234f8ef7'/><rect x='22' y='38' width='56' height='38' rx='14' fill='%231e2235' stroke='%234f8ef7' stroke-width='3'/><rect x='31' y='50' width='14' height='10' rx='5' fill='%234f8ef7'/><rect x='55' y='50' width='14' height='10' rx='5' fill='%234f8ef7'/></svg>">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QZ2LZSMNWW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QZ2LZSMNWW');</script><style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#0d0f1a;--card:#161928;--card2:#1e2235;--acc:#4f8ef7;--acc2:#7c5cf7;--gold:#f7c948;--green:#2ecc8a;--red:#f7615a;--orange:#f7a548;--txt:#e8ecf4;--txt2:#8892a8;--txt3:#4a5268;--radius:18px;--shadow:0 8px 32px rgba(0,0,0,.45);}
+body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;min-height:100vh;overflow-x:hidden}
+.hdr{display:flex;align-items:center;gap:10px;padding:18px 20px 12px;background:linear-gradient(180deg,#0a0c16 0%,transparent 100%)}
+.logo{font-size:19px;font-weight:800;letter-spacing:-.5px}.logo span{color:var(--acc)}.logo em{color:var(--gold);font-style:normal}
+.badge{background:var(--acc2);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;letter-spacing:.5px;margin-left:4px}
+.theme-nav{margin-left:auto;display:flex;gap:6px}
+.tnav-btn{background:var(--card2);border:1px solid var(--txt3)44;color:var(--txt2);font-size:11px;padding:4px 10px;border-radius:20px;cursor:pointer;text-decoration:none;display:inline-block}
+.tnav-btn.active{background:var(--orange)22;border-color:var(--orange);color:var(--orange);font-weight:700}
+.loki-wrap{display:flex;align-items:flex-end;gap:14px;padding:8px 20px 16px}
+.loki-bubble{background:var(--card2);border:1px solid var(--acc2)33;border-radius:16px 16px 16px 4px;padding:12px 15px;font-size:13.5px;line-height:1.6;color:var(--txt);flex:1;position:relative}
+.loki-bubble::after{content:'';position:absolute;left:-8px;bottom:12px;border:8px solid transparent;border-right-color:var(--card2)}
+.loki-name{font-size:10px;color:var(--acc);font-weight:700;margin-bottom:4px;letter-spacing:.5px}
+.theme-card{margin:0 16px 16px;background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid #ffffff0a}
+.theme-label{display:flex;align-items:center;gap:8px;margin-bottom:18px}
+.theme-num{background:linear-gradient(135deg,var(--orange),var(--acc2));width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+.theme-title{font-size:16px;font-weight:700}
+.scenario{font-size:15px;color:var(--txt);display:flex;flex-direction:column;gap:10px}
+.srow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;line-height:1.4;min-height:36px}
+.srow span.txt{font-size:15px;color:var(--txt);white-space:nowrap}
+.sel{display:inline-flex;align-items:center;gap:3px;background:var(--card2);border:1.5px solid var(--orange);border-radius:8px;padding:5px 10px 5px 9px;color:var(--orange);font-weight:700;cursor:pointer;transition:.2s;min-width:72px;text-align:center;white-space:nowrap;box-shadow:0 2px 8px var(--orange)22;font-size:13px;height:32px}
+.sel::after{content:'▾';font-size:10px;opacity:.6;margin-left:2px}
+.sel:active{background:var(--orange)33;transform:scale(.97)}
+.sel.done{background:var(--green)18;border-color:var(--green)88;color:var(--green);box-shadow:0 2px 6px var(--green)1a}
+.sel.done::after{content:'✓';font-size:10px;opacity:.6}
+.pulse{animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--orange)44}50%{box-shadow:0 0 0 6px transparent}}
+.result-wrap{margin-top:20px;display:none}.result-wrap.show{display:block}
+.grade-box{display:flex;align-items:center;gap:16px;background:var(--card2);border-radius:16px;padding:18px 20px;margin-bottom:14px;border:1px solid var(--txt3)22;transition:.4s}
+.grade-letter{font-size:56px;font-weight:900;letter-spacing:-2px;line-height:1;transition:.4s}
+.grade-info{flex:1}
+.grade-label{font-size:12px;color:var(--txt2);margin-bottom:3px}
+.grade-tag{font-size:18px;font-weight:800;margin-bottom:5px}
+.grade-score-row{font-size:13px;color:var(--txt2)}
+.grade-score-row span{font-size:22px;font-weight:800;color:var(--txt);margin-right:2px}
+.score-bars{background:var(--card2);border-radius:14px;padding:16px;margin-bottom:14px}
+.score-bar-title{font-size:12px;color:var(--txt2);margin-bottom:12px;font-weight:600}
+.sbar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sbar-row:last-child{margin-bottom:0}
+.sbar-label{font-size:12px;color:var(--txt2);width:52px;flex-shrink:0}
+.sbar-track{flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
+.sbar-fill{height:100%;border-radius:4px;transition:width .6s ease;width:0}
+.sbar-val{font-size:12px;font-weight:700;width:32px;text-align:right;flex-shrink:0}
+.alt-title{font-size:13px;color:var(--txt2);margin-bottom:10px;font-weight:600}
+.alt-cards{display:flex;flex-direction:column;gap:8px}
+.alt-card{background:var(--card2);border-radius:12px;padding:14px;border:1px solid var(--txt3)22;cursor:pointer;transition:.15s}
+.alt-card:active{border-color:var(--orange);background:var(--orange)0a}
+.alt-rank{font-size:10px;font-weight:700;color:var(--gold);margin-bottom:5px}
+.alt-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.alt-gu{font-size:16px;font-weight:800}
+.alt-badge{padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.alt-desc{font-size:11px;color:var(--txt2);line-height:1.6}
+.mini-bars{display:flex;gap:4px;margin-top:8px}
+.mini-bar-wrap{flex:1;text-align:center}
+.mini-bar-lbl{font-size:9px;color:var(--txt3);margin-bottom:3px}
+.mini-bar-track{height:4px;background:var(--bg);border-radius:2px;overflow:hidden}
+.mini-bar-fill{height:100%;border-radius:2px}
+.overlay{position:fixed;inset:0;background:#000000cc;z-index:100;opacity:0;pointer-events:none;transition:.25s}
+.overlay.on{opacity:1;pointer-events:all}
+.sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-radius:24px 24px 0 0;z-index:101;transform:translateY(100%);transition:.3s cubic-bezier(.32,0,.67,0);max-height:85vh;display:flex;flex-direction:column}
+.sheet.on{transform:translateY(0)}
+.sheet-handle{width:40px;height:4px;background:var(--txt3);border-radius:2px;margin:12px auto 0}
+.sheet-title{font-size:15px;font-weight:700;padding:16px 20px 12px;border-bottom:1px solid var(--txt3)22}
+.sheet-body{overflow-y:auto;flex:1;padding:16px 20px 32px}
+.gu-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.gu-btn{background:var(--card2);border:1px solid var(--txt3)33;border-radius:10px;padding:10px 4px;text-align:center;font-size:12px;cursor:pointer;transition:.15s;color:var(--txt)}
+.gu-btn:active,.gu-btn.sel{background:var(--orange)22;border-color:var(--orange);color:var(--orange);font-weight:700}
+.cat-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.cat-tab{background:var(--card2);border:1px solid var(--txt3)33;border-radius:10px;padding:10px 14px;font-size:12px;cursor:pointer;transition:.15s;color:var(--txt)}
+.cat-tab:active,.cat-tab.sel{background:var(--acc2)33;border-color:var(--acc2);color:var(--acc2);font-weight:700}
+.ind-list{display:flex;flex-direction:column;gap:6px}
+.ind-btn{background:var(--card2);border:1px solid var(--txt3)22;border-radius:10px;padding:12px 14px;font-size:13px;cursor:pointer;transition:.15s;color:var(--txt);text-align:left}
+.ind-btn:active,.ind-btn.sel{background:var(--orange)22;border-color:var(--orange);color:var(--orange);font-weight:700}
+.to-theme1{display:flex;align-items:center;gap:12px;margin:0 16px 24px;background:linear-gradient(135deg,var(--acc)18,var(--card2));border-radius:14px;padding:16px;border:1px solid var(--acc)55;cursor:pointer;text-decoration:none}
+.to-theme1:active{transform:scale(.98);opacity:.9}
+.to-theme1 .t1-icon{font-size:24px;flex-shrink:0}
+.to-theme1 .t1-txt{flex:1;line-height:1.5}
+.to-theme1 .t1-q{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.to-theme1 .t1-sub{font-size:11px;color:var(--txt3)}
+.to-theme1 .t1-arr{margin-left:auto;color:var(--acc);font-size:20px;flex-shrink:0}
+</style>
+<script src="data/loki_data.js"></script>
+</head><body>
+<div class="hdr">
+  <div class="logo"><span>LOKI</span> <em>Score</em></div>
+  <div class="badge">BETA</div>
+  <div class="theme-nav">
+    <a class="tnav-btn" href="index.html">업종별 리포트</a>
+    <a class="tnav-btn" href="calc.html">수익 계산기</a>
+    <a class="tnav-btn active" href="radar.html">창업레이더</a>
+  </div>
+</div>
+<div class="loki-wrap">
+  <svg width="56" height="64" viewBox="0 0 56 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <line x1="28" y1="4" x2="28" y2="12" stroke="#4f8ef7" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="28" cy="3" r="3" fill="#4f8ef7"/>
+    <rect x="10" y="12" width="36" height="28" rx="10" fill="#1e2235" stroke="#4f8ef7" stroke-width="1.5"/>
+    <rect x="16" y="21" width="9" height="6" rx="3" fill="#4f8ef7"/>
+    <rect x="31" y="21" width="9" height="6" rx="3" fill="#4f8ef7"/>
+    <rect x="18" y="23" width="3" height="2" rx="1" fill="#fff" opacity=".7"/>
+    <rect x="33" y="23" width="3" height="2" rx="1" fill="#fff" opacity=".7"/>
+    <path d="M20 33 Q28 37 36 33" stroke="#4f8ef7" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <rect x="24" y="40" width="8" height="5" rx="2" fill="#1e2235" stroke="#4f8ef7" stroke-width="1"/>
+    <rect x="8" y="45" width="40" height="19" rx="8" fill="#161928" stroke="#7c5cf7" stroke-width="1.5"/>
+    <path d="M28 47 L25 54 L28 56 L31 54 Z" fill="#7c5cf7"/>
+    <circle cx="20" cy="53" r="2.5" fill="#2ecc8a" opacity=".9"/>
+    <circle cx="36" cy="53" r="2.5" fill="#f7c948" opacity=".9"/>
+  </svg>
+  <div class="loki-bubble">
+    <div class="loki-name">LOKI · AI 창업 컨설턴트</div>
+    <span id="lokiMsg">안녕하세요! 창업 전에 꼭 확인하세요 🔍<br>업종과 동네를 고르면 상권 적합도를 바로 분석해 드릴게요!</span>
+  </div>
+</div>
+<div class="theme-card">
+  <div class="theme-label">
+    <div class="theme-num">2</div>
+    <div class="theme-title">상권 적합도 <small style="font-size:12px;color:var(--txt2);font-weight:500">서울편</small></div>
+  </div>
+  <div class="scenario">
+    <div class="srow">
+      <span class="txt">서울시</span>
+      <span class="sel pulse" id="s1" onclick="open1()">지역 선택</span>
+      <span class="txt">에서</span>
+    </div>
+    <div class="srow">
+      <span class="sel" id="s2" onclick="open2()">대분류 선택</span>
+      <span class="txt">분야의</span>
+    </div>
+    <div class="srow">
+      <span class="sel" id="s3" onclick="open3()">업종 선택</span>
+      <span class="txt">업종으로 창업한다면?</span>
+    </div>
+  </div>
+  <div class="result-wrap" id="resultWrap">
+    <div style="height:1px;background:var(--txt3)33;margin:18px 0 16px"></div>
+    <div class="grade-box" id="gradeBox">
+      <div class="grade-letter" id="gradeLetter">?</div>
+      <div class="grade-info">
+        <div class="grade-label">상권 적합도 등급</div>
+        <div class="grade-tag" id="gradeTag">-</div>
+        <div class="grade-score-row"><span id="gradeScore">-</span>점 / 100점</div>
+      </div>
+    </div>
+    <div class="score-bars">
+      <div class="score-bar-title">📊 항목별 점수 <span style="font-size:10px;color:var(--txt3)">(25개 구 상대 백분위)</span></div>
+      <div class="sbar-row">
+        <div class="sbar-label">매출 수준</div>
+        <div class="sbar-track"><div class="sbar-fill" id="bSales" style="background:var(--acc)"></div></div>
+        <div class="sbar-val" id="vSales">-</div>
+      </div>
+      <div class="sbar-row">
+        <div class="sbar-label">경쟁 강도</div>
+        <div class="sbar-track"><div class="sbar-fill" id="bComp" style="background:var(--green)"></div></div>
+        <div class="sbar-val" id="vComp">-</div>
+      </div>
+      <div class="sbar-row">
+        <div class="sbar-label">성장성</div>
+        <div class="sbar-track"><div class="sbar-fill" id="bGrow" style="background:var(--gold)"></div></div>
+        <div class="sbar-val" id="vGrow">-</div>
+      </div>
+      <div class="sbar-row">
+        <div class="sbar-label">임대 효율</div>
+        <div class="sbar-track"><div class="sbar-fill" id="bEff" style="background:var(--orange)"></div></div>
+        <div class="sbar-val" id="vEff">-</div>
+      </div>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--txt3)22;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px" id="ctxNums"></div>
+    </div>
+    <div class="alt-title" id="altTitle"></div>
+    <div class="alt-cards" id="altCards"></div>
+    <div style="margin-top:14px;padding:12px 14px;background:var(--card2);border-radius:12px;font-size:11px;color:var(--txt3);line-height:1.6">
+      ※ 적합도 점수 = 매출수준(40%) + 경쟁강도(30%) + 성장성(20%) + 임대효율(10%) — 25개 구 상대 백분위 기반<br>
+      출처: 서울시 상권분석 서비스 추정매출 · 한국부동산원 임대동향조사 (2024~2025)<br>
+      <span style="color:#f59e0b;font-size:10px">※ 매출 데이터는 소상공인시장진흥공단 비교 검증 후 보정계수(÷2.7) 적용. 조정된 추정치입니다.</span>
+    </div>
+  </div>
+</div>
+<a class="to-theme1" href="calc.html" id="t1link">
+  <div class="t1-icon">💰</div>
+  <div class="t1-txt">
+    <div class="t1-q" id="t1linkQ">그럼 실제로 얼마나 남을까요?</div>
+    <div class="t1-sub">수익 계산기에서 순이익 바로 확인 →</div>
+  </div>
+  <div class="t1-arr">›</div>
+</a>
+<div class="overlay" id="overlay" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet1">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">📍 지역 선택 (서울)</div>
+  <div class="sheet-body"><div class="gu-grid" id="guGrid"></div></div>
+</div>
+<div class="sheet" id="sheet2">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">📂 분야(대분류) 선택</div>
+  <div class="sheet-body"><div id="catList"></div></div>
+</div>
+<div class="sheet" id="sheet3">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">🏪 업종 선택</div>
+  <div class="sheet-body">
+    <div class="cat-tabs" id="catTabs2"></div>
+    <div class="ind-list" id="indList"></div>
+  </div>
+</div>
+<script>
+const T2=(typeof LOKI_SOT!=='undefined'&&LOKI_SOT.radar)?LOKI_SOT.radar.t2:{};
+const RADAR_NAME_MAP=(typeof LOKI_SOT!=='undefined'&&LOKI_SOT.radar)?LOKI_SOT.radar.name_map:{};
+const CAT_INDS={"서비스·기타":["pc방","교습소ㆍ공부방","교습학원","기타일반의원","노래방","당구장","독서실","미용실","부동산중개업","세탁소","스포츠교육기관","실외골프연습장","예술학원","자동차수리점","치과의원","통신판매업","피부관리업","한방병원ㆍ한의원","헬스클럽"],"소매":["가구점","가전제품수리점","가전제품판매점","곡물가게","과일가게","꽃가게","문구점","생선가게","서점","슈퍼마켓","스포츠용품점","시계ㆍ귀금속점","식료품가게","신발가게","실내장식가게","안경점","애완용품점","약국","옷가게","의료용품가게","자전거판매점","장난감가게","정육점","철물점","컴퓨터판매점","편의점","화장품가게","휴대폰가게"],"음식·숙박":["기타외국식음식점","기타음식점","분식점","여관ㆍ모텔","일식음식점","제과점","중식음식점","커피음료점","패스트푸드점","한식음식점","호프주점"]};
+const GU_LIST=["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"];
+
+const GRADES={
+  S:{color:'#2ecc8a',label:'블루오션 🟢',desc:'경쟁은 적고 매출은 높은 황금 자리예요! 지금 들어가도 늦지 않아요.'},
+  A:{color:'#4f8ef7',label:'유망 🔵',desc:'경쟁이 있지만 시장 자체가 크네요. 차별화 포인트만 있으면 승산 있어요!'},
+  B:{color:'#f7c948',label:'보통 🟡',desc:'평균적인 시장이에요. 철저한 준비와 차별화 전략이 필요해요.'},
+  C:{color:'#f7a548',label:'신중 🟠',desc:'몇 가지 리스크가 있어요. 더 조사해보고 결정하는 걸 추천해요.'},
+  D:{color:'#f7615a',label:'레드오션 🔴',desc:'경쟁이 치열하거나 수익성이 낮아요. 아래 대안 지역을 꼭 확인해보세요!'},
+};
+const st={gu:null,cat:null,ind:null};
+
+(function(){
+  const g=document.getElementById('guGrid');
+  GU_LIST.forEach(gu=>{
+    const b=document.createElement('button');
+    b.className='gu-btn';b.textContent=gu;
+    b.onclick=()=>selectGu(gu);g.appendChild(b);
+  });
+})();
+
+// 테마1에서 값 넘겨받기 (URL params)
+(function(){
+  const params=new URLSearchParams(location.search);
+  const pGu=params.get('gu');
+  const pInd=params.get('ind');
+  if(!pGu||!pInd) return;
+  // cat 찾기
+  let pCat=null;
+  Object.keys(CAT_INDS).forEach(cat=>{if(CAT_INDS[cat].includes(pInd))pCat=cat;});
+  if(!pCat) return;
+  // 상태 설정
+  st.gu=pGu; st.cat=pCat; st.ind=pInd;
+  // UI 업데이트
+  const s1=document.getElementById('s1');
+  s1.textContent=pGu; s1.classList.add('done'); s1.classList.remove('pulse');
+  const s2=document.getElementById('s2');
+  s2.textContent=pCat; s2.classList.add('done');
+  const s3=document.getElementById('s3');
+  s3.textContent=pInd; s3.classList.add('done');
+  // 결과 즉시 표시
+  calc();
+})();
+
+function grade(s){if(s>=85)return'S';if(s>=70)return'A';if(s>=55)return'B';if(s>=40)return'C';return'D';}
+function lokiSay(m){document.getElementById('lokiMsg').innerHTML=m;}
+function openSheet(id){document.getElementById('overlay').classList.add('on');document.getElementById(id).classList.add('on');}
+function closeSheet(){document.getElementById('overlay').classList.remove('on');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('on'));}
+function open1(){openSheet('sheet1');}
+function open2(){buildCatList();openSheet('sheet2');}
+function open3(){if(!st.cat){open2();return;}buildIndList();openSheet('sheet3');}
+
+function buildCatList(){
+  const ul=document.getElementById('catList');ul.innerHTML='';
+  Object.keys(CAT_INDS).forEach(cat=>{
+    const b=document.createElement('button');
+    b.className='cat-tab'+(st.cat===cat?' sel':'');
+    b.textContent=cat;b.style.marginBottom='8px';
+    b.onclick=()=>selectCat(cat);ul.appendChild(b);
+  });
+}
+function buildIndList(){
+  const tabs=document.getElementById('catTabs2');tabs.innerHTML='';
+  Object.keys(CAT_INDS).forEach(cat=>{
+    const b=document.createElement('button');
+    b.className='cat-tab'+(st.cat===cat?' sel':'');
+    b.textContent=cat;b.onclick=()=>{st.cat=cat;buildIndList();};tabs.appendChild(b);
+  });
+  const ul=document.getElementById('indList');ul.innerHTML='';
+  CAT_INDS[st.cat].forEach(ind=>{
+    const b=document.createElement('button');
+    b.className='ind-btn'+(st.ind===ind?' sel':'');
+    b.textContent=ind;b.onclick=()=>selectInd(ind);ul.appendChild(b);
+  });
+}
+function selectGu(gu){
+  st.gu=gu;
+  const el=document.getElementById('s1');
+  el.textContent=gu;el.classList.add('done');el.classList.remove('pulse');
+  closeSheet();
+  lokiSay(gu+'에서 창업을 알아보시는군요! 업종도 골라주세요 👇');
+  if(st.ind)calc();
+}
+function selectCat(cat){
+  st.cat=cat;st.ind=null;
+  document.getElementById('s2').textContent=cat;
+  document.getElementById('s2').classList.add('done');
+  document.getElementById('s3').textContent='업종 선택';
+  document.getElementById('s3').classList.remove('done');
+  closeSheet();buildIndList();openSheet('sheet3');
+}
+function selectInd(ind){
+  st.ind=ind;
+  document.getElementById('s3').textContent=ind;
+  document.getElementById('s3').classList.add('done');
+  closeSheet();
+  gtag('event','t2_select_industry',{industry:ind});
+  if(st.gu)calc();
+  else lokiSay(ind+' 업종이군요! 이제 동네를 골라주세요 📍');
+}
+function setBar(fid,vid,val){
+  document.getElementById(fid).style.width=val+'%';
+  const c=val>=70?'var(--green)':val>=45?'var(--gold)':'var(--red)';
+  document.getElementById(vid).textContent=val;
+  document.getElementById(vid).style.color=c;
+}
+function selectGuAlt(gu){
+  st.gu=gu;
+  document.getElementById('s1').textContent=gu;
+  document.getElementById('s1').classList.add('done');
+  document.getElementById('s1').classList.remove('pulse');
+  calc();window.scrollTo({top:0,behavior:'smooth'});
+}
+function calc(){
+  const d=T2[st.ind]&&T2[st.ind][st.gu];
+  if(!d)return;
+  const g=grade(d.sc),gi=GRADES[g];
+  document.getElementById('gradeLetter').textContent=g;
+  document.getElementById('gradeLetter').style.color=gi.color;
+  document.getElementById('gradeBox').style.border='1px solid '+gi.color+'44';
+  document.getElementById('gradeTag').textContent=gi.label;
+  document.getElementById('gradeTag').style.color=gi.color;
+  document.getElementById('gradeScore').textContent=d.sc;
+  setBar('bSales','vSales',d.ps);
+  setBar('bComp','vComp',d.pc);
+  setBar('bGrow','vGrow',d.pg);
+  setBar('bEff','vEff',d.pe);
+  const gtext=d.g!==null?(d.g>0?'+'+d.g+'%':d.g+'%'):'–';
+  document.getElementById('ctxNums').innerHTML=
+    '<div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px"><div style="font-size:10px;color:var(--txt3);margin-bottom:4px">월평균매출</div><div style="font-size:15px;font-weight:800;color:var(--acc)">'+d.a.toLocaleString()+'<span style="font-size:10px;font-weight:400;color:var(--txt2)">만원</span></div></div>'+
+    '<div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px"><div style="font-size:10px;color:var(--txt3);margin-bottom:4px">경쟁업소수</div><div style="font-size:15px;font-weight:800;color:var(--green)">'+d.s.toLocaleString()+'<span style="font-size:10px;font-weight:400;color:var(--txt2)">개</span></div></div>'+
+    '<div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px"><div style="font-size:10px;color:var(--txt3);margin-bottom:4px">전분기대비</div><div style="font-size:15px;font-weight:800;color:var(--gold)">'+gtext+'</div></div>';
+  const all=Object.entries(T2[st.ind]).filter(([gu])=>gu!==st.gu).sort((a,b)=>b[1].sc-a[1].sc).slice(0,3);
+  const em=['🥇','🥈','🥉'];
+  document.getElementById('altTitle').textContent=(g==='S'||g==='A')?'✨ '+st.gu+'보다 더 좋은 대안 지역':'💡 '+st.ind+' 업종에 더 유리한 대안 지역';
+  document.getElementById('altCards').innerHTML=all.map(([gu,ad],i)=>{
+    const ag=grade(ad.sc),agi=GRADES[ag];
+    const diff=ad.sc-d.sc,ds=diff>=0?'+'+diff+'점':diff+'점';
+    const agt=ad.g!==null?(ad.g>0?'+'+ad.g+'%':ad.g+'%'):'–';
+    const bars=[['매출',ad.ps,'var(--acc)'],['경쟁',ad.pc,'var(--green)'],['성장',ad.pg,'var(--gold)'],['효율',ad.pe,'var(--orange)']];
+    return '<div class="alt-card" data-gu="'+gu+'" onclick="selectGuAlt(this.dataset.gu)">'+
+      '<div class="alt-rank">'+em[i]+' '+( i+1)+'위 대안</div>'+
+      '<div class="alt-top"><div class="alt-gu">'+gu+'</div>'+
+      '<div class="alt-badge" style="background:'+agi.color+'22;color:'+agi.color+';border:1px solid '+agi.color+'44">'+ag+' · '+ad.sc+'점</div></div>'+
+      '<div class="alt-desc">월평균매출 <b style="color:var(--txt)">'+ad.a.toLocaleString()+'만원</b> · 경쟁업소 <b style="color:var(--txt)">'+ad.s.toLocaleString()+'개</b> · 성장률 <b style="color:var(--txt)">'+agt+'</b>'+
+      '<span style="float:right;color:'+(diff>=0?'var(--green)':'var(--red)')+'">'+ds+'</span></div>'+
+      '<div class="mini-bars">'+bars.map(([l,v,c])=>'<div class="mini-bar-wrap"><div class="mini-bar-lbl">'+l+'</div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:'+v+'%;background:'+c+'"></div></div></div>').join('')+'</div>'+
+      '</div>';
+  }).join('');
+  document.getElementById('t1link').href='calc.html?gu='+encodeURIComponent(st.gu)+'&ind='+encodeURIComponent(st.ind);
+  document.getElementById('t1linkQ').textContent=`그럼 ${st.gu} ${st.ind}, 실제로 얼마나 남을까요?`;
+  document.getElementById('resultWrap').classList.add('show');
+  lokiSay(gi.desc+'<br><span style="font-size:12px;color:var(--txt2)">대안 지역도 눌러서 바로 비교해보세요 👇</span>');
+  gtag('event','t2_calc',{gu:st.gu,industry:st.ind,grade:g,score:d.sc});
+  document.getElementById('resultWrap').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+</script>
+</body>
+</html>
