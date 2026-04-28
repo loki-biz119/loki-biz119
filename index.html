@@ -193,6 +193,23 @@ const CATS={
   svc:   {nm:'서비스·기타',  inds:['미용실','네일숍','세탁소','피부관리실','사진관','부동산중개업','인테리어','일반교습학원','예술학원','외국어학원','스포츠 강습','독서실','스포츠클럽','일반의원','치과의원','한의원','노래방','당구장','PC방']},
 };
 
+// 사이트 표시명 매핑 (SOT 원본키 → 대중 친화 표시명)
+const DISP={
+  '한식음식점':'한식당','중식음식점':'중식당','일식음식점':'일식당','양식음식점':'양식당',
+  '치킨전문점':'치킨/배달','분식전문점':'분식점','제과점':'베이커리·제과점',
+  '커피-음료':'카페·커피숍','호프-간이주점':'호프집·주점','패스트푸드점':'패스트푸드',
+  '일반의류':'옷가게','화장품':'화장품가게','슈퍼마켓':'슈퍼마켓','의약품':'약국',
+  '시계및귀금속':'시계·귀금속점','서적':'서점','신발':'신발가게','핸드폰':'핸드폰가게',
+  '편의점':'편의점','안경':'안경점',
+  '미용실':'미용실','네일숍':'네일숍','세탁소':'세탁소','피부관리실':'피부관리실',
+  '사진관':'사진관','부동산중개업':'공인중개사','인테리어':'인테리어업체',
+  '일반교습학원':'공부방·교습소','예술학원':'예술학원','외국어학원':'어학원',
+  '스포츠 강습':'스포츠교실','독서실':'독서실','스포츠클럽':'헬스장·피트니스',
+  '일반의원':'의원·병원','치과의원':'치과','한의원':'한의원',
+  '노래방':'노래방','당구장':'당구장','PC방':'PC방',
+};
+const D=(k)=>DISP[k]||k; // SOT키 → 표시명 헬퍼
+
 const VS={
   '긍정':{cls:'vp',icon:'✓',border:'var(--grn-bd)'},
   '검토':{cls:'vr',icon:'→',border:'var(--blu-bd)'},
@@ -229,7 +246,7 @@ function onCatChange(){
   document.getElementById('cta-btn').classList.remove('on');
   if(!k){sw.style.display='none';return;}
   const inds=CATS[k].inds.filter(nm=>LOKI_SOT.industries[nm]);
-  si.innerHTML='<option value="">세부 업종을 선택하세요</option>'+inds.map(nm=>`<option value="${nm}">${nm}</option>`).join('');
+  si.innerHTML='<option value="">세부 업종을 선택하세요</option>'+inds.map(nm=>`<option value="${nm}">${D(nm)}</option>`).join('');
   sw.style.display='block';
 }
 
@@ -358,7 +375,7 @@ function simTable(nm,ind){
   return `<table class="sim-tbl"><thead><tr><th>업종</th><th>점포수</th><th>개업률</th><th>폐업률</th><th>순증가율</th><th>판정</th></tr></thead><tbody>
   ${rows.map(([n,d,hi],idx)=>{if(!d)return'';const m=d.metrics,v=d.verdict;
     return `<tr${hi?' class="hi"':''}>
-      <td><span class="dot" style="background:${dots[idx%5]}"></span>${n}</td>
+      <td><span class="dot" style="background:${dots[idx%5]}"></span>${D(n)}</td>
       <td>${m.store_count.toLocaleString()}</td>
       <td style="color:${m.open_rate>2.5?'#2F9E44':'#4A5168'}">${m.open_rate}%</td>
       <td style="color:${m.close_rate>3.5?'#E03131':m.close_rate>2.5?'#D97706':'#4A5168'}">${m.close_rate}%</td>
@@ -435,7 +452,7 @@ function recDist(){
 function buildReport(nm){
   const ind=LOKI_SOT.industries[nm];if(!ind)return;
   const m=ind.metrics,v=ind.verdict,vs=VS[v];
-  document.getElementById('res-nm').textContent=nm;
+  document.getElementById('res-nm').textContent=D(nm);
   const topPct=Math.round(Object.values(LOKI_SOT.industries).filter(d=>d.metrics.startup_share>m.startup_share).length/Object.keys(LOKI_SOT.industries).length*100);
 
   document.getElementById('res-body').innerHTML=`
@@ -443,9 +460,9 @@ function buildReport(nm){
     <div class="verdict" style="border-color:${vs.border}">
       <div class="v-top">
         <span class="v-badge ${vs.cls}">${vs.icon} ${v}</span>
-        <div class="v-title">${VM[v](nm)}</div>
+        <div class="v-title">${VM[v](D(nm))}</div>
       </div>
-      <div class="v-desc">${VD[v](nm,m)}</div>
+      <div class="v-desc">${VD[v](D(nm),m)}</div>
       <div class="v-metrics">
         <div class="vm"><div class="vm-l">개업률</div><div class="vm-v ${m.open_rate>m.close_rate?'up':'nu'}">${m.open_rate}%</div></div>
         <div class="vm"><div class="vm-l">폐업률</div><div class="vm-v ${m.close_rate>3.5?'dn':'nu'}">${m.close_rate}%</div></div>
@@ -455,10 +472,11 @@ function buildReport(nm){
     </div>
 
     <div class="card">
-      <div class="cttl"><span class="tag">A1</span>서울 ${nm} 점포 수 추이</div>
+      <div class="cttl"><span class="tag">A1</span>서울 ${D(nm)} 점포 수 추이</div>
       <div class="csub">연도별 전체 점포수 변화 (서울 25개 자치구 합산)</div>
       ${trendSVG(ind.trend)}
       <div class="interp">최근 기준 서울 전체 ${m.store_count.toLocaleString()}개 점포 운영 중. 창업 시장 내 점유율 ${m.startup_share}% (전체 업종 중 상위 ${topPct}% 수준).</div>
+      <!-- nm은 SOT 키, D(nm)은 표시명 -->
     </div>
 
     <div class="two">
