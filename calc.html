@@ -276,6 +276,7 @@ nav{position:sticky;top:0;z-index:100;
   // 커스텀 이벤트: 공유 버튼
   function gaShare(){ gtag('event','share',{method:'clipboard'}); }
 </script>
+<script src="data/loki_data.js"></script>
 </head>
 <body>
 
@@ -775,7 +776,11 @@ function calc(){
   const otherPct=(st.other!==null&&st.other!==undefined?st.other:(m.o||5))/100;
 
   const sales=row.a;
-  const rent=Math.round(row.r*sqm/10*10)/10;
+  // 임대료: SOT 직방 데이터 우선 (만원/평 → 천원/㎡ = ×10÷3.3), 없으면 LOOKUP fallback
+  const rentPerSqm=(typeof LOKI_SOT!=='undefined'&&LOKI_SOT.districts[st.gu])
+    ? Math.round(LOKI_SOT.districts[st.gu].rent_per_pyeong*10/3.3*10)/10
+    : row.r;
+  const rent=Math.round(rentPerSqm*sqm/10*10)/10;
   const labor=Math.round(MIN_WAGE*HOURS*emp/10000*10)/10;
   const costRate = (st.costRate !== null && st.costRate !== undefined) ? st.costRate : m.c;
   const cogs=Math.round(sales*costRate*10)/10;
@@ -881,7 +886,7 @@ function buildWaterfall(sales, cogs, other, rent, labor, net, m, otherPct, row){
 
     ${resultBlock('고정비 차감 전', null, fmt(beforeFixed)+'만원', '임대료 + 인건비로 쓸 수 있는 금액')}
     <div class="wfall-deducts">
-      ${deductRow(FIX, '임대료', `${row.r}천원/㎡ 기준`, rent)}
+      ${deductRow(FIX, '임대료', `${rentPerSqm}천원/㎡ 기준 (직방 SOT)`, rent)}
       ${deductRow(FIX, '인건비', `직원 기준`, labor)}
     </div>
 
