@@ -2,544 +2,1348 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LOKI 창업레이더 — 서울 업종별 창업 리포트</title>
-<script src="data/loki_data.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOKI 창업레이더 — 공공 데이터로 보는 창업 인텔리전스</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#F4F6FA;--white:#fff;--border:#E2E6EE;--border2:#C8CFDD;
-  --t1:#1A1D2E;--t2:#4A5168;--t3:#8B93A8;
-  --acc:#3B5BDB;--acc-bg:#EEF2FF;--acc-bd:#C5D0FB;
-  --grn:#2F9E44;--grn-bg:#EBFBEE;--grn-bd:#B2F2BB;
-  --red:#E03131;--red-bg:#FFF5F5;--red-bd:#FFC9C9;
-  --amb:#D97706;--amb-bg:#FFFBEB;--amb-bd:#FDE68A;
-  --blu:#1971C2;--blu-bg:#E7F5FF;--blu-bd:#74C0FC;
-  --r:10px;--rs:8px;
-}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--t1)}
-.gnb{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;height:52px;display:flex;align-items:center;padding:0 24px}
-.gnb-logo{font-size:15px;font-weight:900;color:var(--t1);letter-spacing:-.3px;margin-right:28px;white-space:nowrap}
-.gnb-logo span{color:var(--acc)}
-.gnb-menu{display:flex}
-.gnb-item{padding:0 14px;height:52px;display:flex;align-items:center;font-size:13px;font-weight:600;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;border-left:none;border-right:none;border-top:none;transition:all .15s;white-space:nowrap;background:none;font-family:inherit}
-.gnb-item:hover{color:var(--t1)}
-.gnb-item.active{color:var(--acc);border-bottom-color:var(--acc)}
-.gnb-item.soon{opacity:.5;cursor:default}
-.gnb-badge{font-size:9px;background:var(--amb-bg);color:var(--amb);border:1px solid var(--amb-bd);border-radius:8px;padding:1px 5px;margin-left:5px;font-weight:700}
-#vL{display:block}
-#vR{display:none}
-.land{background:var(--white);min-height:calc(100vh - 52px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:52px 24px 48px}
-.land-badge{display:inline-flex;align-items:center;background:var(--acc-bg);color:var(--acc);border:1px solid var(--acc-bd);border-radius:20px;font-size:11px;font-weight:700;padding:4px 14px;margin-bottom:22px;letter-spacing:.4px}
-.land-h1{font-size:27px;font-weight:900;color:var(--t1);text-align:center;line-height:1.35;max-width:520px;margin-bottom:10px}
-.land-h1 em{color:var(--acc);font-style:normal}
-.land-sub{font-size:13px;color:var(--t2);text-align:center;max-width:460px;line-height:1.7;margin-bottom:36px}
-.sel-wrap{width:100%;max-width:460px;display:flex;flex-direction:column;gap:10px}
-select{width:100%;padding:12px 16px;font-size:14px;color:var(--t1);background:var(--white);border:1.5px solid var(--border2);border-radius:var(--r);appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238B93A8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;outline:none;transition:border-color .15s;font-family:inherit}
-select:focus{border-color:var(--acc)}
-#sel-sub-wrap{display:none}
-.cta{width:100%;padding:13px;background:var(--acc);color:#fff;border:none;border-radius:var(--r);font-size:15px;font-weight:700;cursor:pointer;transition:all .15s;opacity:.4;pointer-events:none;font-family:inherit;margin-top:2px}
-.cta.on{opacity:1;pointer-events:all}
-.cta.on:hover{background:#2F4AC2}
-.land-foot{margin-top:36px;text-align:center;font-size:11px;color:var(--t3);line-height:1.9}
-.land-foot a{color:var(--t3);text-decoration:none}
-.res-head{background:var(--white);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:12px}
-.res-back{background:none;border:1px solid var(--border2);font-size:12px;color:var(--t2);cursor:pointer;padding:5px 11px;border-radius:var(--rs);font-weight:600;font-family:inherit}
-.res-back:hover{background:var(--bg)}
-.res-hl{flex:1;text-align:center;font-size:15px;font-weight:800;color:var(--t1)}
-.res-hl em{color:var(--acc);font-style:normal}
-.res-body{padding:18px 16px;display:flex;flex-direction:column;gap:12px;max-width:760px;margin:0 auto}
-.sec-lbl{font-size:10px;font-weight:800;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;padding:0 2px;margin-top:4px}
-.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
-.cttl{font-size:13px;font-weight:800;color:var(--t1);display:flex;align-items:center;gap:7px;margin-bottom:2px}
-.tag{font-size:9px;font-weight:700;background:var(--acc-bg);color:var(--acc);padding:2px 7px;border-radius:10px}
-.csub{font-size:11px;color:var(--t3);margin-bottom:10px}
-.interp{background:var(--bg);border-left:3px solid var(--acc-bd);border-radius:0 5px 5px 0;padding:8px 11px;font-size:11px;color:var(--t2);line-height:1.65;margin-top:10px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.verdict{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 18px}
-.v-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
-.v-badge{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:800;white-space:nowrap;flex-shrink:0}
-.vp{background:var(--grn-bg);color:var(--grn);border:1px solid var(--grn-bd)}
-.vc{background:var(--amb-bg);color:var(--amb);border:1px solid var(--amb-bd)}
-.vr{background:var(--blu-bg);color:var(--blu);border:1px solid var(--blu-bd)}
-.vd{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd)}
-.v-title{font-size:15px;font-weight:800;color:var(--t1);line-height:1.35}
-.v-desc{font-size:12px;color:var(--t2);line-height:1.65;margin-top:8px}
-.v-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
-.vm{background:var(--bg);border-radius:var(--rs);padding:9px 8px;text-align:center}
-.vm-l{font-size:9px;color:var(--t3);margin-bottom:3px}
-.vm-v{font-size:17px;font-weight:800}
-.up{color:var(--grn)}.dn{color:var(--red)}.nu{color:var(--t1)}
-.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
-.kpi-c{background:var(--bg);border-radius:var(--rs);padding:10px 12px;text-align:center}
-.kpi-l{font-size:10px;color:var(--t3);margin-bottom:4px}
-.kpi-v{font-size:19px;font-weight:800;color:var(--t1)}
-.surv{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-.surv-row{display:flex;align-items:center;gap:8px}
-.surv-lbl{font-size:11px;color:var(--t2);width:40px;flex-shrink:0;font-weight:600}
-.surv-track{flex:1;height:16px;background:var(--bg);border-radius:4px;overflow:hidden}
-.surv-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:10px;font-weight:700;color:#fff}
-.comp-wrap{display:flex;align-items:center;gap:14px;margin:8px 0}
-.comp-items{flex:1;display:flex;flex-direction:column;gap:7px}
-.comp-item{display:flex;align-items:center;gap:8px}
-.comp-il{font-size:11px;color:var(--t2);width:72px;flex-shrink:0}
-.comp-bar{flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
-.comp-fill{height:100%;border-radius:4px}
-.comp-iv{font-size:11px;font-weight:700;color:var(--t2);width:28px;text-align:right;flex-shrink:0}
-.comp-label{text-align:center;font-size:22px;font-weight:800;min-width:60px}
-.lc-row{display:flex;gap:3px;margin:10px 0}
-.lc-seg{flex:1;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700}
-.seas-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}
-.seas-cell{text-align:center}
-.seas-bw{height:44px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:4px}
-.seas-bar{width:22px;border-radius:3px 3px 0 0}
-.seas-lbl{font-size:10px;color:var(--t3)}
-.sim-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:6px}
-.sim-tbl th{font-size:10px;color:var(--t3);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--border);text-align:left}
-.sim-tbl td{padding:8px 8px;border-bottom:1px solid var(--border);color:var(--t2);vertical-align:middle}
-.sim-tbl tr:last-child td{border-bottom:none}
-.sim-tbl tr.hi td{background:var(--acc-bg);font-weight:700;color:var(--t1)}
-.dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
-.vbadge{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700}
-.rank-list{display:flex;flex-direction:column;gap:6px;margin-top:8px}
-.rank-item{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:var(--rs);padding:9px 12px}
-.rank-no{width:22px;height:22px;border-radius:50%;background:var(--acc);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.rank-no.g{background:var(--amb)}
-.rank-info{flex:1}
-.rank-nm{font-size:13px;font-weight:700;color:var(--t1)}
-.rank-detail{font-size:10px;color:var(--t3);margin-top:2px}
-.rank-bw{width:70px;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
-.rank-bf{height:100%;background:var(--acc);border-radius:3px}
-.gu-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:8px 0}
-.gu-cell{border-radius:5px;padding:7px 4px;text-align:center}
-.gu-nm{font-size:8px;margin-bottom:2px}
-.gu-val{font-size:10px;font-weight:800}
-.leg{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
-.leg-item{font-size:10px;display:flex;align-items:center;gap:3px;color:var(--t3)}
-.leg-dot{width:10px;height:10px;border-radius:2px;display:inline-block}
-.rent-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:8px}
-.rent-tbl th{font-size:10px;color:var(--t3);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--border);text-align:left}
-.rent-tbl td{padding:8px 8px;border-bottom:1px solid var(--border);color:var(--t2)}
-.rent-tbl tr:last-child td{border-bottom:none}
-.rlv{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
-.lv-h{background:var(--red-bg);color:var(--red)}
-.lv-m{background:var(--amb-bg);color:var(--amb)}
-.lv-l{background:var(--grn-bg);color:var(--grn)}
-.rec-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-.rec-item{border:1px solid var(--border);border-radius:var(--rs);padding:11px 14px;display:flex;align-items:flex-start;gap:12px}
-.rec-rank{font-size:22px;font-weight:800;color:var(--acc-bd);flex-shrink:0;line-height:1}
-.rec-nm{font-size:13px;font-weight:800;color:var(--t1);margin-bottom:5px}
-.rec-tags{display:flex;gap:5px;flex-wrap:wrap}
-.rtag{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
-.t-b{background:var(--blu-bg);color:var(--blu)}
-.t-g{background:var(--grn-bg);color:var(--grn)}
-.t-a{background:var(--amb-bg);color:var(--amb)}
-.t-r{background:var(--red-bg);color:var(--red)}
-#loading{display:none;position:fixed;inset:0;background:rgba(255,255,255,.85);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:12px}
-.spinner{width:32px;height:32px;border:3px solid var(--border2);border-top-color:var(--acc);border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-#loading-txt{font-size:13px;color:var(--t2);font-weight:600}
-@media(max-width:600px){.two{grid-template-columns:1fr}.v-metrics{grid-template-columns:repeat(2,1fr)}.land-h1{font-size:21px}}
+  :root {
+    --bg: #0d0f14;
+    --bg2: #141720;
+    --bg3: #1c2030;
+    --border: #272d3d;
+    --accent: #4f7cff;
+    --accent2: #00c9a7;
+    --danger: #ff4f6d;
+    --warn: #ffb74d;
+    --text: #e8eaf0;
+    --text2: #8b92a8;
+    --text3: #5a6078;
+    --card: #181c28;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13, 15, 20, 0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex; align-items: center; gap: 0;
+    height: 56px;
+  }
+  .logo {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+    color: var(--text);
+    margin-right: 32px;
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 900; color: #fff;
+  }
+  .nav-tabs { display: flex; gap: 0; }
+  .nav-tab {
+    padding: 0 20px; height: 56px;
+    display: flex; align-items: center;
+    font-size: 14px; font-weight: 600; color: var(--text2);
+    text-decoration: none; cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .nav-spacer { flex: 1; }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 72px 24px 60px;
+    text-align: center;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(79,124,255,0.12) 0%, transparent 70%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(79,124,255,0.12);
+    border: 1px solid rgba(79,124,255,0.3);
+    color: var(--accent);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+    padding: 5px 14px; border-radius: 20px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(26px, 4vw, 44px);
+    font-weight: 800; letter-spacing: -1px;
+    line-height: 1.2; margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 40%, #8fa8ff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: clamp(15px, 2vw, 18px);
+    color: var(--text2); max-width: 560px; margin: 0 auto 32px;
+  }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 40px;
+    flex-wrap: wrap; margin-top: 40px;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .num {
+    font-size: 28px; font-weight: 800; letter-spacing: -1px;
+    color: var(--accent2);
+  }
+  .hero-stat .label { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .hero-stat .quarter-tag {
+    font-size: 11px; font-weight: 600; color: var(--accent); margin-top: 6px;
+    letter-spacing: 0.3px;
+  }
+  .hero-updated { font-size: 12px; color: var(--text3); margin-top: 28px; }
+
+  /* ===== DATA NOTICE BANNER ===== */
+  .data-notice {
+    width: 100%;
+    background: rgba(79,124,255,0.07);
+    border-bottom: 1px solid rgba(79,124,255,0.18);
+    padding: 18px 24px;
+    text-align: center;
+  }
+  .data-notice-text {
+    font-size: clamp(15px, 1.8vw, 20px);
+    font-weight: 700;
+    color: var(--text2);
+    letter-spacing: -0.2px;
+  }
+  .data-notice-text em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  /* ===== SECTION WRAPPER ===== */
+  section { padding: 56px 24px; border-bottom: 1px solid var(--border); }
+  .section-header {
+    max-width: 1100px; margin: 0 auto 36px;
+  }
+  .section-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px;
+  }
+  .section-desc { font-size: 15px; color: var(--text); opacity: 0.75; }
+
+  /* ===== TOGGLE ===== */
+  .toggle-group {
+    display: inline-flex;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 3px; gap: 2px;
+  }
+  .toggle-btn {
+    padding: 7px 20px; border-radius: 6px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    border: none; background: transparent; color: var(--text2);
+    transition: all 0.2s;
+  }
+  .toggle-btn.active {
+    background: var(--accent); color: #fff;
+  }
+
+  /* ===== SECTION 01: 지역별 창업/폐업 현황 ===== */
+  .s01-inner { max-width: 900px; margin: 0 auto; }
+  .region-table-note { font-size: 13px; color: var(--text2); margin-bottom: 12px; }
+  .region-table-wrap { overflow-x: auto; }
+  .region-table { width: 100%; border-collapse: collapse; min-width: 520px; }
+  .region-table th {
+    font-size: 11px; color: var(--text3); font-weight: 700;
+    padding: 8px 14px; border-bottom: 1px solid var(--border);
+    text-align: right; white-space: nowrap; cursor: pointer; user-select: none;
+  }
+  .region-table th:first-child { text-align: left; }
+  .region-table th:hover { color: var(--text); }
+  .region-table td {
+    font-size: 13px; padding: 10px 14px;
+    border-bottom: 1px solid rgba(39,45,61,0.5);
+    text-align: right;
+  }
+  .region-table td:first-child {
+    text-align: left; font-weight: 600; font-size: 14px;
+    cursor: pointer; color: var(--text);
+  }
+  .region-table td:first-child:hover { color: var(--accent); }
+  .region-table tr:last-child td { border-bottom: none; }
+  .region-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ===== SECTION 02: 뜨는 업종 vs 지는 업종 ===== */
+  .s02-inner { max-width: 1100px; margin: 0 auto; }
+  .s02-tabs {
+    display: flex; gap: 0; margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .s02-tab-btn {
+    padding: 10px 24px; font-size: 14px; font-weight: 700;
+    color: var(--text3); background: none; border: none;
+    border-bottom: 2px solid transparent; cursor: pointer;
+    transition: all 0.2s; margin-bottom: -1px;
+  }
+  .s02-tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .s02-judge-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .judge-chip {
+    padding: 5px 14px; border-radius: 20px;
+    font-size: 12px; font-weight: 700; cursor: pointer;
+    border: 1px solid var(--border); background: var(--bg3); color: var(--text2);
+    transition: all 0.2s;
+  }
+  .judge-chip:hover { border-color: var(--text2); }
+  .judge-chip.j-all.active   { border-color: var(--text2); color: var(--text); background: rgba(232,234,240,0.08); }
+  .judge-chip.j-pos.active   { border-color: var(--accent2); color: var(--accent2); background: rgba(0,201,167,0.1); }
+  .judge-chip.j-rev.active   { border-color: var(--accent); color: var(--accent); background: rgba(79,124,255,0.1); }
+  .judge-chip.j-cau.active   { border-color: var(--warn); color: var(--warn); background: rgba(255,183,77,0.1); }
+  .judge-chip.j-dng.active   { border-color: var(--danger); color: var(--danger); background: rgba(255,79,109,0.1); }
+  .biz-table-note { font-size: 13px; color: var(--text2); margin-bottom: 12px; line-height: 1.6; }
+  .judge-desc-box {
+    margin-bottom: 20px; padding: 14px 18px;
+    border-radius: 10px; border-left: 3px solid var(--accent);
+    background: rgba(79,124,255,0.06);
+    display: none;
+  }
+  .judge-desc-box.visible { display: block; }
+  .judge-desc-box.c-pos { border-left-color: var(--accent2); background: rgba(0,201,167,0.06); }
+  .judge-desc-box.c-rev { border-left-color: var(--accent);  background: rgba(79,124,255,0.06); }
+  .judge-desc-box.c-cau { border-left-color: var(--warn);    background: rgba(255,183,77,0.06); }
+  .judge-desc-box.c-dng { border-left-color: var(--danger);  background: rgba(255,79,109,0.06); }
+  .judge-desc-title { font-size: 14px; font-weight: 800; margin-bottom: 5px; }
+  .judge-desc-text  { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .judge-desc-criteria {
+    display: flex; flex-wrap: wrap; gap: 8px 20px;
+    margin-top: 8px; font-size: 12px; color: var(--text3);
+  }
+  .judge-desc-criteria span { white-space: nowrap; }
+  .biz-table-wrap { overflow-x: auto; }
+  .biz-table { width: 100%; border-collapse: collapse; min-width: 580px; }
+  .biz-table th {
+    font-size: 11px; color: var(--text3); font-weight: 700;
+    padding: 8px 14px; border-bottom: 1px solid var(--border);
+    text-align: right; white-space: nowrap; cursor: pointer;
+    user-select: none;
+  }
+  .biz-table th:first-child { text-align: left; }
+  .biz-table th:hover { color: var(--text); }
+  .biz-table td {
+    font-size: 13px; padding: 10px 14px;
+    border-bottom: 1px solid rgba(39,45,61,0.5);
+    text-align: right;
+  }
+  .biz-table td:first-child { text-align: left; font-weight: 600; font-size: 14px; }
+  .biz-table tr:last-child td { border-bottom: none; }
+  .biz-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .biz-table tr.clickable { cursor: pointer; }
+  .biz-table tr.clickable td:first-child { color: var(--text); }
+  .biz-table tr.clickable:hover td:first-child { color: var(--accent); }
+  .judge-badge {
+    display: inline-block; padding: 2px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; white-space: nowrap;
+  }
+  .badge-pos  { background: rgba(0,201,167,0.15);  color: var(--accent2); }
+  .badge-rev  { background: rgba(79,124,255,0.15); color: var(--accent); }
+  .badge-cau  { background: rgba(255,183,77,0.15); color: var(--warn); }
+  .badge-dng  { background: rgba(255,79,109,0.15); color: var(--danger); }
+
+  /* ===== SECTION 03 (수익계산기 브릿지) ===== */
+  .s3-container-calc {
+    max-width: 760px; margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px;
+  }
+  .s3-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px;
+  }
+  @media (max-width: 600px) { .s3-row { grid-template-columns: 1fr; } }
+  .s3-field label {
+    font-size: 12px; font-weight: 600; color: var(--text2);
+    display: block; margin-bottom: 8px; letter-spacing: 0.3px;
+  }
+  .s3-select {
+    width: 100%; padding: 10px 12px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text);
+    font-size: 14px; cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6078' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: border-color 0.2s;
+  }
+  .s3-select:focus { outline: none; border-color: var(--accent); }
+  .s3-btn {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--accent), #7b5cff);
+    color: #fff; border: none;
+    border-radius: 10px; font-size: 15px; font-weight: 700;
+    cursor: pointer; letter-spacing: -0.3px;
+    transition: opacity 0.2s, transform 0.1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .s3-btn:hover { opacity: 0.9; }
+  .s3-btn:active { transform: scale(0.98); }
+  .s3-preview {
+    margin-top: 0; margin-bottom: 20px;
+    background: var(--bg3); border-radius: 8px; padding: 14px 16px;
+    font-size: 13px; color: var(--text2);
+    display: none;
+  }
+  .s3-preview.visible { display: block; }
+  .s3-preview strong { color: var(--accent2); }
+
+  /* ===== DRILLDOWN MODAL (shared) ===== */
+  .drill-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.65); backdrop-filter: blur(4px);
+  }
+  .drill-overlay.visible { display: block; }
+  .drill-modal {
+    display: none; position: fixed; z-index: 201;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: var(--bg2); border: 1px solid var(--accent);
+    border-radius: var(--radius); padding: 24px 16px;
+    width: calc(100vw - 32px); max-width: 720px; max-height: 85vh; overflow-y: auto;
+    box-sizing: border-box;
+  }
+  @media (min-width: 480px) { .drill-modal { padding: 28px 24px; } }
+  .drill-modal.visible { display: block; }
+  .drill-modal-header {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;
+  }
+  .drill-modal-sub { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
+  .drilldown-title { font-size: 16px; font-weight: 800; }
+  .drilldown-close {
+    font-size: 20px; cursor: pointer; background: none; border: none; color: var(--text2);
+    line-height: 1; padding: 4px 8px; border-radius: 6px;
+  }
+  .drilldown-close:hover { background: var(--bg3); }
+  .drilldown-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  }
+  @media (max-width: 560px) { .drilldown-grid { grid-template-columns: 1fr; } }
+  .drill-sub { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+  .drill-sub.open { color: var(--accent2); }
+  .drill-sub.close { color: var(--danger); }
+
+  /* Shared rank row styles */
+  .rank-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 0 10px 8px; border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+  }
+  .rh-num  { font-size: 11px; color: var(--text3); width: 20px; text-align: center; }
+  .rh-label{ font-size: 11px; color: var(--text3); flex: 1; }
+  .rh-stat { font-size: 11px; color: var(--text3); min-width: 48px; text-align: right; }
+  .rh-count{ font-size: 11px; color: var(--text3); min-width: 40px; text-align: right; }
+  .rh-total{ font-size: 11px; color: var(--text3); min-width: 52px; text-align: right; }
+  .rh-drill{ margin-top: 8px; }
+  .rank-item {
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer; padding: 8px 10px; border-radius: 8px;
+    transition: background 0.15s;
+  }
+  .rank-item:hover { background: var(--bg3); }
+  .rank-num { font-size: 12px; font-weight: 700; color: var(--text3); width: 20px; text-align: center; }
+  .rank-label { font-size: 14px; flex: 1; font-weight: 500; }
+  .rank-stat { font-size: 14px; font-weight: 700; min-width: 48px; text-align: right; }
+  .rank-count { font-size: 12px; color: var(--text3); min-width: 40px; text-align: right; }
+  .rank-total { font-size: 12px; color: var(--text3); min-width: 52px; text-align: right; }
+  .rank-list { display: flex; flex-direction: column; gap: 0; }
+
+  /* ===== CTA ===== */
+  .cta-section {
+    padding: 72px 24px;
+    text-align: center;
+    background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(0,201,167,0.08) 0%, transparent 70%);
+  }
+  .cta-title {
+    font-size: clamp(20px, 3vw, 32px);
+    font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px;
+  }
+  .cta-desc { font-size: 15px; color: var(--text2); margin-bottom: 32px; }
+  .cta-form {
+    display: flex; gap: 10px; max-width: 420px; margin: 0 auto;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .cta-input {
+    flex: 1; min-width: 200px;
+    padding: 12px 16px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text); font-size: 14px;
+    transition: border-color 0.2s;
+  }
+  .cta-input:focus { outline: none; border-color: var(--accent2); }
+  .cta-submit {
+    padding: 12px 24px;
+    background: var(--accent2); color: #000;
+    font-size: 14px; font-weight: 700;
+    border: none; border-radius: 8px; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .cta-submit:hover { opacity: 0.85; }
+  .cta-note { font-size: 12px; color: var(--text3); margin-top: 12px; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 28px 24px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-logo { font-size: 16px; font-weight: 800; color: var(--text2); }
+  .footer-note { font-size: 12px; color: var(--text3); }
+  .footer-disclaimer {
+    font-size: 11px; color: var(--text3); margin-top: 12px;
+    max-width: 640px; line-height: 1.7;
+  }
+  .footer-disclaimer span.email-copy {
+    color: var(--accent); text-decoration: none; cursor: pointer;
+    border-bottom: 1px dotted var(--accent);
+  }
+
+  /* ===== MISC ===== */
+  .divider { width: 40px; height: 3px; background: var(--accent); border-radius: 2px; margin: 12px 0; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .dot-open { background: var(--accent2); }
+  .dot-close { background: var(--danger); }
 </style>
 </head>
 <body>
 
-<div id="loading"><div class="spinner"></div><div id="loading-txt">리포트 생성 중...</div></div>
-
-<nav class="gnb">
-  <div class="gnb-logo">LOK<span>I</span> 창업레이더</div>
-  <div class="gnb-menu">
-    <a class="gnb-item" href="index.html">업종별 리포트</a>
-    <a class="gnb-item" href="calc.html">수익 계산기</a>
-    <a class="gnb-item active" href="radar.html">창업레이더</a>
+<!-- NAV -->
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-icon">L</div>
+    LOKI
+  </a>
+  <div class="nav-tabs">
+    <a class="nav-tab" href="index.html">📊 업종별 리포트</a>
+    <a class="nav-tab active" href="radar.html">📡 창업레이더</a>
+    <a class="nav-tab" href="calc.html">💰 수익계산</a>
   </div>
+  <div class="nav-spacer"></div>
 </nav>
 
-<div id="vL">
-  <div class="land">
-    <div class="land-badge">서울 창업레이더 · 실데이터 기반</div>
-    <h1 class="land-h1">서울에서 자영업 창업 준비하세요?<br>그럼 <em>감이 아닌 데이터로</em> 먼저 검증하세요.</h1>
-    <p class="land-sub">서울공공데이터 및 대형 부동산 플랫폼 임대료 등을 기반으로<br>서울의 지역별·업종별 동향을 한눈에 확인하세요.</p>
-    <div class="sel-wrap">
-      <select id="sel-cat" onchange="onCatChange()">
-        <option value="">업종 카테고리를 선택하세요</option>
-      </select>
-      <div id="sel-sub-wrap">
-        <select id="sel-ind" onchange="onIndChange()">
-          <option value="">세부 업종을 선택하세요</option>
+<!-- DATA NOTICE -->
+<div class="data-notice">
+  <span class="data-notice-text">이 사이트는 <em>2025년 4분기 공공데이터</em>를 기준으로 산출되었습니다</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">📡 공공 데이터 기반 창업 인텔리전스</div>
+  <h1>창업은 감이 아닌<br>데이터로부터 시작하세요</h1>
+  <p>공공데이터로 내가 원하는 지역, 업종에 대한 예상 순이익부터 업종별 개업, 폐업율까지 꼼꼼히 살펴보세요.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="num">25개구</div>
+      <div class="label">서울 전 지역 분석</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">434개</div>
+      <div class="label">행정동 커버리지</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">100+</div>
+      <div class="label">분석 업종</div>
+      <div class="quarter-tag">2025년 4분기 기준</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ========================================================
+     SECTION 01: 지역별 창업/폐업 현황
+     ======================================================== -->
+<section id="s01">
+  <div class="section-header">
+    <div class="section-tag">SECTION 01</div>
+    <div class="section-title">지역별 창업 · 폐업 현황</div>
+    <div class="divider"></div>
+    <div class="section-desc">서울 25개 구 전체 창업·폐업율 | 지역명을 클릭하면 해당 구의 개폐업 업종 TOP 5를 확인할 수 있습니다</div>
+  </div>
+
+  <div class="s01-inner">
+    <div class="region-table-note" id="regionTableNote"></div>
+    <div class="region-table-wrap">
+      <table class="region-table">
+        <thead>
+          <tr>
+            <th style="text-align:left;" onclick="sortRegionTable('label')">구 <span id="rsortLabel"></span></th>
+            <th onclick="sortRegionTable('open')">개업율 <span id="rsortOpen"></span></th>
+            <th onclick="sortRegionTable('close')">폐업율 <span id="rsortClose"></span></th>
+            <th onclick="sortRegionTable('net')">순증가율 <span id="rsortNet"></span></th>
+            <th onclick="sortRegionTable('total')">전체점포 <span id="rsortTotal"></span></th>
+          </tr>
+        </thead>
+        <tbody id="regionTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================================================
+     SECTION 02: 뜨는 업종 vs 지는 업종
+     ======================================================== -->
+<section id="s02" style="background:var(--bg2);">
+  <div class="section-header">
+    <div class="section-tag">SECTION 02</div>
+    <div class="section-title">뜨는 업종 vs 지는 업종</div>
+    <div class="divider"></div>
+    <div class="section-desc">BCG Matrix × OECD Net Entry Rate 기반 판정 | 순증가율(개업율−폐업율) · 창업점유율(서울 신규창업 중 해당 업종 비중) 기준 분석</div>
+  </div>
+
+  <div class="s02-inner">
+    <div class="s02-tabs">
+      <button class="s02-tab-btn active" id="tabGeneral" onclick="setS02Tab('general')">🏪 일반창업 <span id="tabGeneralCnt" style="font-size:11px;color:var(--text3);margin-left:4px;"></span></button>
+      <button class="s02-tab-btn" id="tabPro" onclick="setS02Tab('pro')">🎓 전문직 <span id="tabProCnt" style="font-size:11px;color:var(--text3);margin-left:4px;"></span></button>
+    </div>
+
+    <div class="s02-judge-filter">
+      <button class="judge-chip j-all active" onclick="setS02Judge('all')">전체</button>
+      <button class="judge-chip j-pos" onclick="setS02Judge('pos')">✦ 진입 긍정</button>
+      <button class="judge-chip j-rev" onclick="setS02Judge('rev')">◈ 진입 검토</button>
+      <button class="judge-chip j-cau" onclick="setS02Judge('cau')">▲ 진입 신중</button>
+      <button class="judge-chip j-dng" onclick="setS02Judge('dng')">✕ 진입 위험</button>
+    </div>
+
+    <div id="judgeDescBox" class="judge-desc-box">
+      <div class="judge-desc-title" id="judgeDescTitle"></div>
+      <div class="judge-desc-text"  id="judgeDescText"></div>
+      <div class="judge-desc-criteria" id="judgeDescCriteria"></div>
+    </div>
+
+    <div class="biz-table-note" id="bizTableNote"></div>
+    <div class="biz-table-wrap">
+      <table class="biz-table">
+        <thead>
+          <tr>
+            <th style="text-align:left;">업종</th>
+            <th onclick="sortS02Table('open')">개업율 <span id="sortOpen"></span></th>
+            <th onclick="sortS02Table('close')">폐업율 <span id="sortClose"></span></th>
+            <th onclick="sortS02Table('net')">순증가율 <span id="sortNet"></span></th>
+            <th onclick="sortS02Table('share')">창업점유율 <span id="sortShare"></span></th>
+            <th>판정</th>
+          </tr>
+        </thead>
+        <tbody id="bizTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================================================
+     SECTION 03: 수익 계산기
+     ======================================================== -->
+<section id="s03" style="background:var(--bg);">
+  <div class="section-header">
+    <div class="section-tag">SECTION 03</div>
+    <div class="section-title">수익 계산기</div>
+    <div class="divider"></div>
+    <div class="section-desc">창업을 원하는 지역과 업종을 선택하시면 추정 순이익을 계산해보실 수 있습니다.</div>
+  </div>
+
+  <div class="s3-container-calc">
+    <div class="s3-row">
+      <div class="s3-field">
+        <label>📍 지역 (구)</label>
+        <select class="s3-select" id="selGu" onchange="updateBridgePreview()">
+          <option value="">구 선택</option>
+          <option value="강남구">강남구</option>
+          <option value="강동구">강동구</option>
+          <option value="강북구">강북구</option>
+          <option value="강서구">강서구</option>
+          <option value="관악구">관악구</option>
+          <option value="광진구">광진구</option>
+          <option value="구로구">구로구</option>
+          <option value="금천구">금천구</option>
+          <option value="노원구">노원구</option>
+          <option value="도봉구">도봉구</option>
+          <option value="동대문구">동대문구</option>
+          <option value="동작구">동작구</option>
+          <option value="마포구">마포구</option>
+          <option value="서대문구">서대문구</option>
+          <option value="서초구">서초구</option>
+          <option value="성동구">성동구</option>
+          <option value="성북구">성북구</option>
+          <option value="송파구">송파구</option>
+          <option value="양천구">양천구</option>
+          <option value="영등포구">영등포구</option>
+          <option value="용산구">용산구</option>
+          <option value="은평구">은평구</option>
+          <option value="종로구">종로구</option>
+          <option value="중구">중구</option>
+          <option value="중랑구">중랑구</option>
         </select>
       </div>
-      <button class="cta" id="cta-btn" onclick="goReport()">리포트 생성</button>
+      <div class="s3-field">
+        <label>🏷 대분류</label>
+        <select class="s3-select" id="selCategory" onchange="updateSubCategory(); updateBridgePreview()">
+          <option value="">대분류 선택</option>
+          <option value="음식·숙박">🍜 음식·숙박</option>
+          <option value="소매">🛍️ 소매</option>
+          <option value="서비스·기타">💼 서비스·기타</option>
+        </select>
+      </div>
+      <div class="s3-field">
+        <label>🔍 업종</label>
+        <select class="s3-select" id="selBizType" onchange="updateBridgePreview()">
+          <option value="">업종 선택</option>
+        </select>
+      </div>
     </div>
-    <div class="land-foot">
-      문의: <a href="mailto:findingmylifegauge@gmail.com">findingmylifegauge@gmail.com</a><br>
-      LOKI 창업레이더 ⓒ 2026 All Rights Reserved
+
+    <div class="s3-preview" id="bridgePreview"></div>
+
+    <button class="s3-btn" onclick="goToCalculator()">
+      <span>💰</span>
+      <span id="btnText">예상 순이익 확인</span>
+      <span>→</span>
+    </button>
+  </div>
+</section>
+
+
+<!-- 드릴다운 모달 (S01 공용) -->
+<div class="drill-overlay" id="drillOverlay" onclick="closeDrilldown()"></div>
+<div class="drill-modal" id="drillModal">
+  <div class="drill-modal-header">
+    <div class="drilldown-title" id="drilldownTitle">📍 드릴다운</div>
+    <button class="drilldown-close" onclick="closeDrilldown()">✕</button>
+  </div>
+  <div class="drill-modal-sub" id="drillModalSub"></div>
+  <div class="drilldown-grid">
+    <div>
+      <div class="drill-sub open">▲ 개업 TOP 5</div>
+      <div class="rank-header rh-drill">
+        <span class="rh-num">#</span>
+        <span class="rh-label" id="drillLabelOpen">업종</span>
+        <span class="rh-stat">개업율</span>
+        <span class="rh-count">개업 수</span>
+        <span class="rh-total">전체점포</span>
+      </div>
+      <div class="rank-list" id="drillOpenList"></div>
+    </div>
+    <div>
+      <div class="drill-sub close">▼ 폐업 TOP 5</div>
+      <div class="rank-header rh-drill">
+        <span class="rh-num">#</span>
+        <span class="rh-label" id="drillLabelClose">업종</span>
+        <span class="rh-stat">폐업율</span>
+        <span class="rh-count">폐업 수</span>
+        <span class="rh-total">전체점포</span>
+      </div>
+      <div class="rank-list" id="drillCloseList"></div>
     </div>
   </div>
 </div>
 
-<div id="vR">
-  <div class="res-head">
-    <button class="res-back" onclick="showLanding()">← 다시 선택</button>
-    <div class="res-hl">서울 · <em id="res-nm"></em> 동향 및 상세 리포트</div>
-  </div>
-  <div class="res-body" id="res-body"></div>
-</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">LOKI</div>
+  <div class="footer-disclaimer">이 사이트의 모든 데이터는 공공데이터포털, 서울시열린데이터광장, 각 지자체데이터포털, 소상공인365, 통계청, 대형부동산플랫폼 임대료 데이터 등을 토대로 제작되었습니다.<br>데이터 문의 및 기타 문의사항은 <span class="email-copy" onclick="copyEmail()">findingmylifegauge@gmail.com</span> 으로 문의 바랍니다.</div>
+</footer>
+
 
 <script>
-const CATS={
-  food:  {nm:'음식·숙박',    inds:['한식음식점','중식음식점','일식음식점','양식음식점','치킨전문점','분식전문점','제과점','커피-음료','호프-간이주점','패스트푸드점']},
-  retail:{nm:'소매',         inds:['일반의류','화장품','슈퍼마켓','의약품','시계및귀금속','서적','신발','핸드폰','편의점','안경']},
-  svc:   {nm:'서비스·기타',  inds:['미용실','네일숍','세탁소','피부관리실','사진관','부동산중개업','인테리어','일반교습학원','예술학원','외국어학원','스포츠 강습','독서실','스포츠클럽','일반의원','치과의원','한의원','노래방','당구장','PC방']},
+// ============================================================
+// DATA: 지역별 전체 (25개 구)
+// ============================================================
+const DATA_REGION_ALL = [
+  {label:"강서구",   open:2.3, close:2.7, net:-0.4, openCnt:725,  closeCnt:841,  total:31578},
+  {label:"마포구",   open:2.2, close:2.5, net:-0.3, openCnt:724,  closeCnt:829,  total:32603},
+  {label:"강북구",   open:2.2, close:2.9, net:-0.7, openCnt:304,  closeCnt:400,  total:13776},
+  {label:"관악구",   open:2.2, close:2.7, net:-0.5, openCnt:480,  closeCnt:584,  total:21627},
+  {label:"광진구",   open:2.2, close:2.6, net:-0.4, openCnt:455,  closeCnt:539,  total:20568},
+  {label:"강동구",   open:2.1, close:2.6, net:-0.5, openCnt:496,  closeCnt:629,  total:24150},
+  {label:"성북구",   open:2.1, close:2.3, net:-0.2, openCnt:394,  closeCnt:442,  total:18853},
+  {label:"중랑구",   open:2.1, close:2.3, net:-0.2, openCnt:368,  closeCnt:419,  total:17851},
+  {label:"서대문구", open:2.0, close:2.7, net:-0.7, openCnt:302,  closeCnt:418,  total:15348},
+  {label:"성동구",   open:2.0, close:2.1, net:-0.1, openCnt:416,  closeCnt:433,  total:20641},
+  {label:"동대문구", open:1.9, close:2.1, net:-0.2, openCnt:421,  closeCnt:458,  total:21752},
+  {label:"은평구",   open:1.9, close:2.5, net:-0.6, openCnt:368,  closeCnt:491,  total:19837},
+  {label:"영등포구", open:1.9, close:2.3, net:-0.4, openCnt:557,  closeCnt:677,  total:29888},
+  {label:"노원구",   open:1.8, close:2.4, net:-0.6, openCnt:376,  closeCnt:487,  total:20435},
+  {label:"도봉구",   open:1.8, close:2.4, net:-0.6, openCnt:238,  closeCnt:322,  total:13265},
+  {label:"양천구",   open:1.8, close:2.2, net:-0.4, openCnt:357,  closeCnt:449,  total:20159},
+  {label:"강남구",   open:1.8, close:2.0, net:-0.2, openCnt:1162, closeCnt:1281, total:63138},
+  {label:"동작구",   open:1.8, close:2.4, net:-0.6, openCnt:299,  closeCnt:411,  total:16849},
+  {label:"송파구",   open:1.7, close:2.4, net:-0.7, openCnt:742,  closeCnt:1015, total:42841},
+  {label:"금천구",   open:1.7, close:2.3, net:-0.6, openCnt:327,  closeCnt:428,  total:18808},
+  {label:"종로구",   open:1.7, close:1.9, net:-0.2, openCnt:418,  closeCnt:472,  total:24903},
+  {label:"용산구",   open:1.6, close:1.8, net:-0.2, openCnt:319,  closeCnt:362,  total:19836},
+  {label:"서초구",   open:1.5, close:1.8, net:-0.3, openCnt:636,  closeCnt:728,  total:41236},
+  {label:"구로구",   open:1.4, close:2.3, net:-0.9, openCnt:355,  closeCnt:559,  total:24703},
+  {label:"중구",     open:1.2, close:1.8, net:-0.6, openCnt:469,  closeCnt:684,  total:38185},
+];
+
+// 드릴다운 데이터 — 25개 구 전체
+const DRILL_OPEN = {
+  '강남구':   [{label:'슈퍼마켓',val:6.3,count:56,total:891},{label:'피부관리실',val:4.8,count:60,total:1250},{label:'중식당',val:4.1,count:20,total:484},{label:'호프집·주점',val:3.8,count:44,total:1152},{label:'독서실',val:3.7,count:15,total:406}],
+  '강동구':   [{label:'카페·커피숍',val:4.4,count:41,total:934},{label:'피부관리실',val:4.3,count:18,total:417},{label:'슈퍼마켓',val:3.9,count:20,total:512},{label:'베이커리·제과점',val:3.6,count:12,total:332},{label:'한식당',val:3.2,count:73,total:2270}],
+  '강북구':   [{label:'슈퍼마켓',val:6.1,count:23,total:374},{label:'한식당',val:4.6,count:84,total:1809},{label:'카페·커피숍',val:2.2,count:12,total:548},{label:'미용실',val:1.9,count:15,total:775},{label:'호프집·주점',val:1.7,count:9,total:530}],
+  '강서구':   [{label:'패스트푸드',val:4.7,count:16,total:343},{label:'한식당',val:4.6,count:141,total:3094},{label:'슈퍼마켓',val:4.5,count:30,total:663},{label:'노래방',val:4.0,count:13,total:329},{label:'피부관리실',val:4.0,count:31,total:769}],
+  '관악구':   [{label:'한식당',val:5.4,count:130,total:2417},{label:'피부관리실',val:5.0,count:21,total:423},{label:'카페·커피숍',val:3.8,count:35,total:928},{label:'분식점',val:3.4,count:18,total:524},{label:'스포츠교실',val:2.6,count:9,total:343}],
+  '광진구':   [{label:'슈퍼마켓',val:5.1,count:21,total:412},{label:'한식당',val:4.3,count:91,total:2108},{label:'분식점',val:3.9,count:17,total:431},{label:'피부관리실',val:3.9,count:16,total:412},{label:'노래방',val:3.3,count:11,total:331}],
+  '구로구':   [{label:'피부관리실',val:6.3,count:22,total:349},{label:'슈퍼마켓',val:3.5,count:22,total:623},{label:'예술학원',val:3.4,count:12,total:356},{label:'중식당',val:3.2,count:13,total:401},{label:'분식점',val:2.9,count:13,total:456}],
+  '금천구':   [{label:'호프집·주점',val:4.0,count:17,total:429},{label:'분식점',val:4.0,count:13,total:321},{label:'한식당',val:3.6,count:61,total:1709},{label:'슈퍼마켓',val:2.5,count:10,total:406},{label:'카페·커피숍',val:2.5,count:17,total:672}],
+  '노원구':   [{label:'슈퍼마켓',val:3.9,count:20,total:510},{label:'피부관리실',val:3.4,count:12,total:353},{label:'스포츠교실',val:2.9,count:11,total:381},{label:'호프집·주점',val:2.8,count:12,total:425},{label:'분식점',val:2.6,count:12,total:464}],
+  '도봉구':   [{label:'슈퍼마켓',val:5.0,count:17,total:343},{label:'카페·커피숍',val:3.4,count:15,total:444},{label:'한식당',val:3.4,count:44,total:1287},{label:'호프집·주점',val:2.3,count:8,total:350},{label:'옷가게',val:2.0,count:27,total:1331}],
+  '동대문구': [{label:'한식당',val:3.9,count:91,total:2307},{label:'슈퍼마켓',val:3.9,count:22,total:570},{label:'분식점',val:3.1,count:14,total:451},{label:'호프집·주점',val:2.4,count:12,total:499},{label:'예술학원',val:2.3,count:7,total:311}],
+  '동작구':   [{label:'슈퍼마켓',val:4.2,count:17,total:409},{label:'한식당',val:3.5,count:57,total:1623},{label:'분식점',val:3.4,count:13,total:380},{label:'카페·커피숍',val:3.1,count:23,total:735},{label:'호프집·주점',val:2.6,count:12,total:464}],
+  '마포구':   [{label:'슈퍼마켓',val:5.6,count:35,total:630},{label:'피부관리실',val:4.8,count:32,total:671},{label:'양식당',val:4.4,count:37,total:832},{label:'한식당',val:3.8,count:122,total:3232},{label:'패스트푸드',val:3.8,count:15,total:390}],
+  '서대문구': [{label:'분식점',val:4.0,count:16,total:401},{label:'카페·커피숍',val:3.5,count:31,total:876},{label:'한식당',val:3.2,count:51,total:1608},{label:'슈퍼마켓',val:2.9,count:11,total:375},{label:'편의점',val:2.6,count:8,total:302}],
+  '서초구':   [{label:'피부관리실',val:4.8,count:29,total:601},{label:'베이커리·제과점',val:3.8,count:16,total:421},{label:'한식당',val:3.4,count:96,total:2803},{label:'슈퍼마켓',val:3.3,count:17,total:508},{label:'분식점',val:3.1,count:18,total:580}],
+  '성동구':   [{label:'슈퍼마켓',val:5.8,count:24,total:411},{label:'분식점',val:3.7,count:14,total:379},{label:'한식당',val:3.2,count:61,total:1887},{label:'카페·커피숍',val:3.2,count:32,total:1015},{label:'화장품가게',val:3.0,count:15,total:496}],
+  '성북구':   [{label:'피부관리실',val:5.3,count:17,total:321},{label:'스포츠교실',val:4.7,count:16,total:344},{label:'분식점',val:3.7,count:17,total:462},{label:'슈퍼마켓',val:3.6,count:17,total:466},{label:'한식당',val:3.6,count:69,total:1894}],
+  '송파구':   [{label:'피부관리실',val:5.2,count:40,total:767},{label:'중식당',val:4.1,count:13,total:320},{label:'한식당',val:3.6,count:126,total:3500},{label:'베이커리·제과점',val:3.5,count:16,total:462},{label:'슈퍼마켓',val:3.5,count:25,total:709}],
+  '양천구':   [{label:'피부관리실',val:4.0,count:13,total:329},{label:'슈퍼마켓',val:3.5,count:15,total:431},{label:'한식당',val:3.3,count:54,total:1658},{label:'카페·커피숍',val:3.2,count:22,total:679},{label:'분식점',val:2.8,count:10,total:360}],
+  '영등포구': [{label:'피부관리실',val:7.3,count:34,total:465},{label:'양식당',val:4.9,count:17,total:345},{label:'베이커리·제과점',val:4.6,count:15,total:324},{label:'스포츠교실',val:4.1,count:16,total:386},{label:'한식당',val:3.4,count:114,total:3358}],
+  '용산구':   [{label:'한식당',val:3.9,count:68,total:1731},{label:'양식당',val:3.2,count:27,total:853},{label:'분식점',val:2.8,count:10,total:351},{label:'카페·커피숍',val:2.5,count:28,total:1117},{label:'화장품가게',val:2.3,count:8,total:345}],
+  '은평구':   [{label:'피부관리실',val:5.3,count:17,total:319},{label:'식료품가게',val:4.5,count:14,total:308},{label:'슈퍼마켓',val:3.7,count:17,total:456},{label:'카페·커피숍',val:3.4,count:26,total:763},{label:'약국',val:3.3,count:10,total:306}],
+  '종로구':   [{label:'양식당',val:4.3,count:23,total:533},{label:'슈퍼마켓',val:4.2,count:20,total:472},{label:'분식점',val:3.9,count:18,total:465},{label:'공부방·교습소',val:3.8,count:12,total:312},{label:'베이커리·제과점',val:3.6,count:11,total:303}],
+  '중구':     [{label:'슈퍼마켓',val:6.4,count:46,total:715},{label:'카페·커피숍',val:3.6,count:50,total:1377},{label:'한식당',val:3.6,count:101,total:2787},{label:'양식당',val:3.2,count:15,total:465},{label:'가방/핸드백',val:2.4,count:11,total:451}],
+  '중랑구':   [{label:'피부관리실',val:5.4,count:20,total:368},{label:'노래방',val:4.0,count:14,total:352},{label:'카페·커피숍',val:3.9,count:26,total:665},{label:'한식당',val:3.2,count:67,total:2113},{label:'호프집·주점',val:3.1,count:19,total:617}],
+};
+const DRILL_CLOSE = {
+  '강남구':   [{label:'편의점',val:5.6,count:43,total:772},{label:'호프집·주점',val:4.8,count:55,total:1152},{label:'온라인쇼핑몰',val:4.0,count:64,total:1587},{label:'패스트푸드',val:3.7,count:22,total:597},{label:'분식점',val:3.7,count:32,total:864}],
+  '강동구':   [{label:'카페·커피숍',val:5.4,count:50,total:934},{label:'편의점',val:4.1,count:14,total:345},{label:'한식당',val:4.0,count:90,total:2270},{label:'온라인쇼핑몰',val:3.9,count:33,total:846},{label:'분식점',val:3.7,count:19,total:508}],
+  '강북구':   [{label:'카페·커피숍',val:6.2,count:34,total:548},{label:'호프집·주점',val:4.5,count:24,total:530},{label:'한식당',val:4.1,count:74,total:1809},{label:'슈퍼마켓',val:3.5,count:13,total:374},{label:'옷가게',val:2.7,count:19,total:694}],
+  '강서구':   [{label:'일식당',val:5.9,count:18,total:307},{label:'치킨/배달',val:5.3,count:18,total:337},{label:'패스트푸드',val:5.2,count:18,total:343},{label:'편의점',val:5.0,count:25,total:500},{label:'분식점',val:4.9,count:30,total:617}],
+  '관악구':   [{label:'카페·커피숍',val:5.8,count:54,total:928},{label:'호프집·주점',val:5.2,count:39,total:754},{label:'한식당',val:4.6,count:112,total:2417},{label:'분식점',val:3.8,count:20,total:524},{label:'스포츠교실',val:3.8,count:13,total:343}],
+  '광진구':   [{label:'분식점',val:4.9,count:21,total:431},{label:'카페·커피숍',val:4.9,count:48,total:978},{label:'한식당',val:4.2,count:88,total:2108},{label:'노래방',val:4.2,count:14,total:331},{label:'호프집·주점',val:4.0,count:28,total:703}],
+  '구로구':   [{label:'예술학원',val:4.5,count:16,total:356},{label:'분식점',val:4.2,count:19,total:456},{label:'중식당',val:4.0,count:16,total:401},{label:'한식당',val:3.7,count:79,total:2113},{label:'피부관리실',val:3.4,count:12,total:349}],
+  '금천구':   [{label:'분식점',val:5.6,count:18,total:321},{label:'온라인쇼핑몰',val:4.4,count:26,total:587},{label:'호프집·주점',val:4.0,count:17,total:429},{label:'카페·커피숍',val:3.4,count:23,total:672},{label:'한식당',val:3.1,count:53,total:1709}],
+  '노원구':   [{label:'분식점',val:5.0,count:23,total:464},{label:'온라인쇼핑몰',val:4.1,count:26,total:640},{label:'호프집·주점',val:3.8,count:16,total:425},{label:'피부관리실',val:3.1,count:11,total:353},{label:'스포츠교실',val:3.1,count:12,total:381}],
+  '도봉구':   [{label:'온라인쇼핑몰',val:4.0,count:16,total:401},{label:'카페·커피숍',val:3.6,count:16,total:444},{label:'한식당',val:3.6,count:46,total:1287},{label:'호프집·주점',val:3.1,count:11,total:350},{label:'공인중개사',val:2.4,count:14,total:588}],
+  '동대문구': [{label:'분식점',val:4.2,count:19,total:451},{label:'카페·커피숍',val:3.8,count:32,total:847},{label:'한식당',val:3.7,count:86,total:2307},{label:'온라인쇼핑몰',val:3.1,count:22,total:720},{label:'호프집·주점',val:2.8,count:14,total:499}],
+  '동작구':   [{label:'분식점',val:5.3,count:20,total:380},{label:'호프집·주점',val:4.1,count:19,total:464},{label:'카페·커피숍',val:3.9,count:29,total:735},{label:'슈퍼마켓',val:3.7,count:15,total:409},{label:'온라인쇼핑몰',val:3.6,count:20,total:560}],
+  '마포구':   [{label:'패스트푸드',val:6.4,count:25,total:390},{label:'중식당',val:5.9,count:21,total:356},{label:'호프집·주점',val:5.7,count:68,total:1183},{label:'양식당',val:4.4,count:37,total:832},{label:'베이커리·제과점',val:4.2,count:24,total:567}],
+  '서대문구': [{label:'편의점',val:6.6,count:20,total:302},{label:'카페·커피숍',val:4.3,count:38,total:876},{label:'호프집·주점',val:4.3,count:23,total:533},{label:'분식점',val:4.2,count:17,total:401},{label:'온라인쇼핑몰',val:4.0,count:21,total:520}],
+  '서초구':   [{label:'편의점',val:4.3,count:19,total:440},{label:'베이커리·제과점',val:4.3,count:18,total:421},{label:'양식당',val:3.5,count:19,total:541},{label:'패스트푸드',val:3.5,count:12,total:340},{label:'호프집·주점',val:3.2,count:19,total:589}],
+  '성동구':   [{label:'카페·커피숍',val:4.8,count:49,total:1015},{label:'호프집·주점',val:4.7,count:20,total:422},{label:'양식당',val:3.8,count:15,total:390},{label:'한식당',val:3.1,count:58,total:1887},{label:'온라인쇼핑몰',val:2.5,count:18,total:721}],
+  '성북구':   [{label:'카페·커피숍',val:4.3,count:40,total:937},{label:'호프집·주점',val:3.8,count:20,total:527},{label:'예술학원',val:3.6,count:15,total:411},{label:'한식당',val:3.6,count:68,total:1894},{label:'분식점',val:3.0,count:14,total:462}],
+  '송파구':   [{label:'패스트푸드',val:6.2,count:27,total:432},{label:'치킨/배달',val:6.0,count:21,total:348},{label:'분식점',val:5.4,count:41,total:759},{label:'한식당',val:4.9,count:171,total:3500},{label:'일식당',val:4.8,count:23,total:479}],
+  '양천구':   [{label:'카페·커피숍',val:5.2,count:35,total:679},{label:'슈퍼마켓',val:4.4,count:19,total:431},{label:'호프집·주점',val:4.4,count:19,total:431},{label:'한식당',val:3.4,count:57,total:1658},{label:'분식점',val:3.3,count:12,total:360}],
+  '영등포구': [{label:'패스트푸드',val:5.6,count:17,total:302},{label:'노래방',val:4.6,count:15,total:328},{label:'스포츠교실',val:4.1,count:16,total:386},{label:'베이커리·제과점',val:3.7,count:12,total:324},{label:'호프집·주점',val:3.6,count:31,total:850}],
+  '용산구':   [{label:'분식점',val:4.3,count:15,total:351},{label:'호프집·주점',val:3.6,count:23,total:645},{label:'한식당',val:3.4,count:59,total:1731},{label:'공부방·교습소',val:2.2,count:8,total:366},{label:'양식당',val:2.0,count:17,total:853}],
+  '은평구':   [{label:'호프집·주점',val:5.0,count:26,total:519},{label:'한식당',val:4.0,count:80,total:2022},{label:'편의점',val:3.7,count:12,total:322},{label:'카페·커피숍',val:3.4,count:26,total:763},{label:'약국',val:3.3,count:10,total:306}],
+  '종로구':   [{label:'호프집·주점',val:4.0,count:31,total:769},{label:'한식당',val:3.4,count:92,total:2746},{label:'분식점',val:3.2,count:15,total:465},{label:'공부방·교습소',val:2.9,count:9,total:312},{label:'카페·커피숍',val:2.8,count:44,total:1562}],
+  '중구':     [{label:'분식점',val:4.7,count:25,total:529},{label:'카페·커피숍',val:4.1,count:56,total:1377},{label:'호프집·주점',val:3.4,count:20,total:590},{label:'일식당',val:3.2,count:10,total:317},{label:'한식당',val:2.9,count:80,total:2787}],
+  '중랑구':   [{label:'카페·커피숍',val:5.0,count:33,total:665},{label:'한식당',val:3.9,count:82,total:2113},{label:'호프집·주점',val:3.2,count:20,total:617},{label:'노래방',val:3.1,count:11,total:352},{label:'옷가게',val:3.0,count:26,total:874}],
 };
 
-const VS={
-  '긍정':{cls:'vp',icon:'✓',border:'var(--grn-bd)'},
-  '검토':{cls:'vr',icon:'→',border:'var(--blu-bd)'},
-  '신중':{cls:'vc',icon:'⚠',border:'var(--amb-bd)'},
-  '위험':{cls:'vd',icon:'✕',border:'var(--red-bd)'},
+// ============================================================
+// DATA: 업종 판정 (일반창업)
+// ============================================================
+const DATA_BIZ_BCG = [
+  {label:"장난감가게",    open:4.7, close:1.1, net:3.6,  share:0.4,  judge:"진입 검토"},
+  {label:"어학원",        open:4.6, close:1.7, net:2.9,  share:1.0,  judge:"진입 긍정"},
+  {label:"피부관리실",    open:4.8, close:2.4, net:2.4,  share:4.2,  judge:"진입 긍정"},
+  {label:"섬유/직물",     open:3.9, close:1.8, net:2.1,  share:1.0,  judge:"진입 긍정"},
+  {label:"반려동물샵",    open:4.4, close:2.5, net:1.9,  share:1.0,  judge:"진입 긍정"},
+  {label:"예술품/갤러리", open:2.9, close:1.2, net:1.7,  share:0.6,  judge:"진입 검토"},
+  {label:"슈퍼마켓",      open:4.1, close:2.4, net:1.7,  share:4.6,  judge:"진입 긍정"},
+  {label:"독서실",        open:3.6, close:2.1, net:1.5,  share:1.1,  judge:"진입 긍정"},
+  {label:"여관·모텔",     open:4.2, close:3.1, net:1.1,  share:1.2,  judge:"진입 긍정"},
+  {label:"꽃집·화초점",   open:2.2, close:1.5, net:0.7,  share:1.1,  judge:"진입 긍정"},
+  {label:"철물점",        open:1.7, close:1.2, net:0.5,  share:0.3,  judge:"진입 검토"},
+  {label:"식료품가게",    open:2.4, close:2.0, net:0.4,  share:2.0,  judge:"진입 긍정"},
+  {label:"가전수리점",    open:1.4, close:1.1, net:0.3,  share:0.4,  judge:"진입 검토"},
+  {label:"골프연습장",    open:2.2, close:1.9, net:0.3,  share:0.4,  judge:"진입 검토"},
+  {label:"세차장",        open:2.5, close:2.2, net:0.3,  share:0.4,  judge:"진입 검토"},
+  {label:"미용실",        open:1.6, close:1.4, net:0.2,  share:3.0,  judge:"진입 긍정"},
+  {label:"가전제품판매점",open:1.1, close:1.0, net:0.1,  share:0.2,  judge:"진입 검토"},
+  {label:"사진관",        open:1.8, close:1.7, net:0.1,  share:1.1,  judge:"진입 긍정"},
+  {label:"스포츠교실",    open:2.5, close:2.5, net:0.0,  share:2.0,  judge:"진입 긍정"},
+  {label:"안경점",        open:1.3, close:1.3, net:0.0,  share:0.3,  judge:"진입 검토"},
+  {label:"시계·귀금속점", open:0.9, close:0.9, net:0.0,  share:0.5,  judge:"진입 검토"},
+  {label:"가방/핸드백",   open:1.8, close:1.8, net:0.0,  share:0.4,  judge:"진입 검토"},
+  {label:"세탁소",        open:1.9, close:1.9, net:0.0,  share:1.0,  judge:"진입 긍정"},
+  {label:"인테리어업체",  open:1.5, close:1.5, net:0.0,  share:0.6,  judge:"진입 검토"},
+  {label:"미용재료",      open:2.3, close:2.4, net:-0.1, share:0.3,  judge:"진입 위험"},
+  {label:"자동차수리점",  open:0.7, close:0.8, net:-0.1, share:0.3,  judge:"진입 위험"},
+  {label:"양식당",        open:3.4, close:3.5, net:-0.1, share:2.5,  judge:"진입 신중"},
+  {label:"한식당",        open:3.6, close:3.7, net:-0.1, share:18.2, judge:"진입 신중"},
+  {label:"베이커리·제과점",open:3.3,close:3.4, net:-0.1, share:2.0,  judge:"진입 신중"},
+  {label:"문구점",        open:1.5, close:1.7, net:-0.2, share:0.6,  judge:"진입 위험"},
+  {label:"서점",          open:1.4, close:1.6, net:-0.2, share:0.5,  judge:"진입 위험"},
+  {label:"공부방·교습소", open:1.8, close:2.0, net:-0.2, share:4.1,  judge:"진입 신중"},
+  {label:"컴퓨터판매점",  open:0.7, close:0.9, net:-0.2, share:0.5,  judge:"진입 위험"},
+  {label:"화장품가게",    open:1.6, close:1.9, net:-0.3, share:1.9,  judge:"진입 신중"},
+  {label:"스포츠용품점",  open:1.4, close:1.7, net:-0.3, share:0.5,  judge:"진입 위험"},
+  {label:"조명용품",      open:0.2, close:0.6, net:-0.4, share:0.1,  judge:"진입 위험"},
+  {label:"예술학원",      open:1.8, close:2.3, net:-0.5, share:1.6,  judge:"진입 신중"},
+  {label:"쌀가게",        open:0.7, close:1.2, net:-0.5, share:0.2,  judge:"진입 위험"},
+  {label:"오락시설",      open:4.0, close:4.5, net:-0.5, share:0.4,  judge:"진입 위험"},
+  {label:"가구점",        open:0.6, close:1.2, net:-0.6, share:0.2,  judge:"진입 위험"},
+  {label:"핸드폰가게",    open:0.6, close:1.2, net:-0.6, share:0.3,  judge:"진입 위험"},
+  {label:"정육점",        open:1.4, close:2.0, net:-0.6, share:0.8,  judge:"진입 위험"},
+  {label:"자동차부품",    open:0.3, close:1.0, net:-0.7, share:0.1,  judge:"진입 위험"},
+  {label:"중식당",        open:3.3, close:4.0, net:-0.7, share:1.8,  judge:"진입 신중"},
+  {label:"카페·커피숍",   open:3.0, close:3.7, net:-0.7, share:7.1,  judge:"진입 신중"},
+  {label:"여행사",        open:0.5, close:1.2, net:-0.7, share:0.3,  judge:"진입 위험"},
+  {label:"분식점",        open:3.2, close:3.9, net:-0.7, share:3.2,  judge:"진입 신중"},
+  {label:"당구장",        open:2.7, close:3.5, net:-0.8, share:0.9,  judge:"진입 위험"},
+  {label:"옷가게",        open:1.0, close:1.9, net:-0.9, share:4.0,  judge:"진입 신중"},
+  {label:"과일·채소가게", open:1.0, close:1.9, net:-0.9, share:0.7,  judge:"진입 위험"},
+  {label:"건물청소업",    open:0.1, close:1.0, net:-0.9, share:0.0,  judge:"진입 위험"},
+  {label:"의료기기점",    open:0.2, close:1.3, net:-1.1, share:0.1,  judge:"진입 위험"},
+  {label:"수산물가게",    open:0.3, close:1.4, net:-1.1, share:0.1,  judge:"진입 위험"},
+  {label:"패스트푸드",    open:3.3, close:4.4, net:-1.1, share:1.8,  judge:"진입 신중"},
+  {label:"노래방",        open:2.2, close:3.4, net:-1.2, share:1.0,  judge:"진입 신중"},
+  {label:"재활용품점",    open:0.0, close:1.3, net:-1.3, share:0.0,  judge:"진입 위험"},
+  {label:"치킨/배달",     open:3.1, close:4.4, net:-1.3, share:1.5,  judge:"진입 신중"},
+  {label:"녹음실",        open:0.2, close:1.5, net:-1.3, share:0.0,  judge:"진입 위험"},
+  {label:"통번역",        open:0.1, close:1.4, net:-1.3, share:0.0,  judge:"진입 위험"},
+  {label:"유아의류",      open:0.6, close:2.0, net:-1.4, share:0.1,  judge:"진입 위험"},
+  {label:"게스트하우스",  open:0.3, close:1.7, net:-1.4, share:0.0,  judge:"진입 위험"},
+  {label:"공인중개사",    open:0.1, close:1.6, net:-1.5, share:0.2,  judge:"진입 위험"},
+  {label:"신발가게",      open:0.3, close:1.9, net:-1.6, share:0.1,  judge:"진입 위험"},
+  {label:"편의점",        open:1.6, close:3.2, net:-1.6, share:1.2,  judge:"진입 신중"},
+  {label:"호프집·주점",   open:2.3, close:4.0, net:-1.7, share:3.2,  judge:"진입 신중"},
+  {label:"네일숍",        open:0.0, close:2.1, net:-2.1, share:0.0,  judge:"진입 위험"},
+  {label:"복권/로또",     open:0.0, close:2.1, net:-2.1, share:0.0,  judge:"진입 위험"},
+  {label:"가정용품임대",  open:0.1, close:2.4, net:-2.3, share:0.0,  judge:"진입 위험"},
+  {label:"헬스장·피트니스",open:0.9,close:3.2, net:-2.3, share:0.4,  judge:"진입 위험"},
+  {label:"일식당",        open:1.4, close:3.9, net:-2.5, share:0.8,  judge:"진입 위험"},
+  {label:"온라인쇼핑몰",  open:0.1, close:3.0, net:-2.9, share:0.2,  judge:"진입 위험"},
+  {label:"PC방",          open:1.0, close:4.9, net:-3.9, share:0.1,  judge:"진입 위험"},
+];
+
+// ============================================================
+// DATA: 업종 판정 (전문직)
+// ============================================================
+const DATA_BIZ_PRO = [
+  {label:"회계사",    open:2.6, close:0.6, net:2.0,  share:0.2, judge:"진입 검토"},
+  {label:"법무사",    open:1.7, close:0.4, net:1.3,  share:0.4, judge:"진입 검토"},
+  {label:"약국",      open:2.2, close:1.6, net:0.6,  share:1.7, judge:"진입 긍정"},
+  {label:"의원·병원", open:1.2, close:0.7, net:0.5,  share:1.2, judge:"진입 긍정"},
+  {label:"한의원",    open:1.4, close:1.0, net:0.4,  share:0.5, judge:"진입 검토"},
+  {label:"동물병원",  open:0.9, close:0.6, net:0.3,  share:0.1, judge:"진입 검토"},
+  {label:"치과",      open:0.7, close:0.8, net:-0.1, share:0.3, judge:"진입 위험"},
+  {label:"변호사",    open:0.8, close:1.1, net:-0.3, share:0.3, judge:"진입 위험"},
+  {label:"변리사",    open:0.0, close:0.5, net:-0.5, share:0.0, judge:"진입 위험"},
+  {label:"세무사",    open:0.2, close:0.7, net:-0.5, share:0.2, judge:"진입 위험"},
+  {label:"법무서비스",open:0.2, close:1.2, net:-1.0, share:0.0, judge:"진입 위험"},
+];
+
+// ============================================================
+// SECTION 03: 업종 subcategories
+// ============================================================
+const subCategories = {
+  '음식·숙박': ['기타외국식음식점','기타음식점','분식점','여관ㆍ모텔','일식음식점','제과점','중식음식점','커피음료점','패스트푸드점','한식음식점','호프주점'],
+  '소매':      ['가구점','가전제품수리점','가전제품판매점','곡물가게','과일가게','꽃가게','문구점','생선가게','서점','슈퍼마켓','스포츠용품점','시계ㆍ귀금속점','식료품가게','신발가게','실내장식가게','안경점','애완용품점','약국','옷가게','의료용품가게','자전거판매점','장난감가게','정육점','철물점','컴퓨터판매점','편의점','화장품가게','휴대폰가게'],
+  '서비스·기타':['pc방','교습소ㆍ공부방','교습학원','기타일반의원','노래방','당구장','독서실','미용실','부동산중개업','세탁소','스포츠교육기관','실외골프연습장','예술학원','자동차수리점','치과의원','통신판매업','피부관리업','한방병원ㆍ한의원','헬스클럽'],
 };
 
-const VM={
-  '긍정':(n)=>`${n} — 성장 신호 확인, 진입 시점으로 긍정적`,
-  '검토':(n)=>`${n} — 안정적이나 차별화 전략 필요`,
-  '신중':(n)=>`${n} — 완만한 감소세, 입지·타이밍 신중 검토`,
-  '위험':(n)=>`${n} — 폐업 압박 높음, 진입 전 충분한 검증 필요`,
+// ============================================================
+// DATA: 업종별 드릴다운 (개업·폐업율 높은 지역 TOP 5)
+// ============================================================
+const DRILL_BIZ_OPEN = {
+  '장난감가게':[{"label":"마포구","val":11.9,"count":13,"total":109},{"label":"송파구","val":8.6,"count":5,"total":58},{"label":"서초구","val":8.0,"count":6,"total":75},{"label":"용산구","val":3.4,"count":2,"total":59},{"label":"강서구","val":2.7,"count":2,"total":75}],
+  '어학원':[{"label":"광진구","val":10.2,"count":6,"total":59},{"label":"동작구","val":9.4,"count":8,"total":85},{"label":"양천구","val":9.3,"count":10,"total":108},{"label":"동대문구","val":8.6,"count":7,"total":81},{"label":"강서구","val":8.5,"count":11,"total":130}],
+  '피부관리실':[{"label":"영등포구","val":7.3,"count":34,"total":465},{"label":"금천구","val":7.0,"count":13,"total":186},{"label":"구로구","val":6.3,"count":22,"total":349},{"label":"성동구","val":5.9,"count":17,"total":288},{"label":"중구","val":5.6,"count":12,"total":213}],
+  '섬유/직물':[{"label":"서대문구","val":12.0,"count":6,"total":50},{"label":"동작구","val":9.5,"count":6,"total":63},{"label":"중랑구","val":8.7,"count":8,"total":92},{"label":"강서구","val":6.9,"count":10,"total":144},{"label":"마포구","val":6.4,"count":7,"total":109}],
+  '반려동물샵':[{"label":"서대문구","val":7.8,"count":6,"total":77},{"label":"광진구","val":7.4,"count":7,"total":94},{"label":"강북구","val":6.8,"count":5,"total":73},{"label":"서초구","val":6.7,"count":8,"total":120},{"label":"성동구","val":6.7,"count":7,"total":105}],
+  '예술품/갤러리':[{"label":"송파구","val":9.0,"count":7,"total":78},{"label":"성동구","val":7.4,"count":5,"total":68},{"label":"성북구","val":5.6,"count":4,"total":71},{"label":"중구","val":3.6,"count":4,"total":111},{"label":"강남구","val":3.3,"count":12,"total":367}],
+  '슈퍼마켓':[{"label":"중구","val":6.4,"count":46,"total":715},{"label":"강남구","val":6.3,"count":56,"total":891},{"label":"강북구","val":6.1,"count":23,"total":374},{"label":"성동구","val":5.8,"count":24,"total":411},{"label":"마포구","val":5.6,"count":35,"total":630}],
+  '독서실':[{"label":"중랑구","val":10.7,"count":9,"total":84},{"label":"강동구","val":9.5,"count":14,"total":148},{"label":"양천구","val":5.1,"count":10,"total":195},{"label":"성북구","val":5.0,"count":7,"total":141},{"label":"강북구","val":4.9,"count":3,"total":61}],
+  '여관·모텔':[{"label":"종로구","val":8.8,"count":25,"total":283},{"label":"마포구","val":8.4,"count":8,"total":95},{"label":"강동구","val":7.0,"count":8,"total":114},{"label":"서초구","val":5.6,"count":5,"total":90},{"label":"송파구","val":5.6,"count":9,"total":162}],
+  '꽃집·화초점':[{"label":"동대문구","val":4.1,"count":5,"total":122},{"label":"중랑구","val":3.9,"count":5,"total":127},{"label":"양천구","val":3.9,"count":7,"total":179},{"label":"관악구","val":3.8,"count":6,"total":156},{"label":"성북구","val":3.6,"count":6,"total":169}],
+  '철물점':[{"label":"성동구","val":4.5,"count":3,"total":66},{"label":"중랑구","val":4.0,"count":4,"total":99},{"label":"강서구","val":3.8,"count":4,"total":104},{"label":"서초구","val":3.7,"count":3,"total":81},{"label":"노원구","val":3.7,"count":3,"total":81}],
+  '식료품가게':[{"label":"성북구","val":4.5,"count":11,"total":245},{"label":"은평구","val":4.5,"count":14,"total":308},{"label":"광진구","val":4.4,"count":13,"total":294},{"label":"동작구","val":4.1,"count":9,"total":222},{"label":"성동구","val":3.8,"count":11,"total":288}],
+  '가전수리점':[{"label":"서대문구","val":3.8,"count":3,"total":80},{"label":"용산구","val":3.5,"count":2,"total":57},{"label":"송파구","val":3.4,"count":5,"total":146},{"label":"도봉구","val":2.4,"count":3,"total":126},{"label":"동대문구","val":2.3,"count":3,"total":130}],
+  '골프연습장':[{"label":"동대문구","val":7.3,"count":4,"total":55},{"label":"광진구","val":5.9,"count":3,"total":51},{"label":"영등포구","val":3.6,"count":4,"total":111},{"label":"관악구","val":3.4,"count":2,"total":58},{"label":"구로구","val":3.4,"count":3,"total":88}],
+  '세차장':[],
+  '미용실':[{"label":"성동구","val":2.7,"count":18,"total":667},{"label":"강남구","val":2.6,"count":47,"total":1794},{"label":"마포구","val":2.6,"count":33,"total":1292},{"label":"강동구","val":2.1,"count":23,"total":1111},{"label":"광진구","val":2.1,"count":18,"total":869}],
+  '가전제품판매점':[{"label":"성북구","val":6.2,"count":4,"total":65},{"label":"금천구","val":3.6,"count":3,"total":84},{"label":"양천구","val":3.1,"count":2,"total":64},{"label":"은평구","val":2.6,"count":2,"total":76},{"label":"강남구","val":2.4,"count":4,"total":165}],
+  '사진관':[{"label":"영등포구","val":4.7,"count":12,"total":254},{"label":"금천구","val":3.7,"count":4,"total":109},{"label":"구로구","val":3.6,"count":6,"total":165},{"label":"강북구","val":3.5,"count":4,"total":113},{"label":"서대문구","val":2.9,"count":6,"total":204}],
+  '스포츠교실':[{"label":"성북구","val":4.7,"count":16,"total":344},{"label":"영등포구","val":4.1,"count":16,"total":386},{"label":"서대문구","val":4.0,"count":10,"total":248},{"label":"금천구","val":4.0,"count":6,"total":149},{"label":"강서구","val":3.4,"count":18,"total":536}],
+  '안경점':[{"label":"마포구","val":4.0,"count":6,"total":149},{"label":"성동구","val":3.3,"count":3,"total":92},{"label":"용산구","val":2.8,"count":2,"total":71},{"label":"강서구","val":2.4,"count":3,"total":127},{"label":"동대문구","val":2.3,"count":2,"total":86}],
+  '시계·귀금속점':[{"label":"금천구","val":3.6,"count":3,"total":83},{"label":"노원구","val":3.0,"count":3,"total":99},{"label":"양천구","val":2.9,"count":3,"total":102},{"label":"서초구","val":2.4,"count":6,"total":246},{"label":"동대문구","val":2.4,"count":2,"total":85}],
+  '가방/핸드백':[{"label":"중랑구","val":5.6,"count":3,"total":54},{"label":"성동구","val":4.6,"count":5,"total":109},{"label":"강서구","val":4.0,"count":4,"total":99},{"label":"금천구","val":3.4,"count":3,"total":87},{"label":"용산구","val":2.5,"count":4,"total":160}],
+  '세탁소':[{"label":"용산구","val":4.0,"count":6,"total":151},{"label":"광진구","val":4.0,"count":10,"total":249},{"label":"성동구","val":3.9,"count":7,"total":178},{"label":"마포구","val":3.0,"count":8,"total":265},{"label":"동작구","val":2.9,"count":7,"total":241}],
+  '인테리어업체':[{"label":"도봉구","val":3.2,"count":4,"total":124},{"label":"서대문구","val":2.7,"count":3,"total":113},{"label":"서초구","val":2.6,"count":5,"total":190},{"label":"중랑구","val":2.6,"count":4,"total":155},{"label":"금천구","val":2.5,"count":4,"total":159}],
+  '미용재료':[{"label":"송파구","val":6.2,"count":5,"total":81},{"label":"은평구","val":3.8,"count":2,"total":52},{"label":"영등포구","val":3.1,"count":2,"total":65},{"label":"구로구","val":2.9,"count":2,"total":70},{"label":"강남구","val":2.2,"count":2,"total":91}],
+  '자동차수리점':[{"label":"강서구","val":2.0,"count":6,"total":299},{"label":"중랑구","val":2.0,"count":4,"total":204},{"label":"노원구","val":1.3,"count":2,"total":152},{"label":"성동구","val":1.2,"count":3,"total":243},{"label":"동작구","val":1.1,"count":1,"total":92}],
+  '양식당':[{"label":"강서구","val":6.5,"count":18,"total":279},{"label":"관악구","val":6.2,"count":14,"total":226},{"label":"중랑구","val":5.9,"count":7,"total":119},{"label":"구로구","val":5.7,"count":7,"total":123},{"label":"영등포구","val":4.9,"count":17,"total":345}],
+  '한식당':[{"label":"관악구","val":5.4,"count":130,"total":2417},{"label":"강서구","val":4.6,"count":141,"total":3094},{"label":"강북구","val":4.6,"count":84,"total":1809},{"label":"광진구","val":4.3,"count":91,"total":2108},{"label":"동대문구","val":3.9,"count":91,"total":2307}],
+  '베이커리·제과점':[{"label":"관악구","val":6.0,"count":15,"total":249},{"label":"구로구","val":5.3,"count":11,"total":209},{"label":"영등포구","val":4.6,"count":15,"total":324},{"label":"노원구","val":4.5,"count":12,"total":266},{"label":"용산구","val":4.0,"count":12,"total":299}],
+  '문구점':[{"label":"노원구","val":3.5,"count":5,"total":141},{"label":"양천구","val":3.3,"count":5,"total":150},{"label":"관악구","val":2.8,"count":3,"total":107},{"label":"광진구","val":2.4,"count":3,"total":127},{"label":"은평구","val":2.4,"count":3,"total":126}],
+  '서점':[{"label":"강북구","val":3.9,"count":3,"total":76},{"label":"마포구","val":3.0,"count":9,"total":296},{"label":"성북구","val":2.8,"count":4,"total":142},{"label":"송파구","val":2.7,"count":6,"total":224},{"label":"성동구","val":2.6,"count":3,"total":114}],
+  '공부방·교습소':[{"label":"종로구","val":3.8,"count":12,"total":312},{"label":"광진구","val":2.9,"count":21,"total":731},{"label":"강남구","val":2.3,"count":76,"total":3349},{"label":"송파구","val":2.3,"count":43,"total":1842},{"label":"강서구","val":2.2,"count":31,"total":1413}],
+  '컴퓨터판매점':[{"label":"양천구","val":3.5,"count":5,"total":143},{"label":"중랑구","val":2.7,"count":4,"total":147},{"label":"강서구","val":2.0,"count":8,"total":391},{"label":"도봉구","val":1.3,"count":1,"total":79},{"label":"구로구","val":1.1,"count":6,"total":528}],
+  '화장품가게':[{"label":"성동구","val":3.0,"count":15,"total":496},{"label":"강동구","val":2.7,"count":12,"total":448},{"label":"은평구","val":2.4,"count":8,"total":327},{"label":"용산구","val":2.3,"count":8,"total":345},{"label":"동대문구","val":2.0,"count":5,"total":244}],
+  '스포츠용품점':[{"label":"성북구","val":4.8,"count":3,"total":62},{"label":"동대문구","val":3.4,"count":3,"total":88},{"label":"노원구","val":2.8,"count":3,"total":106},{"label":"관악구","val":2.5,"count":2,"total":79},{"label":"영등포구","val":2.5,"count":5,"total":203}],
+  '조명용품':[{"label":"관악구","val":0.7,"count":1,"total":147},{"label":"노원구","val":0.7,"count":1,"total":151},{"label":"강동구","val":0.5,"count":1,"total":191},{"label":"성동구","val":0.5,"count":1,"total":205},{"label":"양천구","val":0.5,"count":1,"total":191}],
+  '예술학원':[{"label":"구로구","val":3.4,"count":12,"total":356},{"label":"성동구","val":3.0,"count":10,"total":330},{"label":"영등포구","val":2.5,"count":10,"total":402},{"label":"강남구","val":2.4,"count":24,"total":993},{"label":"강동구","val":2.3,"count":12,"total":529}],
+  '쌀가게':[{"label":"강북구","val":3.9,"count":2,"total":51},{"label":"은평구","val":3.7,"count":2,"total":54},{"label":"성북구","val":3.3,"count":2,"total":61},{"label":"노원구","val":3.3,"count":2,"total":61},{"label":"성동구","val":1.8,"count":1,"total":57}],
+  '오락시설':[{"label":"영등포구","val":7.2,"count":6,"total":83},{"label":"노원구","val":6.0,"count":3,"total":50},{"label":"마포구","val":5.7,"count":7,"total":122},{"label":"송파구","val":3.8,"count":3,"total":80},{"label":"관악구","val":1.9,"count":1,"total":54}],
+  '가구점':[{"label":"마포구","val":1.8,"count":2,"total":111},{"label":"광진구","val":1.7,"count":2,"total":121},{"label":"강남구","val":1.4,"count":7,"total":490},{"label":"동대문구","val":1.3,"count":1,"total":79},{"label":"은평구","val":1.1,"count":1,"total":95}],
+  '핸드폰가게':[{"label":"서대문구","val":3.0,"count":4,"total":134},{"label":"은평구","val":2.0,"count":5,"total":247},{"label":"중랑구","val":1.9,"count":5,"total":269},{"label":"노원구","val":1.2,"count":3,"total":246},{"label":"성북구","val":1.0,"count":2,"total":195}],
+  '정육점':[{"label":"마포구","val":3.4,"count":5,"total":146},{"label":"강북구","val":3.1,"count":5,"total":161},{"label":"구로구","val":3.1,"count":6,"total":194},{"label":"서초구","val":2.9,"count":5,"total":173},{"label":"광진구","val":2.8,"count":5,"total":179}],
+  '자동차부품':[{"label":"성북구","val":1.7,"count":1,"total":59},{"label":"광진구","val":1.3,"count":1,"total":77},{"label":"노원구","val":1.3,"count":1,"total":79},{"label":"마포구","val":1.2,"count":1,"total":81},{"label":"관악구","val":1.1,"count":1,"total":88}],
+  '중식당':[{"label":"강북구","val":6.9,"count":9,"total":131},{"label":"종로구","val":5.0,"count":11,"total":220},{"label":"서대문구","val":4.6,"count":9,"total":194},{"label":"성동구","val":4.3,"count":7,"total":161},{"label":"강남구","val":4.1,"count":20,"total":484}],
+  '카페·커피숍':[{"label":"강동구","val":4.4,"count":41,"total":934},{"label":"중랑구","val":3.9,"count":26,"total":665},{"label":"관악구","val":3.8,"count":35,"total":928},{"label":"강남구","val":3.6,"count":92,"total":2579},{"label":"중구","val":3.6,"count":50,"total":1377}],
+  '여행사':[{"label":"동대문구","val":2.8,"count":3,"total":109},{"label":"은평구","val":2.2,"count":2,"total":90},{"label":"관악구","val":1.3,"count":1,"total":77},{"label":"금천구","val":1.2,"count":2,"total":166},{"label":"강동구","val":1.0,"count":1,"total":97}],
+  '분식점':[{"label":"도봉구","val":5.3,"count":15,"total":285},{"label":"서대문구","val":4.0,"count":16,"total":401},{"label":"금천구","val":4.0,"count":13,"total":321},{"label":"광진구","val":3.9,"count":17,"total":431},{"label":"종로구","val":3.9,"count":18,"total":465}],
+  '당구장':[{"label":"강서구","val":4.6,"count":10,"total":217},{"label":"노원구","val":4.4,"count":8,"total":183},{"label":"마포구","val":4.2,"count":6,"total":142},{"label":"동대문구","val":4.0,"count":6,"total":149},{"label":"성동구","val":3.8,"count":4,"total":104}],
+  '옷가게':[{"label":"성북구","val":2.9,"count":30,"total":1027},{"label":"용산구","val":2.0,"count":25,"total":1231},{"label":"도봉구","val":2.0,"count":27,"total":1331},{"label":"마포구","val":1.9,"count":26,"total":1393},{"label":"성동구","val":1.9,"count":23,"total":1192}],
+  '과일·채소가게':[{"label":"성동구","val":2.8,"count":4,"total":142},{"label":"동대문구","val":1.9,"count":18,"total":924},{"label":"노원구","val":1.9,"count":4,"total":212},{"label":"마포구","val":1.8,"count":4,"total":224},{"label":"구로구","val":1.8,"count":4,"total":224}],
+  '건물청소업':[{"label":"용산구","val":0.8,"count":1,"total":122},{"label":"성북구","val":0.5,"count":1,"total":184},{"label":"관악구","val":0.4,"count":1,"total":278},{"label":"강동구","val":0.0,"count":0,"total":261},{"label":"은평구","val":0.0,"count":0,"total":260}],
+  '의료기기점':[{"label":"강북구","val":1.2,"count":1,"total":84},{"label":"성북구","val":1.1,"count":1,"total":95},{"label":"송파구","val":0.9,"count":3,"total":330},{"label":"동대문구","val":0.8,"count":1,"total":125},{"label":"강서구","val":0.4,"count":1,"total":239}],
+  '수산물가게':[{"label":"노원구","val":2.6,"count":2,"total":78},{"label":"강동구","val":1.2,"count":2,"total":162},{"label":"동대문구","val":1.0,"count":3,"total":293},{"label":"금천구","val":0.9,"count":1,"total":115},{"label":"중랑구","val":0.9,"count":1,"total":117}],
+  '패스트푸드':[{"label":"양천구","val":6.3,"count":12,"total":191},{"label":"강동구","val":6.1,"count":16,"total":262},{"label":"관악구","val":5.8,"count":15,"total":258},{"label":"성동구","val":5.3,"count":12,"total":226},{"label":"구로구","val":5.3,"count":10,"total":189}],
+  '노래방':[{"label":"강서구","val":4.0,"count":13,"total":329},{"label":"중랑구","val":4.0,"count":14,"total":352},{"label":"광진구","val":3.3,"count":11,"total":331},{"label":"관악구","val":3.3,"count":9,"total":275},{"label":"강북구","val":2.9,"count":8,"total":279}],
+  '재활용품점':[{"label":"송파구","val":0.0,"count":0,"total":51},{"label":"강남구","val":0.0,"count":0,"total":78},{"label":"서초구","val":0.0,"count":0,"total":66},{"label":"영등포구","val":0.0,"count":0,"total":79},{"label":"금천구","val":0.0,"count":0,"total":50}],
+  '치킨/배달':[{"label":"관악구","val":4.9,"count":14,"total":283},{"label":"금천구","val":4.6,"count":8,"total":173},{"label":"강북구","val":4.5,"count":9,"total":200},{"label":"서초구","val":3.9,"count":8,"total":204},{"label":"영등포구","val":3.9,"count":10,"total":254}],
+  '유아의류':[{"label":"송파구","val":1.8,"count":2,"total":114},{"label":"금천구","val":1.8,"count":1,"total":56},{"label":"구로구","val":1.2,"count":1,"total":80},{"label":"강서구","val":1.2,"count":1,"total":85},{"label":"중구","val":1.0,"count":3,"total":287}],
+  '게스트하우스':[{"label":"용산구","val":0.7,"count":1,"total":145},{"label":"종로구","val":0.4,"count":1,"total":244},{"label":"마포구","val":0.0,"count":0,"total":443},{"label":"중구","val":0.0,"count":0,"total":187}],
+  '공인중개사':[{"label":"서대문구","val":0.2,"count":2,"total":899},{"label":"강서구","val":0.2,"count":3,"total":1893},{"label":"노원구","val":0.2,"count":2,"total":891},{"label":"용산구","val":0.1,"count":1,"total":1314},{"label":"강북구","val":0.1,"count":1,"total":724}],
+  '신발가게':[{"label":"강북구","val":1.4,"count":1,"total":71},{"label":"서초구","val":1.2,"count":2,"total":167},{"label":"동대문구","val":1.1,"count":1,"total":93},{"label":"성동구","val":0.9,"count":2,"total":230},{"label":"광진구","val":0.9,"count":1,"total":117}],
+  '편의점':[{"label":"양천구","val":3.7,"count":11,"total":297},{"label":"영등포구","val":3.2,"count":15,"total":470},{"label":"강서구","val":3.0,"count":15,"total":500},{"label":"서대문구","val":2.6,"count":8,"total":302},{"label":"마포구","val":2.1,"count":10,"total":482}],
+  '호프집·주점':[{"label":"금천구","val":4.0,"count":17,"total":429},{"label":"강남구","val":3.8,"count":44,"total":1152},{"label":"중랑구","val":3.1,"count":19,"total":617},{"label":"송파구","val":2.9,"count":24,"total":828},{"label":"은평구","val":2.9,"count":15,"total":519}],
+  '헬스장·피트니스':[{"label":"중구","val":3.0,"count":3,"total":100},{"label":"양천구","val":2.0,"count":5,"total":253},{"label":"강동구","val":1.7,"count":4,"total":232},{"label":"금천구","val":1.7,"count":2,"total":116},{"label":"마포구","val":1.7,"count":5,"total":292}],
+  '일식당':[{"label":"강동구","val":4.3,"count":10,"total":231},{"label":"은평구","val":3.3,"count":5,"total":153},{"label":"종로구","val":2.4,"count":7,"total":294},{"label":"노원구","val":2.1,"count":4,"total":192},{"label":"양천구","val":2.0,"count":3,"total":152}],
+  '온라인쇼핑몰':[{"label":"종로구","val":0.6,"count":3,"total":482},{"label":"금천구","val":0.5,"count":3,"total":587},{"label":"중구","val":0.2,"count":1,"total":468},{"label":"용산구","val":0.2,"count":1,"total":583},{"label":"광진구","val":0.2,"count":1,"total":615}],
+  'PC방':[{"label":"송파구","val":4.0,"count":3,"total":75},{"label":"강서구","val":3.3,"count":2,"total":61},{"label":"광진구","val":1.5,"count":1,"total":66},{"label":"강남구","val":1.4,"count":1,"total":72},{"label":"강동구","val":0.0,"count":0,"total":65}],
+  '회계사':[{"label":"영등포구","val":3.5,"count":4,"total":115},{"label":"금천구","val":2.0,"count":1,"total":51},{"label":"강남구","val":1.9,"count":5,"total":267},{"label":"송파구","val":1.3,"count":1,"total":78},{"label":"서초구","val":0.0,"count":0,"total":128}],
+  '법무사':[{"label":"송파구","val":3.6,"count":5,"total":140},{"label":"강서구","val":2.7,"count":2,"total":74},{"label":"영등포구","val":2.6,"count":2,"total":77},{"label":"서초구","val":2.5,"count":21,"total":856},{"label":"강남구","val":2.1,"count":5,"total":243}],
+  '약국':[{"label":"강서구","val":3.4,"count":16,"total":476},{"label":"은평구","val":3.3,"count":10,"total":306},{"label":"종로구","val":3.0,"count":8,"total":271},{"label":"서초구","val":2.8,"count":17,"total":600},{"label":"송파구","val":2.8,"count":21,"total":754}],
+  '의원·병원':[{"label":"중구","val":2.4,"count":8,"total":334},{"label":"강남구","val":1.9,"count":45,"total":2423},{"label":"광진구","val":1.8,"count":6,"total":339},{"label":"양천구","val":1.8,"count":7,"total":381},{"label":"도봉구","val":1.5,"count":3,"total":194}],
+  '한의원':[{"label":"금천구","val":3.8,"count":3,"total":78},{"label":"강동구","val":2.9,"count":6,"total":209},{"label":"송파구","val":2.3,"count":6,"total":263},{"label":"강남구","val":2.1,"count":9,"total":424},{"label":"중구","val":2.1,"count":2,"total":94}],
+  '동물병원':[{"label":"마포구","val":1.9,"count":1,"total":54},{"label":"강서구","val":1.8,"count":1,"total":56},{"label":"서초구","val":1.7,"count":1,"total":59},{"label":"송파구","val":1.1,"count":1,"total":89},{"label":"강동구","val":0.0,"count":0,"total":63}],
+  '치과':[{"label":"금천구","val":1.9,"count":2,"total":108},{"label":"중랑구","val":1.8,"count":3,"total":170},{"label":"서대문구","val":1.5,"count":2,"total":134},{"label":"노원구","val":1.4,"count":3,"total":212},{"label":"영등포구","val":1.3,"count":3,"total":232}],
+  '변호사':[{"label":"서초구","val":1.1,"count":31,"total":2850},{"label":"송파구","val":0.9,"count":2,"total":231},{"label":"강남구","val":0.9,"count":6,"total":648},{"label":"영등포구","val":0.0,"count":0,"total":112},{"label":"양천구","val":0.0,"count":0,"total":110}],
+  '세무사':[{"label":"관악구","val":0.8,"count":1,"total":118},{"label":"금천구","val":0.6,"count":2,"total":341},{"label":"강서구","val":0.6,"count":2,"total":356},{"label":"송파구","val":0.6,"count":4,"total":710},{"label":"종로구","val":0.4,"count":1,"total":230}],
+  '법무서비스':[{"label":"마포구","val":1.6,"count":2,"total":122},{"label":"종로구","val":1.0,"count":1,"total":97},{"label":"강서구","val":0.9,"count":1,"total":107},{"label":"중구","val":0.6,"count":1,"total":156},{"label":"송파구","val":0.0,"count":0,"total":140}],
+};
+const DRILL_BIZ_CLOSE = {
+  '장난감가게':[{"label":"강남구","val":2.9,"count":2,"total":70},{"label":"서초구","val":2.7,"count":2,"total":75},{"label":"영등포구","val":1.9,"count":1,"total":54},{"label":"용산구","val":1.7,"count":1,"total":59},{"label":"강서구","val":1.3,"count":1,"total":75}],
+  '어학원':[{"label":"동작구","val":3.5,"count":3,"total":85},{"label":"영등포구","val":3.4,"count":3,"total":89},{"label":"성동구","val":2.9,"count":2,"total":70},{"label":"노원구","val":2.4,"count":4,"total":166},{"label":"서대문구","val":2.3,"count":2,"total":88}],
+  '피부관리실':[{"label":"서대문구","val":3.4,"count":7,"total":204},{"label":"구로구","val":3.4,"count":12,"total":349},{"label":"동대문구","val":3.2,"count":9,"total":285},{"label":"노원구","val":3.1,"count":11,"total":353},{"label":"강서구","val":3.1,"count":24,"total":769}],
+  '섬유/직물':[{"label":"구로구","val":6.1,"count":6,"total":99},{"label":"도봉구","val":4.5,"count":3,"total":67},{"label":"동작구","val":3.2,"count":2,"total":63},{"label":"양천구","val":3.2,"count":3,"total":95},{"label":"관악구","val":2.8,"count":2,"total":72}],
+  '반려동물샵':[{"label":"동작구","val":10.0,"count":5,"total":50},{"label":"금천구","val":6.0,"count":4,"total":67},{"label":"성북구","val":4.6,"count":4,"total":87},{"label":"용산구","val":4.4,"count":3,"total":68},{"label":"광진구","val":4.3,"count":4,"total":94}],
+  '예술품/갤러리':[{"label":"송파구","val":2.6,"count":2,"total":78},{"label":"용산구","val":1.8,"count":4,"total":223},{"label":"성동구","val":1.5,"count":1,"total":68},{"label":"동대문구","val":1.4,"count":2,"total":139},{"label":"종로구","val":1.2,"count":7,"total":591}],
+  '슈퍼마켓':[{"label":"양천구","val":4.4,"count":19,"total":431},{"label":"광진구","val":3.9,"count":16,"total":412},{"label":"동작구","val":3.7,"count":15,"total":409},{"label":"강북구","val":3.5,"count":13,"total":374},{"label":"은평구","val":3.1,"count":14,"total":456}],
+  '독서실':[{"label":"동대문구","val":6.4,"count":7,"total":110},{"label":"서대문구","val":4.3,"count":5,"total":115},{"label":"중랑구","val":3.6,"count":3,"total":84},{"label":"마포구","val":3.5,"count":6,"total":170},{"label":"강북구","val":3.3,"count":2,"total":61}],
+  '여관·모텔':[{"label":"금천구","val":10.5,"count":8,"total":76},{"label":"강동구","val":7.9,"count":9,"total":114},{"label":"광진구","val":5.9,"count":6,"total":102},{"label":"노원구","val":5.9,"count":3,"total":51},{"label":"송파구","val":4.9,"count":8,"total":162}],
+  '꽃집·화초점':[{"label":"광진구","val":3.4,"count":6,"total":175},{"label":"강동구","val":2.6,"count":7,"total":274},{"label":"중랑구","val":2.4,"count":3,"total":127},{"label":"구로구","val":2.2,"count":3,"total":136},{"label":"영등포구","val":2.1,"count":6,"total":286}],
+  '철물점':[{"label":"종로구","val":3.8,"count":2,"total":53},{"label":"마포구","val":2.6,"count":2,"total":77},{"label":"영등포구","val":2.4,"count":3,"total":125},{"label":"양천구","val":2.2,"count":2,"total":93},{"label":"강북구","val":1.9,"count":1,"total":53}],
+  '식료품가게':[{"label":"성북구","val":3.7,"count":9,"total":245},{"label":"노원구","val":3.6,"count":10,"total":276},{"label":"마포구","val":3.4,"count":15,"total":443},{"label":"양천구","val":3.2,"count":9,"total":280},{"label":"구로구","val":2.8,"count":11,"total":397}],
+  '가전수리점':[{"label":"도봉구","val":3.2,"count":4,"total":126},{"label":"성동구","val":2.9,"count":2,"total":70},{"label":"강북구","val":2.7,"count":3,"total":113},{"label":"송파구","val":2.7,"count":4,"total":146},{"label":"서대문구","val":2.5,"count":2,"total":80}],
+  '골프연습장':[{"label":"광진구","val":3.9,"count":2,"total":51},{"label":"성동구","val":3.6,"count":2,"total":56},{"label":"금천구","val":3.3,"count":2,"total":60},{"label":"강동구","val":3.1,"count":3,"total":96},{"label":"노원구","val":3.1,"count":3,"total":98}],
+  '세차장':[],
+  '미용실':[{"label":"중구","val":2.1,"count":8,"total":380},{"label":"금천구","val":2.0,"count":11,"total":553},{"label":"성동구","val":1.9,"count":13,"total":667},{"label":"강동구","val":1.8,"count":20,"total":1111},{"label":"송파구","val":1.8,"count":26,"total":1426}],
+  '가전제품판매점':[{"label":"양천구","val":4.7,"count":3,"total":64},{"label":"노원구","val":3.2,"count":2,"total":62},{"label":"은평구","val":2.6,"count":2,"total":76},{"label":"금천구","val":2.4,"count":2,"total":84},{"label":"구로구","val":1.6,"count":2,"total":128}],
+  '사진관':[{"label":"금천구","val":3.7,"count":4,"total":109},{"label":"관악구","val":3.6,"count":7,"total":194},{"label":"종로구","val":3.0,"count":7,"total":235},{"label":"양천구","val":3.0,"count":4,"total":135},{"label":"노원구","val":2.7,"count":5,"total":183}],
+  '스포츠교실':[{"label":"영등포구","val":4.1,"count":16,"total":386},{"label":"금천구","val":4.0,"count":6,"total":149},{"label":"관악구","val":3.8,"count":13,"total":343},{"label":"구로구","val":3.1,"count":9,"total":292},{"label":"노원구","val":3.1,"count":12,"total":381}],
+  '안경점':[{"label":"강서구","val":5.5,"count":7,"total":127},{"label":"은평구","val":3.3,"count":3,"total":90},{"label":"서초구","val":2.8,"count":4,"total":144},{"label":"용산구","val":2.8,"count":2,"total":71},{"label":"강남구","val":2.0,"count":5,"total":254}],
+  '시계·귀금속점':[{"label":"노원구","val":4.0,"count":4,"total":99},{"label":"은평구","val":2.9,"count":3,"total":102},{"label":"동작구","val":1.9,"count":1,"total":53},{"label":"구로구","val":1.7,"count":2,"total":117},{"label":"강동구","val":1.5,"count":2,"total":136}],
+  '가방/핸드백':[{"label":"노원구","val":5.7,"count":5,"total":87},{"label":"마포구","val":3.9,"count":6,"total":154},{"label":"관악구","val":3.4,"count":2,"total":58},{"label":"영등포구","val":2.7,"count":4,"total":149},{"label":"광진구","val":2.4,"count":2,"total":82}],
+  '세탁소':[{"label":"광진구","val":3.6,"count":9,"total":249},{"label":"서초구","val":3.6,"count":10,"total":281},{"label":"도봉구","val":3.5,"count":5,"total":143},{"label":"강서구","val":3.3,"count":12,"total":367},{"label":"마포구","val":2.6,"count":7,"total":265}],
+  '인테리어업체':[{"label":"성동구","val":3.0,"count":4,"total":133},{"label":"관악구","val":2.5,"count":4,"total":163},{"label":"노원구","val":2.4,"count":4,"total":167},{"label":"종로구","val":2.1,"count":3,"total":140},{"label":"송파구","val":2.0,"count":5,"total":254}],
+  '미용재료':[{"label":"영등포구","val":7.7,"count":5,"total":65},{"label":"서초구","val":6.8,"count":4,"total":59},{"label":"종로구","val":5.9,"count":4,"total":68},{"label":"강남구","val":3.3,"count":3,"total":91},{"label":"송파구","val":2.5,"count":2,"total":81}],
+  '자동차수리점':[{"label":"성북구","val":2.6,"count":4,"total":151},{"label":"금천구","val":1.8,"count":3,"total":170},{"label":"마포구","val":1.6,"count":2,"total":128},{"label":"양천구","val":1.4,"count":3,"total":219},{"label":"도봉구","val":1.3,"count":2,"total":152}],
+  '양식당':[{"label":"구로구","val":8.9,"count":11,"total":123},{"label":"양천구","val":7.2,"count":11,"total":153},{"label":"동작구","val":5.9,"count":10,"total":170},{"label":"동대문구","val":5.1,"count":10,"total":198},{"label":"은평구","val":4.9,"count":8,"total":163}],
+  '한식당':[{"label":"송파구","val":4.9,"count":171,"total":3500},{"label":"강서구","val":4.7,"count":145,"total":3094},{"label":"관악구","val":4.6,"count":112,"total":2417},{"label":"광진구","val":4.2,"count":88,"total":2108},{"label":"강북구","val":4.1,"count":74,"total":1809}],
+  '베이커리·제과점':[{"label":"동대문구","val":5.5,"count":12,"total":220},{"label":"은평구","val":4.4,"count":12,"total":272},{"label":"서초구","val":4.3,"count":18,"total":421},{"label":"마포구","val":4.2,"count":24,"total":567},{"label":"성동구","val":4.2,"count":12,"total":283}],
+  '문구점':[{"label":"강북구","val":6.6,"count":5,"total":76},{"label":"강동구","val":4.6,"count":6,"total":131},{"label":"중랑구","val":2.7,"count":3,"total":113},{"label":"양천구","val":2.7,"count":4,"total":150},{"label":"강서구","val":2.4,"count":6,"total":250}],
+  '서점':[{"label":"동작구","val":3.7,"count":4,"total":109},{"label":"관악구","val":3.6,"count":5,"total":139},{"label":"중랑구","val":2.9,"count":3,"total":102},{"label":"강동구","val":2.7,"count":4,"total":148},{"label":"강북구","val":2.6,"count":2,"total":76}],
+  '공부방·교습소':[{"label":"종로구","val":2.9,"count":9,"total":312},{"label":"관악구","val":2.5,"count":21,"total":836},{"label":"광진구","val":2.5,"count":18,"total":731},{"label":"송파구","val":2.4,"count":45,"total":1842},{"label":"강서구","val":2.3,"count":33,"total":1413}],
+  '컴퓨터판매점':[{"label":"강북구","val":2.4,"count":2,"total":85},{"label":"강동구","val":1.9,"count":3,"total":160},{"label":"강남구","val":1.6,"count":10,"total":623},{"label":"동대문구","val":1.4,"count":2,"total":141},{"label":"강서구","val":1.3,"count":5,"total":391}],
+  '화장품가게':[{"label":"중랑구","val":5.0,"count":13,"total":262},{"label":"강북구","val":3.2,"count":6,"total":188},{"label":"금천구","val":3.0,"count":18,"total":603},{"label":"강동구","val":2.7,"count":12,"total":448},{"label":"동대문구","val":2.5,"count":6,"total":244}],
+  '스포츠용품점':[{"label":"은평구","val":3.7,"count":6,"total":164},{"label":"강북구","val":3.4,"count":2,"total":58},{"label":"영등포구","val":3.0,"count":6,"total":203},{"label":"종로구","val":2.9,"count":3,"total":105},{"label":"금천구","val":2.7,"count":5,"total":184}],
+  '조명용품':[{"label":"강동구","val":2.6,"count":5,"total":191},{"label":"양천구","val":2.1,"count":4,"total":191},{"label":"도봉구","val":1.8,"count":2,"total":110},{"label":"마포구","val":1.6,"count":4,"total":258},{"label":"관악구","val":1.4,"count":2,"total":147}],
+  '예술학원':[{"label":"중구","val":8.0,"count":7,"total":87},{"label":"강북구","val":6.9,"count":12,"total":175},{"label":"구로구","val":4.5,"count":16,"total":356},{"label":"도봉구","val":3.7,"count":9,"total":246},{"label":"성북구","val":3.6,"count":15,"total":411}],
+  '쌀가게':[{"label":"마포구","val":5.0,"count":4,"total":80},{"label":"영등포구","val":2.6,"count":3,"total":117},{"label":"강남구","val":2.5,"count":5,"total":203},{"label":"강서구","val":2.4,"count":2,"total":82},{"label":"서대문구","val":2.0,"count":1,"total":51}],
+  '오락시설':[{"label":"관악구","val":9.3,"count":5,"total":54},{"label":"영등포구","val":8.4,"count":7,"total":83},{"label":"강서구","val":8.2,"count":5,"total":61},{"label":"강남구","val":5.1,"count":6,"total":117},{"label":"노원구","val":4.0,"count":2,"total":50}],
+  '가구점':[{"label":"성북구","val":5.6,"count":4,"total":72},{"label":"광진구","val":2.5,"count":3,"total":121},{"label":"관악구","val":2.5,"count":2,"total":80},{"label":"금천구","val":2.2,"count":2,"total":92},{"label":"동작구","val":2.0,"count":1,"total":50}],
+  '핸드폰가게':[{"label":"은평구","val":2.8,"count":7,"total":247},{"label":"동작구","val":2.7,"count":5,"total":184},{"label":"도봉구","val":2.6,"count":5,"total":192},{"label":"동대문구","val":2.1,"count":4,"total":195},{"label":"강서구","val":2.1,"count":7,"total":328}],
+  '정육점':[{"label":"구로구","val":6.7,"count":13,"total":194},{"label":"강북구","val":5.0,"count":8,"total":161},{"label":"용산구","val":4.4,"count":4,"total":90},{"label":"중랑구","val":4.2,"count":11,"total":261},{"label":"도봉구","val":4.1,"count":7,"total":172}],
+  '자동차부품':[{"label":"성북구","val":5.1,"count":3,"total":59},{"label":"강동구","val":3.2,"count":3,"total":95},{"label":"구로구","val":2.0,"count":3,"total":147},{"label":"강남구","val":2.0,"count":5,"total":256},{"label":"양천구","val":1.9,"count":2,"total":105}],
+  '중식당':[{"label":"은평구","val":7.7,"count":12,"total":156},{"label":"강북구","val":6.9,"count":9,"total":131},{"label":"마포구","val":5.9,"count":21,"total":356},{"label":"서대문구","val":5.7,"count":11,"total":194},{"label":"도봉구","val":5.6,"count":5,"total":90}],
+  '카페·커피숍':[{"label":"강북구","val":6.2,"count":34,"total":548},{"label":"관악구","val":5.8,"count":54,"total":928},{"label":"강동구","val":5.4,"count":50,"total":934},{"label":"양천구","val":5.2,"count":35,"total":679},{"label":"중랑구","val":5.0,"count":33,"total":665}],
+  '여행사':[{"label":"동작구","val":5.1,"count":3,"total":59},{"label":"관악구","val":3.9,"count":3,"total":77},{"label":"동대문구","val":2.8,"count":3,"total":109},{"label":"구로구","val":2.4,"count":5,"total":210},{"label":"금천구","val":2.4,"count":4,"total":166}],
+  '분식점':[{"label":"금천구","val":5.6,"count":18,"total":321},{"label":"송파구","val":5.4,"count":41,"total":759},{"label":"동작구","val":5.3,"count":20,"total":380},{"label":"강북구","val":5.1,"count":15,"total":297},{"label":"노원구","val":5.0,"count":23,"total":464}],
+  '당구장':[{"label":"마포구","val":7.0,"count":10,"total":142},{"label":"강동구","val":5.9,"count":10,"total":169},{"label":"영등포구","val":5.9,"count":11,"total":186},{"label":"금천구","val":5.7,"count":6,"total":105},{"label":"양천구","val":4.2,"count":6,"total":143}],
+  '옷가게':[{"label":"구로구","val":3.4,"count":37,"total":1104},{"label":"중랑구","val":3.0,"count":26,"total":874},{"label":"광진구","val":2.7,"count":29,"total":1087},{"label":"강북구","val":2.7,"count":19,"total":694},{"label":"송파구","val":2.6,"count":61,"total":2331}],
+  '과일·채소가게':[{"label":"구로구","val":4.9,"count":11,"total":224},{"label":"성북구","val":3.8,"count":6,"total":156},{"label":"강동구","val":3.6,"count":12,"total":331},{"label":"광진구","val":3.4,"count":6,"total":179},{"label":"관악구","val":3.1,"count":7,"total":228}],
+  '건물청소업':[{"label":"은평구","val":2.3,"count":6,"total":260},{"label":"강동구","val":1.9,"count":5,"total":261},{"label":"동대문구","val":1.7,"count":3,"total":180},{"label":"구로구","val":1.7,"count":4,"total":239},{"label":"마포구","val":1.7,"count":4,"total":240}],
+  '의료기기점':[{"label":"관악구","val":4.0,"count":4,"total":100},{"label":"중구","val":4.0,"count":4,"total":101},{"label":"도봉구","val":2.9,"count":2,"total":68},{"label":"종로구","val":2.5,"count":3,"total":118},{"label":"노원구","val":2.4,"count":3,"total":127}],
+  '수산물가게':[{"label":"서대문구","val":4.4,"count":4,"total":90},{"label":"양천구","val":3.6,"count":4,"total":112},{"label":"관악구","val":3.2,"count":4,"total":125},{"label":"강서구","val":3.2,"count":9,"total":281},{"label":"성북구","val":2.8,"count":2,"total":72}],
+  '패스트푸드':[{"label":"마포구","val":6.4,"count":25,"total":390},{"label":"송파구","val":6.2,"count":27,"total":432},{"label":"성북구","val":6.1,"count":13,"total":214},{"label":"중랑구","val":5.8,"count":9,"total":155},{"label":"도봉구","val":5.8,"count":7,"total":121}],
+  '노래방':[{"label":"구로구","val":5.2,"count":15,"total":291},{"label":"강동구","val":4.9,"count":11,"total":224},{"label":"영등포구","val":4.6,"count":15,"total":328},{"label":"성동구","val":4.5,"count":6,"total":133},{"label":"강서구","val":4.3,"count":14,"total":329}],
+  '재활용품점':[{"label":"노원구","val":3.7,"count":2,"total":54},{"label":"동대문구","val":3.4,"count":2,"total":58},{"label":"강남구","val":2.6,"count":2,"total":78},{"label":"영등포구","val":2.5,"count":2,"total":79},{"label":"서초구","val":1.5,"count":1,"total":66}],
+  '치킨/배달':[{"label":"영등포구","val":7.5,"count":19,"total":254},{"label":"금천구","val":7.5,"count":13,"total":173},{"label":"송파구","val":6.0,"count":21,"total":348},{"label":"서초구","val":5.9,"count":12,"total":204},{"label":"동작구","val":5.9,"count":12,"total":205}],
+  '유아의류':[{"label":"노원구","val":8.5,"count":6,"total":71},{"label":"금천구","val":5.4,"count":3,"total":56},{"label":"서초구","val":2.8,"count":2,"total":71},{"label":"강남구","val":2.7,"count":3,"total":113},{"label":"구로구","val":2.5,"count":2,"total":80}],
+  '게스트하우스':[{"label":"용산구","val":4.1,"count":6,"total":145},{"label":"종로구","val":1.6,"count":4,"total":244},{"label":"중구","val":1.1,"count":2,"total":187},{"label":"마포구","val":0.7,"count":3,"total":443}],
+  '공인중개사':[{"label":"강북구","val":2.6,"count":19,"total":724},{"label":"종로구","val":2.5,"count":20,"total":806},{"label":"중랑구","val":2.5,"count":22,"total":880},{"label":"도봉구","val":2.4,"count":14,"total":588},{"label":"구로구","val":2.1,"count":24,"total":1147}],
+  '신발가게':[{"label":"영등포구","val":5.6,"count":10,"total":179},{"label":"중랑구","val":5.1,"count":4,"total":79},{"label":"광진구","val":4.3,"count":5,"total":117},{"label":"성동구","val":3.5,"count":8,"total":230},{"label":"양천구","val":3.4,"count":3,"total":89}],
+  '편의점':[{"label":"서대문구","val":6.6,"count":20,"total":302},{"label":"강남구","val":5.6,"count":43,"total":772},{"label":"강서구","val":5.0,"count":25,"total":500},{"label":"서초구","val":4.3,"count":19,"total":440},{"label":"강동구","val":4.1,"count":14,"total":345}],
+  '호프집·주점':[{"label":"마포구","val":5.7,"count":68,"total":1183},{"label":"관악구","val":5.2,"count":39,"total":754},{"label":"은평구","val":5.0,"count":26,"total":519},{"label":"강남구","val":4.8,"count":55,"total":1152},{"label":"성동구","val":4.7,"count":20,"total":422}],
+  '헬스장·피트니스':[{"label":"도봉구","val":5.8,"count":6,"total":103},{"label":"광진구","val":5.5,"count":12,"total":219},{"label":"동작구","val":5.3,"count":9,"total":169},{"label":"구로구","val":4.8,"count":8,"total":167},{"label":"강동구","val":4.7,"count":11,"total":232}],
+  '일식당':[{"label":"은평구","val":9.2,"count":14,"total":153},{"label":"도봉구","val":7.7,"count":7,"total":91},{"label":"강북구","val":7.4,"count":8,"total":108},{"label":"용산구","val":6.1,"count":16,"total":263},{"label":"강서구","val":5.9,"count":18,"total":307}],
+  '온라인쇼핑몰':[{"label":"금천구","val":4.4,"count":26,"total":587},{"label":"노원구","val":4.1,"count":26,"total":640},{"label":"서대문구","val":4.0,"count":21,"total":520},{"label":"강남구","val":4.0,"count":64,"total":1587},{"label":"도봉구","val":4.0,"count":16,"total":401}],
+  'PC방':[{"label":"강서구","val":13.1,"count":8,"total":61},{"label":"송파구","val":9.3,"count":7,"total":75},{"label":"구로구","val":7.3,"count":4,"total":55},{"label":"강남구","val":5.6,"count":4,"total":72},{"label":"노원구","val":5.1,"count":3,"total":59}],
+  '회계사':[{"label":"영등포구","val":1.7,"count":2,"total":115},{"label":"강남구","val":1.1,"count":3,"total":267},{"label":"송파구","val":0.0,"count":0,"total":78},{"label":"서초구","val":0.0,"count":0,"total":128},{"label":"금천구","val":0.0,"count":0,"total":51}],
+  '법무사':[{"label":"송파구","val":1.4,"count":2,"total":140},{"label":"영등포구","val":1.3,"count":1,"total":77},{"label":"중구","val":0.9,"count":2,"total":225},{"label":"서초구","val":0.1,"count":1,"total":856},{"label":"강남구","val":0.0,"count":0,"total":243}],
+  '약국':[{"label":"용산구","val":4.8,"count":8,"total":166},{"label":"서대문구","val":4.0,"count":9,"total":225},{"label":"은평구","val":3.3,"count":10,"total":306},{"label":"노원구","val":3.0,"count":10,"total":336},{"label":"관악구","val":2.6,"count":8,"total":303}],
+  '의원·병원':[{"label":"중랑구","val":2.0,"count":6,"total":304},{"label":"광진구","val":1.8,"count":6,"total":339},{"label":"도봉구","val":1.5,"count":3,"total":194},{"label":"동작구","val":1.2,"count":4,"total":339},{"label":"강북구","val":1.2,"count":3,"total":256}],
+  '한의원':[{"label":"금천구","val":2.6,"count":2,"total":78},{"label":"중구","val":2.1,"count":2,"total":94},{"label":"성동구","val":1.9,"count":2,"total":106},{"label":"노원구","val":1.9,"count":3,"total":159},{"label":"송파구","val":1.9,"count":5,"total":263}],
+  '동물병원':[{"label":"송파구","val":2.2,"count":2,"total":89},{"label":"강남구","val":0.9,"count":1,"total":110},{"label":"강동구","val":0.0,"count":0,"total":63},{"label":"서초구","val":0.0,"count":0,"total":59},{"label":"강서구","val":0.0,"count":0,"total":56}],
+  '치과':[{"label":"동대문구","val":2.5,"count":4,"total":160},{"label":"마포구","val":2.1,"count":4,"total":194},{"label":"강서구","val":1.7,"count":4,"total":240},{"label":"영등포구","val":1.7,"count":4,"total":232},{"label":"중구","val":1.6,"count":3,"total":186}],
+  '변호사':[{"label":"도봉구","val":5.3,"count":4,"total":75},{"label":"영등포구","val":1.8,"count":2,"total":112},{"label":"서초구","val":1.3,"count":36,"total":2850},{"label":"마포구","val":1.1,"count":1,"total":94},{"label":"양천구","val":0.9,"count":1,"total":110}],
+  '세무사':[{"label":"중랑구","val":3.2,"count":2,"total":62},{"label":"금천구","val":1.8,"count":6,"total":341},{"label":"관악구","val":1.7,"count":2,"total":118},{"label":"강북구","val":1.4,"count":1,"total":74},{"label":"용산구","val":1.4,"count":2,"total":143}],
+  '법무서비스':[{"label":"양천구","val":3.7,"count":2,"total":54},{"label":"구로구","val":2.3,"count":3,"total":133},{"label":"서초구","val":1.6,"count":6,"total":381},{"label":"마포구","val":1.6,"count":2,"total":122},{"label":"중구","val":1.3,"count":2,"total":156}],
 };
 
-const VD={
-  '긍정':(n,m)=>`서울 ${n}은 순증가율 ${m.net_growth>0?'+':''}${m.net_growth}%로 성장세를 유지합니다. 폐업률(${m.close_rate}%)이 안정 수준이며 경쟁 우위 확보가 가능한 환경입니다.`,
-  '검토':(n,m)=>`서울 ${n}은 비교적 안정적이나 개업률(${m.open_rate}%)·폐업률(${m.close_rate}%)이 유사해 차별화 없이는 생존이 쉽지 않습니다. 상권·타깃 분석 후 진입을 권장합니다.`,
-  '신중':(n,m)=>`서울 ${n}은 순증가율 ${m.net_growth}%로 완만한 감소세입니다. 기존 점포와 가격·품질 경쟁이 심하고 폐업 비율도 높아 면밀한 사전 조사가 필수입니다.`,
-  '위험':(n,m)=>`서울 ${n}은 폐업률 ${m.close_rate}%, 순증가율 ${m.net_growth}%로 시장이 수축 중입니다. 신규 진입 시 강력한 브랜드 또는 특화 전략 없이는 생존이 매우 어렵습니다.`,
+// ============================================================
+// S01 STATE
+// ============================================================
+let regionSortKey = 'net';
+let regionSortAsc = false;
+
+function sortRegionTable(key) {
+  if (regionSortKey === key) {
+    regionSortAsc = !regionSortAsc;
+  } else {
+    regionSortKey = key;
+    regionSortAsc = key === 'label'; // 이름순은 오름차순 우선, 나머지는 내림차순
+  }
+  renderRegionTable();
+}
+
+function renderRegionTable() {
+  // 정렬
+  const dir = regionSortAsc ? 1 : -1;
+  const sorted = [...DATA_REGION_ALL].sort((a, b) => {
+    if (regionSortKey === 'label') return dir * a.label.localeCompare(b.label, 'ko');
+    return (a[regionSortKey] - b[regionSortKey]) * dir;
+  });
+
+  // sort indicator
+  ['label','open','close','net','total'].forEach(k => {
+    const el = document.getElementById('rsort' + k.charAt(0).toUpperCase() + k.slice(1));
+    if (el) el.textContent = regionSortKey === k ? (regionSortAsc ? '↑' : '↓') : '';
+  });
+
+  document.getElementById('regionTableNote').textContent =
+    `서울 25개 구 전체 · 2025년 4분기 기준 · 순증가율 = 개업율 − 폐업율 · 구 이름 클릭 시 업종 드릴다운`;
+
+  const tbody = document.getElementById('regionTableBody');
+  tbody.innerHTML = sorted.map(d => {
+    const netSign = d.net >= 0 ? '+' : '';
+    const netColor = d.net >= 0 ? 'var(--accent2)' : 'var(--danger)';
+    return `
+      <tr>
+        <td onclick="openRegionDrilldown('${d.label}')">${d.label}</td>
+        <td style="color:var(--accent2);">${d.open.toFixed(1)}%</td>
+        <td style="color:var(--danger);">${d.close.toFixed(1)}%</td>
+        <td style="color:${netColor};font-weight:700;">${netSign}${d.net.toFixed(1)}%</td>
+        <td style="color:var(--text2);">${d.total.toLocaleString()}</td>
+      </tr>`;
+  }).join('');
+}
+
+function openRegionDrilldown(label) {
+  document.getElementById('drilldownTitle').textContent = `📍 ${label}`;
+  document.getElementById('drillModalSub').textContent  = `${label}의 개업·폐업 업종 TOP 5`;
+  document.getElementById('drillLabelOpen').textContent  = '업종';
+  document.getElementById('drillLabelClose').textContent = '업종';
+
+  const openItems  = DRILL_OPEN[label]  || [];
+  const closeItems = DRILL_CLOSE[label] || [];
+
+  renderDrillList('drillOpenList',  openItems,  'open');
+  renderDrillList('drillCloseList', closeItems, 'close');
+
+  document.getElementById('drillOverlay').classList.add('visible');
+  document.getElementById('drillModal').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderDrillList(elId, items, type) {
+  const col = type === 'open' ? 'var(--accent2)' : 'var(--danger)';
+  const el = document.getElementById(elId);
+  if (!items.length) {
+    el.innerHTML = '<div style="color:var(--text3);font-size:13px;padding:12px 8px;">데이터 준비 중</div>';
+    return;
+  }
+  el.innerHTML = items.map((d, i) => `
+    <div class="rank-item" style="cursor:default;">
+      <div class="rank-num">${i + 1}</div>
+      <div class="rank-label">${d.label}</div>
+      <div class="rank-stat" style="color:${col};font-weight:700;font-size:14px;">${d.val}%</div>
+      <div class="rank-count">${d.count.toLocaleString()}개</div>
+      <div class="rank-total">${(d.total||0).toLocaleString()}개</div>
+    </div>
+  `).join('');
+}
+
+function closeDrilldown() {
+  document.getElementById('drillOverlay').classList.remove('visible');
+  document.getElementById('drillModal').classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+// ============================================================
+// S02 STATE
+// ============================================================
+let s02Tab    = 'general'; // 'general' | 'pro'
+let s02Judge  = 'all';     // 'all' | 'pos' | 'rev' | 'cau' | 'dng'
+let s02SortKey = 'net';
+let s02SortAsc = false;
+
+const JUDGE_MAP = {
+  '진입 긍정': 'pos',
+  '진입 검토': 'rev',
+  '진입 신중': 'cau',
+  '진입 위험': 'dng',
+};
+const BADGE_CLASS = { pos:'badge-pos', rev:'badge-rev', cau:'badge-cau', dng:'badge-dng' };
+const BADGE_LABEL = { pos:'✦ 진입 긍정', rev:'◈ 진입 검토', cau:'▲ 진입 신중', dng:'✕ 진입 위험' };
+
+const JUDGE_DESC = {
+  pos: {
+    cls: 'c-pos',
+    title: '✦ 진입 긍정 — 성장 중인 시장, 충분한 수요',
+    text:  '순증가율이 0% 이상이며 창업점유율도 1% 이상인 업종입니다. 시장 자체가 확장 중이고 대중 수요도 충분해 신규 창업자에게 가장 유리한 환경입니다. 다만 이미 경쟁이 형성되어 있으므로 차별화 전략이 중요합니다.',
+    criteria: ['순증가율 ≥ 0%', '창업점유율 ≥ 1%'],
+  },
+  rev: {
+    cls: 'c-rev',
+    title: '◈ 진입 검토 — 성장세이나 틈새시장',
+    text:  '순증가율은 0% 이상으로 긍정적이나 창업점유율이 1% 미만인 업종입니다. 시장이 성장하고 있지만 규모가 작아 틈새시장에 가깝습니다. 전문성이나 특정 고객층 공략이 필요하며, 충분한 사전 조사 후 진입을 검토하세요.',
+    criteria: ['순증가율 ≥ 0%', '창업점유율 < 1%'],
+  },
+  cau: {
+    cls: 'c-cau',
+    title: '▲ 진입 신중 — 수요는 크나 경쟁 과잉',
+    text:  '창업점유율이 1% 이상으로 대중 수요는 충분하지만 순증가율이 0% 미만인 업종입니다. 폐업이 개업보다 많아 경쟁이 이미 포화 상태입니다. 확실한 입지·원가 경쟁력·운영 노하우 없이는 생존이 어렵습니다.',
+    criteria: ['순증가율 < 0%', '창업점유율 ≥ 1%'],
+  },
+  dng: {
+    cls: 'c-dng',
+    title: '✕ 진입 위험 — 시장 축소 + 낮은 수요',
+    text:  '순증가율이 0% 미만이고 창업점유율도 1% 미만인 업종입니다. 시장이 줄어들고 있는 데다 신규 창업 비중 자체도 낮습니다. 매우 신중한 검토가 필요하며, 특별한 경쟁 우위 없이는 진입을 피하는 것이 좋습니다.',
+    criteria: ['순증가율 < 0%', '창업점유율 < 1%'],
+  },
 };
 
-function init(){
-  if(typeof LOKI_SOT==='undefined'){alert('데이터 파일을 찾을 수 없습니다.');return;}
-  const cs=document.getElementById('sel-cat');
-  Object.entries(CATS).forEach(([k,v])=>{
-    const o=document.createElement('option');o.value=k;o.textContent=v.nm;cs.appendChild(o);
+function setS02Tab(tab) {
+  s02Tab = tab;
+  s02Judge = 'all'; // 탭 바꾸면 필터 초기화
+  document.getElementById('tabGeneral').classList.toggle('active', tab === 'general');
+  document.getElementById('tabPro').classList.toggle('active', tab === 'pro');
+  // reset chips
+  document.querySelectorAll('.judge-chip').forEach(c => c.classList.remove('active'));
+  document.querySelector('.judge-chip.j-all').classList.add('active');
+  // hide description
+  const box = document.getElementById('judgeDescBox');
+  box.className = 'judge-desc-box';
+  renderBizTable();
+}
+
+function setS02Judge(judge) {
+  s02Judge = judge;
+  document.querySelectorAll('.judge-chip').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.judge-chip.j-${judge}`).classList.add('active');
+
+  // 판정 설명 박스 업데이트
+  const box = document.getElementById('judgeDescBox');
+  if (judge === 'all') {
+    box.className = 'judge-desc-box';
+  } else {
+    const d = JUDGE_DESC[judge];
+    box.className = `judge-desc-box visible ${d.cls}`;
+    document.getElementById('judgeDescTitle').textContent = d.title;
+    document.getElementById('judgeDescText').textContent  = d.text;
+    document.getElementById('judgeDescCriteria').innerHTML =
+      d.criteria.map(c => `<span>📌 ${c}</span>`).join('');
+  }
+  renderBizTable();
+}
+
+function sortS02Table(key) {
+  if (s02SortKey === key) {
+    s02SortAsc = !s02SortAsc;
+  } else {
+    s02SortKey = key;
+    s02SortAsc = false; // 새 컬럼은 내림차순 우선
+  }
+  renderBizTable();
+}
+
+function renderBizTable() {
+  const rawData = s02Tab === 'general' ? DATA_BIZ_BCG : DATA_BIZ_PRO;
+
+  // 탭 카운트 업데이트
+  document.getElementById('tabGeneralCnt').textContent = DATA_BIZ_BCG.length + '개';
+  document.getElementById('tabProCnt').textContent     = DATA_BIZ_PRO.length + '개';
+
+  // 판정 필터
+  let data = s02Judge === 'all'
+    ? rawData
+    : rawData.filter(d => JUDGE_MAP[d.judge] === s02Judge);
+
+  // 정렬
+  const dir = s02SortAsc ? 1 : -1;
+  data = [...data].sort((a, b) => (a[s02SortKey] - b[s02SortKey]) * dir);
+
+  // sort indicator
+  ['open','close','net','share'].forEach(k => {
+    const el = document.getElementById('sort' + k.charAt(0).toUpperCase() + k.slice(1));
+    if (el) el.textContent = s02SortKey === k ? (s02SortAsc ? '↑' : '↓') : '';
+  });
+
+  // 카운트 노트
+  document.getElementById('bizTableNote').textContent =
+    `총 ${data.length}개 업종 표시 · 2025년 4분기 기준 · 순증가율 = 개업율 − 폐업율 · 창업점유율 = 서울 신규창업 100개 중 해당 업종 비중`;
+
+  const tbody = document.getElementById('bizTableBody');
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:32px;">해당 판정 업종이 없습니다</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map(d => {
+    const jKey     = JUDGE_MAP[d.judge] || 'dng';
+    const bCls     = BADGE_CLASS[jKey];
+    const bLabel   = BADGE_LABEL[jKey];
+    const netSign  = d.net >= 0 ? '+' : '';
+    const netColor = d.net >= 0 ? 'var(--accent2)' : 'var(--danger)';
+    const hasDrill = (DRILL_BIZ_OPEN[d.label] && DRILL_BIZ_OPEN[d.label].length > 0) ||
+                     (DRILL_BIZ_CLOSE[d.label] && DRILL_BIZ_CLOSE[d.label].length > 0);
+    const trClass  = hasDrill ? 'clickable' : '';
+    const trClick  = hasDrill ? `onclick="openBizDrilldown('${d.label}')"` : '';
+    const labelCell = hasDrill
+      ? `<td>${d.label} <span style="font-size:10px;color:var(--text3);">↗</span></td>`
+      : `<td>${d.label}</td>`;
+    return `
+      <tr class="${trClass}" ${trClick}>
+        ${labelCell}
+        <td style="color:var(--accent2);">${d.open.toFixed(1)}%</td>
+        <td style="color:var(--danger);">${d.close.toFixed(1)}%</td>
+        <td style="color:${netColor};font-weight:700;">${netSign}${d.net.toFixed(1)}%</td>
+        <td style="color:var(--text2);">${d.share.toFixed(1)}%</td>
+        <td><span class="judge-badge ${bCls}">${bLabel}</span></td>
+      </tr>`;
+  }).join('');
+}
+
+// ============================================================
+// SECTION 03: 수익계산기 브릿지
+// ============================================================
+function updateSubCategory() {
+  const cat = document.getElementById('selCategory').value;
+  const sel = document.getElementById('selBizType');
+  sel.innerHTML = '<option value="">업종 선택</option>';
+  if (cat && subCategories[cat]) {
+    subCategories[cat].forEach(b => {
+      const o = document.createElement('option');
+      o.value = b; o.textContent = b; sel.appendChild(o);
+    });
+  }
+}
+
+function updateBridgePreview() {
+  const gu  = document.getElementById('selGu').value;
+  const biz = document.getElementById('selBizType').value;
+  const preview = document.getElementById('bridgePreview');
+  if (gu && biz) {
+    preview.classList.add('visible');
+    preview.innerHTML = `<strong>${gu} · ${biz}</strong> 의 예상 수익을 계산합니다`;
+    document.getElementById('btnText').textContent = `${gu} ${biz} 수익계산기 열기`;
+  } else {
+    preview.classList.remove('visible');
+    document.getElementById('btnText').textContent = '예상 순이익 확인';
+  }
+}
+
+function goToCalculator() {
+  const gu  = document.getElementById('selGu').value;
+  const biz = document.getElementById('selBizType').value;
+  if (!gu || !biz) { alert('지역과 업종을 모두 선택해주세요'); return; }
+  window.location.href = `calc.html?gu=${encodeURIComponent(gu)}&ind=${encodeURIComponent(biz)}`;
+}
+
+// ============================================================
+// BIZ DRILLDOWN
+// ============================================================
+function openBizDrilldown(label) {
+  document.getElementById('drilldownTitle').textContent = `🏪 ${label}`;
+  document.getElementById('drillModalSub').textContent  = `${label} 업종의 개업·폐업율 높은 지역 TOP 5`;
+  document.getElementById('drillLabelOpen').textContent  = '지역';
+  document.getElementById('drillLabelClose').textContent = '지역';
+
+  const openItems  = DRILL_BIZ_OPEN[label]  || [];
+  const closeItems = DRILL_BIZ_CLOSE[label] || [];
+
+  renderDrillList('drillOpenList',  openItems,  'open');
+  renderDrillList('drillCloseList', closeItems, 'close');
+
+  document.getElementById('drillOverlay').classList.add('visible');
+  document.getElementById('drillModal').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+// ============================================================
+// UTIL
+// ============================================================
+function copyEmail() {
+  const email = 'findingmylifegauge@gmail.com';
+  navigator.clipboard?.writeText(email).then(() => {
+    showToast('이메일이 복사되었습니다.');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = email; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('이메일이 복사되었습니다.');
   });
 }
-
-function onCatChange(){
-  const k=document.getElementById('sel-cat').value;
-  const sw=document.getElementById('sel-sub-wrap');
-  const si=document.getElementById('sel-ind');
-  document.getElementById('cta-btn').classList.remove('on');
-  if(!k){sw.style.display='none';return;}
-  const inds=CATS[k].inds.filter(nm=>LOKI_SOT.industries[nm]);
-  si.innerHTML='<option value="">세부 업종을 선택하세요</option>'+inds.map(nm=>`<option value="${nm}">${nm}</option>`).join('');
-  sw.style.display='block';
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#4f7cff;color:#fff;padding:10px 22px;border-radius:999px;font-size:13px;font-weight:600;z-index:9999;pointer-events:none;box-shadow:0 4px 16px rgba(79,124,255,0.4);';
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
 }
 
-function onIndChange(){
-  document.getElementById('cta-btn').classList[document.getElementById('sel-ind').value?'add':'remove']('on');
-}
-
-function showLanding(){
-  document.getElementById('vR').style.display='none';
-  document.getElementById('vL').style.display='block';
-  window.scrollTo(0,0);
-}
-
-function goReport(){
-  const nm=document.getElementById('sel-ind').value;
-  if(!nm||!LOKI_SOT.industries[nm])return;
-  document.getElementById('loading').style.display='flex';
-  setTimeout(()=>{
-    buildReport(nm);
-    document.getElementById('loading').style.display='none';
-    document.getElementById('vL').style.display='none';
-    document.getElementById('vR').style.display='block';
-    window.scrollTo(0,0);
-  },350);
-}
-
-/* ── 차트/컴포넌트 헬퍼 ── */
-function trendSVG(trend){
-  const byY={};
-  trend.forEach(t=>{const y=String(t.q).slice(0,4);byY[y]=(byY[y]||0)+t.sc;});
-  const yrs=Object.keys(byY).sort().slice(-7);
-  const vals=yrs.map(y=>byY[y]);
-  const mn=Math.min(...vals),mx=Math.max(...vals);
-  const W=340,H=80,PX=20,PY=14;
-  const x=(i)=>PX+i/(vals.length-1)*(W-PX*2);
-  const y=(v)=>H-PY-(mx===mn?0.5:(v-mn)/(mx-mn))*(H-PY*2);
-  const pts=vals.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
-  const dots=vals.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3.5" fill="${i===vals.length-1?'#3B5BDB':'#fff'}" stroke="#3B5BDB" stroke-width="2"/>`).join('');
-  const lbls=yrs.map((yr,i)=>`<text x="${x(i)}" y="${H-1}" text-anchor="middle" font-size="9" fill="#8B93A8">${yr}</text>`).join('');
-  const vlbls=[0,Math.round(vals.length/2),vals.length-1].map(i=>{
-    const anc=i===0?'start':i===vals.length-1?'end':'middle';
-    return `<text x="${x(i)}" y="${y(vals[i])-6}" text-anchor="${anc}" font-size="9" fill="#4A5168" font-weight="600">${vals[i].toLocaleString()}</text>`;
-  }).join('');
-  return `<svg width="100%" viewBox="0 0 ${W} ${H}" style="overflow:visible">
-  <defs><linearGradient id="tg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#3B5BDB" stop-opacity=".1"/><stop offset="100%" stop-color="#3B5BDB" stop-opacity="0"/></linearGradient></defs>
-  <line x1="${PX}" y1="${H-PY}" x2="${W-PX}" y2="${H-PY}" stroke="#E2E6EE" stroke-width=".5"/>
-  <polygon points="${pts} ${W-PX},${H-PY} ${PX},${H-PY}" fill="url(#tg)"/>
-  <polyline points="${pts}" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-  ${dots}${lbls}${vlbls}</svg>`;
-}
-
-function survBars(cr){
-  const s1=Math.max(2,Math.round((1-cr/100)**4*100));
-  const s3=Math.max(1,Math.round((1-cr/100)**12*100));
-  const s5=Math.max(0,Math.round((1-cr/100)**20*100));
-  const col=v=>v>=60?'#3B5BDB':v>=35?'#7B9EF5':'#AABFED';
-  const row=(l,v)=>`<div class="surv-row"><div class="surv-lbl">${l}</div>
-    <div class="surv-track"><div class="surv-fill" style="width:${v}%;background:${col(v)}">${v>=15?v+'%':''}</div></div>
-    <div style="font-size:11px;font-weight:700;color:var(--t2);width:34px;text-align:right">${v}%</div></div>`;
-  return row('1년차',s1)+row('3년차',s3)+row('5년차',s5);
-}
-
-function compSection(ind){
-  const all=Object.values(LOKI_SOT.industries);
-  const allCR=all.map(d=>d.metrics.close_rate);
-  const allOR=all.map(d=>d.metrics.open_rate);
-  const allSC=all.map(d=>d.metrics.store_count);
-  const norm=(v,mn,mx)=>mx===mn?50:Math.round((v-mn)/(mx-mn)*100);
-  const crS=norm(ind.metrics.close_rate,Math.min(...allCR),Math.max(...allCR));
-  const orS=norm(ind.metrics.open_rate,Math.min(...allOR),Math.max(...allOR));
-  const scS=norm(ind.metrics.store_count,Math.min(...allSC),Math.max(...allSC));
-  const lvl=crS>60?'높음':crS>35?'중간':'낮음';
-  const lvlC=crS>60?'#E03131':crS>35?'#D97706':'#2F9E44';
-  const item=(l,s,c)=>`<div class="comp-item"><div class="comp-il">${l}</div>
-    <div class="comp-bar"><div class="comp-fill" style="width:${s}%;background:${c};height:100%"></div></div>
-    <div class="comp-iv">${s}</div></div>`;
-  return `<div class="comp-wrap">
-    <div class="comp-label" style="color:${lvlC}">${lvl}</div>
-    <div class="comp-items">
-      ${item('폐업 압박도',crS,crS>60?'#E03131':crS>35?'#F59E0B':'#3B5BDB')}
-      ${item('신규진입 빈도',orS,orS>60?'#3B5BDB':'#F59E0B')}
-      ${item('시장 포화도',scS,scS>60?'#E03131':scS>35?'#F59E0B':'#3B5BDB')}
-    </div></div>`;
-}
-
-function lcBar(net){
-  let pos=net>3?1:net>1?2:net>-0.5?3:4;
-  const segs=[
-    {nm:'도입기',bg:'#EEF2FF',tc:'#3B5BDB'},
-    {nm:'성장기',bg:'#EBFBEE',tc:'#2F9E44'},
-    {nm:'성숙기↑',bg:'#DBEAFE',tc:'#1971C2'},
-    {nm:'성숙기↓',bg:'#3B5BDB',tc:'#fff'},
-    {nm:'쇠퇴기', bg:'#FFFBEB',tc:'#D97706'},
-  ];
-  return segs.map((s,i)=>{
-    const a=i===pos;
-    return `<div class="lc-seg" style="background:${a?s.bg:'#F4F6FA'};color:${a?s.tc:'#C8CFDD'};font-weight:${a?800:600}">${a?s.nm+' ◀':s.nm}</div>`;
-  }).join('');
-}
-
-function seasBars(trend){
-  const last=parseInt(String(trend[trend.length-1].q).slice(0,4));
-  const rec=trend.filter(t=>parseInt(String(t.q).slice(0,4))>=last-3);
-  const byQ={1:[],2:[],3:[],4:[]};
-  rec.forEach(t=>{const q=parseInt(String(t.q).slice(4));if(byQ[q])byQ[q].push(t.sc);});
-  const avgs=[1,2,3,4].map(q=>byQ[q].length?Math.round(byQ[q].reduce((a,b)=>a+b)/byQ[q].length):0);
-  const mx=Math.max(...avgs)||1;
-  return avgs.map((v,i)=>{
-    const h=Math.max(4,Math.round(v/mx*42));
-    return `<div class="seas-cell"><div class="seas-bw"><div class="seas-bar" style="height:${h}px;background:${v===mx?'#3B5BDB':'#93B4F5'}"></div></div><div class="seas-lbl">${['1Q','2Q','3Q','4Q'][i]}</div></div>`;
-  }).join('');
-}
-
-function simTable(nm,ind){
-  let peers=[];
-  Object.entries(CATS).forEach(([k,v])=>{if(v.inds.includes(nm))peers=v.inds.filter(n=>LOKI_SOT.industries[n]&&n!==nm).slice(0,4);});
-  if(peers.length<2){
-    const sc=ind.metrics.store_count;
-    peers=Object.entries(LOKI_SOT.industries).filter(([n])=>n!==nm)
-      .sort((a,b)=>Math.abs(a[1].metrics.store_count-sc)-Math.abs(b[1].metrics.store_count-sc))
-      .slice(0,4).map(([n])=>n);
-  }
-  const dots=['#3B5BDB','#7B9EF5','#93C5FD','#6EE7B7','#A78BFA'];
-  const vc={'긍정':'#2F9E44','검토':'#1971C2','신중':'#D97706','위험':'#E03131'};
-  const rows=[[nm,ind,true],...peers.map(n=>[n,LOKI_SOT.industries[n],false])];
-  return `<table class="sim-tbl"><thead><tr><th>업종</th><th>점포수</th><th>개업률</th><th>폐업률</th><th>순증가율</th><th>판정</th></tr></thead><tbody>
-  ${rows.map(([n,d,hi],idx)=>{if(!d)return'';const m=d.metrics,v=d.verdict;
-    return `<tr${hi?' class="hi"':''}>
-      <td><span class="dot" style="background:${dots[idx%5]}"></span>${n}</td>
-      <td>${m.store_count.toLocaleString()}</td>
-      <td style="color:${m.open_rate>2.5?'#2F9E44':'#4A5168'}">${m.open_rate}%</td>
-      <td style="color:${m.close_rate>3.5?'#E03131':m.close_rate>2.5?'#D97706':'#4A5168'}">${m.close_rate}%</td>
-      <td style="color:${m.net_growth>0?'#2F9E44':m.net_growth<-1?'#E03131':'#4A5168'}">${m.net_growth>0?'+':''}${m.net_growth}%</td>
-      <td><span class="vbadge ${VS[v].cls}">${v}</span></td></tr>`;
-  }).join('')}</tbody></table>`;
-}
-
-function topDist(nm,ind){
-  const sorted=Object.entries(ind.districts).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  const mx=sorted[0]?.[1]||1;
-  return sorted.map(([gu,cnt],i)=>{
-    const rd=LOKI_SOT.districts[gu];
-    const detail=`${Math.round(cnt)}개 점포${rd?' · 평당 '+rd.rent_per_pyeong+'만원':''}`;
-    return `<div class="rank-item">
-      <div class="rank-no${i===0?' g':''}">${i+1}</div>
-      <div class="rank-info"><div class="rank-nm">${gu}</div><div class="rank-detail">${detail}</div></div>
-      <div class="rank-bw"><div class="rank-bf" style="width:${Math.round(cnt/mx*100)}%"></div></div>
-    </div>`;
-  }).join('');
-}
-
-function guGrid(ind){
-  const ents=Object.entries(ind.districts).sort((a,b)=>b[1]-a[1]);
-  const vals=ents.map(e=>e[1]).filter(v=>v>0);
-  if(!vals.length)return'<p style="color:var(--t3);font-size:12px">자치구 데이터 없음</p>';
-  const mn=Math.min(...vals),mx=Math.max(...vals);
-  const lvlBg=['#E6F1FB','#B5D4F4','#7EB3FF','#4F8EF7','#3B5BDB'];
-  const lvlTc=['#4A5168','#185FA5','#0C4A9E','#fff','#fff'];
-  const cells=ents.map(([gu,cnt])=>{
-    const r=mx>mn?(cnt-mn)/(mx-mn):0.5;
-    const l=Math.min(4,Math.floor(r*5));
-    return `<div class="gu-cell" style="background:${lvlBg[l]}">
-      <div class="gu-nm" style="color:${lvlTc[l]}">${gu.replace('구','')}</div>
-      <div class="gu-val" style="color:${lvlTc[l]}">${Math.round(cnt)}</div></div>`;
-  }).join('');
-  const leg=['낮음','보통','중간','높음','최고'].map((l,i)=>
-    `<span class="leg-item"><span class="leg-dot" style="background:${lvlBg[i]};${i===0?'border:1px solid #C5D0FB':''}"></span>${l}</span>`
-  ).join('');
-  return `<div class="gu-grid">${cells}</div><div class="leg">${leg}</div>`;
-}
-
-function rentTable(nm,ind){
-  const top=Object.entries(ind.districts).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([n])=>n);
-  const rows=top.map(gu=>{
-    const d=LOKI_SOT.districts[gu];if(!d)return'';
-    const r=d.rent_per_pyeong,cnt=Math.round(ind.districts[gu]||0);
-    const lvl=r>11?'lv-h':r>9?'lv-m':'lv-l',lt=r>11?'높음':r>9?'중간':'낮음';
-    return `<tr><td>${gu}</td><td>${r}만원/평</td><td>${cnt}개</td><td><span class="rlv ${lvl}">${lt}</span></td></tr>`;
-  }).join('');
-  return `<table class="rent-tbl"><thead><tr><th>자치구</th><th>평당 월임대료</th><th>점포수</th><th>수준</th></tr></thead><tbody>${rows}</tbody></table>`;
-}
-
-function recDist(){
-  const top=Object.entries(LOKI_SOT.districts).sort((a,b)=>b[1].scores.total-a[1].scores.total).slice(0,3);
-  return top.map(([n,d],i)=>{
-    const tags=[];
-    if(d.rent_per_pyeong<8.5)tags.push(['t-g','임대료 낮음']);
-    else if(d.rent_per_pyeong<10)tags.push(['t-a','임대료 중간']);
-    else tags.push(['t-r','임대료 높음']);
-    if(d.scores.competition>60)tags.push(['t-g','경쟁 적음']);
-    else if(d.scores.competition>40)tags.push(['t-b','경쟁 중간']);
-    else tags.push(['t-r','경쟁 심함']);
-    if(d.avg_open_rate>2)tags.push(['t-b','창업 활성']);
-    return `<div class="rec-item">
-      <div class="rec-rank">0${i+1}</div>
-      <div><div class="rec-nm">${n}</div>
-      <div class="rec-tags">${tags.map(([c,t])=>`<span class="rtag ${c}">${t}</span>`).join('')}</div></div>
-    </div>`;
-  }).join('');
-}
-
-/* ── 리포트 빌드 ── */
-function buildReport(nm){
-  const ind=LOKI_SOT.industries[nm];if(!ind)return;
-  const m=ind.metrics,v=ind.verdict,vs=VS[v];
-  document.getElementById('res-nm').textContent=nm;
-  const topPct=Math.round(Object.values(LOKI_SOT.industries).filter(d=>d.metrics.startup_share>m.startup_share).length/Object.keys(LOKI_SOT.industries).length*100);
-
-  document.getElementById('res-body').innerHTML=`
-    <div class="sec-lbl">A · 업종 현황</div>
-    <div class="verdict" style="border-color:${vs.border}">
-      <div class="v-top">
-        <span class="v-badge ${vs.cls}">${vs.icon} ${v}</span>
-        <div class="v-title">${VM[v](nm)}</div>
-      </div>
-      <div class="v-desc">${VD[v](nm,m)}</div>
-      <div class="v-metrics">
-        <div class="vm"><div class="vm-l">개업률</div><div class="vm-v ${m.open_rate>m.close_rate?'up':'nu'}">${m.open_rate}%</div></div>
-        <div class="vm"><div class="vm-l">폐업률</div><div class="vm-v ${m.close_rate>3.5?'dn':'nu'}">${m.close_rate}%</div></div>
-        <div class="vm"><div class="vm-l">순증가율</div><div class="vm-v ${m.net_growth>0?'up':'dn'}">${m.net_growth>0?'+':''}${m.net_growth}%</div></div>
-        <div class="vm"><div class="vm-l">창업점유율</div><div class="vm-v nu">${m.startup_share}%</div></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">A1</span>서울 ${nm} 점포 수 추이</div>
-      <div class="csub">연도별 전체 점포수 변화 (서울 25개 자치구 합산)</div>
-      ${trendSVG(ind.trend)}
-      <div class="interp">최근 기준 서울 전체 ${m.store_count.toLocaleString()}개 점포 운영 중. 창업 시장 내 점유율 ${m.startup_share}% (전체 업종 중 상위 ${topPct}% 수준).</div>
-    </div>
-
-    <div class="two">
-      <div class="card">
-        <div class="cttl"><span class="tag">A2</span>핵심 지표</div>
-        <div class="kpi-grid">
-          <div class="kpi-c"><div class="kpi-l">점포수</div><div class="kpi-v">${m.store_count.toLocaleString()}</div></div>
-          <div class="kpi-c"><div class="kpi-l">순증가율</div><div class="kpi-v ${m.net_growth>0?'up':'dn'}">${m.net_growth>0?'+':''}${m.net_growth}%</div></div>
-          <div class="kpi-c"><div class="kpi-l">개업률</div><div class="kpi-v up">${m.open_rate}%</div></div>
-          <div class="kpi-c"><div class="kpi-l">폐업률</div><div class="kpi-v ${m.close_rate>3.5?'dn':'nu'}">${m.close_rate}%</div></div>
-        </div>
-        <div class="interp" style="font-size:10px">폐업률이 개업률을 ${m.close_rate>m.open_rate?'상회':'하회'}하는 ${m.close_rate>m.open_rate?'순감':'순증'} 상태.</div>
-      </div>
-      <div class="card">
-        <div class="cttl"><span class="tag">A3</span>생존율 추정</div>
-        <div class="csub">폐업률 기반 누적 생존 확률</div>
-        <div class="surv">${survBars(m.close_rate)}</div>
-        <div class="interp" style="font-size:10px">분기 폐업률(${m.close_rate}%) 기준 복리 계산. 실제 생존율은 상권·운영 역량에 따라 달라집니다.</div>
-      </div>
-    </div>
-
-    <div class="two">
-      <div class="card">
-        <div class="cttl"><span class="tag">A4</span>경쟁강도</div>
-        <div class="csub">서울 100개 업종 전체 대비</div>
-        ${compSection(ind)}
-        <div class="interp" style="font-size:10px">폐업 압박도는 업종 내 경쟁 과열 지표. 높을수록 차별화 전략이 필수입니다.</div>
-      </div>
-      <div class="card">
-        <div class="cttl"><span class="tag">A6</span>계절성</div>
-        <div class="csub">최근 3년 분기별 평균 점포수</div>
-        <div class="seas-grid">${seasBars(ind.trend)}</div>
-        <div class="interp" style="font-size:10px">분기별 점포수 변화로 계절 수요 패턴을 추정합니다. 비수기 자금 계획에 활용하세요.</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">A5</span>업종 생명주기</div>
-      <div class="csub">순증가율(${m.net_growth>0?'+':''}${m.net_growth}%) 기반 현재 포지션</div>
-      <div class="lc-row">${lcBar(m.net_growth)}</div>
-      <div class="interp">생명주기는 순증가율·폐업률 추세를 기반으로 추정됩니다. 성숙기 후반·쇠퇴기일수록 차별화와 입지 선택이 더욱 중요합니다.</div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">A8</span>유사 업종 비교</div>
-      <div class="csub">동일 카테고리 및 규모 유사 업종 지표 비교</div>
-      ${simTable(nm,ind)}
-      <div class="interp">강조(파란 배경) 행이 현재 선택 업종입니다. 폐업률·생존율이 양호한 업종을 대안으로 검토해보세요.</div>
-    </div>
-
-    <div class="sec-lbl" style="margin-top:6px">B · 지역별 분석</div>
-    <div class="card">
-      <div class="cttl"><span class="tag">B0</span>자치구별 점포수 TOP 5</div>
-      <div class="rank-list">${topDist(nm,ind)}</div>
-      <div class="interp">점포 집중 자치구는 유동인구·수요가 높지만 경쟁도 치열합니다. 임대료 대비 경쟁강도를 함께 고려하세요.</div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">B1</span>자치구 밀집도</div>
-      <div class="csub">점포수 기준 (진할수록 많음)</div>
-      ${guGrid(ind)}
-      <div class="interp">밀집도가 낮은 자치구는 경쟁이 적지만 배후 수요도 제한적일 수 있습니다.</div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">B2</span>주요 자치구 임대료</div>
-      <div class="csub">직방 데이터 기준 평당 월임대료</div>
-      ${rentTable(nm,ind)}
-      <div class="interp">10평 기준 월 임대료는 상기 금액의 10배입니다. 초기 자금 계획 수립 시 반드시 반영하세요.</div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">B3</span>창업 추천 자치구</div>
-      <div class="csub">경쟁강도(40%) + 임대료(40%) + 창업 활성도(20%) 종합 점수 기준</div>
-      <div class="rec-list">${recDist()}</div>
-      <div class="interp">낮은 폐업 압박과 합리적 임대료 기준으로 산출됩니다. 실제 창업 전 현장 조사와 병행하세요.</div>
-    </div>
-  `;
-}
-
-init();
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('DOMContentLoaded', () => {
+  renderRegionTable();
+  renderBizTable();
+});
 </script>
 </body>
 </html>
