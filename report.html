@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOKI 창업레이더 — 업종 창업 리포트</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:#0d0f14;color:#e8eaf0;font-size:13px;min-height:100vh}
+
+/* ── LANDING ── */
+#vL{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:60px 20px;background:radial-gradient(ellipse at 50% 38%,rgba(79,124,255,.18) 0%,transparent 70%)}
+.lnd{width:100%;max-width:500px;text-align:center}
+.ll{font-size:32px;font-weight:900;letter-spacing:-1px;margin-bottom:4px}.ll span{color:#4f7cff}
+.ls{font-size:10px;color:#5a6078;letter-spacing:3px;text-transform:uppercase;margin-bottom:30px}
+.lh1{font-size:22px;font-weight:800;margin-bottom:10px;letter-spacing:-.5px;line-height:1.3}
+.lp{font-size:13px;color:#8b92a8;margin-bottom:34px;line-height:1.75}
+.sbox{background:#1c2030;border:1.5px solid #272d3d;border-radius:16px;padding:7px 7px 7px 18px;display:flex;align-items:center;gap:8px;transition:border-color .2s;box-shadow:0 4px 24px rgba(0,0,0,.3)}
+.sbox:focus-within{border-color:#4f7cff;box-shadow:0 4px 24px rgba(79,124,255,.15)}
+.sbox select{flex:1;background:transparent;border:none;color:#e8eaf0;font-size:15px;outline:none;cursor:pointer;font-family:inherit;appearance:none;-webkit-appearance:none}
+.sbox select option{background:#1c2030;color:#e8eaf0}
+.sbtn{background:#4f7cff;color:#fff;border:none;padding:11px 22px;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .15s}
+.sbtn:hover{background:#3a67ff;transform:translateY(-1px)}
+.epills{margin-top:18px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;align-items:center}
+.eplbl{font-size:11px;color:#5a6078}
+.ep{padding:5px 15px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid #272d3d;font-size:12px;color:#8b92a8;cursor:pointer;transition:all .12s}
+.ep:hover{border-color:#4f7cff;color:#e8eaf0;background:rgba(79,124,255,.08)}
+.land-foot{margin-top:48px;font-size:11px;color:#3a4060;line-height:1.7}
+
+/* ── RESULTS ── */
+#vR{display:none}
+.rnav{background:rgba(13,15,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid #272d3d;padding:0 28px;height:52px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100}
+.rback{font-size:12px;color:#8b92a8;cursor:pointer;padding:6px 12px;border:1px solid #272d3d;border-radius:7px;background:none;font-family:inherit;transition:all .12s}
+.rback:hover{color:#e8eaf0;border-color:#4f7cff}
+.rnl{font-size:16px;font-weight:900;letter-spacing:-.5px}.rnl span{color:#4f7cff}
+.rndiv{width:1px;height:18px;background:#272d3d}
+.rnmeta{font-size:11px;color:#5a6078}
+.rnsp{flex:1}
+.rnind{font-size:12px;color:#8b92a8}
+
+.rhero{background:linear-gradient(180deg,#141720 0%,#0d0f14 100%);border-bottom:1px solid #272d3d;padding:32px 28px 26px}
+.rhtag{font-size:10px;color:#5a6078;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.rhtitle{font-size:28px;font-weight:900;letter-spacing:-.5px;line-height:1.2;margin-bottom:6px}
+.rhtitle .hl{color:#4f7cff}
+.rhsub{font-size:12px;color:#5a6078}
+.rhbadge{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;border:1px solid}
+.rb-pos{background:rgba(0,201,167,.1);color:#00c9a7;border-color:rgba(0,201,167,.3)}
+.rb-vc{background:rgba(255,183,77,.1);color:#ffb74d;border-color:rgba(255,183,77,.3)}
+.rb-dng{background:rgba(255,79,109,.1);color:#ff4f6d;border-color:rgba(255,79,109,.3)}
+.rb-rev{background:rgba(79,124,255,.1);color:#8faeff;border-color:rgba(79,124,255,.3)}
+
+.rcont{max-width:960px;margin:0 auto;padding:24px 28px 72px}
+
+/* ── SECTION HEADER ── */
+.shdr{display:flex;align-items:center;gap:10px;margin:28px 0 14px}
+.sbadge{padding:4px 14px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px}
+.sb-a{background:rgba(79,124,255,.14);color:#8faeff;border:1px solid rgba(79,124,255,.25)}
+.sb-b{background:rgba(0,201,167,.12);color:#00c9a7;border:1px solid rgba(0,201,167,.22)}
+.sttl{font-size:15px;font-weight:700}
+
+/* ── CARD ── */
+.card{background:#181c28;border:1px solid #272d3d;border-radius:14px;padding:22px;margin-bottom:12px}
+.ctitle{font-size:16px;font-weight:800;color:#e8eaf0;margin-bottom:4px}
+.csub{font-size:12px;color:#5a6078;margin-bottom:16px}
+.interp{margin-top:14px;padding:12px 15px;background:rgba(79,124,255,.06);border-left:3px solid rgba(79,124,255,.45);border-radius:0 7px 7px 0;font-size:12px;color:#8b92a8;line-height:1.8}
+.interp b{color:#c8cfe0}
+
+/* ── VERDICT ── */
+.vcard{border-radius:12px;padding:22px;margin-bottom:2px;border:1px solid}
+.vp{background:rgba(0,201,167,.07);border-color:rgba(0,201,167,.25)}
+.vr{background:rgba(79,124,255,.07);border-color:rgba(79,124,255,.25)}
+.vc{background:rgba(255,183,77,.07);border-color:rgba(255,183,77,.25)}
+.vd{background:rgba(255,79,109,.07);border-color:rgba(255,79,109,.25)}
+.vrow{display:flex;gap:20px;align-items:flex-start}
+.vleft{flex:1}
+.vtext{font-size:23px;font-weight:900;margin-bottom:7px;letter-spacing:-.3px}
+.vp .vtext{color:#00c9a7}.vr .vtext{color:#4f7cff}.vc .vtext{color:#ffb74d}.vd .vtext{color:#ff4f6d}
+.vreason{font-size:14px;color:#c8cfe0;margin-bottom:8px;font-weight:600}
+.vdetail{font-size:12px;color:#8b92a8;line-height:1.75}
+.vbul{list-style:none;margin-top:10px}
+.vbul li{font-size:12px;color:#8b92a8;padding:3px 0}
+.vbul li::before{content:'— ';color:#5a6078}
+.vstats{display:flex;flex-direction:column;gap:8px;flex-shrink:0}
+.vstat{background:rgba(255,255,255,.04);border:1px solid #272d3d;border-radius:10px;padding:13px 18px;text-align:center;min-width:82px}
+.vnum{font-size:21px;font-weight:800;line-height:1;margin-bottom:5px}
+.vlbl{font-size:10px;color:#5a6078}
+.vp .vnum{color:#00c9a7}.vr .vnum{color:#4f7cff}.vc .vnum{color:#ffb74d}.vd .vnum{color:#ff4f6d}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+
+/* ── SURVIVAL ── */
+.srow{display:flex;gap:8px;margin-bottom:12px}
+.si{flex:1;background:#1c2030;border-radius:9px;padding:14px 6px;text-align:center}
+.sp{font-size:28px;font-weight:800;line-height:1;margin-bottom:4px}
+.sy{font-size:10px;color:#5a6078}
+.chi{color:#00c9a7}.cmi{color:#ffb74d}.clo{color:#ff4f6d}
+
+/* ── GAUGE ── */
+.gctr{text-align:center;padding:6px 0}
+.gbig{font-size:40px;font-weight:800}
+.gu{font-size:14px;color:#5a6078}
+.gtrk{height:8px;background:#1c2030;border-radius:999px;margin:12px 0;overflow:hidden}
+.gfil{height:100%;border-radius:999px}
+.gnote{font-size:12px;color:#8b92a8}
+
+/* ── LIFECYCLE ── */
+.lcstg{display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:9px}
+.lcg{background:rgba(0,201,167,.15);color:#00c9a7}
+.lcm{background:rgba(255,183,77,.15);color:#ffb74d}
+.lcd{background:rgba(255,79,109,.15);color:#ff4f6d}
+.lcnote{font-size:12px;color:#8b92a8;line-height:1.65;margin-top:7px}
+
+/* ── SIMILAR ── */
+.simrow{display:flex;gap:9px}
+.simi{flex:1;background:#1c2030;border:1px solid #272d3d;border-radius:10px;padding:14px 15px;display:flex;align-items:center;justify-content:space-between}
+.simn{font-size:13px;font-weight:700}
+.sims{font-size:11px;color:#5a6078;margin-top:2px}
+.chip{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.cp{background:rgba(0,201,167,.15);color:#00c9a7}
+.cr{background:rgba(79,124,255,.15);color:#8faeff}
+.cca{background:rgba(255,183,77,.15);color:#ffb74d}
+.cd{background:rgba(255,79,109,.15);color:#ff4f6d}
+
+/* ── TOP 5 ── */
+.t5row{display:flex;gap:9px;margin-bottom:12px}
+.t5i{flex:1;background:#181c28;border:1px solid #272d3d;border-radius:10px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .15s}
+.t5i:hover{border-color:#4f7cff;transform:translateY(-2px);box-shadow:0 4px 16px rgba(79,124,255,.15)}
+.t5m{font-size:19px;margin-bottom:4px}
+.t5g{font-size:12px;font-weight:700}
+.t5s{font-size:10px;color:#5a6078;margin-top:3px}
+
+/* ── DISTRICT GRID ── */
+.dgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.dpil{padding:9px 4px;border-radius:8px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:all .12s}
+.dpil:hover{filter:brightness(1.3);transform:translateY(-1px)}
+.dpil.sel{border-color:#fff!important;box-shadow:0 0 0 2px rgba(255,255,255,.2)}
+.dp-pos{background:rgba(0,201,167,.18);color:#00c9a7}
+.dp-rev{background:rgba(79,124,255,.18);color:#8faeff}
+.dp-cau{background:rgba(255,183,77,.18);color:#ffb74d}
+.dp-dng{background:rgba(255,79,109,.18);color:#ff4f6d}
+
+/* ── DISTRICT DETAIL ── */
+.ddcard{background:#181c28;border:1px solid #272d3d;border-radius:14px;padding:22px;margin-bottom:12px}
+.ddhd{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.ddnm{font-size:18px;font-weight:800}
+.ddsc{margin-left:auto;font-size:12px;color:#5a6078}
+.ddrow{display:flex;gap:10px}
+.ddm{flex:1;background:#1c2030;border-radius:10px;padding:15px;text-align:center}
+.ddn{font-size:22px;font-weight:800;line-height:1;margin-bottom:4px}
+.ddl{font-size:11px;color:#5a6078;margin-bottom:4px}
+.ddc{font-size:11px;color:#8b92a8}
+
+/* ── MISC ── */
+.note{background:rgba(79,124,255,.07);border:1px solid rgba(79,124,255,.2);border-radius:9px;padding:10px 16px;font-size:12px;color:#8faeff;margin-bottom:12px}
+.vleg{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:#8b92a8}
+.vli{display:flex;align-items:center;gap:5px}
+.vld{width:9px;height:9px;border-radius:2px}
+.chart-leg{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.cl-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#8b92a8}
+.cl-line{width:22px;height:2.5px;border-radius:2px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:680px){
+  .g2,.g3{grid-template-columns:1fr}
+  .vrow{flex-direction:column}
+  .vstats{flex-direction:row}
+  .dgrid{grid-template-columns:repeat(4,1fr)}
+  .t5row{flex-wrap:wrap}
+  .rcont{padding:18px 16px 60px}
+  .rhero{padding:22px 18px 18px}
+  .rnav{padding:0 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ LANDING ══════════════════════════════════════ -->
+<div id="vL">
+  <div class="lnd">
+    <div class="ll">LO<span>KI</span></div>
+    <div class="ls">창업레이더</div>
+    <div class="lh1">창업 전,<br>먼저 데이터로 검증하세요</div>
+    <p class="lp">서울 공공 데이터 기반 업종별 창업 가능성 리포트<br>업종만 선택하면 5년 트렌드 · 생존율 · 추천 지역까지 바로 확인</p>
+    <div class="sbox">
+      <select id="sel">
+        <option value="">원하시는 창업 업종을 선택해주세요</option>
+        <option value="치킨">🍗 치킨전문점</option>
+        <option value="카페">☕ 커피음료점</option>
+        <option value="한식">🍚 한식음식점</option>
+      </select>
+      <button class="sbtn" onclick="go()">리포트 생성 →</button>
+    </div>
+    <div class="epills">
+      <span class="eplbl">빠른 선택</span>
+      <span class="ep" onclick="qgo('치킨')">🍗 치킨전문점</span>
+      <span class="ep" onclick="qgo('카페')">☕ 커피음료점</span>
+      <span class="ep" onclick="qgo('한식')">🍚 한식음식점</span>
+    </div>
+    <div class="land-foot">서울 열린데이터 기반 · 2019–2024년 분기 통계<br>현재 샘플 데이터 기준 — 실데이터 연동 예정</div>
+  </div>
+</div>
+
+<!-- ══ RESULTS ══════════════════════════════════════ -->
+<div id="vR">
+  <nav class="rnav">
+    <button class="rback" onclick="back()">← 다른 업종 선택</button>
+    <span class="rnl">LO<span>KI</span></span>
+    <span class="rndiv"></span>
+    <span class="rnmeta">창업레이더</span>
+    <span class="rnsp"></span>
+    <span class="rnind" id="rnind"></span>
+  </nav>
+  <div class="rhero" id="rhero"></div>
+  <div class="rcont" id="rcont"></div>
+</div>
+
+<script>
+// ══ DATA ════════════════════════════════════════════
+const DATA = {
+  치킨: {
+    label:'치킨전문점', verdict:'vc',
+    verdictText:'▲ 진입 신중', rb:'rb-vc',
+    verdictReason:'수요는 크나 경쟁이 극도로 과잉된 시장',
+    verdictDetail:'서울 내 창업점유율 1위 업종으로 최근 2년간 폐업율이 개업율을 초과하기 시작했습니다. 뚜렷한 차별화 전략 없이는 생존이 어렵습니다.',
+    evidence:['최근 2년 폐업율이 개업율을 초과 — 시장 수축 시작','창업점유율 8.4% — 서울 전체 업종 중 1위(과열)','5년 생존율 28% — 전체 평균(34%) 대비 낮음'],
+    open:15.9, close:17.2, net:-1.3,
+    trend:{yrs:['2020','2021','2022','2023','2024'],open:[15.2,16.5,17.1,16.8,15.9],close:[14.1,13.8,15.2,16.5,17.2],net:[1.1,2.7,1.9,0.3,-1.3]},
+    stores:[5050,5280,5420,5480,5350],
+    surv:[72,42,28], comp:8.4,
+    lc:'성숙기', lcPos:0.73,
+    seasons:[{q:'Q1',o:3.2,c:4.1},{q:'Q2',o:4.1,c:4.3},{q:'Q3',o:4.8,c:4.5},{q:'Q4',o:3.8,c:4.3}],
+    similar:[{n:'피자전문점',v:'cr'},{n:'한식음식점',v:'cp'},{n:'패스트푸드',v:'cca'}],
+    trendNote:'2023~2024년에 폐업율(<b>17.2%</b>)이 개업율(<b>15.9%</b>)을 처음 초과했습니다. 이전까지 성장했던 시장이 실질 수축으로 전환된 시점입니다.',
+    storeNote:'2023년(5,480개)을 정점으로 2024년에 처음 감소(5,350개)로 전환됐습니다. <b>시장 포화의 명확한 신호</b>입니다.',
+    compNote:'창업자 100명 중 약 <b>8~9명</b>이 이 업종을 선택합니다. 서울 전 업종 중 1위로, 진입자가 가장 많아 생존 경쟁이 가장 치열한 업종입니다.',
+    seasonNote:'Q3(여름) 개업 집중, Q1(겨울) 최저입니다. 여름 이후 오픈이 초기 수요 확보에 유리합니다.',
+  },
+  카페: {
+    label:'커피음료점', verdict:'vd',
+    verdictText:'✕ 진입 위험', rb:'rb-dng',
+    verdictReason:'시장 축소와 높은 폐업율이 동시에 진행 중',
+    verdictDetail:'대형 프랜차이즈 카페의 급성장으로 독립 카페의 생존율이 급격히 하락했습니다. 특화 컨셉 없이는 진입을 권장하지 않습니다.',
+    evidence:['개폐업 크로스 이미 2022년 발생, 이후 격차 확대 중','서울 내 점포수 2022년 정점 후 3년 연속 감소','5년 생존율 19% — 분석 업종 중 최하위'],
+    open:13.1, close:21.3, net:-8.2,
+    trend:{yrs:['2020','2021','2022','2023','2024'],open:[18.1,19.4,17.2,14.8,13.1],close:[15.2,16.8,18.4,19.7,21.3],net:[2.9,2.6,-1.2,-4.9,-8.2]},
+    stores:[7200,7580,7450,7100,6720],
+    surv:[68,35,19], comp:12.1,
+    lc:'쇠퇴기', lcPos:0.91,
+    seasons:[{q:'Q1',o:3.8,c:5.2},{q:'Q2',o:3.4,c:5.1},{q:'Q3',o:3.1,c:5.4},{q:'Q4',o:2.8,c:5.6}],
+    similar:[{n:'디저트카페',v:'cr'},{n:'베이커리',v:'cr'},{n:'주스전문점',v:'cp'}],
+    trendNote:'개업율과 폐업율의 교차점은 <b>2022년</b>에 발생했습니다. 이후 폐업율이 급격히 상승하며 격차가 매년 확대되고 있습니다.',
+    storeNote:'2022년(7,580개) 정점 이후 3년 연속 감소 중입니다. 2024년(6,720개)은 최근 5년 최저치로 <b>시장이 빠르게 축소</b>되고 있습니다.',
+    compNote:'창업자 100명 중 약 <b>12명</b>이 카페를 선택합니다. 가장 높은 창업 선호도이지만 그만큼 과포화 상태로 생존 공간이 매우 좁습니다.',
+    seasonNote:'연중 폐업율이 개업율을 상회합니다. 어느 시점도 진입 타이밍이 유리하지 않으며, 계절 전략보다 컨셉 차별화가 더 중요합니다.',
+  },
+  한식: {
+    label:'한식음식점', verdict:'vp',
+    verdictText:'✦ 진입 긍정', rb:'rb-pos',
+    verdictReason:'성장 중인 시장에서 수요가 안정적으로 확대 중',
+    verdictDetail:'건강식·배달 트렌드와 맞물려 한식 시장은 꾸준히 성장 중입니다. 폐업율이 하락 추세여서 진입 환경이 개선되고 있습니다.',
+    evidence:['5년 연속 순증가율 플러스 — 2024년 5.4% 기록','폐업율 5년간 지속 하락 (12.8% → 10.9%)','점포수 꾸준히 증가, 수요 기반 견고'],
+    open:16.3, close:10.9, net:5.4,
+    trend:{yrs:['2020','2021','2022','2023','2024'],open:[12.1,13.4,14.2,15.1,16.3],close:[12.8,12.1,11.8,11.2,10.9],net:[-0.7,1.3,2.4,3.9,5.4]},
+    stores:[8900,9150,9400,9820,10380],
+    surv:[81,58,41], comp:5.2,
+    lc:'성장기', lcPos:0.42,
+    seasons:[{q:'Q1',o:3.9,c:2.8},{q:'Q2',o:4.2,c:2.7},{q:'Q3',o:4.1,c:2.6},{q:'Q4',o:4.1,c:2.8}],
+    similar:[{n:'분식전문점',v:'cr'},{n:'일식음식점',v:'cp'},{n:'중식음식점',v:'cr'}],
+    trendNote:'개업율은 꾸준히 상승하고 폐업율은 하락하는 이상적인 패턴입니다. <b>순증가율 5.4%</b>는 최근 5년 최고치로 시장 확장이 가속화되고 있습니다.',
+    storeNote:'5년 연속 증가 추세입니다. 2024년(10,380개)은 최근 5년 중 최고치로 <b>수요가 실질적으로 확대</b>되고 있음을 보여줍니다.',
+    compNote:'창업자 100명 중 약 <b>5명</b>이 이 업종을 선택합니다. 비교적 낮은 경쟁 집중도로 시장 진입 여지가 상대적으로 넓습니다.',
+    seasonNote:'연중 개업율이 폐업율을 꾸준히 상회합니다. 계절 영향이 적어 <b>연중 어느 시점이나 진입</b>이 가능합니다.',
+  },
+};
+
+const GUB = {
+  '강남구': {v:'dp-cau',s:51,open:14.2,close:16.8,net:-2.6,st:312},
+  '강동구': {v:'dp-rev',s:63,open:15.1,close:14.2,net:0.9, st:198},
+  '강북구': {v:'dp-pos',s:72,open:16.8,close:12.1,net:4.7, st:142},
+  '강서구': {v:'dp-pos',s:69,open:16.2,close:12.8,net:3.4, st:221},
+  '관악구': {v:'dp-rev',s:62,open:15.4,close:14.9,net:0.5, st:187},
+  '광진구': {v:'dp-cau',s:54,open:14.8,close:16.1,net:-1.3,st:163},
+  '구로구': {v:'dp-pos',s:71,open:16.5,close:12.4,net:4.1, st:178},
+  '금천구': {v:'dp-pos',s:74,open:17.1,close:11.8,net:5.3, st:121},
+  '노원구': {v:'dp-rev',s:64,open:15.2,close:14.5,net:0.7, st:215},
+  '도봉구': {v:'dp-pos',s:76,open:17.4,close:11.2,net:6.2, st:134},
+  '동대문구':{v:'dp-rev',s:61,open:15.0,close:14.8,net:0.2, st:171},
+  '동작구': {v:'dp-pos',s:68,open:16.0,close:13.1,net:2.9, st:156},
+  '마포구': {v:'dp-dng',s:38,open:12.1,close:21.4,net:-9.3,st:284},
+  '서대문구':{v:'dp-rev',s:60,open:14.9,close:15.1,net:-0.2,st:148},
+  '서초구': {v:'dp-cau',s:49,open:13.8,close:17.2,net:-3.4,st:267},
+  '성동구': {v:'dp-dng',s:41,open:12.8,close:19.8,net:-7.0,st:198},
+  '성북구': {v:'dp-rev',s:63,open:15.3,close:14.4,net:0.9, st:167},
+  '송파구': {v:'dp-cau',s:52,open:14.4,close:16.2,net:-1.8,st:298},
+  '양천구': {v:'dp-pos',s:70,open:16.3,close:12.9,net:3.4, st:189},
+  '영등포구':{v:'dp-cau',s:50,open:14.0,close:16.5,net:-2.5,st:245},
+  '용산구': {v:'dp-dng',s:36,open:11.8,close:22.1,net:-10.3,st:156},
+  '은평구': {v:'dp-pos',s:73,open:16.9,close:12.2,net:4.7, st:158},
+  '종로구': {v:'dp-dng',s:34,open:11.2,close:23.4,net:-12.2,st:187},
+  '중구':   {v:'dp-dng',s:32,open:10.8,close:24.1,net:-13.3,st:142},
+  '중랑구': {v:'dp-pos',s:77,open:17.8,close:11.1,net:6.7, st:143},
+};
+const GUS = Object.keys(GUB);
+
+const VL  = {vp:'진입 긍정',vr:'진입 검토',vc:'진입 신중',vd:'진입 위험'};
+const VCH = {vp:'cp',vr:'cr',vc:'cca',vd:'cd'};
+const DCVL = {'dp-pos':'cp','dp-rev':'cr','dp-cau':'cca','dp-dng':'cd'};
+const DCVT = {'dp-pos':'vp','dp-rev':'vr','dp-cau':'vc','dp-dng':'vd'};
+
+let cur = null, selDist = null;
+
+// ══ SVG CHARTS ══════════════════════════════════════
+function trendSVG(t) {
+  const all = [...t.open, ...t.close, ...t.net];
+  const mn = Math.min(...all) - 2, mx = Math.max(...all) + 2;
+  const x0=34,xe=290,y0=5,ye=108,n=t.yrs.length;
+  const xs = t.yrs.map((_,i) => x0 + i/(n-1)*(xe-x0));
+  const ty = v => y0 + (1-(v-mn)/(mx-mn))*(ye-y0);
+  const line = (vals,col,dash='') => {
+    const pts = vals.map((v,i) => `${xs[i].toFixed(1)},${ty(v).toFixed(1)}`).join(' ');
+    return `<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2" stroke-dasharray="${dash}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  };
+  const dots = (vals,col) => vals.map((v,i) =>
+    `<circle cx="${xs[i].toFixed(1)}" cy="${ty(v).toFixed(1)}" r="3" fill="${col}"/>`
+  ).join('');
+  const grid = [];
+  for (let i=0;i<=3;i++) {
+    const v = mn+(mx-mn)*i/3, y = ty(v);
+    grid.push(`<line x1="${x0}" y1="${y.toFixed(1)}" x2="${xe}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,.05)"/>`);
+    grid.push(`<text x="${x0-4}" y="${(y+3).toFixed(1)}" font-size="9" fill="#5a6078" text-anchor="end">${v.toFixed(0)}%</text>`);
+  }
+  const xl = t.yrs.map((yr,i) =>
+    `<text x="${xs[i].toFixed(1)}" y="${(ye+13).toFixed(1)}" font-size="9" fill="#5a6078" text-anchor="middle">${yr}</text>`
+  ).join('');
+  return `<svg viewBox="0 0 300 ${ye+18}" width="100%" style="display:block">
+    ${grid.join('')}
+    ${line(t.open,'#4f7cff')}${line(t.close,'#ff4f6d')}${line(t.net,'#00c9a7','5,3')}
+    ${dots(t.open,'#4f7cff')}${dots(t.close,'#ff4f6d')}${dots(t.net,'#00c9a7')}
+    ${xl}</svg>`;
+}
+
+function storeBars(stores, yrs) {
+  const mx = Math.max(...stores);
+  return `<div style="display:flex;gap:7px;align-items:flex-end;height:100px;padding:0 2px">
+    ${stores.map((v,i) => {
+      const h = Math.round(v/mx*78);
+      const col = i>0 && v<stores[i-1] ? 'rgba(255,79,109,.65)' : 'rgba(79,124,255,.65)';
+      return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+        <div style="font-size:9px;color:#5a6078">${(v/1000).toFixed(1)}k</div>
+        <div style="width:100%;height:${h}px;background:${col};border-radius:3px 3px 0 0"></div>
+        <div style="font-size:9px;color:#5a6078">${yrs[i]}</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function seasonBars(ss) {
+  const mx = Math.max(...ss.flatMap(s=>[s.o,s.c]));
+  return `<div style="display:flex;gap:16px;align-items:flex-end;height:85px;padding:0 4px">
+    ${ss.map(s => {
+      const ho = Math.round(s.o/mx*68), hc = Math.round(s.c/mx*68);
+      return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+        <div style="width:100%;display:flex;gap:3px;align-items:flex-end;height:72px">
+          <div style="flex:1;height:${ho}px;background:rgba(79,124,255,.7);border-radius:3px 3px 0 0" title="개업 ${s.o}%"></div>
+          <div style="flex:1;height:${hc}px;background:rgba(255,79,109,.6);border-radius:3px 3px 0 0" title="폐업 ${s.c}%"></div>
+        </div>
+        <div style="font-size:10px;color:#5a6078">${s.q}</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function lcSVG(lc, pos) {
+  const cls  = {성장기:'lcg',성숙기:'lcm',쇠퇴기:'lcd'}[lc]||'lcg';
+  const note = {성장기:'진입 적기 — 시장이 꾸준히 확장 중',성숙기:'진입 신중 — 차별화 전략 필수',쇠퇴기:'진입 비추 — 시장이 수축 중'}[lc];
+  const dotC = {성장기:'#00c9a7',성숙기:'#ffb74d',쇠퇴기:'#ff4f6d'}[lc];
+  const p    = pos*100;
+  const x    = 10 + pos*182;
+  const y    = p<25 ? 68-p*2.3 : p<55 ? 11+(p-25)*.13 : 15+(p-55)*1.1;
+  return `<span class="lcstg ${cls}">${lc}</span>
+    <svg viewBox="0 0 210 88" width="100%" style="display:block;margin-bottom:6px">
+      <path d="M10,70 C30,70 50,8 100,8 C145,8 162,44 200,64"
+        stroke="rgba(255,255,255,.2)" stroke-width="1.5" fill="none"/>
+      <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7"
+        fill="${dotC}" stroke="rgba(0,0,0,.4)" stroke-width="1.5"/>
+      <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="13"
+        fill="${dotC}" fill-opacity=".15"/>
+      <text x="10"  y="83" font-size="8" fill="#5a6078">도입기</text>
+      <text x="72"  y="6"  font-size="8" fill="#5a6078">성장기</text>
+      <text x="140" y="22" font-size="8" fill="#5a6078">성숙기</text>
+      <text x="162" y="57" font-size="8" fill="#5a6078">쇠퇴기</text>
+    </svg>
+    <div class="lcnote">${note}</div>`;
+}
+
+// ══ BUILD CONTENT ════════════════════════════════════
+function buildContent(d) {
+  const nc = d.net >= 0 ? '#00c9a7' : '#ff4f6d';
+  const compLbl = d.comp>=10?'🔴 극심한 과열':d.comp>=7?'🟡 경쟁 과잉':d.comp>=4?'🟢 보통 경쟁':'✅ 블루오션 가능성';
+  const bw = Math.min(100, d.comp*3.5);
+  const [y1,y3,y5] = d.surv;
+  const srvNote = `창업 10곳 중 5년 후 <b style="color:#e8eaf0">${Math.round(y5/10)}곳</b>만 생존 — 업종 평균(34%) 대비 ${y5>=34?'▲ 높음':'▼ 낮음'}`;
+  const simLbl = {cp:'진입 긍정',cr:'진입 검토',cca:'진입 신중',cd:'진입 위험'};
+
+  const sorted = Object.entries(GUB).sort((a,b)=>b[1].s-a[1].s);
+  const top5   = sorted.slice(0,5);
+  const medals = ['🥇','🥈','🥉','4위','5위'];
+
+  return `
+  <!-- A -->
+  <div class="shdr"><span class="sbadge sb-a">SECTION A</span><span class="sttl">업종 현황 리포트 — ${d.label}</span></div>
+
+  <div class="card">
+    <div class="ctitle">A0. 종합 판정</div>
+    <div class="csub">개업율 · 폐업율 · 순증가율 · 창업점유율 종합 분석 결과</div>
+    <div class="vcard ${d.verdict}">
+      <div class="vrow">
+        <div class="vleft">
+          <div class="vtext">${d.verdictText}</div>
+          <div class="vreason">${d.verdictReason}</div>
+          <div class="vdetail">${d.verdictDetail}</div>
+          <ul class="vbul">${d.evidence.map(e=>`<li>${e}</li>`).join('')}</ul>
+        </div>
+        <div class="vstats">
+          <div class="vstat"><div class="vnum">${d.open}%</div><div class="vlbl">개업율</div></div>
+          <div class="vstat"><div class="vnum">${d.close}%</div><div class="vlbl">폐업율</div></div>
+          <div class="vstat"><div class="vnum" style="color:${nc}">${d.net>0?'+':''}${d.net}%</div><div class="vlbl">순증가율</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="interp">판정은 서울 전체 기준이며, 아래 섹션에서 각 지표의 상세 근거를 확인할 수 있습니다. 섹션 B에서 지역을 선택하면 구별 판정도 확인 가능합니다.</div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ctitle">A1. 5년 개폐업 추이</div>
+      <div class="csub">2020–2024년 개업율 · 폐업율 · 순증가율 흐름</div>
+      <div class="chart-leg">
+        <span class="cl-item"><span class="cl-line" style="background:#4f7cff"></span>개업율</span>
+        <span class="cl-item"><span class="cl-line" style="background:#ff4f6d"></span>폐업율</span>
+        <span class="cl-item"><span class="cl-line" style="background:#00c9a7;border-top:1px dashed #00c9a7"></span>순증가율</span>
+      </div>
+      ${trendSVG(d.trend)}
+      <div class="interp">${d.trendNote}</div>
+    </div>
+    <div class="card">
+      <div class="ctitle">A2. 연간 총 점포수 변화</div>
+      <div class="csub">서울 내 이 업종 전체 점포수 추이</div>
+      <div style="height:14px"></div>
+      ${storeBars(d.stores, d.trend.yrs)}
+      <div style="display:flex;gap:10px;margin-top:8px;font-size:10px;color:#5a6078">
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:8px;background:rgba(79,124,255,.65);border-radius:2px;display:block"></span>증가</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:8px;background:rgba(255,79,109,.65);border-radius:2px;display:block"></span>감소</span>
+      </div>
+      <div class="interp">${d.storeNote}</div>
+    </div>
+  </div>
+
+  <div class="g3">
+    <div class="card">
+      <div class="ctitle">A3. 생존율 분석</div>
+      <div class="csub">창업 후 시간 경과에 따른 생존 점포 비율</div>
+      <div class="srow">
+        <div class="si"><div class="sp chi">${y1}%</div><div class="sy">1년 후</div></div>
+        <div class="si"><div class="sp cmi">${y3}%</div><div class="sy">3년 후</div></div>
+        <div class="si"><div class="sp clo">${y5}%</div><div class="sy">5년 후</div></div>
+      </div>
+      <div style="font-size:12px;color:#8b92a8;margin-bottom:2px">${srvNote}</div>
+      <div class="interp">1년은 초기 운영 안정화, 3년은 손익분기점, 5년은 사업 존속 기준선입니다. 이 업종의 5년 생존율은 전체 평균(34%)과 비교해 <b>${y5>=34?'높은':'낮은'} 수준</b>입니다.</div>
+    </div>
+    <div class="card">
+      <div class="ctitle">A4. 경쟁 강도</div>
+      <div class="csub">서울 전체 신규 창업 중 이 업종이 차지하는 비중</div>
+      <div class="gctr">
+        <div><span class="gbig" style="color:${d.verdict==='vp'?'#00c9a7':d.verdict==='vr'?'#4f7cff':d.verdict==='vc'?'#ffb74d':'#ff4f6d'}">${d.comp}</span><span class="gu">%</span></div>
+        <div class="gtrk"><div class="gfil" style="width:${bw}%;background:linear-gradient(90deg,#00c9a7,#ffb74d,#ff4f6d)"></div></div>
+        <div class="gnote">${compLbl}</div>
+      </div>
+      <div class="interp">${d.compNote}</div>
+    </div>
+    <div class="card">
+      <div class="ctitle">A5. 업종 생명주기</div>
+      <div class="csub">순증가율 추세 기반 현재 성장 단계 위치</div>
+      ${lcSVG(d.lc, d.lcPos)}
+      <div class="interp">업종 생명주기는 도입 → 성장 → 성숙 → 쇠퇴 4단계로 진행됩니다. <b>${d.lc}</b>에서는 시장 포화도와 차별화 전략이 생존을 결정합니다.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">A6. 분기별 개폐업 패턴 (계절성)</div>
+    <div class="csub">어느 분기에 창업·폐업이 집중되는지 파악하는 창업 타이밍 지표</div>
+    <div class="chart-leg">
+      <span class="cl-item"><span class="cl-line" style="background:rgba(79,124,255,.8)"></span>개업율</span>
+      <span class="cl-item"><span class="cl-line" style="background:rgba(255,79,109,.7)"></span>폐업율</span>
+    </div>
+    ${seasonBars(d.seasons)}
+    <div class="interp">${d.seasonNote}</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">A8. 유사 업종 비교</div>
+    <div class="csub">같은 카테고리 내 업종별 창업 판정 비교 — 업종 전환 검토 시 참고</div>
+    <div class="simrow">
+      ${d.similar.map(s=>`
+        <div class="simi">
+          <div><div class="simn">${s.n}</div><div class="sims">유사 업종</div></div>
+          <span class="chip ${s.v}">${simLbl[s.v]}</span>
+        </div>`).join('')}
+    </div>
+    <div class="interp">같은 카테고리에서 더 나은 판정의 유사 업종으로 방향을 검토하는 것도 유효한 전략입니다. 클릭하면 해당 업종 리포트를 바로 확인할 수 있습니다. <i style="color:#5a6078">(연동 예정)</i></div>
+  </div>
+
+  <!-- B -->
+  <div class="shdr"><span class="sbadge sb-b">SECTION B</span><span class="sttl">지역별 분석 리포트</span></div>
+
+  <div class="note">💡 구 이름을 클릭하면 해당 지역의 상세 개폐업 데이터와 판정 해석이 표시됩니다</div>
+
+  <div class="card">
+    <div class="ctitle">B0. 이 업종 추천 지역 TOP 5</div>
+    <div class="csub">개업율↑ · 폐업율↓ · 순증가율↑ 종합 점수 기준 상위 지역</div>
+    <div class="t5row">
+      ${top5.map(([gu,d],i)=>`
+        <div class="t5i" onclick="clickDist('${gu}')">
+          <div class="t5m">${medals[i]}</div>
+          <div class="t5g">${gu}</div>
+          <div class="t5s">종합 ${d.s}점</div>
+        </div>`).join('')}
+    </div>
+    <div class="interp">종합 점수는 개업율·폐업율·순증가율을 가중 합산한 값입니다. <b>상위 지역일수록</b> 이 업종의 생존 확률이 통계적으로 높습니다. 카드를 클릭하면 상세 데이터를 확인할 수 있습니다.</div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+      <div>
+        <div class="ctitle">B1. 자치구별 창업 판정</div>
+        <div class="csub" style="margin:3px 0 0">서울 25개 자치구 — 클릭하면 상세 분석 표시</div>
+      </div>
+      <div class="vleg">
+        <span class="vli"><span class="vld" style="background:#00c9a7"></span>진입 긍정</span>
+        <span class="vli"><span class="vld" style="background:#8faeff"></span>진입 검토</span>
+        <span class="vli"><span class="vld" style="background:#ffb74d"></span>진입 신중</span>
+        <span class="vli"><span class="vld" style="background:#ff4f6d"></span>진입 위험</span>
+      </div>
+    </div>
+    <div class="dgrid" id="dgrid"></div>
+    <div class="interp" style="margin-top:13px">판정은 해당 구의 이 업종 개업율·폐업율·순증가율을 서울 평균과 비교해 산출합니다. <b>초록(긍정) 지역</b>이 통계적으로 생존율이 높은 창업 입지입니다.</div>
+  </div>
+
+  <div id="ddarea"></div>
+  `;
+}
+
+// ══ DISTRICT ════════════════════════════════════════
+function renderDGrid() {
+  document.getElementById('dgrid').innerHTML = GUS.map(g => {
+    const d = GUB[g];
+    return `<div class="dpil ${d.v}${selDist===g?' sel':''}"
+      onclick="clickDist('${g}')" title="${g} 종합 ${d.s}점">
+      ${g.replace('구','')}
+    </div>`;
+  }).join('');
+}
+
+function clickDist(gu) {
+  selDist = gu;
+  renderDGrid();
+  const d  = GUB[gu];
+  const nc = d.net>=0 ? '#00c9a7' : '#ff4f6d';
+  const vt = DCVT[d.v];
+  const comments = {
+    vp:`✅ <b style="color:#e8eaf0">${gu}</b>는 이 업종 창업에 유리한 지역입니다. 개업율(${d.open}%)이 높고 폐업율(${d.close}%)이 낮아 신규 점포가 꾸준히 증가하는 성장 시장입니다.`,
+    vr:`🔍 <b style="color:#e8eaf0">${gu}</b>는 조건부 진입 가능 지역입니다. 개폐업율이 비슷한 수준으로 뚜렷한 차별화 포인트가 있다면 생존 가능성이 있습니다.`,
+    vc:`⚠️ <b style="color:#e8eaf0">${gu}</b>는 진입에 신중해야 합니다. 폐업율(${d.close}%)이 개업율(${d.open}%)을 초과하며 이미 경쟁이 포화 상태입니다.`,
+    vd:`🚫 <b style="color:#e8eaf0">${gu}</b>는 이 업종 창업을 권장하지 않습니다. 폐업율(${d.close}%)이 극도로 높아 생존 확률이 낮고, 순증가율 ${d.net}%로 시장이 빠르게 축소 중입니다.`,
+  }[vt];
+  const ddiv = document.getElementById('ddarea');
+  ddiv.innerHTML = `
+    <div class="ddcard">
+      <div class="ddhd">
+        <div class="ddnm">${gu} 상세 분석</div>
+        <span class="chip ${DCVL[d.v]}">${VL[vt]}</span>
+        <span class="ddsc">종합점수 ${d.s}점</span>
+      </div>
+      <div class="ddrow">
+        <div class="ddm">
+          <div class="ddn" style="color:#4f7cff">${d.open}%</div>
+          <div class="ddl">개업율</div>
+          <div class="ddc">서울 평균 대비 ${d.open>=15.5?'▲ 높음':'▼ 낮음'}</div>
+        </div>
+        <div class="ddm">
+          <div class="ddn" style="color:#ff4f6d">${d.close}%</div>
+          <div class="ddl">폐업율</div>
+          <div class="ddc">서울 평균 대비 ${d.close>=15.5?'▲ 높음':'▼ 낮음'}</div>
+        </div>
+        <div class="ddm">
+          <div class="ddn" style="color:${nc}">${d.net>0?'+':''}${d.net}%</div>
+          <div class="ddl">순증가율</div>
+          <div class="ddc">현재 점포수 ${d.st}개</div>
+        </div>
+      </div>
+      <div class="interp" style="margin-top:13px">${comments}</div>
+    </div>`;
+  ddiv.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ══ VIEW CONTROL ════════════════════════════════════
+function showResults(k) {
+  cur = k; selDist = null;
+  const d = DATA[k];
+  document.getElementById('vL').style.display = 'none';
+  document.getElementById('vR').style.display = 'block';
+  document.getElementById('rnind').textContent = d.label;
+  document.getElementById('rhero').innerHTML = `
+    <div class="rhtag">창업 리포트</div>
+    <div class="rhtitle">서울 <span class="hl">·</span> ${d.label}<br>동향 및 상세 리포트</div>
+    <div class="rhsub">서울 열린데이터 기반 · 2020–2024년 분기 통계 · 샘플 데이터</div>
+    <span class="rhbadge ${d.rb}">${d.verdictText}</span>`;
+  document.getElementById('rcont').innerHTML = buildContent(d);
+  renderDGrid();
+  window.scrollTo({top:0, behavior:'auto'});
+}
+
+function back() {
+  document.getElementById('vR').style.display = 'none';
+  document.getElementById('vL').style.display = 'flex';
+  cur = null; selDist = null;
+}
+
+function go() {
+  const k = document.getElementById('sel').value;
+  if (!k) return;
+  showResults(k);
+}
+
+function qgo(k) {
+  document.getElementById('sel').value = k;
+  showResults(k);
+}
+</script>
+</body>
+</html>
