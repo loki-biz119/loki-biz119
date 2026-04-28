@@ -140,11 +140,44 @@ select:focus{border-color:var(--acc)}
 @keyframes spin{to{transform:rotate(360deg)}}
 #loading-txt{font-size:13px;color:var(--t2);font-weight:600}
 @media(max-width:600px){.two{grid-template-columns:1fr}.v-metrics{grid-template-columns:repeat(2,1fr)}.land-h1{font-size:21px}}
+
+/* ── 새 리포트 디자인 ── */
+.rpt-section{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--border);background:var(--bg)}
+.sec-ttl{font-size:13px;font-weight:800;color:var(--t1)}
+.formula-btn{font-size:11px;color:var(--t3);background:none;border:1px solid var(--border2);border-radius:20px;padding:3px 9px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s}
+.formula-btn:hover{color:var(--acc);border-color:var(--acc)}
+.sec-body{padding:16px}
+.vdt-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.vdt-desc{font-size:13px;color:var(--t2);font-weight:600}
+.ev-list{display:flex;flex-direction:column;gap:11px}
+.ev-item{display:flex;gap:0;align-items:baseline}
+.ev-lbl{font-size:12px;font-weight:700;color:var(--t2);min-width:100px;flex-shrink:0;padding-top:1px}
+.ev-txt{font-size:13px;color:var(--t1);line-height:1.65}
+.dv{color:#2F9E44;font-weight:700}
+.dup{color:#e03131;font-weight:700}
+.ddn{color:#1971C2;font-weight:700}
+/* 모달 */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center}
+.modal-ov.open{display:flex}
+.modal-box{background:#fff;border-radius:14px;padding:24px;max-width:500px;width:92%;max-height:72vh;overflow-y:auto;position:relative}
+.modal-ttl{font-size:15px;font-weight:800;color:var(--t1);margin-bottom:14px;padding-right:28px}
+.modal-body{font-size:13px;color:var(--t2);line-height:1.75}
+.modal-body strong{color:var(--t1)}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--t3);line-height:1}
 </style>
 </head>
 <body>
 
 <div id="loading"><div class="spinner"></div><div id="loading-txt">리포트 생성 중...</div></div>
+
+<div class="modal-ov" id="modal-ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-ttl" id="modal-ttl"></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
 
 <nav class="gnb">
   <div class="gnb-logo">LOK<span>I</span> 창업레이더</div>
@@ -470,113 +503,198 @@ function recDist(){
   }).join('');
 }
 
+/* ── 모달 ── */
+const MODALS={
+  verdict:{
+    ttl:'판정 산출 이론 및 공식',
+    body:`<strong>판정 기준</strong> (서울 100개 업종 백분위 분석 기반)<br><br>
+      ✓ <strong>긍정</strong>: 순증가율 ≥ 1.0% AND 폐업률 < 2.5%<br>
+      → <strong>검토</strong>: 순증가율 ≥ −0.5% AND 폐업률 < 3.5%<br>
+      ⚠ <strong>신중</strong>: 그 외<br>
+      ✕ <strong>위험</strong>: 순증가율 < −2.0% OR 폐업률 ≥ 4.0%<br><br>
+      <strong>임계값 도출 방법</strong><br>
+      서울 열린데이터광장 OA-22173 기준 최신 분기 100개 업종 전수 분석.<br>
+      순증가율 P90=1.95 → 긍정 임계 1.0 / P10=−2.09 → 위험 임계 −2.0<br>
+      폐업률 P75=2.49 → 긍정 임계 2.5 / P90=4.52 → 위험 임계 4.0<br><br>
+      <strong>공식</strong><br>
+      순증가율(%) = 개업률(%) − 폐업률(%)<br>
+      개업률(%) = 신규 창업 점포수 ÷ 전체 점포수 × 100<br>
+      폐업률(%) = 폐업 점포수 ÷ 전체 점포수 × 100`
+  },
+  survival:{
+    ttl:'5년 생존율 산출 이론 및 공식',
+    body:`<strong>이론적 배경</strong><br>
+      분기 폐업률을 기반으로 복리(기하급수) 방식으로 생존 확률을 추정합니다.<br><br>
+      <strong>공식</strong><br>
+      N년차 생존율 = (1 − 분기 폐업률)^(4N) × 100<br><br>
+      예시: 분기 폐업률 3%<br>
+      1년차 = (1−0.03)^4 × 100 = 88.5%<br>
+      3년차 = (1−0.03)^12 × 100 = 69.4%<br>
+      5년차 = (1−0.03)^20 × 100 = 54.4%<br><br>
+      <strong>주의사항</strong><br>
+      실제 생존율은 상권·운영 역량·경기 상황에 따라 달라질 수 있습니다.
+      본 수치는 통계적 추정값입니다.`
+  },
+  market:{
+    ttl:'시장 역학 산출 이론 및 공식',
+    body:`<strong>개업률 순위</strong><br>
+      서울 100개 업종의 개업률(신규 창업 점포수 ÷ 전체 점포수 × 100)을 내림차순 정렬 후 해당 업종 순위 산출<br><br>
+      <strong>폐업률 순위</strong><br>
+      동일 방식으로 폐업률 내림차순 정렬 후 순위 산출<br><br>
+      <strong>시장 유형 분류</strong><br>
+      두 순위가 각각 100개 업종 중 상위 50%(1~50위)인지 여부 조합:<br><br>
+      폐업 높음 + 개업 높음 → <strong>레드오션형</strong><br>
+      폐업 높음 + 개업 낮음 → <strong>정리형</strong><br>
+      폐업 낮음 + 개업 높음 → <strong>성장형</strong><br>
+      폐업 낮음 + 개업 낮음 → <strong>안정형</strong>`
+  },
+  lifecycle:{
+    ttl:'업종 생명주기 산출 이론 및 공식',
+    body:`<strong>이론적 배경</strong><br>
+      CFA(공인재무분석사) 기준 산업 수명 주기(Industry Life Cycle) 5단계 모델 적용<br>
+      출처: CFA Institute Curriculum, Equity Analysis<br><br>
+      <strong>5단계</strong><br>
+      도입기 → 성장기 → 구조조정기(Shakeout) → 성숙기 → 쇠퇴기<br><br>
+      <strong>분류 공식</strong><br>
+      최근 4분기 순증가율 평균(R4) 및 이전 4분기 대비 변화폭(slope) 기반:<br><br>
+      R4 ≥ 1.0% AND slope ≥ 0 → <strong>성장기</strong><br>
+      R4 ≥ 0% AND slope < −0.3 → <strong>구조조정기</strong><br>
+      −2.0% ≤ R4 < 1.0% → <strong>성숙기</strong><br>
+      R4 < −2.0% → <strong>쇠퇴기</strong>`
+  },
+};
+function showModal(key){
+  const m=MODALS[key];if(!m)return;
+  document.getElementById('modal-ttl').innerHTML=m.ttl;
+  document.getElementById('modal-body').innerHTML=m.body;
+  document.getElementById('modal-ov').classList.add('open');
+}
+function closeModal(){document.getElementById('modal-ov').classList.remove('open');}
+
+/* ── 헬퍼 ── */
+function fmtQ(q){const s=String(q);return `${s.slice(0,4)}년 ${s.slice(4)}분기`;}
+
+function calcSurvival(closeRate){
+  const q=closeRate/100;
+  return {
+    y1:(Math.pow(1-q,4)*100).toFixed(1),
+    y3:(Math.pow(1-q,12)*100).toFixed(1),
+    y5:(Math.pow(1-q,20)*100).toFixed(1),
+  };
+}
+
+function calcLifecycle(trend){
+  if(!trend||trend.length<8)return{stage:'성숙기',color:'dv',avg:'—'};
+  const recent=trend.slice(-4);
+  const prev=trend.slice(-8,-4);
+  const r4=recent.reduce((s,t)=>s+(t.op-t.cl),0)/4;
+  const p4=prev.reduce((s,t)=>s+(t.op-t.cl),0)/4;
+  const slope=r4-p4;
+  let stage,color;
+  if(r4>=1.0&&slope>=0){stage='성장기';color='dup';}
+  else if(r4>=0&&slope<-0.3){stage='구조조정기';color='ddn';}
+  else if(r4>=-2.0){stage='성숙기';color='dv';}
+  else{stage='쇠퇴기';color='ddn';}
+  return{stage,color,avg:r4.toFixed(2)};
+}
+
+function getMarketType(openRank,closeRank,total){
+  const highClose=closeRank<=total/2;
+  const highOpen=openRank<=total/2;
+  if(highClose&&highOpen)return{type:'레드오션형',color:'ddn',desc:'나가는 만큼 들어와 경쟁 압력 지속. 차별화 없이는 생존 어려움'};
+  if(highClose&&!highOpen)return{type:'정리형',color:'ddn',desc:'기존 사업자가 빠져나가는 중. 구조적 원인 확인 후 역진입 타이밍 검토 필요'};
+  if(!highClose&&highOpen)return{type:'성장형',color:'dup',desc:'매력적인 시장에 진입자 집중. 경쟁 심화 전 선점 가능'};
+  return{type:'안정형',color:'dv',desc:'진입장벽 있는 성숙시장. 안정적이나 기회도 제한적'};
+}
+
+/* ── 섹션 1: 진단 결과 ── */
+function buildSection1(nm,ind){
+  const m=ind.metrics,v=ind.verdict,vs=VS[v];
+  const lq=fmtQ(LOKI_SOT._meta.latest_quarter);
+  const allInds=Object.values(LOKI_SOT.industries);
+  const total=allInds.length;
+
+  // 순위 계산
+  const byOpen=[...allInds].sort((a,b)=>b.metrics.open_rate-a.metrics.open_rate);
+  const byClose=[...allInds].sort((a,b)=>b.metrics.close_rate-a.metrics.close_rate);
+  const openRank=byOpen.findIndex(d=>d.name===nm)+1;
+  const closeRank=byClose.findIndex(d=>d.name===nm)+1;
+
+  // 생존율
+  const surv=calcSurvival(m.close_rate);
+  const avgClose=allInds.reduce((s,d)=>s+d.metrics.close_rate,0)/total;
+  const avgSurv5=Math.pow(1-avgClose/100,20)*100;
+  const survDiff=parseFloat(surv.y5)-avgSurv5;
+  const survDiffAbs=Math.abs(survDiff).toFixed(1);
+  const survComp=survDiff>=0
+    ?`타 업종 평균 대비 <span class="dup">+${survDiffAbs}%p 높아</span>`
+    :`타 업종 평균 대비 <span class="ddn">−${survDiffAbs}%p 낮아</span>`;
+  const survTail=survDiff<-10?'강력한 브랜드 또는 특화전략 없이는 생존이 매우 어려울 수 있음':'체계적인 준비와 입지 선정이 중요함';
+
+  // 시장 유형
+  const mkt=getMarketType(openRank,closeRank,total);
+
+  // 생명주기
+  const lc=calcLifecycle(ind.trend);
+
+  // 창업 유리 지역
+  const sdCount=ind.startup_districts&&ind.startup_districts.count!=null?ind.startup_districts.count:0;
+  const sdCriteria=ind.startup_districts&&ind.startup_districts.criteria?ind.startup_districts.criteria.description:'—';
+
+  // 판정 설명
+  const vDesc={
+    '긍정':'성장 중인 시장으로 진입 시점으로 긍정적',
+    '검토':'안정적이나 조건부 진입, 충분한 검토 필요',
+    '신중':'시장 수축 중, 신중한 접근 권장',
+    '위험':'폐업 압박 높음, 진입 전 충분한 검증 필요',
+  };
+
+  const ngColor=m.net_growth>0?'dup':'ddn';
+  const ngSign=m.net_growth>0?'+':'';
+
+  return `
+  <div class="rpt-section">
+    <div class="sec-hdr">
+      <div class="sec-ttl">1. 진단 결과</div>
+      <button class="formula-btn" onclick="showModal('verdict')">산출 이론 및 공식 ⓘ</button>
+    </div>
+    <div class="sec-body">
+      <div class="vdt-row">
+        <span class="v-badge ${vs.cls}">${vs.icon} ${v}</span>
+        <span class="vdt-desc">${vDesc[v]}</span>
+      </div>
+      <div class="ev-list">
+        <div class="ev-item">
+          <span class="ev-lbl">순증가율</span>
+          <span class="ev-txt">서울 ${D(nm)}은 ${lq} 기준 순증가율이 <span class="${ngColor}">${ngSign}${m.net_growth}%</span>로 시장이 ${m.net_growth>0?'<span class="dup">성장</span>':'<span class="ddn">수축</span>'} 중</span>
+        </div>
+        <div class="ev-item">
+          <span class="ev-lbl">5년 생존율</span>
+          <span class="ev-txt">${D(nm)}의 5년차 생존율은 <span class="dv">${surv.y5}%</span>로 ${survComp} ${survTail}</span>
+        </div>
+        <div class="ev-item">
+          <span class="ev-lbl">시장 역학</span>
+          <span class="ev-txt">개업률 전 업종 <span class="dv">${openRank}위</span> / 폐업률 전 업종 <span class="dv">${closeRank}위</span> → <span class="${mkt.color}">${mkt.type}</span> — ${mkt.desc}</span>
+        </div>
+        <div class="ev-item">
+          <span class="ev-lbl">업종 생명주기</span>
+          <span class="ev-txt">현재 <span class="${lc.color}">${lc.stage}</span> 단계로 추정 (최근 4분기 순증가율 평균 <span class="${lc.avg>0?'dup':'ddn'}">${lc.avg>0?'+':''}${lc.avg}%</span>)</span>
+        </div>
+        <div class="ev-item">
+          <span class="ev-lbl">창업 우선 지역</span>
+          <span class="ev-txt">이 업종의 창업에 유리한 지역은 서울 총 <span class="dv">${sdCount}개 구</span>${sdCount===0?' — 어느 구에서나 폐업 압박 또는 경쟁 밀도가 높음':''}<br><span style="font-size:11px;color:var(--t3)">기준: ${sdCriteria}</span></span>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
 /* ── 리포트 빌드 ── */
 function buildReport(nm){
   const ind=LOKI_SOT.industries[nm];if(!ind)return;
-  const m=ind.metrics,v=ind.verdict,vs=VS[v];
   document.getElementById('res-nm').textContent=D(nm);
-  const topPct=Math.round(Object.values(LOKI_SOT.industries).filter(d=>d.metrics.startup_share>m.startup_share).length/Object.keys(LOKI_SOT.industries).length*100);
-
-  document.getElementById('res-body').innerHTML=`
-    <div class="sec-lbl">A · 업종 현황</div>
-    <div class="verdict" style="border-color:${vs.border}">
-      <div class="v-top">
-        <span class="v-badge ${vs.cls}">${vs.icon} ${v}</span>
-        <div class="v-title">${VM[v](D(nm))}</div>
-      </div>
-      <div class="v-desc">${VD[v](D(nm),m)}</div>
-      <div class="v-metrics">
-        <div class="vm"><div class="vm-l">개업률</div><div class="vm-v ${m.open_rate>m.close_rate?'up':'nu'}">${m.open_rate}%</div></div>
-        <div class="vm"><div class="vm-l">폐업률</div><div class="vm-v ${m.close_rate>3.5?'dn':'nu'}">${m.close_rate}%</div></div>
-        <div class="vm"><div class="vm-l">순증가율</div><div class="vm-v ${m.net_growth>0?'up':'dn'}">${m.net_growth>0?'+':''}${m.net_growth}%</div></div>
-        <div class="vm"><div class="vm-l">창업점유율</div><div class="vm-v nu">${m.startup_share}%</div></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">A1</span>서울 ${D(nm)} 점포 수 추이</div>
-      <div class="csub">연도별 전체 점포수 변화 (서울 25개 자치구 합산)</div>
-      ${trendSVG(ind.trend)}
-      <div class="interp">최근 기준 서울 전체 ${m.store_count.toLocaleString()}개 점포 운영 중. 창업 시장 내 점유율 ${m.startup_share}% (전체 업종 중 상위 ${topPct}% 수준).</div>
-      <!-- nm은 SOT 키, D(nm)은 표시명 -->
-    </div>
-
-    <div class="two">
-      <div class="card">
-        <div class="cttl"><span class="tag">A2</span>핵심 지표</div>
-        <div class="kpi-grid">
-          <div class="kpi-c"><div class="kpi-l">점포수</div><div class="kpi-v">${m.store_count.toLocaleString()}</div></div>
-          <div class="kpi-c"><div class="kpi-l">순증가율</div><div class="kpi-v ${m.net_growth>0?'up':'dn'}">${m.net_growth>0?'+':''}${m.net_growth}%</div></div>
-          <div class="kpi-c"><div class="kpi-l">개업률</div><div class="kpi-v up">${m.open_rate}%</div></div>
-          <div class="kpi-c"><div class="kpi-l">폐업률</div><div class="kpi-v ${m.close_rate>3.5?'dn':'nu'}">${m.close_rate}%</div></div>
-        </div>
-        <div class="interp" style="font-size:10px">폐업률이 개업률을 ${m.close_rate>m.open_rate?'상회':'하회'}하는 ${m.close_rate>m.open_rate?'순감':'순증'} 상태.</div>
-      </div>
-      <div class="card">
-        <div class="cttl"><span class="tag">A3</span>생존율 추정</div>
-        <div class="csub">폐업률 기반 누적 생존 확률</div>
-        <div class="surv">${survBars(m.close_rate)}</div>
-        <div class="interp" style="font-size:10px">분기 폐업률(${m.close_rate}%) 기준 복리 계산. 실제 생존율은 상권·운영 역량에 따라 달라집니다.</div>
-      </div>
-    </div>
-
-    <div class="two">
-      <div class="card">
-        <div class="cttl"><span class="tag">A4</span>경쟁강도</div>
-        <div class="csub">서울 100개 업종 전체 대비</div>
-        ${compSection(ind)}
-        <div class="interp" style="font-size:10px">폐업 압박도는 업종 내 경쟁 과열 지표. 높을수록 차별화 전략이 필수입니다.</div>
-      </div>
-      <div class="card">
-        <div class="cttl"><span class="tag">A6</span>계절성</div>
-        <div class="csub">최근 3년 분기별 평균 점포수</div>
-        <div class="seas-grid">${seasBars(ind.trend)}</div>
-        <div class="interp" style="font-size:10px">분기별 점포수 변화로 계절 수요 패턴을 추정합니다. 비수기 자금 계획에 활용하세요.</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">A5</span>업종 생명주기</div>
-      <div class="csub">순증가율(${m.net_growth>0?'+':''}${m.net_growth}%) 기반 현재 포지션</div>
-      <div class="lc-row">${lcBar(m.net_growth)}</div>
-      <div class="interp">생명주기는 순증가율·폐업률 추세를 기반으로 추정됩니다. 성숙기 후반·쇠퇴기일수록 차별화와 입지 선택이 더욱 중요합니다.</div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">A8</span>유사 업종 비교</div>
-      <div class="csub">동일 카테고리 및 규모 유사 업종 지표 비교</div>
-      ${simTable(nm,ind)}
-      <div class="interp">강조(파란 배경) 행이 현재 선택 업종입니다. 폐업률·생존율이 양호한 업종을 대안으로 검토해보세요.</div>
-    </div>
-
-    <div class="sec-lbl" style="margin-top:6px">B · 지역별 분석</div>
-    <div class="card">
-      <div class="cttl"><span class="tag">B0</span>자치구별 점포수 TOP 5</div>
-      <div class="rank-list">${topDist(nm,ind)}</div>
-      <div class="interp">점포 집중 자치구는 유동인구·수요가 높지만 경쟁도 치열합니다. 임대료 대비 경쟁강도를 함께 고려하세요.</div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">B1</span>자치구 밀집도</div>
-      <div class="csub">점포수 기준 (진할수록 많음)</div>
-      ${guGrid(ind)}
-      <div class="interp">밀집도가 낮은 자치구는 경쟁이 적지만 배후 수요도 제한적일 수 있습니다.</div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">B2</span>주요 자치구 임대료</div>
-      <div class="csub">직방 데이터 기준 평당 월임대료</div>
-      ${rentTable(nm,ind)}
-      <div class="interp">10평 기준 월 임대료는 상기 금액의 10배입니다. 초기 자금 계획 수립 시 반드시 반영하세요.</div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">B3</span>창업 추천 자치구</div>
-      <div class="csub">경쟁강도(40%) + 임대료(40%) + 창업 활성도(20%) 종합 점수 기준</div>
-      <div class="rec-list">${recDist()}</div>
-      <div class="interp">낮은 폐업 압박과 합리적 임대료 기준으로 산출됩니다. 실제 창업 전 현장 조사와 병행하세요.</div>
-    </div>
-  `;
+  document.getElementById('res-body').innerHTML=
+    buildSection1(nm,ind);
 }
 
 init();
