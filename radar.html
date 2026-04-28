@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LOKI 창업레이더 — 서울 업종별 창업 리포트</title>
+<title>LOKI 창업레이더 — 서울 자치구별 창업 적합도</title>
 <script src="data/loki_data.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -17,134 +17,120 @@
   --blu:#1971C2;--blu-bg:#E7F5FF;--blu-bd:#74C0FC;
   --r:10px;--rs:8px;
 }
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--t1)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh}
+
+/* GNB */
 .gnb{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;height:52px;display:flex;align-items:center;padding:0 24px}
 .gnb-logo{font-size:15px;font-weight:900;color:var(--t1);letter-spacing:-.3px;margin-right:28px;white-space:nowrap}
 .gnb-logo span{color:var(--acc)}
 .gnb-menu{display:flex}
-.gnb-item{padding:0 14px;height:52px;display:flex;align-items:center;font-size:13px;font-weight:600;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;border-left:none;border-right:none;border-top:none;transition:all .15s;white-space:nowrap;background:none;font-family:inherit}
+.gnb-item{padding:0 14px;height:52px;display:flex;align-items:center;font-size:13px;font-weight:600;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;text-decoration:none;transition:all .15s;white-space:nowrap}
 .gnb-item:hover{color:var(--t1)}
 .gnb-item.active{color:var(--acc);border-bottom-color:var(--acc)}
-.gnb-item.soon{opacity:.5;cursor:default}
-.gnb-badge{font-size:9px;background:var(--amb-bg);color:var(--amb);border:1px solid var(--amb-bd);border-radius:8px;padding:1px 5px;margin-left:5px;font-weight:700}
-#vL{display:block}
-#vR{display:none}
-.land{background:var(--white);min-height:calc(100vh - 52px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:52px 24px 48px}
-.land-badge{display:inline-flex;align-items:center;background:var(--acc-bg);color:var(--acc);border:1px solid var(--acc-bd);border-radius:20px;font-size:11px;font-weight:700;padding:4px 14px;margin-bottom:22px;letter-spacing:.4px}
-.land-h1{font-size:27px;font-weight:900;color:var(--t1);text-align:center;line-height:1.35;max-width:520px;margin-bottom:10px}
-.land-h1 em{color:var(--acc);font-style:normal}
-.land-sub{font-size:13px;color:var(--t2);text-align:center;max-width:460px;line-height:1.7;margin-bottom:36px}
-.sel-wrap{width:100%;max-width:460px;display:flex;flex-direction:column;gap:10px}
-select{width:100%;padding:12px 16px;font-size:14px;color:var(--t1);background:var(--white);border:1.5px solid var(--border2);border-radius:var(--r);appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238B93A8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;outline:none;transition:border-color .15s;font-family:inherit}
-select:focus{border-color:var(--acc)}
-#sel-sub-wrap{display:none}
-.cta{width:100%;padding:13px;background:var(--acc);color:#fff;border:none;border-radius:var(--r);font-size:15px;font-weight:700;cursor:pointer;transition:all .15s;opacity:.4;pointer-events:none;font-family:inherit;margin-top:2px}
-.cta.on{opacity:1;pointer-events:all}
-.cta.on:hover{background:#2F4AC2}
-.land-foot{margin-top:36px;text-align:center;font-size:11px;color:var(--t3);line-height:1.9}
-.land-foot a{color:var(--t3);text-decoration:none}
-.res-head{background:var(--white);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:12px}
-.res-back{background:none;border:1px solid var(--border2);font-size:12px;color:var(--t2);cursor:pointer;padding:5px 11px;border-radius:var(--rs);font-weight:600;font-family:inherit}
-.res-back:hover{background:var(--bg)}
-.res-hl{flex:1;text-align:center;font-size:15px;font-weight:800;color:var(--t1)}
-.res-hl em{color:var(--acc);font-style:normal}
-.res-body{padding:18px 16px;display:flex;flex-direction:column;gap:12px;max-width:760px;margin:0 auto}
-.sec-lbl{font-size:10px;font-weight:800;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;padding:0 2px;margin-top:4px}
-.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
-.cttl{font-size:13px;font-weight:800;color:var(--t1);display:flex;align-items:center;gap:7px;margin-bottom:2px}
-.tag{font-size:9px;font-weight:700;background:var(--acc-bg);color:var(--acc);padding:2px 7px;border-radius:10px}
-.csub{font-size:11px;color:var(--t3);margin-bottom:10px}
-.interp{background:var(--bg);border-left:3px solid var(--acc-bd);border-radius:0 5px 5px 0;padding:8px 11px;font-size:11px;color:var(--t2);line-height:1.65;margin-top:10px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.verdict{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 18px}
-.v-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
-.v-badge{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:800;white-space:nowrap;flex-shrink:0}
-.vp{background:var(--grn-bg);color:var(--grn);border:1px solid var(--grn-bd)}
-.vc{background:var(--amb-bg);color:var(--amb);border:1px solid var(--amb-bd)}
-.vr{background:var(--blu-bg);color:var(--blu);border:1px solid var(--blu-bd)}
-.vd{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd)}
-.v-title{font-size:15px;font-weight:800;color:var(--t1);line-height:1.35}
-.v-desc{font-size:12px;color:var(--t2);line-height:1.65;margin-top:8px}
-.v-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
-.vm{background:var(--bg);border-radius:var(--rs);padding:9px 8px;text-align:center}
-.vm-l{font-size:9px;color:var(--t3);margin-bottom:3px}
-.vm-v{font-size:17px;font-weight:800}
-.up{color:var(--grn)}.dn{color:var(--red)}.nu{color:var(--t1)}
-.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
-.kpi-c{background:var(--bg);border-radius:var(--rs);padding:10px 12px;text-align:center}
-.kpi-l{font-size:10px;color:var(--t3);margin-bottom:4px}
-.kpi-v{font-size:19px;font-weight:800;color:var(--t1)}
-.surv{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-.surv-row{display:flex;align-items:center;gap:8px}
-.surv-lbl{font-size:11px;color:var(--t2);width:40px;flex-shrink:0;font-weight:600}
-.surv-track{flex:1;height:16px;background:var(--bg);border-radius:4px;overflow:hidden}
-.surv-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:10px;font-weight:700;color:#fff}
-.comp-wrap{display:flex;align-items:center;gap:14px;margin:8px 0}
-.comp-items{flex:1;display:flex;flex-direction:column;gap:7px}
-.comp-item{display:flex;align-items:center;gap:8px}
-.comp-il{font-size:11px;color:var(--t2);width:72px;flex-shrink:0}
-.comp-bar{flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
-.comp-fill{height:100%;border-radius:4px}
-.comp-iv{font-size:11px;font-weight:700;color:var(--t2);width:28px;text-align:right;flex-shrink:0}
-.comp-label{text-align:center;font-size:22px;font-weight:800;min-width:60px}
-.lc-row{display:flex;gap:3px;margin:10px 0}
-.lc-seg{flex:1;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700}
-.seas-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}
-.seas-cell{text-align:center}
-.seas-bw{height:44px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:4px}
-.seas-bar{width:22px;border-radius:3px 3px 0 0}
-.seas-lbl{font-size:10px;color:var(--t3)}
-.sim-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:6px}
-.sim-tbl th{font-size:10px;color:var(--t3);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--border);text-align:left}
-.sim-tbl td{padding:8px 8px;border-bottom:1px solid var(--border);color:var(--t2);vertical-align:middle}
-.sim-tbl tr:last-child td{border-bottom:none}
-.sim-tbl tr.hi td{background:var(--acc-bg);font-weight:700;color:var(--t1)}
-.dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
-.vbadge{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700}
-.rank-list{display:flex;flex-direction:column;gap:6px;margin-top:8px}
-.rank-item{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:var(--rs);padding:9px 12px}
-.rank-no{width:22px;height:22px;border-radius:50%;background:var(--acc);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.rank-no.g{background:var(--amb)}
-.rank-info{flex:1}
-.rank-nm{font-size:13px;font-weight:700;color:var(--t1)}
-.rank-detail{font-size:10px;color:var(--t3);margin-top:2px}
-.rank-bw{width:70px;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
-.rank-bf{height:100%;background:var(--acc);border-radius:3px}
-.gu-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:8px 0}
-.gu-cell{border-radius:5px;padding:7px 4px;text-align:center}
-.gu-nm{font-size:8px;margin-bottom:2px}
-.gu-val{font-size:10px;font-weight:800}
-.leg{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
-.leg-item{font-size:10px;display:flex;align-items:center;gap:3px;color:var(--t3)}
-.leg-dot{width:10px;height:10px;border-radius:2px;display:inline-block}
-.rent-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:8px}
-.rent-tbl th{font-size:10px;color:var(--t3);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--border);text-align:left}
-.rent-tbl td{padding:8px 8px;border-bottom:1px solid var(--border);color:var(--t2)}
-.rent-tbl tr:last-child td{border-bottom:none}
-.rlv{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
-.lv-h{background:var(--red-bg);color:var(--red)}
-.lv-m{background:var(--amb-bg);color:var(--amb)}
-.lv-l{background:var(--grn-bg);color:var(--grn)}
-.rec-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-.rec-item{border:1px solid var(--border);border-radius:var(--rs);padding:11px 14px;display:flex;align-items:flex-start;gap:12px}
-.rec-rank{font-size:22px;font-weight:800;color:var(--acc-bd);flex-shrink:0;line-height:1}
-.rec-nm{font-size:13px;font-weight:800;color:var(--t1);margin-bottom:5px}
-.rec-tags{display:flex;gap:5px;flex-wrap:wrap}
-.rtag{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
-.t-b{background:var(--blu-bg);color:var(--blu)}
-.t-g{background:var(--grn-bg);color:var(--grn)}
-.t-a{background:var(--amb-bg);color:var(--amb)}
-.t-r{background:var(--red-bg);color:var(--red)}
-#loading{display:none;position:fixed;inset:0;background:rgba(255,255,255,.85);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:12px}
-.spinner{width:32px;height:32px;border:3px solid var(--border2);border-top-color:var(--acc);border-radius:50%;animation:spin .7s linear infinite}
+
+/* Loading */
+#loading{position:fixed;inset:0;background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:999}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--acc);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 #loading-txt{font-size:13px;color:var(--t2);font-weight:600}
-@media(max-width:600px){.two{grid-template-columns:1fr}.v-metrics{grid-template-columns:repeat(2,1fr)}.land-h1{font-size:21px}}
+
+/* Landing */
+#vL{display:block}
+.land{max-width:620px;margin:0 auto;padding:72px 24px 48px}
+.land-badge{display:inline-block;font-size:11px;font-weight:700;color:var(--acc);background:var(--acc-bg);border:1px solid var(--acc-bd);border-radius:20px;padding:4px 12px;margin-bottom:18px;letter-spacing:.3px}
+.land-h1{font-size:30px;font-weight:900;line-height:1.35;letter-spacing:-.6px;color:var(--t1);margin-bottom:12px}
+.land-h1 em{color:var(--acc);font-style:normal}
+.land-sub{font-size:15px;color:var(--t2);line-height:1.65;margin-bottom:36px}
+.sel-wrap{display:flex;flex-direction:column;gap:12px}
+select{width:100%;padding:13px 16px;border:1.5px solid var(--border2);border-radius:var(--rs);font-size:14px;font-weight:600;color:var(--t1);background:var(--white);appearance:none;cursor:pointer;transition:border .15s}
+select:focus{outline:none;border-color:var(--acc)}
+.cta{width:100%;padding:15px;background:var(--acc);color:#fff;border:none;border-radius:var(--rs);font-size:15px;font-weight:700;cursor:pointer;transition:opacity .15s;opacity:.4;pointer-events:none}
+.cta.on{opacity:1;pointer-events:auto}
+.cta:hover.on{opacity:.9}
+.land-foot{margin-top:48px;font-size:12px;color:var(--t3);line-height:1.8}
+.land-foot a{color:var(--t3);text-decoration:none}
+
+/* Tags */
+.info-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.info-tag{font-size:11px;font-weight:600;color:var(--t2);background:var(--white);border:1px solid var(--border);border-radius:20px;padding:5px 11px}
+
+/* Result */
+#vR{display:none}
+.res-wrap{max-width:820px;margin:0 auto;padding:28px 24px 60px}
+.res-head{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+.res-back{background:none;border:1.5px solid var(--border2);border-radius:var(--rs);padding:8px 16px;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;transition:all .15s}
+.res-back:hover{color:var(--t1);border-color:var(--t1)}
+.res-hl{font-size:20px;font-weight:900;color:var(--t1);letter-spacing:-.4px}
+.res-hl em{color:var(--acc);font-style:normal}
+
+/* Top3 */
+.top3-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px}
+.top-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:18px 16px;position:relative;overflow:hidden}
+.top-card.rank1{border-color:var(--acc-bd);background:var(--acc-bg)}
+.top-card.rank2{border-color:#E2E6EE}
+.top-card.rank3{border-color:#E2E6EE}
+.top-rank{font-size:11px;font-weight:700;color:var(--t3);margin-bottom:6px;letter-spacing:.3px}
+.top-card.rank1 .top-rank{color:var(--acc)}
+.top-name{font-size:18px;font-weight:900;color:var(--t1);margin-bottom:10px}
+.top-sc{font-size:32px;font-weight:900;color:var(--t1);line-height:1;margin-bottom:4px}
+.top-card.rank1 .top-sc{color:var(--acc)}
+.top-sc-label{font-size:11px;color:var(--t3);font-weight:600;margin-bottom:12px}
+.top-mini{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.top-mini-item{font-size:11px;color:var(--t2)}
+.top-mini-item span{font-weight:700;color:var(--t1)}
+
+/* Full table */
+.sec-title{font-size:14px;font-weight:700;color:var(--t2);margin-bottom:12px;letter-spacing:.2px;text-transform:uppercase}
+.rank-table{width:100%;border-collapse:collapse;background:var(--white);border-radius:var(--r);overflow:hidden;border:1.5px solid var(--border)}
+.rank-table th{padding:10px 14px;font-size:11px;font-weight:700;color:var(--t3);text-align:left;border-bottom:1.5px solid var(--border);background:var(--bg);white-space:nowrap}
+.rank-table th.r{text-align:right}
+.rank-table td{padding:11px 14px;font-size:13px;color:var(--t1);border-bottom:1px solid var(--border);vertical-align:middle}
+.rank-table td.r{text-align:right;font-weight:600}
+.rank-table tr:last-child td{border-bottom:none}
+.rank-table tr:hover td{background:#F8F9FC}
+.rank-num{font-size:12px;font-weight:700;color:var(--t3);min-width:24px;display:inline-block;text-align:center}
+.gu-name{font-size:14px;font-weight:700;color:var(--t1)}
+.sc-bar-wrap{width:100px;display:inline-flex;align-items:center;gap:8px}
+.sc-bar{height:6px;border-radius:3px;flex:1;background:var(--border)}
+.sc-fill{height:100%;border-radius:3px;transition:width .4s}
+.sc-val{font-size:12px;font-weight:700;min-width:26px;text-align:right}
+.sc-grn{background:var(--grn)}
+.sc-amb{background:var(--amb)}
+.sc-red{background:var(--red)}
+.sc-blu{background:var(--acc)}
+.badge-top{font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;border:1px solid}
+.badge-grn{color:var(--grn);background:var(--grn-bg);border-color:var(--grn-bd)}
+.badge-amb{color:var(--amb);background:var(--amb-bg);border-color:var(--amb-bd)}
+.badge-red{color:var(--red);background:var(--red-bg);border-color:var(--red-bd)}
+.badge-best{color:var(--acc);background:var(--acc-bg);border-color:var(--acc-bd)}
+.nil{color:var(--t3)}
+
+/* Score legend */
+.legend-row{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--t2)}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+
+/* Score summary bar */
+.score-summary{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:18px 20px;margin-bottom:24px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.ss-item{text-align:center}
+.ss-label{font-size:11px;font-weight:600;color:var(--t3);margin-bottom:4px}
+.ss-val{font-size:20px;font-weight:900;color:var(--t1)}
+.ss-val.grn{color:var(--grn)}
+.ss-val.amb{color:var(--amb)}
+.ss-val.red{color:var(--red)}
+
+@media(max-width:640px){
+  .top3-grid{grid-template-columns:1fr}
+  .land-h1{font-size:22px}
+  .res-hl{font-size:16px}
+  .score-summary{grid-template-columns:repeat(2,1fr)}
+  .rank-table th:nth-child(n+5),.rank-table td:nth-child(n+5){display:none}
+}
 </style>
 </head>
 <body>
 
-<div id="loading"><div class="spinner"></div><div id="loading-txt">리포트 생성 중...</div></div>
+<div id="loading"><div class="spinner"></div><div id="loading-txt">데이터 로딩 중...</div></div>
 
 <nav class="gnb">
   <div class="gnb-logo">LOK<span>I</span> 창업레이더</div>
@@ -155,21 +141,23 @@ select:focus{border-color:var(--acc)}
   </div>
 </nav>
 
+<!-- Landing -->
 <div id="vL">
   <div class="land">
-    <div class="land-badge">서울 창업레이더 · 실데이터 기반</div>
-    <h1 class="land-h1">서울에서 자영업 창업 준비하세요?<br>그럼 <em>감이 아닌 데이터로</em> 먼저 검증하세요.</h1>
-    <p class="land-sub">서울공공데이터 및 대형 부동산 플랫폼 임대료 등을 기반으로<br>서울의 지역별·업종별 동향을 한눈에 확인하세요.</p>
+    <div class="land-badge">서울 창업레이더 · 자치구별 입지 분석</div>
+    <h1 class="land-h1">서울 어느 구에서<br><em>창업하면 유리할까요?</em></h1>
+    <p class="land-sub">서울시 상권분석 서비스 데이터 기반으로<br>업종별 자치구 창업 적합도를 분석합니다.<br>월매출 · 경쟁 · 성장 · 임대효율 4개 지표 종합.</p>
     <div class="sel-wrap">
-      <select id="sel-cat" onchange="onCatChange()">
-        <option value="">업종 카테고리를 선택하세요</option>
+      <select id="sel-ind" onchange="onIndChange()">
+        <option value="">업종을 선택하세요</option>
       </select>
-      <div id="sel-sub-wrap">
-        <select id="sel-ind" onchange="onIndChange()">
-          <option value="">세부 업종을 선택하세요</option>
-        </select>
-      </div>
-      <button class="cta" id="cta-btn" onclick="goReport()">리포트 생성</button>
+      <button class="cta" id="cta-btn" onclick="goResult()">자치구별 입지 분석 시작 →</button>
+    </div>
+    <div class="info-tags">
+      <span class="info-tag">📊 58개 업종</span>
+      <span class="info-tag">🗺 서울 25개 자치구</span>
+      <span class="info-tag">💰 월매출 · 점포수 · 성장률</span>
+      <span class="info-tag">🏆 종합 입지 점수 제공</span>
     </div>
     <div class="land-foot">
       문의: <a href="mailto:findingmylifegauge@gmail.com">findingmylifegauge@gmail.com</a><br>
@@ -178,368 +166,197 @@ select:focus{border-color:var(--acc)}
   </div>
 </div>
 
+<!-- Result -->
 <div id="vR">
-  <div class="res-head">
-    <button class="res-back" onclick="showLanding()">← 다시 선택</button>
-    <div class="res-hl">서울 · <em id="res-nm"></em> 동향 및 상세 리포트</div>
+  <div class="res-wrap">
+    <div class="res-head">
+      <button class="res-back" onclick="showLanding()">← 다시 선택</button>
+      <div class="res-hl"><em id="res-nm"></em> — 서울 자치구별 창업 적합도</div>
+    </div>
+    <div id="res-body"></div>
   </div>
-  <div class="res-body" id="res-body"></div>
 </div>
 
 <script>
-const CATS={
-  food:  {nm:'음식·숙박',    inds:['한식음식점','중식음식점','일식음식점','양식음식점','치킨전문점','분식전문점','제과점','커피-음료','호프-간이주점','패스트푸드점']},
-  retail:{nm:'소매',         inds:['일반의류','화장품','슈퍼마켓','의약품','시계및귀금속','서적','신발','핸드폰','편의점','안경']},
-  svc:   {nm:'서비스·기타',  inds:['미용실','네일숍','세탁소','피부관리실','사진관','부동산중개업','인테리어','일반교습학원','예술학원','외국어학원','스포츠 강습','독서실','스포츠클럽','일반의원','치과의원','한의원','노래방','당구장','PC방']},
+// ── Category mapping ──
+const T2_CATS = {
+  '음식·숙박': ['커피음료점','호프주점','분식점','패스트푸드점','제과점','기타외국식음식점','중식음식점','한식음식점','일식음식점'],
+  '소매': ['옷가게','화장품가게','서점','약국','시계ㆍ귀금속점','안경점','편의점','슈퍼마켓','신발가게','휴대폰가게'],
+  '서비스·기타': ['실내장식가게','노래방','세탁소','피부관리업','미용실','헬스클럽','pc방','당구장','한방병원ㆍ한의원','치과의원','스포츠교육기관','예술학원','교습소ㆍ공부방','기타일반의원','교습학원','부동산중개업','독서실'],
+  '기타업종': ['철물점','가구점','애완용품점','꽃가게','장난감가게','자전거판매점','스포츠용품점','문구점','의료용품가게','식료품가게','과일가게','정육점','컴퓨터판매점','여관ㆍ모텔','자동차수리점','실외골프연습장','기타음식점','생선가게','곡물가게','가전제품수리점','통신판매업','가전제품판매점']
 };
 
-const VS={
-  '긍정':{cls:'vp',icon:'✓',border:'var(--grn-bd)'},
-  '검토':{cls:'vr',icon:'→',border:'var(--blu-bd)'},
-  '신중':{cls:'vc',icon:'⚠',border:'var(--amb-bd)'},
-  '위험':{cls:'vd',icon:'✕',border:'var(--red-bd)'},
-};
-
-const VM={
-  '긍정':(n)=>`${n} — 성장 신호 확인, 진입 시점으로 긍정적`,
-  '검토':(n)=>`${n} — 안정적이나 차별화 전략 필요`,
-  '신중':(n)=>`${n} — 완만한 감소세, 입지·타이밍 신중 검토`,
-  '위험':(n)=>`${n} — 폐업 압박 높음, 진입 전 충분한 검증 필요`,
-};
-
-const VD={
-  '긍정':(n,m)=>`서울 ${n}은 순증가율 ${m.net_growth>0?'+':''}${m.net_growth}%로 성장세를 유지합니다. 폐업률(${m.close_rate}%)이 안정 수준이며 경쟁 우위 확보가 가능한 환경입니다.`,
-  '검토':(n,m)=>`서울 ${n}은 비교적 안정적이나 개업률(${m.open_rate}%)·폐업률(${m.close_rate}%)이 유사해 차별화 없이는 생존이 쉽지 않습니다. 상권·타깃 분석 후 진입을 권장합니다.`,
-  '신중':(n,m)=>`서울 ${n}은 순증가율 ${m.net_growth}%로 완만한 감소세입니다. 기존 점포와 가격·품질 경쟁이 심하고 폐업 비율도 높아 면밀한 사전 조사가 필수입니다.`,
-  '위험':(n,m)=>`서울 ${n}은 폐업률 ${m.close_rate}%, 순증가율 ${m.net_growth}%로 시장이 수축 중입니다. 신규 진입 시 강력한 브랜드 또는 특화 전략 없이는 생존이 매우 어렵습니다.`,
-};
-
-function init(){
-  if(typeof LOKI_SOT==='undefined'){alert('데이터 파일을 찾을 수 없습니다.');return;}
-  const cs=document.getElementById('sel-cat');
-  Object.entries(CATS).forEach(([k,v])=>{
-    const o=document.createElement('option');o.value=k;o.textContent=v.nm;cs.appendChild(o);
-  });
-}
-
-function onCatChange(){
-  const k=document.getElementById('sel-cat').value;
-  const sw=document.getElementById('sel-sub-wrap');
-  const si=document.getElementById('sel-ind');
-  document.getElementById('cta-btn').classList.remove('on');
-  if(!k){sw.style.display='none';return;}
-  const inds=CATS[k].inds.filter(nm=>LOKI_SOT.industries[nm]);
-  si.innerHTML='<option value="">세부 업종을 선택하세요</option>'+inds.map(nm=>`<option value="${nm}">${nm}</option>`).join('');
-  sw.style.display='block';
-}
-
-function onIndChange(){
-  document.getElementById('cta-btn').classList[document.getElementById('sel-ind').value?'add':'remove']('on');
-}
-
-function showLanding(){
-  document.getElementById('vR').style.display='none';
-  document.getElementById('vL').style.display='block';
-  window.scrollTo(0,0);
-}
-
-function goReport(){
-  const nm=document.getElementById('sel-ind').value;
-  if(!nm||!LOKI_SOT.industries[nm])return;
-  document.getElementById('loading').style.display='flex';
-  setTimeout(()=>{
-    buildReport(nm);
-    document.getElementById('loading').style.display='none';
-    document.getElementById('vL').style.display='none';
-    document.getElementById('vR').style.display='block';
-    window.scrollTo(0,0);
-  },350);
-}
-
-/* ── 차트/컴포넌트 헬퍼 ── */
-function trendSVG(trend){
-  const byY={};
-  trend.forEach(t=>{const y=String(t.q).slice(0,4);byY[y]=(byY[y]||0)+t.sc;});
-  const yrs=Object.keys(byY).sort().slice(-7);
-  const vals=yrs.map(y=>byY[y]);
-  const mn=Math.min(...vals),mx=Math.max(...vals);
-  const W=340,H=80,PX=20,PY=14;
-  const x=(i)=>PX+i/(vals.length-1)*(W-PX*2);
-  const y=(v)=>H-PY-(mx===mn?0.5:(v-mn)/(mx-mn))*(H-PY*2);
-  const pts=vals.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
-  const dots=vals.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3.5" fill="${i===vals.length-1?'#3B5BDB':'#fff'}" stroke="#3B5BDB" stroke-width="2"/>`).join('');
-  const lbls=yrs.map((yr,i)=>`<text x="${x(i)}" y="${H-1}" text-anchor="middle" font-size="9" fill="#8B93A8">${yr}</text>`).join('');
-  const vlbls=[0,Math.round(vals.length/2),vals.length-1].map(i=>{
-    const anc=i===0?'start':i===vals.length-1?'end':'middle';
-    return `<text x="${x(i)}" y="${y(vals[i])-6}" text-anchor="${anc}" font-size="9" fill="#4A5168" font-weight="600">${vals[i].toLocaleString()}</text>`;
-  }).join('');
-  return `<svg width="100%" viewBox="0 0 ${W} ${H}" style="overflow:visible">
-  <defs><linearGradient id="tg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#3B5BDB" stop-opacity=".1"/><stop offset="100%" stop-color="#3B5BDB" stop-opacity="0"/></linearGradient></defs>
-  <line x1="${PX}" y1="${H-PY}" x2="${W-PX}" y2="${H-PY}" stroke="#E2E6EE" stroke-width=".5"/>
-  <polygon points="${pts} ${W-PX},${H-PY} ${PX},${H-PY}" fill="url(#tg)"/>
-  <polyline points="${pts}" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-  ${dots}${lbls}${vlbls}</svg>`;
-}
-
-function survBars(cr){
-  const s1=Math.max(2,Math.round((1-cr/100)**4*100));
-  const s3=Math.max(1,Math.round((1-cr/100)**12*100));
-  const s5=Math.max(0,Math.round((1-cr/100)**20*100));
-  const col=v=>v>=60?'#3B5BDB':v>=35?'#7B9EF5':'#AABFED';
-  const row=(l,v)=>`<div class="surv-row"><div class="surv-lbl">${l}</div>
-    <div class="surv-track"><div class="surv-fill" style="width:${v}%;background:${col(v)}">${v>=15?v+'%':''}</div></div>
-    <div style="font-size:11px;font-weight:700;color:var(--t2);width:34px;text-align:right">${v}%</div></div>`;
-  return row('1년차',s1)+row('3년차',s3)+row('5년차',s5);
-}
-
-function compSection(ind){
-  const all=Object.values(LOKI_SOT.industries);
-  const allCR=all.map(d=>d.metrics.close_rate);
-  const allOR=all.map(d=>d.metrics.open_rate);
-  const allSC=all.map(d=>d.metrics.store_count);
-  const norm=(v,mn,mx)=>mx===mn?50:Math.round((v-mn)/(mx-mn)*100);
-  const crS=norm(ind.metrics.close_rate,Math.min(...allCR),Math.max(...allCR));
-  const orS=norm(ind.metrics.open_rate,Math.min(...allOR),Math.max(...allOR));
-  const scS=norm(ind.metrics.store_count,Math.min(...allSC),Math.max(...allSC));
-  const lvl=crS>60?'높음':crS>35?'중간':'낮음';
-  const lvlC=crS>60?'#E03131':crS>35?'#D97706':'#2F9E44';
-  const item=(l,s,c)=>`<div class="comp-item"><div class="comp-il">${l}</div>
-    <div class="comp-bar"><div class="comp-fill" style="width:${s}%;background:${c};height:100%"></div></div>
-    <div class="comp-iv">${s}</div></div>`;
-  return `<div class="comp-wrap">
-    <div class="comp-label" style="color:${lvlC}">${lvl}</div>
-    <div class="comp-items">
-      ${item('폐업 압박도',crS,crS>60?'#E03131':crS>35?'#F59E0B':'#3B5BDB')}
-      ${item('신규진입 빈도',orS,orS>60?'#3B5BDB':'#F59E0B')}
-      ${item('시장 포화도',scS,scS>60?'#E03131':scS>35?'#F59E0B':'#3B5BDB')}
-    </div></div>`;
-}
-
-function lcBar(net){
-  let pos=net>3?1:net>1?2:net>-0.5?3:4;
-  const segs=[
-    {nm:'도입기',bg:'#EEF2FF',tc:'#3B5BDB'},
-    {nm:'성장기',bg:'#EBFBEE',tc:'#2F9E44'},
-    {nm:'성숙기↑',bg:'#DBEAFE',tc:'#1971C2'},
-    {nm:'성숙기↓',bg:'#3B5BDB',tc:'#fff'},
-    {nm:'쇠퇴기', bg:'#FFFBEB',tc:'#D97706'},
-  ];
-  return segs.map((s,i)=>{
-    const a=i===pos;
-    return `<div class="lc-seg" style="background:${a?s.bg:'#F4F6FA'};color:${a?s.tc:'#C8CFDD'};font-weight:${a?800:600}">${a?s.nm+' ◀':s.nm}</div>`;
-  }).join('');
-}
-
-function seasBars(trend){
-  const last=parseInt(String(trend[trend.length-1].q).slice(0,4));
-  const rec=trend.filter(t=>parseInt(String(t.q).slice(0,4))>=last-3);
-  const byQ={1:[],2:[],3:[],4:[]};
-  rec.forEach(t=>{const q=parseInt(String(t.q).slice(4));if(byQ[q])byQ[q].push(t.sc);});
-  const avgs=[1,2,3,4].map(q=>byQ[q].length?Math.round(byQ[q].reduce((a,b)=>a+b)/byQ[q].length):0);
-  const mx=Math.max(...avgs)||1;
-  return avgs.map((v,i)=>{
-    const h=Math.max(4,Math.round(v/mx*42));
-    return `<div class="seas-cell"><div class="seas-bw"><div class="seas-bar" style="height:${h}px;background:${v===mx?'#3B5BDB':'#93B4F5'}"></div></div><div class="seas-lbl">${['1Q','2Q','3Q','4Q'][i]}</div></div>`;
-  }).join('');
-}
-
-function simTable(nm,ind){
-  let peers=[];
-  Object.entries(CATS).forEach(([k,v])=>{if(v.inds.includes(nm))peers=v.inds.filter(n=>LOKI_SOT.industries[n]&&n!==nm).slice(0,4);});
-  if(peers.length<2){
-    const sc=ind.metrics.store_count;
-    peers=Object.entries(LOKI_SOT.industries).filter(([n])=>n!==nm)
-      .sort((a,b)=>Math.abs(a[1].metrics.store_count-sc)-Math.abs(b[1].metrics.store_count-sc))
-      .slice(0,4).map(([n])=>n);
+function init() {
+  if (typeof LOKI_SOT === 'undefined' || !LOKI_SOT.radar || !LOKI_SOT.radar.t2) {
+    document.getElementById('loading-txt').textContent = '데이터 파일을 찾을 수 없습니다.';
+    return;
   }
-  const dots=['#3B5BDB','#7B9EF5','#93C5FD','#6EE7B7','#A78BFA'];
-  const vc={'긍정':'#2F9E44','검토':'#1971C2','신중':'#D97706','위험':'#E03131'};
-  const rows=[[nm,ind,true],...peers.map(n=>[n,LOKI_SOT.industries[n],false])];
-  return `<table class="sim-tbl"><thead><tr><th>업종</th><th>점포수</th><th>개업률</th><th>폐업률</th><th>순증가율</th><th>판정</th></tr></thead><tbody>
-  ${rows.map(([n,d,hi],idx)=>{if(!d)return'';const m=d.metrics,v=d.verdict;
-    return `<tr${hi?' class="hi"':''}>
-      <td><span class="dot" style="background:${dots[idx%5]}"></span>${n}</td>
-      <td>${m.store_count.toLocaleString()}</td>
-      <td style="color:${m.open_rate>2.5?'#2F9E44':'#4A5168'}">${m.open_rate}%</td>
-      <td style="color:${m.close_rate>3.5?'#E03131':m.close_rate>2.5?'#D97706':'#4A5168'}">${m.close_rate}%</td>
-      <td style="color:${m.net_growth>0?'#2F9E44':m.net_growth<-1?'#E03131':'#4A5168'}">${m.net_growth>0?'+':''}${m.net_growth}%</td>
-      <td><span class="vbadge ${VS[v].cls}">${v}</span></td></tr>`;
-  }).join('')}</tbody></table>`;
+  const t2 = LOKI_SOT.radar.t2;
+  const sel = document.getElementById('sel-ind');
+
+  Object.entries(T2_CATS).forEach(([cat, inds]) => {
+    const grp = document.createElement('optgroup');
+    grp.label = cat;
+    inds.forEach(nm => {
+      if (t2[nm]) {
+        const o = document.createElement('option');
+        o.value = nm;
+        o.textContent = nm;
+        grp.appendChild(o);
+      }
+    });
+    if (grp.children.length > 0) sel.appendChild(grp);
+  });
+
+  document.getElementById('loading').style.display = 'none';
 }
 
-function topDist(nm,ind){
-  const sorted=Object.entries(ind.districts).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  const mx=sorted[0]?.[1]||1;
-  return sorted.map(([gu,cnt],i)=>{
-    const rd=LOKI_SOT.districts[gu];
-    const detail=`${Math.round(cnt)}개 점포${rd?' · 평당 '+rd.rent_per_pyeong+'만원':''}`;
-    return `<div class="rank-item">
-      <div class="rank-no${i===0?' g':''}">${i+1}</div>
-      <div class="rank-info"><div class="rank-nm">${gu}</div><div class="rank-detail">${detail}</div></div>
-      <div class="rank-bw"><div class="rank-bf" style="width:${Math.round(cnt/mx*100)}%"></div></div>
-    </div>`;
-  }).join('');
+function onIndChange() {
+  const v = document.getElementById('sel-ind').value;
+  document.getElementById('cta-btn').classList[v ? 'add' : 'remove']('on');
 }
 
-function guGrid(ind){
-  const ents=Object.entries(ind.districts).sort((a,b)=>b[1]-a[1]);
-  const vals=ents.map(e=>e[1]).filter(v=>v>0);
-  if(!vals.length)return'<p style="color:var(--t3);font-size:12px">자치구 데이터 없음</p>';
-  const mn=Math.min(...vals),mx=Math.max(...vals);
-  const lvlBg=['#E6F1FB','#B5D4F4','#7EB3FF','#4F8EF7','#3B5BDB'];
-  const lvlTc=['#4A5168','#185FA5','#0C4A9E','#fff','#fff'];
-  const cells=ents.map(([gu,cnt])=>{
-    const r=mx>mn?(cnt-mn)/(mx-mn):0.5;
-    const l=Math.min(4,Math.floor(r*5));
-    return `<div class="gu-cell" style="background:${lvlBg[l]}">
-      <div class="gu-nm" style="color:${lvlTc[l]}">${gu.replace('구','')}</div>
-      <div class="gu-val" style="color:${lvlTc[l]}">${Math.round(cnt)}</div></div>`;
-  }).join('');
-  const leg=['낮음','보통','중간','높음','최고'].map((l,i)=>
-    `<span class="leg-item"><span class="leg-dot" style="background:${lvlBg[i]};${i===0?'border:1px solid #C5D0FB':''}"></span>${l}</span>`
-  ).join('');
-  return `<div class="gu-grid">${cells}</div><div class="leg">${leg}</div>`;
+function showLanding() {
+  document.getElementById('vL').style.display = 'block';
+  document.getElementById('vR').style.display = 'none';
 }
 
-function rentTable(nm,ind){
-  const top=Object.entries(ind.districts).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([n])=>n);
-  const rows=top.map(gu=>{
-    const d=LOKI_SOT.districts[gu];if(!d)return'';
-    const r=d.rent_per_pyeong,cnt=Math.round(ind.districts[gu]||0);
-    const lvl=r>11?'lv-h':r>9?'lv-m':'lv-l',lt=r>11?'높음':r>9?'중간':'낮음';
-    return `<tr><td>${gu}</td><td>${r}만원/평</td><td>${cnt}개</td><td><span class="rlv ${lvl}">${lt}</span></td></tr>`;
-  }).join('');
-  return `<table class="rent-tbl"><thead><tr><th>자치구</th><th>평당 월임대료</th><th>점포수</th><th>수준</th></tr></thead><tbody>${rows}</tbody></table>`;
+function scColor(sc) {
+  if (sc >= 65) return {cls:'sc-grn', badge:'badge-grn', label:'유리'};
+  if (sc >= 40) return {cls:'sc-amb', badge:'badge-amb', label:'보통'};
+  return {cls:'sc-red', badge:'badge-red', label:'불리'};
 }
 
-function recDist(){
-  const top=Object.entries(LOKI_SOT.districts).sort((a,b)=>b[1].scores.total-a[1].scores.total).slice(0,3);
-  return top.map(([n,d],i)=>{
-    const tags=[];
-    if(d.rent_per_pyeong<8.5)tags.push(['t-g','임대료 낮음']);
-    else if(d.rent_per_pyeong<10)tags.push(['t-a','임대료 중간']);
-    else tags.push(['t-r','임대료 높음']);
-    if(d.scores.competition>60)tags.push(['t-g','경쟁 적음']);
-    else if(d.scores.competition>40)tags.push(['t-b','경쟁 중간']);
-    else tags.push(['t-r','경쟁 심함']);
-    if(d.avg_open_rate>2)tags.push(['t-b','창업 활성']);
-    return `<div class="rec-item">
-      <div class="rec-rank">0${i+1}</div>
-      <div><div class="rec-nm">${n}</div>
-      <div class="rec-tags">${tags.map(([c,t])=>`<span class="rtag ${c}">${t}</span>`).join('')}</div></div>
-    </div>`;
-  }).join('');
+function fmtGrowth(g) {
+  if (g === null || g === undefined) return '<span class="nil">—</span>';
+  const sign = g > 0 ? '+' : '';
+  const color = g > 0 ? 'var(--grn)' : g < 0 ? 'var(--red)' : 'var(--t3)';
+  return `<span style="color:${color};font-weight:700">${sign}${g}%</span>`;
 }
 
-/* ── 리포트 빌드 ── */
-function buildReport(nm){
-  const ind=LOKI_SOT.industries[nm];if(!ind)return;
-  const m=ind.metrics,v=ind.verdict,vs=VS[v];
-  document.getElementById('res-nm').textContent=nm;
-  const topPct=Math.round(Object.values(LOKI_SOT.industries).filter(d=>d.metrics.startup_share>m.startup_share).length/Object.keys(LOKI_SOT.industries).length*100);
+function fmtMoney(a) {
+  if (!a) return '<span class="nil">—</span>';
+  if (a >= 10000) return `${(a/10000).toFixed(1)}억`;
+  return `${a.toLocaleString()}만`;
+}
 
-  document.getElementById('res-body').innerHTML=`
-    <div class="sec-lbl">A · 업종 현황</div>
-    <div class="verdict" style="border-color:${vs.border}">
-      <div class="v-top">
-        <span class="v-badge ${vs.cls}">${vs.icon} ${v}</span>
-        <div class="v-title">${VM[v](nm)}</div>
+function goResult() {
+  const nm = document.getElementById('sel-ind').value;
+  if (!nm) return;
+  const t2 = LOKI_SOT.radar.t2;
+  const data = t2[nm];
+  if (!data) return;
+
+  document.getElementById('res-nm').textContent = nm;
+
+  // Sort districts by sc descending
+  const sorted = Object.entries(data)
+    .map(([gu, v]) => ({ gu, ...v }))
+    .sort((a, b) => b.sc - a.sc);
+
+  // Avg scores for summary
+  const vals = sorted.filter(d => d.sc != null);
+  const avgSc = Math.round(vals.reduce((s, d) => s + d.sc, 0) / vals.length);
+  const avgA = Math.round(vals.filter(d=>d.a).reduce((s, d) => s + d.a, 0) / vals.filter(d=>d.a).length);
+  const growthVals = vals.filter(d => d.g !== null && d.g !== undefined);
+  const avgG = growthVals.length ? (growthVals.reduce((s,d)=>s+d.g,0)/growthVals.length).toFixed(1) : null;
+  const bestSc = sorted[0].sc;
+
+  // Build HTML
+  let html = '';
+
+  // Score summary
+  const avgColor = avgSc >= 65 ? 'grn' : avgSc >= 40 ? 'amb' : 'red';
+  const avgGColor = avgG === null ? '' : parseFloat(avgG) > 0 ? 'grn' : parseFloat(avgG) < 0 ? 'red' : '';
+  html += `<div class="score-summary">
+    <div class="ss-item"><div class="ss-label">서울 평균 종합점수</div><div class="ss-val ${avgColor}">${avgSc}점</div></div>
+    <div class="ss-item"><div class="ss-label">평균 월매출</div><div class="ss-val">${fmtMoney(avgA)}</div></div>
+    <div class="ss-item"><div class="ss-label">분석 자치구</div><div class="ss-val">${sorted.length}개</div></div>
+    <div class="ss-item"><div class="ss-label">최고 종합점수</div><div class="ss-val grn">${bestSc}점</div></div>
+  </div>`;
+
+  // TOP 3 cards
+  html += `<div class="top3-grid">`;
+  const rankLabels = ['🥇 1위 최우선 입지', '🥈 2위 차선 입지', '🥉 3위 추천 입지'];
+  sorted.slice(0, 3).forEach((d, i) => {
+    const cc = scColor(d.sc);
+    html += `<div class="top-card rank${i+1}">
+      <div class="top-rank">${rankLabels[i]}</div>
+      <div class="top-name">${d.gu}</div>
+      <div class="top-sc">${d.sc}</div>
+      <div class="top-sc-label">종합 입지 점수 (100점 만점)</div>
+      <div class="top-mini">
+        <div class="top-mini-item">월매출 <span>${fmtMoney(d.a)}</span></div>
+        <div class="top-mini-item">점포수 <span>${d.s ? d.s.toLocaleString()+'개' : '—'}</span></div>
+        <div class="top-mini-item">성장률 <span style="color:${d.g>0?'var(--grn)':d.g<0?'var(--red)':'var(--t3)'}">${d.g!=null?(d.g>0?'+':'')+d.g+'%':'—'}</span></div>
+        <div class="top-mini-item">임대효율 <span>${d.pe}점</span></div>
       </div>
-      <div class="v-desc">${VD[v](nm,m)}</div>
-      <div class="v-metrics">
-        <div class="vm"><div class="vm-l">개업률</div><div class="vm-v ${m.open_rate>m.close_rate?'up':'nu'}">${m.open_rate}%</div></div>
-        <div class="vm"><div class="vm-l">폐업률</div><div class="vm-v ${m.close_rate>3.5?'dn':'nu'}">${m.close_rate}%</div></div>
-        <div class="vm"><div class="vm-l">순증가율</div><div class="vm-v ${m.net_growth>0?'up':'dn'}">${m.net_growth>0?'+':''}${m.net_growth}%</div></div>
-        <div class="vm"><div class="vm-l">창업점유율</div><div class="vm-v nu">${m.startup_share}%</div></div>
-      </div>
-    </div>
+    </div>`;
+  });
+  html += `</div>`;
 
-    <div class="card">
-      <div class="cttl"><span class="tag">A1</span>서울 ${nm} 점포 수 추이</div>
-      <div class="csub">연도별 전체 점포수 변화 (서울 25개 자치구 합산)</div>
-      ${trendSVG(ind.trend)}
-      <div class="interp">최근 기준 서울 전체 ${m.store_count.toLocaleString()}개 점포 운영 중. 창업 시장 내 점유율 ${m.startup_share}% (전체 업종 중 상위 ${topPct}% 수준).</div>
-    </div>
+  // Legend
+  html += `<div class="legend-row">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--grn)"></div> 65점 이상 — 유리</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--amb)"></div> 40~64점 — 보통</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> 40점 미만 — 불리</div>
+  </div>`;
 
-    <div class="two">
-      <div class="card">
-        <div class="cttl"><span class="tag">A2</span>핵심 지표</div>
-        <div class="kpi-grid">
-          <div class="kpi-c"><div class="kpi-l">점포수</div><div class="kpi-v">${m.store_count.toLocaleString()}</div></div>
-          <div class="kpi-c"><div class="kpi-l">순증가율</div><div class="kpi-v ${m.net_growth>0?'up':'dn'}">${m.net_growth>0?'+':''}${m.net_growth}%</div></div>
-          <div class="kpi-c"><div class="kpi-l">개업률</div><div class="kpi-v up">${m.open_rate}%</div></div>
-          <div class="kpi-c"><div class="kpi-l">폐업률</div><div class="kpi-v ${m.close_rate>3.5?'dn':'nu'}">${m.close_rate}%</div></div>
+  // Full ranking table
+  html += `<div class="sec-title">전체 자치구 입지 순위</div>`;
+  html += `<table class="rank-table">
+    <thead>
+      <tr>
+        <th>순위</th>
+        <th>자치구</th>
+        <th>종합점수</th>
+        <th class="r">월매출</th>
+        <th class="r">점포수</th>
+        <th class="r">성장률</th>
+        <th class="r">매출점수</th>
+        <th class="r">경쟁점수</th>
+        <th class="r">임대효율</th>
+      </tr>
+    </thead>
+    <tbody>`;
+
+  sorted.forEach((d, i) => {
+    const cc = scColor(d.sc);
+    const fillW = Math.round(d.sc);
+    html += `<tr>
+      <td><span class="rank-num">${i+1}</span>${i === 0 ? ` <span class="badge-top badge-best">최적</span>` : ''}</td>
+      <td><span class="gu-name">${d.gu}</span></td>
+      <td>
+        <div class="sc-bar-wrap" style="width:130px">
+          <div class="sc-bar" style="flex:1"><div class="sc-fill ${cc.cls}" style="width:${fillW}%"></div></div>
+          <span class="sc-val" style="color:${d.sc>=65?'var(--grn)':d.sc>=40?'var(--amb)':'var(--red)'}">${d.sc}</span>
         </div>
-        <div class="interp" style="font-size:10px">폐업률이 개업률을 ${m.close_rate>m.open_rate?'상회':'하회'}하는 ${m.close_rate>m.open_rate?'순감':'순증'} 상태.</div>
-      </div>
-      <div class="card">
-        <div class="cttl"><span class="tag">A3</span>생존율 추정</div>
-        <div class="csub">폐업률 기반 누적 생존 확률</div>
-        <div class="surv">${survBars(m.close_rate)}</div>
-        <div class="interp" style="font-size:10px">분기 폐업률(${m.close_rate}%) 기준 복리 계산. 실제 생존율은 상권·운영 역량에 따라 달라집니다.</div>
-      </div>
-    </div>
+      </td>
+      <td class="r">${d.a ? d.a.toLocaleString()+'만' : '<span class="nil">—</span>'}</td>
+      <td class="r">${d.s ? d.s.toLocaleString()+'개' : '<span class="nil">—</span>'}</td>
+      <td class="r">${fmtGrowth(d.g)}</td>
+      <td class="r">${d.ps}</td>
+      <td class="r">${d.pc}</td>
+      <td class="r">${d.pe}</td>
+    </tr>`;
+  });
 
-    <div class="two">
-      <div class="card">
-        <div class="cttl"><span class="tag">A4</span>경쟁강도</div>
-        <div class="csub">서울 100개 업종 전체 대비</div>
-        ${compSection(ind)}
-        <div class="interp" style="font-size:10px">폐업 압박도는 업종 내 경쟁 과열 지표. 높을수록 차별화 전략이 필수입니다.</div>
-      </div>
-      <div class="card">
-        <div class="cttl"><span class="tag">A6</span>계절성</div>
-        <div class="csub">최근 3년 분기별 평균 점포수</div>
-        <div class="seas-grid">${seasBars(ind.trend)}</div>
-        <div class="interp" style="font-size:10px">분기별 점포수 변화로 계절 수요 패턴을 추정합니다. 비수기 자금 계획에 활용하세요.</div>
-      </div>
-    </div>
+  html += `</tbody></table>`;
 
-    <div class="card">
-      <div class="cttl"><span class="tag">A5</span>업종 생명주기</div>
-      <div class="csub">순증가율(${m.net_growth>0?'+':''}${m.net_growth}%) 기반 현재 포지션</div>
-      <div class="lc-row">${lcBar(m.net_growth)}</div>
-      <div class="interp">생명주기는 순증가율·폐업률 추세를 기반으로 추정됩니다. 성숙기 후반·쇠퇴기일수록 차별화와 입지 선택이 더욱 중요합니다.</div>
-    </div>
+  // Data note
+  html += `<div style="margin-top:16px;font-size:11px;color:var(--t3);line-height:1.7">
+    출처: 서울시 상권분석 서비스 행정동 추정매출 API · 자치구 집계 기준<br>
+    종합점수(sc): 매출·경쟁·성장·임대효율 4개 지표의 백분위 합산 점수 (0~100점)<br>
+    매출점수(ps): 구내 매출 상위 백분위 / 경쟁점수(pc): 경쟁 환경 유리도 / 임대효율(pe): 임대료 대비 매출 효율
+  </div>`;
 
-    <div class="card">
-      <div class="cttl"><span class="tag">A8</span>유사 업종 비교</div>
-      <div class="csub">동일 카테고리 및 규모 유사 업종 지표 비교</div>
-      ${simTable(nm,ind)}
-      <div class="interp">강조(파란 배경) 행이 현재 선택 업종입니다. 폐업률·생존율이 양호한 업종을 대안으로 검토해보세요.</div>
-    </div>
-
-    <div class="sec-lbl" style="margin-top:6px">B · 지역별 분석</div>
-    <div class="card">
-      <div class="cttl"><span class="tag">B0</span>자치구별 점포수 TOP 5</div>
-      <div class="rank-list">${topDist(nm,ind)}</div>
-      <div class="interp">점포 집중 자치구는 유동인구·수요가 높지만 경쟁도 치열합니다. 임대료 대비 경쟁강도를 함께 고려하세요.</div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">B1</span>자치구 밀집도</div>
-      <div class="csub">점포수 기준 (진할수록 많음)</div>
-      ${guGrid(ind)}
-      <div class="interp">밀집도가 낮은 자치구는 경쟁이 적지만 배후 수요도 제한적일 수 있습니다.</div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">B2</span>주요 자치구 임대료</div>
-      <div class="csub">직방 데이터 기준 평당 월임대료</div>
-      ${rentTable(nm,ind)}
-      <div class="interp">10평 기준 월 임대료는 상기 금액의 10배입니다. 초기 자금 계획 수립 시 반드시 반영하세요.</div>
-    </div>
-
-    <div class="card">
-      <div class="cttl"><span class="tag">B3</span>창업 추천 자치구</div>
-      <div class="csub">경쟁강도(40%) + 임대료(40%) + 창업 활성도(20%) 종합 점수 기준</div>
-      <div class="rec-list">${recDist()}</div>
-      <div class="interp">낮은 폐업 압박과 합리적 임대료 기준으로 산출됩니다. 실제 창업 전 현장 조사와 병행하세요.</div>
-    </div>
-  `;
+  document.getElementById('res-body').innerHTML = html;
+  document.getElementById('vL').style.display = 'none';
+  document.getElementById('vR').style.display = 'block';
+  window.scrollTo(0, 0);
 }
 
-init();
+window.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
