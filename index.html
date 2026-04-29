@@ -584,9 +584,24 @@ const MODALS={
       <strong>분류 공식</strong><br>
       최근 4분기 순증가율 평균(R4) 및 이전 4분기 대비 변화폭(slope) 기반:<br><br>
       R4 ≥ 1.0% AND slope ≥ 0 → <strong>성장기</strong><br>
-      R4 ≥ 0% AND slope < −0.3 → <strong>구조조정기</strong><br>
-      −2.0% ≤ R4 < 1.0% → <strong>성숙기</strong><br>
-      R4 < −2.0% → <strong>쇠퇴기</strong>`
+      R4 ≥ 0% AND slope &lt; −0.3 → <strong>구조조정기</strong><br>
+      −2.0% ≤ R4 &lt; 1.0% → <strong>성숙기</strong><br>
+      R4 &lt; −2.0% → <strong>쇠퇴기</strong>`
+  },
+  district:{
+    ttl:'창업 추천 지역 선정 이론 및 공식',
+    body:`<strong>선정 원칙</strong><br>
+      폐업 위험이 낮으면서 경쟁이 덜한 지역을 추천합니다.<br><br>
+      <strong>선정 기준 (AND 조건)</strong><br>
+      ① 해당 업종의 구별 폐업률 ≤ 서울 25개 구 중위값<br>
+      ② 해당 업종의 점포 밀도 ≤ 서울 25개 구 중위값<br><br>
+      <strong>점포 밀도 공식</strong><br>
+      점포 밀도 = 해당 구 해당 업종 점포 수 ÷ 해당 구 인구 × 10,000<br>
+      (단위: 개/만명)<br><br>
+      <strong>데이터 출처</strong><br>
+      점포 수: 서울 열린데이터광장 OA-22173 (최신 분기)<br>
+      인구: 서울시 주민등록인구 2024년 기준<br>
+      임대료: 직방 서울 상가 임대료 DB`
   },
 };
 function showModal(key){
@@ -942,6 +957,150 @@ function buildSection3(nm,ind){
   </div>`;
 }
 
+/* ── 섹션 4: 시장 역학 ── */
+function buildSection4(nm,ind){
+  const m=ind.metrics;
+  const allInds=Object.values(LOKI_SOT.industries);
+  const total=allInds.length;
+  const byOpen=[...allInds].sort((a,b)=>b.metrics.open_rate-a.metrics.open_rate);
+  const byClose=[...allInds].sort((a,b)=>b.metrics.close_rate-a.metrics.close_rate);
+  const openRank=byOpen.findIndex(d=>d.name===nm)+1;
+  const closeRank=byClose.findIndex(d=>d.name===nm)+1;
+  const mkt=getMarketType(openRank,closeRank,total);
+
+  function rankBar(label,val,rank,total,col){
+    const pct=Math.round((1-rank/total)*100);
+    const rankLabel=rank<=10?'상위 10%':rank<=25?'상위 25%':rank<=50?'상위 50%':'하위 50%';
+    return `
+    <div style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px">
+        <span style="font-size:15px;font-weight:700;color:var(--t1)">${label}</span>
+        <div style="text-align:right">
+          <span style="font-size:20px;font-weight:800;color:${col}">${val}%</span>
+          <span style="font-size:12px;color:var(--t3);margin-left:6px">100개 업종 중 ${rank}위</span>
+        </div>
+      </div>
+      <div style="background:#eef0f4;border-radius:8px;height:12px;overflow:hidden">
+        <div style="width:${pct}%;height:100%;background:${col};border-radius:8px"></div>
+      </div>
+      <div style="margin-top:4px;font-size:12px;color:var(--t3)">${rankLabel}</div>
+    </div>`;
+  }
+
+  const typeColors={레드오션형:'#c92a2a',정리형:'#c92a2a',성장형:'#2f9e44',안정형:'#1971C2'};
+  const typeCol=typeColors[mkt.type]||'#495057';
+
+  return `
+  <div class="rpt-section">
+    <div class="sec-hdr">
+      <div class="sec-ttl">4. 시장 역학</div>
+      <button class="formula-btn" onclick="showModal('market')">산출 이론 및 공식 ⓘ</button>
+    </div>
+    <div class="sec-body">
+      ${rankBar('개업률 (새로 문 여는 가게)',m.open_rate,openRank,total,'#e03131')}
+      ${rankBar('폐업률 (문 닫는 가게)',m.close_rate,closeRank,total,'#1971C2')}
+      <div style="border:2px solid ${typeCol};border-radius:12px;padding:16px 18px;margin-top:8px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <span style="font-size:18px;font-weight:800;color:${typeCol}">${mkt.type}</span>
+          <span style="font-size:12px;background:${typeCol};color:#fff;padding:2px 8px;border-radius:20px">시장 유형</span>
+        </div>
+        <p style="font-size:14px;color:var(--t2);margin:0;line-height:1.6">${mkt.desc}</p>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ── 섹션 5: 업종 생명주기 ── */
+function buildSection5(nm,ind){
+  const lc=calcLifecycle(ind.trend);
+  const stages=['도입기','성장기','구조조정기','성숙기','쇠퇴기'];
+  const stageDesc={
+    도입기:'막 생겨나고 있는 시장입니다. 기회가 있지만 불확실성이 큽니다.',
+    성장기:'가게 수가 빠르게 늘고 있는 성장 중인 시장입니다. 지금이 진입 적기일 수 있습니다.',
+    구조조정기:'경쟁이 치열해져 살아남지 못한 가게들이 빠져나가는 시기입니다. 강한 차별화가 필요합니다.',
+    성숙기:'변화 없이 안정적으로 유지되는 시장입니다. 꾸준하지만 큰 성장은 기대하기 어렵습니다.',
+    쇠퇴기:'가게 수가 계속 줄어드는 내리막 시장입니다. 진입에 특별한 이유가 필요합니다.',
+  };
+  const stageColors={도입기:'#7950f2',성장기:'#2f9e44',구조조정기:'#e67700',성숙기:'#1971C2',쇠퇴기:'#c92a2a'};
+  const curIdx=stages.indexOf(lc.stage);
+
+  const dots=stages.map((s,i)=>{
+    const isActive=i===curIdx;
+    const isPast=i<curIdx;
+    const col=isActive?stageColors[s]:(isPast?'#adb5bd':'#dee2e6');
+    const txtCol=isActive?stageColors[s]:(isPast?'#868e96':'#adb5bd');
+    return `
+    <div style="display:flex;flex-direction:column;align-items:center;flex:1;position:relative">
+      ${i>0?`<div style="position:absolute;left:-50%;top:10px;width:100%;height:2px;background:${isPast||isActive?'#adb5bd':'#dee2e6'}"></div>`:''}
+      <div style="width:${isActive?22:16}px;height:${isActive?22:16}px;border-radius:50%;background:${col};border:${isActive?`3px solid ${col}`:'none'};box-shadow:${isActive?`0 0 0 4px ${col}22`:'none'};z-index:1;position:relative"></div>
+      <span style="font-size:${isActive?13:11}px;font-weight:${isActive?800:400};color:${txtCol};margin-top:6px;text-align:center;white-space:nowrap">${s}</span>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="rpt-section">
+    <div class="sec-hdr">
+      <div class="sec-ttl">5. 업종 생명주기</div>
+      <button class="formula-btn" onclick="showModal('lifecycle')">산출 이론 및 공식 ⓘ</button>
+    </div>
+    <div class="sec-body">
+      <div style="display:flex;align-items:flex-start;padding:8px 0 20px;position:relative">${dots}</div>
+      <div style="background:#f8f9fc;border-radius:10px;padding:14px 16px">
+        <div style="font-size:16px;font-weight:800;color:${stageColors[lc.stage]||'#495057'};margin-bottom:6px">현재: ${lc.stage}</div>
+        <p style="font-size:15px;color:var(--t1);margin:0;line-height:1.7">${stageDesc[lc.stage]}</p>
+        <p style="font-size:13px;color:var(--t3);margin:8px 0 0">최근 4분기 평균 순증가율: <strong>${lc.avg}%</strong> | 기준: CFA 산업 수명주기 모델</p>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ── 섹션 6: 창업 추천 지역 ── */
+function buildSection6(nm,ind){
+  const sd=ind.startup_districts;
+  if(!sd||!sd.list||sd.list.length===0){
+    return `
+    <div class="rpt-section">
+      <div class="sec-hdr"><div class="sec-ttl">6. 창업 추천 지역</div></div>
+      <div class="sec-body"><p style="font-size:15px;color:var(--t3)">해당 업종의 지역별 데이터가 충분하지 않습니다.</p></div>
+    </div>`;
+  }
+  const cr=sd.criteria;
+  const list=sd.list.slice(0,8);
+  const distData=LOKI_SOT.districts||{};
+
+  const tags=list.map(gu=>{
+    const d=distData[gu]||{};
+    const rent=d.rent_per_pyeong?`임대 ${d.rent_per_pyeong}만원/평`:'';
+    const dd=ind.district_detail&&ind.district_detail[gu];
+    const cr2=dd?`폐업률 ${dd.close_rate.toFixed(1)}%`:'';
+    return `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f8f9fc;border-radius:10px;border-left:3px solid #2f9e44">
+      <span style="font-size:16px;font-weight:700;color:var(--t1)">${gu}</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+        ${cr2?`<span style="font-size:12px;color:#1971C2;background:#e7f5ff;padding:2px 8px;border-radius:20px">${cr2}</span>`:''}
+        ${rent?`<span style="font-size:12px;color:#495057;background:#f1f3f5;padding:2px 8px;border-radius:20px">${rent}</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="rpt-section">
+    <div class="sec-hdr">
+      <div class="sec-ttl">6. 창업 추천 지역</div>
+      <button class="formula-btn" onclick="showModal('district')">산출 이론 및 공식 ⓘ</button>
+    </div>
+    <div class="sec-body">
+      <p style="font-size:14px;color:var(--t2);margin:0 0 14px">폐업률이 낮고 경쟁(점포 밀도)이 적은 지역을 추천합니다. <span style="color:var(--t3)">총 ${sd.count}개 구 해당</span></p>
+      <div style="display:flex;flex-direction:column;gap:8px">${tags}</div>
+      <div style="margin-top:14px;padding:10px 14px;background:#fff9db;border-radius:10px;border-left:3px solid #f59f00">
+        <p style="font-size:13px;color:#664d03;margin:0;line-height:1.6">
+          <strong>선정 기준</strong>: 폐업률 ≤ 서울 25개 구 중위값 (${cr&&cr.close_rate_median?cr.close_rate_median.toFixed(2):'—'}%) AND 점포 밀도 ≤ 중위값 (${cr&&cr.density_median?cr.density_median.toFixed(1):'—'}개/만명)
+        </p>
+      </div>
+    </div>
+  </div>`;
+}
+
 /* ── 리포트 빌드 ── */
 function buildReport(nm){
   const ind=LOKI_SOT.industries[nm];if(!ind)return;
@@ -949,7 +1108,10 @@ function buildReport(nm){
   document.getElementById('res-body').innerHTML=
     buildSection1(nm,ind)+
     buildSection2(nm,ind)+
-    buildSection3(nm,ind);
+    buildSection3(nm,ind)+
+    buildSection4(nm,ind)+
+    buildSection5(nm,ind)+
+    buildSection6(nm,ind);
 }
 
 init();
