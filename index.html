@@ -143,17 +143,18 @@ select:focus{border-color:var(--acc)}
 
 /* ── 새 리포트 디자인 ── */
 .rpt-section{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--border);background:var(--bg)}
-.sec-ttl{font-size:13px;font-weight:800;color:var(--t1)}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-bottom:1px solid var(--border);background:var(--bg)}
+.sec-ttl{font-size:15px;font-weight:800;color:var(--t1)}
 .formula-btn{font-size:11px;color:var(--t3);background:none;border:1px solid var(--border2);border-radius:20px;padding:3px 9px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s}
 .formula-btn:hover{color:var(--acc);border-color:var(--acc)}
-.sec-body{padding:16px}
-.vdt-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.vdt-desc{font-size:13px;color:var(--t2);font-weight:600}
-.ev-list{display:flex;flex-direction:column;gap:11px}
+.sec-body{padding:20px 18px}
+.vdt-row{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.vdt-desc{font-size:15px;color:var(--t2);font-weight:600}
+.v-badge{padding:6px 16px;border-radius:20px;font-size:14px;font-weight:800;white-space:nowrap;flex-shrink:0}
+.ev-list{display:flex;flex-direction:column;gap:14px}
 .ev-item{display:flex;gap:0;align-items:baseline}
-.ev-lbl{font-size:12px;font-weight:700;color:var(--t2);min-width:100px;flex-shrink:0;padding-top:1px}
-.ev-txt{font-size:13px;color:var(--t1);line-height:1.65}
+.ev-lbl{font-size:14px;font-weight:700;color:var(--t2);min-width:110px;flex-shrink:0;padding-top:1px}
+.ev-txt{font-size:15px;color:var(--t1);line-height:1.7}
 .dv{color:#2F9E44;font-weight:700}
 .dup{color:#e03131;font-weight:700}
 .ddn{color:#1971C2;font-weight:700}
@@ -629,28 +630,29 @@ function buildSection1(nm,ind){
   const survComp=survDiff>=0
     ?`타 업종 평균 대비 <span class="dup">+${survDiffAbs}%p 높아</span>`
     :`타 업종 평균 대비 <span class="ddn">−${survDiffAbs}%p 낮아</span>`;
-  const survTail=survDiff<-10?'강력한 브랜드 또는 특화전략 없이는 생존이 매우 어려울 수 있음':'체계적인 준비와 입지 선정이 중요함';
+  const survTail=survDiff<-10?'다른 업종보다 훨씬 어렵습니다':'준비를 잘 하면 도전해볼 수 있습니다';
 
   // 시장 유형
   const mkt=getMarketType(openRank,closeRank,total);
 
   // 생명주기
   const lc=calcLifecycle(ind.trend);
+  const lcDesc={성장기:'가게 수가 늘고 있는 성장 중인 시장입니다',구조조정기:'경쟁이 치열해져 많은 가게가 정리되는 시기입니다',성숙기:'변화 없이 안정적으로 유지되는 시장입니다',쇠퇴기:'가게 수가 꾸준히 줄어드는 내리막 시장입니다'};
 
   // 창업 유리 지역
   const sdCount=ind.startup_districts&&ind.startup_districts.count!=null?ind.startup_districts.count:0;
-  const sdCriteria=ind.startup_districts&&ind.startup_districts.criteria?ind.startup_districts.criteria.description:'—';
 
   // 판정 설명
   const vDesc={
-    '긍정':'성장 중인 시장으로 진입 시점으로 긍정적',
-    '검토':'안정적이나 조건부 진입, 충분한 검토 필요',
-    '신중':'시장 수축 중, 신중한 접근 권장',
-    '위험':'폐업 압박 높음, 진입 전 충분한 검증 필요',
+    '긍정':'지금 창업하기 좋은 시장입니다',
+    '검토':'창업 가능하지만 꼼꼼히 준비해야 합니다',
+    '신중':'시장이 줄어들고 있어 신중해야 합니다',
+    '위험':'폐업이 많은 업종입니다. 특히 주의하세요',
   };
 
   const ngColor=m.net_growth>0?'dup':'ddn';
   const ngSign=m.net_growth>0?'+':'';
+  const ngDesc=m.net_growth>0?'가게 수가 늘고 있습니다':'가게 수가 줄어들고 있습니다';
 
   return `
   <div class="rpt-section">
@@ -665,24 +667,24 @@ function buildSection1(nm,ind){
       </div>
       <div class="ev-list">
         <div class="ev-item">
-          <span class="ev-lbl">순증가율</span>
-          <span class="ev-txt">서울 ${D(nm)}은 ${lq} 기준 순증가율이 <span class="${ngColor}">${ngSign}${m.net_growth}%</span>로 시장이 ${m.net_growth>0?'<span class="dup">성장</span>':'<span class="ddn">수축</span>'} 중</span>
+          <span class="ev-lbl">시장 흐름</span>
+          <span class="ev-txt">${ngDesc} (<span class="${ngColor}">${ngSign}${m.net_growth}%</span> · ${lq} 기준)</span>
         </div>
         <div class="ev-item">
-          <span class="ev-lbl">5년 생존율</span>
-          <span class="ev-txt">${D(nm)}의 5년차 생존율은 <span class="dv">${surv.y5}%</span>로 ${survComp} ${survTail}</span>
+          <span class="ev-lbl">5년 생존 가능성</span>
+          <span class="ev-txt">100개 가게 중 <span class="dv">${surv.y5}개</span>만 5년 뒤에도 남아있습니다. ${survComp} ${survTail}</span>
         </div>
         <div class="ev-item">
-          <span class="ev-lbl">시장 역학</span>
-          <span class="ev-txt">개업률 전 업종 <span class="dv">${openRank}위</span> / 폐업률 전 업종 <span class="dv">${closeRank}위</span> → <span class="${mkt.color}">${mkt.type}</span> — ${mkt.desc}</span>
+          <span class="ev-lbl">경쟁 수준</span>
+          <span class="ev-txt">새로 여는 가게 <span class="dv">${openRank}위</span> / 문 닫는 가게 <span class="dv">${closeRank}위</span> (서울 100개 업종 중) → <span class="${mkt.color}">${mkt.type}</span></span>
         </div>
         <div class="ev-item">
-          <span class="ev-lbl">업종 생명주기</span>
-          <span class="ev-txt">현재 <span class="${lc.color}">${lc.stage}</span> 단계로 추정 (최근 4분기 순증가율 평균 <span class="${lc.avg>0?'dup':'ddn'}">${lc.avg>0?'+':''}${lc.avg}%</span>)</span>
+          <span class="ev-lbl">업종 현재 단계</span>
+          <span class="ev-txt"><span class="${lc.color}">${lc.stage}</span> — ${lcDesc[lc.stage]||lc.stage}</span>
         </div>
         <div class="ev-item">
-          <span class="ev-lbl">창업 우선 지역</span>
-          <span class="ev-txt">이 업종의 창업에 유리한 지역은 서울 총 <span class="dv">${sdCount}개 구</span>${sdCount===0?' — 어느 구에서나 폐업 압박 또는 경쟁 밀도가 높음':''}<br><span style="font-size:11px;color:var(--t3)">기준: ${sdCriteria}</span></span>
+          <span class="ev-lbl">창업 추천 지역</span>
+          <span class="ev-txt">서울 25개 구 중 <span class="dv">${sdCount}개 구</span>가 이 업종 창업에 유리합니다${sdCount===0?' (어느 구에서나 경쟁이 치열함)':''}</span>
         </div>
       </div>
     </div>
