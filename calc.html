@@ -815,7 +815,7 @@ function calc(){
   const loNet = calcNet(loSales);
 
   // 비용구조 폭포수 (중위 기준 — 시나리오 계산 후 호출)
-  buildWaterfall(midSales, Math.round(midSales*m.c*10)/10, Math.round(midSales*otherPct*10)/10, rent, labor, midNet, m, otherPct, row);
+  buildWaterfall(midSales, Math.round(midSales*m.c*10)/10, Math.round(midSales*otherPct*10)/10, rent, labor, midNet, m, otherPct, row, rentPerSqm);
   const maxAbsNet = Math.max(Math.abs(hiNet), Math.abs(midNet), 1);
   function scPct(v){ return Math.min(Math.round(Math.max(v,0)/maxAbsNet*100), 100); }
   function scEl(id, netVal, salesVal){
@@ -851,7 +851,7 @@ function calc(){
   }
 }
 
-function buildWaterfall(sales, cogs, other, rent, labor, net, m, otherPct, row){
+function buildWaterfall(sales, cogs, other, rent, labor, net, m, otherPct, row, rentPerSqm){
   const gross = Math.round((sales - cogs)*10)/10;
   const beforeFixed = Math.round((gross - other)*10)/10;
   const cogsPct = Math.round(m.c*100);
