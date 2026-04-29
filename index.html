@@ -141,6 +141,14 @@ select:focus{border-color:var(--acc)}
 #loading-txt{font-size:13px;color:var(--t2);font-weight:600}
 @media(max-width:600px){.two{grid-template-columns:1fr}.v-metrics{grid-template-columns:repeat(2,1fr)}.land-h1{font-size:21px}}
 
+/* ── 섹션 2: 순증가율 추이 ── */
+.meq-row{display:flex;align-items:center;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.meq-box{flex:1;min-width:80px;background:var(--bg);border-radius:10px;padding:14px 10px;text-align:center;border:1.5px solid var(--border)}
+.meq-lbl{font-size:12px;color:var(--t3);margin-bottom:6px;font-weight:600}
+.meq-val{font-size:22px;font-weight:900;line-height:1}
+.meq-op{color:var(--t3);font-size:20px;font-weight:700;flex-shrink:0;padding-bottom:10px}
+.trend-interp{background:var(--bg);border-left:3px solid var(--border2);border-radius:0 8px 8px 0;padding:12px 14px;font-size:15px;color:var(--t2);line-height:1.7;margin-top:14px}
+
 /* ── 새 리포트 디자인 ── */
 .rpt-section{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
 .sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-bottom:1px solid var(--border);background:var(--bg)}
@@ -549,6 +557,16 @@ const MODALS={
       폐업 낮음 + 개업 높음 → <strong>성장형</strong><br>
       폐업 낮음 + 개업 낮음 → <strong>안정형</strong>`
   },
+  trend:{
+    ttl:'순증가율 추이 — 산출 이론 및 공식',
+    body:`<strong>개업률</strong> = 새로 문을 연 가게 수 ÷ 전체 가게 수 × 100<br>
+      <strong>폐업률</strong> = 문을 닫은 가게 수 ÷ 전체 가게 수 × 100<br>
+      <strong>순증가율</strong> = 개업률 − 폐업률<br><br>
+      순증가율이 <span style="color:#e03131;font-weight:700">양수(+)</span>이면 가게 수가 늘고 있는 것이고,<br>
+      순증가율이 <span style="color:#1971C2;font-weight:700">음수(−)</span>이면 가게 수가 줄고 있는 것입니다.<br><br>
+      <strong>데이터 기간</strong>: 2019년 1분기 ~ 2025년 4분기 (28개 분기)<br>
+      <strong>데이터 출처</strong>: 서울 열린데이터광장 OA-22173`
+  },
   lifecycle:{
     ttl:'업종 생명주기 산출 이론 및 공식',
     body:`<strong>이론적 배경</strong><br>
@@ -691,12 +709,103 @@ function buildSection1(nm,ind){
   </div>`;
 }
 
+/* ── 섹션 2: 순증가율 추이 ── */
+function trendChart(trend){
+  if(!trend||trend.length<2)return '<p style="color:var(--t3);font-size:14px;padding:20px 0">데이터가 부족합니다</p>';
+  const W=380,H=150,PL=30,PR=14,PT=18,PB=26;
+  const cW=W-PL-PR,cH=H-PT-PB;
+  const n=trend.length;
+  const ops=trend.map(t=>t.op);
+  const cls=trend.map(t=>t.cl);
+  const ngs=trend.map(t=>+(t.op-t.cl).toFixed(2));
+  const allV=[...ops,...cls,...ngs];
+  const mn=Math.min(...allV),mx=Math.max(...allV);
+  const rng=mx-mn||1;
+  const xp=i=>PL+i/(n-1)*cW;
+  const yp=v=>PT+(1-(v-mn)/rng)*cH;
+  const mkPath=arr=>arr.map((v,i)=>`${i===0?'M':'L'}${xp(i).toFixed(1)},${yp(v).toFixed(1)}`).join(' ');
+  const zeroY=yp(0);
+  const zeroLine=mn<0&&mx>0?`<line x1="${PL}" y1="${zeroY.toFixed(1)}" x2="${W-PR}" y2="${zeroY.toFixed(1)}" stroke="#C8CFDD" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="${PL-4}" y="${(zeroY+4).toFixed(1)}" text-anchor="end" font-size="9" fill="#8B93A8">0</text>`:'';
+  const yrLabels=[];
+  trend.forEach((t,i)=>{if(String(t.q).endsWith('1'))yrLabels.push({x:xp(i),yr:String(t.q).slice(0,4)});});
+  const lastX=xp(n-1),lastOp=yp(ops[n-1]),lastCl=yp(cls[n-1]),lastNg=yp(ngs[n-1]);
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}" style="overflow:visible;margin-top:8px">
+  <line x1="${PL}" y1="${H-PB}" x2="${W-PR}" y2="${H-PB}" stroke="#E2E6EE" stroke-width=".5"/>
+  ${zeroLine}
+  <path d="${mkPath(ops)}" fill="none" stroke="#e03131" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="${mkPath(cls)}" fill="none" stroke="#1971C2" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="${mkPath(ngs)}" fill="none" stroke="#868e96" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5,3"/>
+  <circle cx="${lastX.toFixed(1)}" cy="${lastOp.toFixed(1)}" r="4" fill="#e03131"/>
+  <circle cx="${lastX.toFixed(1)}" cy="${lastCl.toFixed(1)}" r="4" fill="#1971C2"/>
+  <circle cx="${lastX.toFixed(1)}" cy="${lastNg.toFixed(1)}" r="3.5" fill="#868e96"/>
+  ${yrLabels.map(({x,yr})=>`<text x="${x.toFixed(1)}" y="${H-8}" text-anchor="middle" font-size="10" fill="#8B93A8">${yr}</text>`).join('')}
+  <rect x="${PL}" y="1" width="10" height="10" fill="#e03131" rx="2"/>
+  <text x="${PL+13}" y="10" font-size="11" fill="#4A5168" font-weight="600">개업률</text>
+  <rect x="${PL+58}" y="1" width="10" height="10" fill="#1971C2" rx="2"/>
+  <text x="${PL+71}" y="10" font-size="11" fill="#4A5168" font-weight="600">폐업률</text>
+  <line x1="${PL+122}" y1="6" x2="${PL+132}" y2="6" stroke="#868e96" stroke-width="2" stroke-dasharray="4,2"/>
+  <text x="${PL+135}" y="10" font-size="11" fill="#4A5168" font-weight="600">순증가율</text>
+  </svg>`;
+}
+
+function trendInterp(nm,m,trend){
+  if(!trend||trend.length<8)return '';
+  const r4=trend.slice(-4).reduce((s,t)=>s+(t.op-t.cl),0)/4;
+  const p4=trend.slice(-8,-4).reduce((s,t)=>s+(t.op-t.cl),0)/4;
+  const improving=r4>p4;
+  const Dnm=D(nm);
+  if(m.net_growth>0){
+    return improving
+      ?`${Dnm} 시장은 성장세가 계속되고 있습니다. 새로 문을 여는 가게가 닫는 가게보다 꾸준히 많습니다.`
+      :`${Dnm} 시장은 아직 성장 중이지만 최근 들어 속도가 줄어들고 있습니다. 긍정적이나 추이를 지속적으로 확인할 필요가 있습니다.`;
+  }else{
+    return improving
+      ?`최근 감소 폭이 줄어들고 있는 신호가 보입니다. 아직 전체적으로는 가게 수가 줄고 있지만 개선 조짐이 있습니다.`
+      :`${Dnm} 가게 수가 지속적으로 줄어들고 있습니다. 문 닫는 가게가 새로 여는 가게보다 계속 많습니다.`;
+  }
+}
+
+function buildSection2(nm,ind){
+  const m=ind.metrics;
+  const ngColor=m.net_growth>0?'dup':'ddn';
+  const ngSign=m.net_growth>0?'+':'';
+  return `
+  <div class="rpt-section">
+    <div class="sec-hdr">
+      <div class="sec-ttl">2. 순증가율 추이 (2019~2025)</div>
+      <button class="formula-btn" onclick="showModal('trend')">산출 이론 및 공식 ⓘ</button>
+    </div>
+    <div class="sec-body">
+      <div class="meq-row">
+        <div class="meq-box">
+          <div class="meq-lbl">새로 문 연 가게</div>
+          <div class="meq-val dup">${m.open_rate}%</div>
+        </div>
+        <div class="meq-op">−</div>
+        <div class="meq-box">
+          <div class="meq-lbl">문 닫은 가게</div>
+          <div class="meq-val ddn">${m.close_rate}%</div>
+        </div>
+        <div class="meq-op">=</div>
+        <div class="meq-box" style="border-color:${m.net_growth>0?'#ffc9c9':'#74c0fc'}">
+          <div class="meq-lbl">순증가율</div>
+          <div class="meq-val ${ngColor}">${ngSign}${m.net_growth}%</div>
+        </div>
+      </div>
+      ${trendChart(ind.trend)}
+      <div class="trend-interp">${trendInterp(nm,m,ind.trend)}</div>
+    </div>
+  </div>`;
+}
+
 /* ── 리포트 빌드 ── */
 function buildReport(nm){
   const ind=LOKI_SOT.industries[nm];if(!ind)return;
   document.getElementById('res-nm').textContent=D(nm);
   document.getElementById('res-body').innerHTML=
-    buildSection1(nm,ind);
+    buildSection1(nm,ind)+
+    buildSection2(nm,ind);
 }
 
 init();
