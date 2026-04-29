@@ -591,17 +591,20 @@ const MODALS={
   district:{
     ttl:'창업 추천 지역 선정 이론 및 공식',
     body:`<strong>선정 원칙</strong><br>
-      폐업 위험이 낮으면서 경쟁이 덜한 지역을 추천합니다.<br><br>
-      <strong>선정 기준 (AND 조건)</strong><br>
-      ① 해당 업종의 구별 폐업률 ≤ 서울 25개 구 중위값<br>
-      ② 해당 업종의 점포 밀도 ≤ 서울 25개 구 중위값<br><br>
-      <strong>점포 밀도 공식</strong><br>
-      점포 밀도 = 해당 구 해당 업종 점포 수 ÷ 해당 구 인구 × 10,000<br>
+      폐업 위험이 낮으면서 경쟁(점포밀도)이 덜한 지역을 추천합니다.<br><br>
+      <strong>순위합산 방식</strong><br>
+      각 지표를 서울 25개 구 기준으로 순위를 매기고 합산합니다.<br><br>
+      ① 폐업률 순위: 폐업률이 낮은 구 = 1위 (좋음)<br>
+      ② 점포밀도 순위: 점포밀도가 낮은 구 = 1위 (좋음)<br><br>
+      <strong>합산 점수 = 폐업률 순위 + 점포밀도 순위</strong><br>
+      → 점수가 낮을수록 창업 유리 지역<br>
+      → 최저 2점(두 지표 모두 1위) ~ 최고 50점(두 지표 모두 25위)<br><br>
+      <strong>점포밀도 공식</strong><br>
+      점포밀도 = 해당 구 해당 업종 점포 수 ÷ 해당 구 인구 × 10,000<br>
       (단위: 개/만명)<br><br>
       <strong>데이터 출처</strong><br>
       점포 수: 서울 열린데이터광장 OA-22173 (최신 분기)<br>
-      인구: 서울시 주민등록인구 2024년 기준<br>
-      임대료: 직방 서울 상가 임대료 DB`
+      인구: 서울시 주민등록인구 2024년 기준`
   },
 };
 function showModal(key){
@@ -1056,32 +1059,58 @@ function buildSection5(nm,ind){
 
 /* ── 섹션 6: 창업 추천 지역 ── */
 function buildSection6(nm,ind){
-  const sd=ind.startup_districts;
-  if(!sd||!sd.list||sd.list.length===0){
+  const dd=ind.district_detail;
+  if(!dd||Object.keys(dd).length===0){
     return `
     <div class="rpt-section">
       <div class="sec-hdr"><div class="sec-ttl">6. 창업 추천 지역</div></div>
       <div class="sec-body"><p style="font-size:15px;color:var(--t3)">해당 업종의 지역별 데이터가 충분하지 않습니다.</p></div>
     </div>`;
   }
-  const cr=sd.criteria;
-  const list=sd.list.slice(0,8);
-  const distData=LOKI_SOT.districts||{};
 
-  const tags=list.map(gu=>{
-    const d=distData[gu]||{};
-    const rent=d.rent_per_pyeong?`임대 ${d.rent_per_pyeong}만원/평`:'';
-    const dd=ind.district_detail&&ind.district_detail[gu];
-    const cr2=dd?`폐업률 ${dd.close_rate.toFixed(1)}%`:'';
+  // 1단계: 데이터 수집
+  const list=Object.entries(dd).map(([gu,v])=>({
+    gu,
+    cl:+(v.close_rate||0).toFixed(2),
+    density:+(v.store_density||0).toFixed(1),
+  })).filter(r=>r.density>0);
+
+  const n=list.length;
+  if(n===0)return '';
+
+  // 2단계: 각 지표 오름차순 순위 (낮을수록 1위 = 좋음)
+  const byClose=[...list].sort((a,b)=>a.cl-b.cl);
+  const byDensity=[...list].sort((a,b)=>a.density-b.density);
+  const closeRank={},densityRank={};
+  byClose.forEach((r,i)=>closeRank[r.gu]=i+1);
+  byDensity.forEach((r,i)=>densityRank[r.gu]=i+1);
+
+  // 3단계: 합산 점수 → 오름차순 정렬
+  const scored=list.map(r=>({
+    ...r,
+    cr:closeRank[r.gu],
+    dr:densityRank[r.gu],
+    total:closeRank[r.gu]+densityRank[r.gu],
+  })).sort((a,b)=>a.total-b.total);
+
+  const rows=scored.map((r,i)=>{
+    const isTop=i<3;
+    const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    const bgCol=i===0?'#fff9db':i===1?'#f8f9fc':i===2?'#f8f9fc':'#fff';
+    const borderCol=i===0?'#f59f00':i<3?'#ced4da':'#e9ecef';
     return `
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f8f9fc;border-radius:10px;border-left:3px solid #2f9e44">
-      <span style="font-size:16px;font-weight:700;color:var(--t1)">${gu}</span>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
-        ${cr2?`<span style="font-size:12px;color:#1971C2;background:#e7f5ff;padding:2px 8px;border-radius:20px">${cr2}</span>`:''}
-        ${rent?`<span style="font-size:12px;color:#495057;background:#f1f3f5;padding:2px 8px;border-radius:20px">${rent}</span>`:''}
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:${bgCol};border-radius:10px;border-left:3px solid ${borderCol};border-bottom:1px solid #f1f3f5">
+      <span style="font-size:14px;font-weight:700;color:${isTop?'#495057':'#adb5bd'};min-width:28px;text-align:center">${medal||i+1}</span>
+      <span style="font-size:16px;font-weight:700;color:var(--t1);flex:1">${r.gu}</span>
+      <div style="display:flex;gap:6px;align-items:center">
+        <span style="font-size:11px;color:#1971C2;background:#e7f5ff;padding:2px 7px;border-radius:20px">폐업 ${r.cl}%</span>
+        <span style="font-size:11px;color:#495057;background:#f1f3f5;padding:2px 7px;border-radius:20px">밀도 ${r.density}</span>
+        <span style="font-size:14px;font-weight:800;color:${isTop?'#e67700':'#adb5bd'};min-width:28px;text-align:right">${r.total}점</span>
       </div>
     </div>`;
   }).join('');
+
+  const top3=scored.slice(0,3).map(r=>r.gu).join(' · ');
 
   return `
   <div class="rpt-section">
@@ -1090,12 +1119,10 @@ function buildSection6(nm,ind){
       <button class="formula-btn" onclick="showModal('district')">산출 이론 및 공식 ⓘ</button>
     </div>
     <div class="sec-body">
-      <p style="font-size:14px;color:var(--t2);margin:0 0 14px">폐업률이 낮고 경쟁(점포 밀도)이 적은 지역을 추천합니다. <span style="color:var(--t3)">총 ${sd.count}개 구 해당</span></p>
-      <div style="display:flex;flex-direction:column;gap:8px">${tags}</div>
-      <div style="margin-top:14px;padding:10px 14px;background:#fff9db;border-radius:10px;border-left:3px solid #f59f00">
-        <p style="font-size:13px;color:#664d03;margin:0;line-height:1.6">
-          <strong>선정 기준</strong>: 폐업률 ≤ 서울 25개 구 중위값 (${cr&&cr.close_rate_median?cr.close_rate_median.toFixed(2):'—'}%) AND 점포 밀도 ≤ 중위값 (${cr&&cr.density_median?cr.density_median.toFixed(1):'—'}개/만명)
-        </p>
+      <p style="font-size:14px;color:var(--t2);margin:0 0 14px">폐업률이 낮고 경쟁(점포밀도)이 적은 지역일수록 합산 점수가 낮습니다. 점수가 낮은 구가 창업에 유리합니다.</p>
+      <div style="display:flex;flex-direction:column;gap:5px">${rows}</div>
+      <div style="margin-top:14px;padding:12px 16px;background:#fff9db;border-radius:10px;border-left:3px solid #f59f00">
+        <p style="font-size:14px;color:#664d03;margin:0">추천 상위 3개 구: <strong>${top3}</strong></p>
       </div>
     </div>
   </div>`;
