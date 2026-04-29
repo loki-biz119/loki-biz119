@@ -1156,14 +1156,20 @@ function buildSection6(nm,ind){
 ══════════════════════════════════════════ */
 function buildAIDivider(nm){
   const Dnm=D(nm);
+  const claudeLogo=`<svg width="18" height="18" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:4px"><path d="M22.906 3C12.013 3 3 12.013 3 22.906c0 10.894 9.013 19.906 19.906 19.906 10.894 0 19.906-9.012 19.906-19.906C42.812 12.013 33.8 3 22.906 3zm0 3.6c9.008 0 16.306 7.298 16.306 16.306 0 9.009-7.298 16.306-16.306 16.306-9.008 0-16.306-7.297-16.306-16.306 0-9.008 7.298-16.306 16.306-16.306z" fill="#C96442"/><path d="M28.97 15.878c-.23-.695-.87-1.165-1.6-1.165h-8.928c-.73 0-1.37.47-1.6 1.165l-4.464 13.39c-.313.94.353 1.91 1.34 1.91.614 0 1.164-.397 1.36-.98l1.07-3.21h7.516l1.07 3.21c.196.583.746.98 1.36.98.987 0 1.653-.97 1.34-1.91l-4.464-13.39zm-11.454 8.51 2.89-8.673h2.0l2.89 8.672h-7.78z" fill="#C96442"/></svg>`;
   return `
   <div class="ai-divider">
     <div class="ai-divider-line"></div>
     <span class="ai-divider-label">✦ AI 창업진단</span>
   </div>
   <div class="ai-intro">
-    <p class="ai-intro-t">서울 공공데이터 + 시장 맥락 심층 분석</p>
-    <p class="ai-intro-s">SOT 수치를 기반으로 ${Dnm}의 창업 환경을 구조적으로 분석했습니다</p>
+    <p class="ai-intro-t">서울 공공데이터 + 시장 맥락 심층분석 &nbsp;by&nbsp;
+      <span style="display:inline-flex;align-items:center;gap:4px;vertical-align:middle">
+        <svg width="16" height="16" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle"><circle cx="23" cy="23" r="23" fill="#f5ede8"/><path d="M29.5 14.5c-.25-.75-.93-1.25-1.72-1.25H18.22c-.79 0-1.47.5-1.72 1.25L12 29.9c-.34 1.01.38 2.06 1.44 2.06.66 0 1.25-.43 1.46-1.06l1.15-3.45h8.08l1.15 3.45c.21.63.8 1.06 1.46 1.06 1.06 0 1.78-1.05 1.44-2.06L29.5 14.5zm-12.32 9.15 3.1-9.33h.54l3.1 9.33h-6.74z" fill="#C96442"/></svg>
+        <span style="font-size:13px;font-weight:800;color:#C96442;letter-spacing:-.2px">Claude AI</span>
+      </span>
+    </p>
+    <p class="ai-intro-s">SOT 수치를 기반으로 <strong style="color:#5f3dc4">${Dnm}</strong>의 창업환경을 Claude AI가 구조적으로 분석한 결과 데이터입니다.</p>
   </div>`;
 }
 
