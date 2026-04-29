@@ -1128,6 +1128,20 @@ function buildSection6(nm,ind){
   </div>`;
 }
 
+/* ── 수익계산기 CTA ── */
+function buildCalcCTA(nm){
+  const Dnm=D(nm);
+  return `
+  <div style="margin-top:12px;padding:24px 20px;background:linear-gradient(135deg,#1c7ed6 0%,#1971C2 100%);border-radius:14px;text-align:center">
+    <p style="font-size:15px;color:rgba(255,255,255,0.85);margin:0 0 6px">지금까지 <strong style="color:#fff">${Dnm}</strong> 업종을 분석했습니다</p>
+    <p style="font-size:18px;font-weight:800;color:#fff;margin:0 0 18px">내가 원하는 지역에서 실제로 얼마나 벌 수 있을까요?</p>
+    <a href="calc.html?industry=${encodeURIComponent(nm)}" style="display:inline-block;background:#fff;color:#1971C2;font-size:16px;font-weight:800;padding:13px 32px;border-radius:50px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,0.15)">
+      💰 ${Dnm} 수익 계산해보기
+    </a>
+    <p style="font-size:12px;color:rgba(255,255,255,0.65);margin:14px 0 0">수익 계산기에서 지역·규모별 예상 순이익을 시뮬레이션할 수 있습니다</p>
+  </div>`;
+}
+
 /* ── 리포트 빌드 ── */
 function buildReport(nm){
   const ind=LOKI_SOT.industries[nm];if(!ind)return;
@@ -1138,7 +1152,8 @@ function buildReport(nm){
     buildSection3(nm,ind)+
     buildSection4(nm,ind)+
     buildSection5(nm,ind)+
-    buildSection6(nm,ind);
+    buildSection6(nm,ind)+
+    buildCalcCTA(nm);
 }
 
 init();
