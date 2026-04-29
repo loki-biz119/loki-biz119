@@ -875,13 +875,81 @@ function buildSection2(nm,ind){
   </div>`;
 }
 
+/* ── 섹션 3: 생존율 추정 ── */
+function buildSection3(nm,ind){
+  const m=ind.metrics;
+  const surv=calcSurvival(m.close_rate);
+  const allInds=Object.values(LOKI_SOT.industries);
+  const total=allInds.length;
+  const avgClose=allInds.reduce((s,d)=>s+d.metrics.close_rate,0)/total;
+  const avgSurv={
+    y1:(Math.pow(1-avgClose/100,4)*100).toFixed(1),
+    y3:(Math.pow(1-avgClose/100,12)*100).toFixed(1),
+    y5:(Math.pow(1-avgClose/100,20)*100).toFixed(1),
+  };
+
+  function survColor(v){
+    const n=parseFloat(v);
+    if(n>=75)return '#2f9e44';
+    if(n>=55)return '#e67700';
+    return '#c92a2a';
+  }
+  function survBar(label,val,avg){
+    const pct=parseFloat(val);
+    const avgPct=parseFloat(avg);
+    const col=survColor(val);
+    const diff=(pct-avgPct).toFixed(1);
+    const diffStr=diff>=0?`+${diff}%p`:`${diff}%p`;
+    const diffCol=diff>=0?'#2f9e44':'#c92a2a';
+    return `
+    <div style="margin-bottom:20px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+        <span style="font-size:15px;font-weight:700;color:var(--t1)">${label}</span>
+        <span style="font-size:22px;font-weight:800;color:${col}">${val}%</span>
+      </div>
+      <div style="background:#eef0f4;border-radius:8px;height:14px;overflow:hidden">
+        <div style="width:${pct}%;height:100%;background:${col};border-radius:8px;transition:width 0.6s ease"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:5px">
+        <span style="font-size:12px;color:var(--t3)">전체 업종 평균 ${avg}%</span>
+        <span style="font-size:12px;font-weight:700;color:${diffCol}">${diffStr}</span>
+      </div>
+    </div>`;
+  }
+
+  const y5=parseFloat(surv.y5);
+  let interp;
+  if(y5>=75)interp=`5년 후에도 창업자 4명 중 3명이 살아남는 <strong>생존율이 높은 업종</strong>입니다.`;
+  else if(y5>=55)interp=`5년 후 창업자 절반 이상이 유지되지만, <strong>꼼꼼한 준비가 필수</strong>입니다.`;
+  else if(y5>=40)interp=`5년 후 생존율이 절반 미만입니다. <strong>진입 전 충분한 시장 조사</strong>가 필요합니다.`;
+  else interp=`5년 후 창업자 10명 중 ${Math.round(y5/10)}명 미만이 살아남는 <strong>생존이 매우 어려운 업종</strong>입니다.`;
+
+  return `
+  <div class="rpt-section">
+    <div class="sec-hdr">
+      <div class="sec-ttl">3. 생존율 추정</div>
+      <button class="formula-btn" onclick="showModal('survival')">산출 이론 및 공식 ⓘ</button>
+    </div>
+    <div class="sec-body">
+      <p style="font-size:14px;color:var(--t2);margin:0 0 20px">${D(nm)}을(를) 창업했을 때 통계적으로 몇 년을 버틸 수 있는지 추정합니다.</p>
+      ${survBar('1년 후 생존 가능성',surv.y1,avgSurv.y1)}
+      ${survBar('3년 후 생존 가능성',surv.y3,avgSurv.y3)}
+      ${survBar('5년 후 생존 가능성',surv.y5,avgSurv.y5)}
+      <div style="background:#f8f9fc;border-radius:10px;padding:14px 16px;margin-top:4px">
+        <p style="font-size:15px;color:var(--t1);margin:0;line-height:1.7">${interp}</p>
+      </div>
+    </div>
+  </div>`;
+}
+
 /* ── 리포트 빌드 ── */
 function buildReport(nm){
   const ind=LOKI_SOT.industries[nm];if(!ind)return;
   document.getElementById('res-nm').textContent=D(nm);
   document.getElementById('res-body').innerHTML=
     buildSection1(nm,ind)+
-    buildSection2(nm,ind);
+    buildSection2(nm,ind)+
+    buildSection3(nm,ind);
 }
 
 init();
