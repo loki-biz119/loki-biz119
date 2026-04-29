@@ -718,16 +718,35 @@ function buildSection1(nm,ind){
 
 /* ── 섹션 2: 순증가율 추이 ── */
 let _tcId=0;
-function toggleChartGroup(id,show,btn,onCls){
-  const el=document.getElementById(id);
-  if(el)el.setAttribute('display',show?'':'none');
-  if(btn){if(show)btn.classList.add(onCls);else btn.classList.remove(onCls);}
+
+function selectChartLine(cid,key,btn,onCls){
+  const keys=['open','close','net'];
+  const alreadyOn=btn.classList.contains(onCls);
+  // 모든 버튼 초기화
+  keys.forEach(k=>{
+    const b=document.getElementById(cid+'-btn-'+k);
+    if(b)b.className='chart-btn';
+    const grp=document.getElementById(cid+'-grp-'+k);
+    if(grp)grp.setAttribute('opacity','1');
+    const lbl=document.getElementById(cid+'-lbl-'+k);
+    if(lbl)lbl.setAttribute('display','none');
+  });
+  if(!alreadyOn){
+    // 선택한 것 강조, 나머지 희미하게
+    btn.classList.add(onCls);
+    keys.forEach(k=>{
+      const grp=document.getElementById(cid+'-grp-'+k);
+      if(grp)grp.setAttribute('opacity',k===key?'1':'0.12');
+      const lbl=document.getElementById(cid+'-lbl-'+k);
+      if(lbl)lbl.setAttribute('display',k===key?'':'none');
+    });
+  }
 }
 
 function trendChart(trend){
   if(!trend||trend.length<2)return '<p style="color:var(--t3);font-size:14px;padding:20px 0">데이터가 부족합니다</p>';
   const cid='tc'+(++_tcId);
-  const W=400,H=170,PL=34,PR=10,PT=14,PB=24;
+  const W=400,H=260,PL=42,PR=12,PT=16,PB=32;
   const cW=W-PL-PR,cH=H-PT-PB;
   const n=trend.length;
   const ops=trend.map(t=>t.op);
@@ -735,7 +754,7 @@ function trendChart(trend){
   const ngs=trend.map(t=>+(t.op-t.cl).toFixed(2));
   const allV=[...ops,...cls,...ngs];
   const rawMn=Math.min(...allV),rawMx=Math.max(...allV);
-  const pad=(rawMx-rawMn)*0.15||1;
+  const pad=(rawMx-rawMn)*0.12||1;
   const mn=rawMn-pad,mx=rawMx+pad;
   const rng=mx-mn;
   const xp=i=>PL+i/(n-1)*cW;
@@ -746,57 +765,60 @@ function trendChart(trend){
   const yrPts=[];
   trend.forEach((t,i)=>{if(String(t.q).endsWith('1'))yrPts.push({i,yr:String(t.q).slice(0,4),op:ops[i],cl:cls[i],ng:ngs[i]});});
 
-  // Y축 그리드 (3개 수평선)
-  const step=Math.ceil(rng/3/2)*2;
+  // Y축 그리드값 (4~5개)
+  const nTicks=5;
+  const rawStep=(rawMx-rawMn)/(nTicks-1);
+  const step=Math.ceil(rawStep/2)*2||2;
   const gridVals=[];
-  for(let v=Math.ceil(mn/step)*step;v<=mx;v+=step)gridVals.push(v);
-  if(mn<0&&mx>0&&!gridVals.includes(0))gridVals.push(0);
+  for(let v=Math.floor(rawMn/step)*step;v<=rawMx+step;v+=step)gridVals.push(+v.toFixed(1));
+  if(mn<0&&mx>0&&!gridVals.find(v=>Math.abs(v)<0.01))gridVals.push(0);
+  gridVals.sort((a,b)=>a-b);
 
-  const grid=gridVals.map(v=>`
-    <line x1="${PL}" y1="${yp(v).toFixed(1)}" x2="${W-PR}" y2="${yp(v).toFixed(1)}" stroke="${v===0?'#C8CFDD':'#E2E6EE'}" stroke-width="${v===0?'1':'0.5'}" stroke-dasharray="${v===0?'4,3':''}"/>
-    <text x="${(PL-4).toFixed(0)}" y="${(yp(v)+3.5).toFixed(1)}" text-anchor="end" font-size="9" fill="#8B93A8">${v}%</text>`).join('');
+  // 축선
+  const axes=`
+    <line x1="${PL}" y1="${PT}" x2="${PL}" y2="${H-PB}" stroke="#C8CFDD" stroke-width="1"/>
+    <line x1="${PL}" y1="${H-PB}" x2="${W-PR}" y2="${H-PB}" stroke="#C8CFDD" stroke-width="1"/>`;
 
-  // 각 분기마다 작은 점
-  const allDots=(arr,col)=>trend.map((_,i)=>`<circle cx="${xp(i).toFixed(1)}" cy="${yp(arr[i]).toFixed(1)}" r="1.8" fill="${col}"/>`).join('');
+  // Y축 그리드 + 라벨 + 틱
+  const grid=gridVals.filter(v=>v>=mn&&v<=mx).map(v=>`
+    <line x1="${PL}" y1="${yp(v).toFixed(1)}" x2="${W-PR}" y2="${yp(v).toFixed(1)}" stroke="${Math.abs(v)<0.01?'#b0b8c1':'#E2E6EE'}" stroke-width="${Math.abs(v)<0.01?'1':'0.5'}" stroke-dasharray="${Math.abs(v)<0.01?'5,3':''}"/>
+    <line x1="${PL-4}" y1="${yp(v).toFixed(1)}" x2="${PL}" y2="${yp(v).toFixed(1)}" stroke="#C8CFDD" stroke-width="1"/>
+    <text x="${PL-7}" y="${(yp(v)+3.5).toFixed(1)}" text-anchor="end" font-size="9.5" fill="#8B93A8">${v}%</text>`).join('');
 
-  // 연도 Q1 큰 점
-  const yrDots=(arr,col)=>yrPts.map(({i,op,cl,ng})=>{
-    const v=arr===ops?op:arr===cls?cl:ng;
-    return `<circle cx="${xp(i).toFixed(1)}" cy="${yp(v).toFixed(1)}" r="3.5" fill="#fff" stroke="${col}" stroke-width="1.5"/>`;
-  }).join('');
+  // X축 연도 틱 + 라벨
+  const xAxis=yrPts.map(({i,yr})=>`
+    <line x1="${xp(i).toFixed(1)}" y1="${H-PB}" x2="${xp(i).toFixed(1)}" y2="${H-PB+4}" stroke="#C8CFDD" stroke-width="1"/>
+    <text x="${xp(i).toFixed(1)}" y="${H-PB+14}" text-anchor="middle" font-size="10" fill="#8B93A8">${yr}</text>`).join('');
 
-  // 체크박스 클릭 시 나타나는 값 라벨
-  const valLabels=(arr,col,gid)=>{
-    const lbls=yrPts.map(({i,op,cl,ng})=>{
-      const v=arr===ops?op:arr===cls?cl:ng;
-      const sign=v>0?'+':'';
-      const lx=xp(i).toFixed(1);
-      const ly=(yp(v)-7).toFixed(1);
-      return `<text x="${lx}" y="${ly}" text-anchor="middle" font-size="9.5" fill="${col}" font-weight="700">${sign}${v}%</text>`;
+  // 각 분기 작은 점 + 연도 Q1 강조 점
+  const mkGroup=(arr,col,key)=>{
+    const smallDots=trend.map((_,i)=>`<circle cx="${xp(i).toFixed(1)}" cy="${yp(arr[i]).toFixed(1)}" r="1.6" fill="${col}"/>`).join('');
+    const bigDots=yrPts.map(({i,op,cl,ng})=>{
+      const v=key==='open'?op:key==='close'?cl:ng;
+      return `<circle cx="${xp(i).toFixed(1)}" cy="${yp(v).toFixed(1)}" r="3.5" fill="#fff" stroke="${col}" stroke-width="1.5"/>`;
     }).join('');
-    return `<g id="${cid}-${gid}" display="none">${lbls}</g>`;
+    const dash=key==='net'?'stroke-dasharray="5,3"':'';
+    const line=`<path d="${mkPath(arr)}" fill="none" stroke="${col}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" ${dash}/>`;
+    const lbls=yrPts.map(({i,op,cl,ng})=>{
+      const v=key==='open'?op:key==='close'?cl:ng;
+      const sign=v>0?'+':'';
+      return `<text x="${xp(i).toFixed(1)}" y="${(yp(v)-8).toFixed(1)}" text-anchor="middle" font-size="10" fill="${col}" font-weight="700">${sign}${v}%</text>`;
+    }).join('');
+    return `<g id="${cid}-grp-${key}">${line}${smallDots}${bigDots}</g><g id="${cid}-lbl-${key}" display="none">${lbls}</g>`;
   };
 
-  // 연도 X축 라벨
-  const yrXLabels=yrPts.map(({i,yr})=>`<text x="${xp(i).toFixed(1)}" y="${H-5}" text-anchor="middle" font-size="10" fill="#8B93A8">${yr}</text>`).join('');
-
-  const svg=`<svg width="100%" viewBox="0 0 ${W} ${H}" style="overflow:visible">
-  ${grid}
-  <path d="${mkPath(ops)}" fill="none" stroke="#e03131" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
-  <path d="${mkPath(cls)}" fill="none" stroke="#1971C2" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
-  <path d="${mkPath(ngs)}" fill="none" stroke="#868e96" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4,2"/>
-  ${allDots(ops,'#e03131')}${allDots(cls,'#1971C2')}${allDots(ngs,'#868e96')}
-  ${yrDots(ops,'#e03131')}${yrDots(cls,'#1971C2')}${yrDots(ngs,'#868e96')}
-  ${valLabels(ops,'#e03131','open')}
-  ${valLabels(cls,'#1971C2','close')}
-  ${valLabels(ngs,'#868e96','net')}
-  ${yrXLabels}
+  const svg=`<svg width="100%" viewBox="0 0 ${W} ${H}" style="overflow:visible;margin-top:4px">
+  ${axes}${grid}${xAxis}
+  ${mkGroup(ops,'#e03131','open')}
+  ${mkGroup(cls,'#1971C2','close')}
+  ${mkGroup(ngs,'#868e96','net')}
   </svg>`;
 
   const controls=`<div class="chart-ctrl">
-    <button id="${cid}-btn-open" class="chart-btn" onclick="this.classList.toggle('on-open');toggleChartGroup('${cid}-open',this.classList.contains('on-open'))"><span class="cb-dot"></span> 개업률 수치 보기</button>
-    <button id="${cid}-btn-close" class="chart-btn" onclick="this.classList.toggle('on-close');toggleChartGroup('${cid}-close',this.classList.contains('on-close'))"><span class="cb-dot"></span> 폐업률 수치 보기</button>
-    <button id="${cid}-btn-net" class="chart-btn" onclick="this.classList.toggle('on-net');toggleChartGroup('${cid}-net',this.classList.contains('on-net'))"><span class="cb-dot"></span> 순증가율 수치 보기</button>
+    <button id="${cid}-btn-open" class="chart-btn" onclick="selectChartLine('${cid}','open',this,'on-open')"><span class="cb-dot"></span> 개업률</button>
+    <button id="${cid}-btn-close" class="chart-btn" onclick="selectChartLine('${cid}','close',this,'on-close')"><span class="cb-dot"></span> 폐업률</button>
+    <button id="${cid}-btn-net" class="chart-btn" onclick="selectChartLine('${cid}','net',this,'on-net')"><span class="cb-dot"></span> 순증가율</button>
+    <span style="font-size:12px;color:var(--t3);align-self:center">버튼 클릭 시 해당 수치 강조</span>
   </div>`;
 
   return controls+svg;
