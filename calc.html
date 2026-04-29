@@ -568,35 +568,45 @@ let tmpNum={pyeong:15,emp:2,other:5};
   });
 })();
 
-// ── 적합도(테마2)에서 값 넘겨받기 ──
+// ── URL 파라미터로 업종/지역 넘겨받기 ──
 (function(){
   const params = new URLSearchParams(location.search);
   const pGu  = params.get('gu');
-  const pInd = params.get('ind');
-  if(!pGu || !pInd) return;
+  // ?ind= (calc 표시명) 또는 ?sot= (SOT 원본키 → CSV_MAP 변환)
+  const pSot = params.get('sot');
+  const pInd = params.get('ind') || (pSot ? CSV_MAP[pSot] : null);
+  if(!pInd) return;
   // cat 탐색
   let pCat = null;
   Object.keys(CAT_INDS).forEach(cat=>{ if(CAT_INDS[cat].includes(pInd)) pCat=cat; });
   if(!pCat) return;
-  // 상태 설정
-  st.gu=pGu; st.cat=pCat; st.ind=pInd;
+  // 상태 설정 (gu는 있을 때만)
+  if(pGu){ st.gu=pGu; }
+  st.cat=pCat; st.ind=pInd;
   const m = META[pInd];
   if(!m) return;
   // UI — 셀렉터 버튼 업데이트
-  const s1=document.getElementById('s1');
-  s1.textContent=pGu; s1.classList.add('done'); s1.classList.remove('pulse');
+  if(pGu){
+    const s1=document.getElementById('s1');
+    s1.textContent=pGu; s1.classList.add('done'); s1.classList.remove('pulse');
+  }
   const s2=document.getElementById('s2');
   s2.textContent=pCat; s2.classList.add('done');
   const s3=document.getElementById('s3');
   s3.textContent=pInd; s3.classList.add('done');
-  // 평형 / 채용인원 / 기타비용 — 빈값 유지, 힌트만 표시
+  // 평형 / 채용인원 / 기타비용 — 힌트 표시
   const s4h=document.getElementById('s4Hint');
   if(s4h){ s4h.textContent=`(${pInd} 평균 매장 크기 ${m.p}평)`; s4h.style.display='inline-flex'; }
   const s5h=document.getElementById('s5Hint');
   if(s5h){ s5h.textContent=`(${pInd} 평균 채용인원 ${m.e}명)`; s5h.style.display='inline-flex'; }
   const s7h=document.getElementById('s7Hint');
   if(s7h){ s7h.textContent=`(${pInd} 업종 평균 ${Math.round(m.c*100)}%)`; s7h.style.display='inline-flex'; }
-  // calc()는 사용자가 값 입력 후 자동 실행됨
+  // 지역이 없으면 지역 선택 버튼 pulse 유지
+  if(!pGu){
+    const s1=document.getElementById('s1');
+    if(s1) s1.classList.add('pulse');
+    lokiSay(`<b>${pInd}</b> 업종이 선택됐어요! 이제 창업할 지역(구)을 선택해 주세요 📍`);
+  }
 })();
 
 // ── 평균값 힌트 클릭 시 자동 입력 ──
