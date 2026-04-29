@@ -268,13 +268,13 @@ nav{position:sticky;top:0;z-index:100;
   gtag('config', 'G-QZ2LZSMNWW');
 
   // 커스텀 이벤트: 지역 선택
-  function gaGu(gu){ gtag('event','select_gu',{gu:gu}); }
+  function gaGu(gu){ try{ gtag('event','select_gu',{gu:gu}); }catch(e){} }
   // 커스텀 이벤트: 업종 선택
-  function gaInd(ind){ gtag('event','select_industry',{industry:ind}); }
+  function gaInd(ind){ try{ gtag('event','select_industry',{industry:ind}); }catch(e){} }
   // 커스텀 이벤트: 결과 계산 완료
-  function gaCalc(gu,ind,net){ gtag('event','calc_result',{gu:gu,industry:ind,net_profit:Math.round(net)}); }
+  function gaCalc(gu,ind,net){ try{ gtag('event','calc_result',{gu:gu,industry:ind,net_profit:Math.round(net)}); }catch(e){} }
   // 커스텀 이벤트: 공유 버튼
-  function gaShare(){ gtag('event','share',{method:'clipboard'}); }
+  function gaShare(){ try{ gtag('event','share',{method:'clipboard'}); }catch(e){} }
 </script>
 <script src="data/loki_data.js"></script>
 </head>
