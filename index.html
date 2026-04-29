@@ -148,9 +148,13 @@ select:focus{border-color:var(--acc)}
 .meq-val{font-size:22px;font-weight:900;line-height:1}
 .meq-op{color:var(--t3);font-size:20px;font-weight:700;flex-shrink:0;padding-bottom:10px}
 .trend-interp{background:var(--bg);border-left:3px solid var(--border2);border-radius:0 8px 8px 0;padding:12px 14px;font-size:15px;color:var(--t2);line-height:1.7;margin-top:14px}
-.chart-ctrl{display:flex;gap:16px;margin-bottom:8px;flex-wrap:wrap}
-.chart-ctrl label{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--t2);cursor:pointer;font-weight:600;user-select:none}
-.chart-ctrl input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--acc)}
+.chart-ctrl{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.chart-btn{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;font-family:inherit;padding:7px 14px;border-radius:20px;border:2px solid var(--border2);background:var(--white);cursor:pointer;transition:all .15s;color:var(--t3)}
+.chart-btn.on-open{border-color:#e03131;background:#fff5f5;color:#e03131}
+.chart-btn.on-close{border-color:#1971C2;background:#e7f5ff;color:#1971C2}
+.chart-btn.on-net{border-color:#868e96;background:#f8f9fa;color:#495057}
+.chart-btn .cb-dot{width:10px;height:10px;border-radius:50%;border:2px solid currentColor;display:inline-block;transition:all .15s}
+.chart-btn.on-open .cb-dot,.chart-btn.on-close .cb-dot,.chart-btn.on-net .cb-dot{background:currentColor}
 
 /* ── 새 리포트 디자인 ── */
 .rpt-section{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
@@ -714,12 +718,16 @@ function buildSection1(nm,ind){
 
 /* ── 섹션 2: 순증가율 추이 ── */
 let _tcId=0;
-function toggleChartGroup(id,show){const el=document.getElementById(id);if(el)el.setAttribute('display',show?'':'none');}
+function toggleChartGroup(id,show,btn,onCls){
+  const el=document.getElementById(id);
+  if(el)el.setAttribute('display',show?'':'none');
+  if(btn){if(show)btn.classList.add(onCls);else btn.classList.remove(onCls);}
+}
 
 function trendChart(trend){
   if(!trend||trend.length<2)return '<p style="color:var(--t3);font-size:14px;padding:20px 0">데이터가 부족합니다</p>';
   const cid='tc'+(++_tcId);
-  const W=400,H=100,PL=34,PR=10,PT=8,PB=22;
+  const W=400,H=170,PL=34,PR=10,PT=14,PB=24;
   const cW=W-PL-PR,cH=H-PT-PB;
   const n=trend.length;
   const ops=trend.map(t=>t.op);
@@ -786,9 +794,9 @@ function trendChart(trend){
   </svg>`;
 
   const controls=`<div class="chart-ctrl">
-    <label><input type="checkbox" onchange="toggleChartGroup('${cid}-open',this.checked)"><span style="color:#e03131">■</span> 개업률</label>
-    <label><input type="checkbox" onchange="toggleChartGroup('${cid}-close',this.checked)"><span style="color:#1971C2">■</span> 폐업률</label>
-    <label><input type="checkbox" onchange="toggleChartGroup('${cid}-net',this.checked)"><span style="color:#868e96">■</span> 순증가율</label>
+    <button id="${cid}-btn-open" class="chart-btn" onclick="this.classList.toggle('on-open');toggleChartGroup('${cid}-open',this.classList.contains('on-open'))"><span class="cb-dot"></span> 개업률 수치 보기</button>
+    <button id="${cid}-btn-close" class="chart-btn" onclick="this.classList.toggle('on-close');toggleChartGroup('${cid}-close',this.classList.contains('on-close'))"><span class="cb-dot"></span> 폐업률 수치 보기</button>
+    <button id="${cid}-btn-net" class="chart-btn" onclick="this.classList.toggle('on-net');toggleChartGroup('${cid}-net',this.classList.contains('on-net'))"><span class="cb-dot"></span> 순증가율 수치 보기</button>
   </div>`;
 
   return controls+svg;
