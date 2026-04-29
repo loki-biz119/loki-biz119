@@ -1351,20 +1351,6 @@ function buildAISectionD(nm,ind){
       <div style="background:${vBg};border-left:4px solid ${vColor};border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:14px">
         <p style="font-size:15px;color:var(--t1);line-height:1.8;margin:0">${summary}</p>
       </div>
-      <div class="ai-kpi">
-        <div class="ai-kpi-c">
-          <p class="ai-kpi-l">5년 생존율</p>
-          <p class="ai-kpi-v" style="color:${vColor}">${surv.y5}%</p>
-        </div>
-        <div class="ai-kpi-c">
-          <p class="ai-kpi-l">점포수 6년 변화</p>
-          <p class="ai-kpi-v" style="color:${storeChangePct>=0?'#2f9e44':'#e03131'}">${storeChangePct>=0?'+':''}${storeChangePct}%</p>
-        </div>
-        <div class="ai-kpi-c">
-          <p class="ai-kpi-l">추천 창업 구</p>
-          <p class="ai-kpi-v" style="color:#7950f2">${sdCount}개</p>
-        </div>
-      </div>
     </div>
   </div>`;
 }
