@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>장인명부 — 검증된 고숙련 기능인</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a1a;
+  --ink2: #444;
+  --ink3: #888;
+  --paper: #f7f5f0;
+  --paper2: #eeebe4;
+  --paper3: #e4e0d8;
+  --accent: #c8502a;
+  --accent2: #e8703a;
+  --green: #2a6b3c;
+  --green-bg: #e8f2ec;
+  --amber: #8a5a00;
+  --amber-bg: #fdf3d8;
+  --red-bg: #fdecea;
+  --red: #b02020;
+  --border: #d4d0c8;
+  --radius: 10px;
+  --radius-lg: 16px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ─── HEADER ─── */
+.site-header {
+  background: var(--ink);
+  padding: 20px 20px 18px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.site-logo {
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); }
+.site-tagline { font-size: 11px; color: #888; margin-top: 3px; letter-spacing: 0.3px; }
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--ink);
+  padding: 0 20px 28px;
+  border-bottom: 3px solid var(--accent);
+}
+.hero-name { font-size: 32px; font-weight: 900; color: #fff; letter-spacing: -1px; line-height: 1.1; }
+.hero-name span { color: var(--accent2); }
+.hero-meta { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.hero-badge {
+  font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px;
+  letter-spacing: 0.3px;
+}
+.hb-master { background: var(--accent); color: #fff; }
+.hb-cert { background: var(--green-bg); color: var(--green); }
+.hb-region { background: rgba(255,255,255,0.12); color: #ccc; }
+.hero-stats {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: rgba(255,255,255,0.1);
+  border-radius: var(--radius); overflow: hidden; margin-top: 16px;
+}
+.hero-stat {
+  background: rgba(255,255,255,0.06);
+  padding: 10px 0; text-align: center;
+}
+.hs-num { font-size: 22px; font-weight: 900; color: #fff; font-family: 'DM Mono', monospace; }
+.hs-num.accent { color: var(--accent2); }
+.hs-label { font-size: 10px; color: #888; margin-top: 2px; }
+
+/* ─── NAV TABS ─── */
+.nav-tabs {
+  display: flex; gap: 0;
+  background: var(--paper2);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto; scrollbar-width: none;
+  position: sticky; top: 62px; z-index: 90;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab {
+  flex-shrink: 0; padding: 12px 16px;
+  font-size: 12px; font-weight: 700; color: var(--ink3);
+  border-bottom: 2px solid transparent;
+  cursor: pointer; white-space: nowrap;
+  letter-spacing: 0.2px; transition: all .2s;
+}
+.nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ─── SECTIONS ─── */
+.section { display: none; padding: 0 0 40px; }
+.section.active { display: block; }
+.sec-inner { padding: 0 16px; }
+
+.sec-title {
+  font-size: 13px; font-weight: 900; color: var(--ink3);
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 20px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sec-title::before {
+  content: ''; display: block;
+  width: 4px; height: 16px; background: var(--accent);
+  border-radius: 2px;
+}
+
+/* ─── SKILL CARDS ─── */
+.skill-group { margin-bottom: 20px; }
+.skill-group-head {
+  font-size: 12px; font-weight: 700; color: var(--ink2);
+  padding: 0 0 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+.skill-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; margin-bottom: 6px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius); cursor: pointer;
+  transition: all .15s;
+}
+.skill-item.has-clip { border-left: 3px solid var(--green); }
+.skill-check {
+  width: 18px; height: 18px; border-radius: 4px;
+  border: 2px solid var(--border); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--paper2);
+}
+.skill-item.checked .skill-check { background: var(--green); border-color: var(--green); }
+.skill-item.checked .skill-check::after {
+  content: '✓'; font-size: 11px; color: #fff; font-weight: 700;
+}
+.skill-name { flex: 1; font-size: 13px; font-weight: 500; }
+.skill-level {
+  font-size: 10px; font-weight: 700; padding: 2px 7px;
+  border-radius: 99px; letter-spacing: 0.3px;
+}
+.lv-basic { background: var(--paper2); color: var(--ink3); }
+.lv-mid { background: var(--amber-bg); color: var(--amber); }
+.lv-adv { background: #ede8ff; color: #4a2d99; }
+.clip-btn {
+  display: flex; align-items: center; gap: 3px;
+  font-size: 10px; font-weight: 700; padding: 3px 8px;
+  border-radius: 99px; background: var(--green-bg);
+  color: var(--green); letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.no-clip-btn {
+  font-size: 10px; color: var(--ink3);
+  white-space: nowrap;
+}
+
+/* ─── VIDEO CLIPS ─── */
+.clips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.clip-card {
+  border-radius: var(--radius); overflow: hidden;
+  border: 1px solid var(--border); background: #fff;
+  cursor: pointer;
+}
+.clip-thumb {
+  height: 90px; background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.clip-thumb-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  opacity: 0.9;
+}
+.clip-play {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 1;
+}
+.clip-play::after { content: '▶'; font-size: 12px; color: #fff; margin-left: 2px; }
+.clip-duration {
+  position: absolute; bottom: 6px; right: 8px; z-index: 1;
+  font-size: 10px; font-family: 'DM Mono', monospace;
+  color: #fff; background: rgba(0,0,0,0.5);
+  padding: 1px 5px; border-radius: 3px;
+}
+.clip-info { padding: 8px 10px; }
+.clip-title { font-size: 12px; font-weight: 700; color: var(--ink); }
+.clip-sub { font-size: 10px; color: var(--ink3); margin-top: 2px; }
+
+/* ─── RECOMMENDERS ─── */
+.rec-card {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 14px;
+  margin-bottom: 10px;
+}
+.rec-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.rec-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--ink); display: flex; align-items: center;
+  justify-content: center; font-size: 15px; font-weight: 900;
+  color: #fff; flex-shrink: 0;
+}
+.rec-name { font-size: 14px; font-weight: 700; }
+.rec-title { font-size: 11px; color: var(--ink3); margin-top: 2px; }
+.rec-quote {
+  font-size: 13px; color: var(--ink2); line-height: 1.65;
+  background: var(--paper2); border-radius: var(--radius);
+  padding: 10px 12px; border-left: 3px solid var(--accent);
+  font-style: italic;
+}
+.rec-count-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 700; color: var(--green);
+  background: var(--green-bg); padding: 3px 8px; border-radius: 99px;
+  margin-top: 8px;
+}
+
+/* ─── INTERVIEW ─── */
+.interview-item { margin-bottom: 14px; }
+.interview-q {
+  font-size: 12px; font-weight: 700; color: var(--ink3);
+  margin-bottom: 5px; display: flex; align-items: flex-start; gap: 6px;
+}
+.q-mark {
+  width: 18px; height: 18px; border-radius: 4px; background: var(--ink);
+  color: #fff; font-size: 10px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.interview-a {
+  font-size: 13px; color: var(--ink); line-height: 1.7;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 11px 13px;
+}
+.interview-tag {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  padding: 2px 7px; border-radius: 99px; margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+.tag-skill { background: #ede8ff; color: #4a2d99; }
+.tag-honest { background: var(--amber-bg); color: var(--amber); }
+.tag-method { background: var(--green-bg); color: var(--green); }
+
+/* ─── ATTENDANCE ─── */
+.attend-card {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 14px; margin-bottom: 10px;
+}
+.attend-q {
+  font-size: 12px; font-weight: 700; color: var(--ink2);
+  margin-bottom: 8px; line-height: 1.5;
+}
+.attend-answer {
+  display: flex; align-items: center; gap: 8px;
+}
+.attend-badge {
+  font-size: 12px; font-weight: 700; padding: 5px 14px;
+  border-radius: 99px;
+}
+.ab-good { background: var(--green-bg); color: var(--green); }
+.ab-ok { background: var(--amber-bg); color: var(--amber); }
+.ab-no { background: var(--red-bg); color: var(--red); }
+.attend-desc { font-size: 12px; color: var(--ink3); flex: 1; line-height: 1.5; }
+.attend-note {
+  font-size: 12px; color: var(--ink2); line-height: 1.6;
+  margin-top: 8px; padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.self-declare-box {
+  background: var(--paper2); border-radius: var(--radius);
+  padding: 12px 14px; margin-top: 12px;
+  border: 1px solid var(--border);
+}
+.sd-label { font-size: 10px; font-weight: 700; color: var(--ink3); letter-spacing: 0.5px; margin-bottom: 5px; }
+.sd-text { font-size: 13px; color: var(--ink); line-height: 1.65; }
+
+/* ─── PREFERENCE ─── */
+.pref-section { margin-bottom: 18px; }
+.pref-section-head {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+  color: var(--ink3); margin-bottom: 8px; text-transform: uppercase;
+}
+.pref-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 10px 12px; margin-bottom: 6px;
+}
+.pref-icon {
+  width: 28px; height: 28px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+}
+.pi-good { background: var(--green-bg); }
+.pi-bad { background: var(--red-bg); }
+.pi-neutral { background: var(--amber-bg); }
+.pref-text { font-size: 12px; color: var(--ink); line-height: 1.55; flex: 1; padding-top: 3px; }
+
+/* ─── CTA ─── */
+.cta-box {
+  margin: 20px 16px 0;
+  background: var(--ink); border-radius: var(--radius-lg);
+  padding: 18px; text-align: center;
+}
+.cta-title { font-size: 15px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.cta-sub { font-size: 12px; color: #888; margin-bottom: 14px; }
+.cta-btn {
+  display: block; width: 100%;
+  background: var(--accent); color: #fff;
+  font-size: 14px; font-weight: 700; letter-spacing: 0.3px;
+  padding: 13px; border-radius: var(--radius); border: none;
+  cursor: pointer; text-decoration: none;
+  transition: background .15s;
+}
+.cta-btn:active { background: #a83d1a; }
+.cta-price {
+  font-size: 11px; color: #888; margin-top: 8px;
+}
+
+/* ─── MODAL ─── */
+.modal-bg {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7); z-index: 200;
+  align-items: flex-end; justify-content: center;
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: var(--paper); border-radius: 20px 20px 0 0;
+  width: 100%; max-width: 480px; padding: 20px;
+  max-height: 80vh; overflow-y: auto;
+}
+.modal-handle {
+  width: 36px; height: 4px; border-radius: 99px;
+  background: var(--border); margin: 0 auto 16px;
+}
+.modal-title { font-size: 16px; font-weight: 900; margin-bottom: 4px; }
+.modal-sub { font-size: 12px; color: var(--ink3); margin-bottom: 16px; }
+.modal-video-placeholder {
+  width: 100%; height: 200px;
+  background: var(--ink); border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+}
+.modal-play {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.4);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-play::after { content: '▶'; font-size: 18px; color: #fff; margin-left: 3px; }
+.modal-desc { font-size: 13px; color: var(--ink2); line-height: 1.7; }
+.modal-close {
+  width: 100%; padding: 12px; margin-top: 16px;
+  background: var(--ink); color: #fff; border: none;
+  border-radius: var(--radius); font-size: 13px; font-weight: 700;
+  cursor: pointer; font-family: inherit;
+}
+
+/* ─── DIVIDER ─── */
+.divider { height: 1px; background: var(--border); margin: 16px 0; }
+.not-declared {
+  background: var(--red-bg); border: 1px solid #f5c0bc;
+  border-radius: var(--radius); padding: 10px 12px; margin-top: 12px;
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.nd-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.nd-text { font-size: 12px; color: var(--red); line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="site-logo"><div class="logo-dot"></div>장인명부</div>
+  <div class="site-tagline">검증된 고숙련 기능인 카탈로그 · MVP</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-name">최<span>○○</span></div>
+  <div style="font-size:13px;color:#aaa;margin-top:4px;font-weight:500">도배 전문 · 경력 19년</div>
+  <div class="hero-meta">
+    <span class="hero-badge hb-master">마스터 Lv.3</span>
+    <span class="hero-badge hb-cert">도배기능사</span>
+    <span class="hero-badge hb-region">서울 북부 · 경기 북부</span>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hs-num accent">19년</div>
+      <div class="hs-label">경력</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hs-num">5명</div>
+      <div class="hs-label">추천 십장</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hs-num">0건</div>
+      <div class="hs-label">노쇼 이력</div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav-tabs" id="navTabs">
+  <div class="nav-tab active" onclick="showSection('skills',this)">가능업무</div>
+  <div class="nav-tab" onclick="showSection('clips',this)">작업클립</div>
+  <div class="nav-tab" onclick="showSection('recs',this)">추천십장</div>
+  <div class="nav-tab" onclick="showSection('interview',this)">기술인터뷰</div>
+  <div class="nav-tab" onclick="showSection('attend',this)">근태설문</div>
+  <div class="nav-tab" onclick="showSection('pref',this)">작업선호</div>
+</nav>
+
+<!-- ─── SECTION 1: 가능업무 ─── -->
+<section id="sec-skills" class="section active">
+  <div class="sec-title">가능업무 · 자기선언</div>
+  <div class="sec-inner">
+
+    <div class="skill-group">
+      <div class="skill-group-head">재료별 — 뭘 바를 수 있나</div>
+      <div class="skill-item checked has-clip" onclick="openClip('합지도배','기초 초배지 작업부터 합지 마감까지. 이음새 처리와 기포 제거 방식을 확인할 수 있습니다.','1:24')">
+        <div class="skill-check"></div>
+        <div class="skill-name">합지도배</div>
+        <div class="skill-level lv-basic">기본</div>
+        <div class="clip-btn">▶ 클립</div>
+      </div>
+      <div class="skill-item checked has-clip" onclick="openClip('실크도배','실크 이음새 처리와 코너 마감 방식. 풀칠 농도 조절 과정이 포함됩니다.','2:08')">
+        <div class="skill-check"></div>
+        <div class="skill-name">실크도배</div>
+        <div class="skill-level lv-mid">중급</div>
+        <div class="clip-btn">▶ 클립</div>
+      </div>
+      <div class="skill-item checked" onclick="alert('클립 준비 중')">
+        <div class="skill-check"></div>
+        <div class="skill-name">방염벽지</div>
+        <div class="skill-level lv-mid">중급</div>
+        <div class="no-clip-btn">클립 없음</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-check"></div>
+        <div class="skill-name" style="color:#aaa">패브릭·특수벽지</div>
+        <div class="skill-level lv-adv">고급</div>
+        <div class="no-clip-btn" style="color:#ccc">미선언</div>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-head">부위별 — 어디를 할 수 있나</div>
+      <div class="skill-item checked has-clip" onclick="openClip('벽 도배','일반 벽면 실크도배 시공 전 과정. 재단부터 풀칠, 부착, 이음새 처리까지.','1:45')">
+        <div class="skill-check"></div>
+        <div class="skill-name">벽 도배</div>
+        <div class="skill-level lv-basic">기본</div>
+        <div class="clip-btn">▶ 클립</div>
+      </div>
+      <div class="skill-item checked has-clip" onclick="openClip('천장 도배','천장 합지 작업. 기포 없이 붙이는 방법과 이음새 처리 방식 확인.','1:52')">
+        <div class="skill-check"></div>
+        <div class="skill-name">천장 도배</div>
+        <div class="skill-level lv-mid">중급</div>
+        <div class="clip-btn">▶ 클립</div>
+      </div>
+      <div class="skill-item checked has-clip" onclick="openClip('코너·몰딩 마감','모서리 칼질과 몰딩 라인 처리. 마감 품질이 가장 잘 드러나는 작업입니다.','0:58')">
+        <div class="skill-check"></div>
+        <div class="skill-name">코너·몰딩 마감</div>
+        <div class="skill-level lv-mid">중급</div>
+        <div class="clip-btn">▶ 클립</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-check"></div>
+        <div class="skill-name" style="color:#aaa">곡면·아치 부위</div>
+        <div class="skill-level lv-adv">고급</div>
+        <div class="no-clip-btn" style="color:#ccc">미선언</div>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-head">작업 자립도 — 혼자 얼마나 할 수 있나</div>
+      <div class="skill-item checked has-clip" onclick="openClip('재단·풀칠 직접','재단기 사용 없이 칼과 줄자만으로 재단하는 방식. 풀칠 농도 조절 과정 포함.','1:15')">
+        <div class="skill-check"></div>
+        <div class="skill-name">재단·풀칠 직접 가능</div>
+        <div class="skill-level lv-mid">중급</div>
+        <div class="clip-btn">▶ 클립</div>
+      </div>
+      <div class="skill-item checked">
+        <div class="skill-check"></div>
+        <div class="skill-name">자재 수량 직접 계산</div>
+        <div class="skill-level lv-mid">중급</div>
+        <div class="no-clip-btn">클립 없음</div>
+      </div>
+      <div class="skill-item checked has-clip" onclick="openClip('33평 1인 1일','33평 아파트 거실+방3 실크도배 1인 작업 타임랩스. 재단부터 마감까지 6시간 30분.','3:20')">
+        <div class="skill-check"></div>
+        <div class="skill-name">33평 4룸 1인 1일 완료</div>
+        <div class="skill-level lv-adv">고급</div>
+        <div class="clip-btn">▶ 클립</div>
+      </div>
+      <div class="skill-item checked">
+        <div class="skill-check"></div>
+        <div class="skill-name">기존 벽지 위 리폼 시공</div>
+        <div class="skill-level lv-mid">중급</div>
+        <div class="no-clip-btn">클립 없음</div>
+      </div>
+    </div>
+
+    <div class="not-declared">
+      <div class="nd-icon">✕</div>
+      <div class="nd-text"><strong>본인 비선언 항목</strong> — 패브릭·특수벽지, 곡면·아치 부위. 이 작업은 요청하지 마세요. 다른 전문가를 소개해 드립니다.</div>
+    </div>
+
+  </div>
+  <div class="cta-box">
+    <div class="cta-title">이 분을 현장에 부르고 싶다면</div>
+    <div class="cta-sub">연결 요청 후 최○○님 수락 시 확정됩니다</div>
+    <a class="cta-btn" href="#">연결 요청하기</a>
+    <div class="cta-price">연결 요청 15,000원 · 확정 후 연락처 공개</div>
+  </div>
+</section>
+
+<!-- ─── SECTION 2: 작업클립 ─── -->
+<section id="sec-clips" class="section">
+  <div class="sec-title">작업클립 · 영상 증거</div>
+  <div class="sec-inner">
+    <p style="font-size:12px;color:var(--ink3);margin-bottom:14px;line-height:1.6">가능업무에 체크한 항목의 실제 작업 영상입니다. 직접 찍은 현장 클립으로 편집 없이 제공합니다.</p>
+    <div class="clips-grid">
+      <div class="clip-card" onclick="openClip('실크도배 이음새','실크 벽지 이음새 처리 방식. 두 장이 만나는 지점에서의 칼질과 기포 제거 과정.','2:08')">
+        <div class="clip-thumb">
+          <div class="clip-thumb-bg"></div>
+          <div class="clip-play"></div>
+          <div class="clip-duration">2:08</div>
+        </div>
+        <div class="clip-info">
+          <div class="clip-title">실크 이음새 처리</div>
+          <div class="clip-sub">코너 칼질 · 기포 제거</div>
+        </div>
+      </div>
+      <div class="clip-card" onclick="openClip('천장 합지','천장 도배 작업 전 과정. 기포 없이 붙이는 핵심 방법.','1:52')">
+        <div class="clip-thumb">
+          <div class="clip-thumb-bg"></div>
+          <div class="clip-play"></div>
+          <div class="clip-duration">1:52</div>
+        </div>
+        <div class="clip-info">
+          <div class="clip-title">천장 합지 작업</div>
+          <div class="clip-sub">기포 없는 부착법</div>
+        </div>
+      </div>
+      <div class="clip-card" onclick="openClip('코너 마감','몰딩 라인과 모서리 처리. 마감 품질을 좌우하는 칼질 방식.','0:58')">
+        <div class="clip-thumb">
+          <div class="clip-thumb-bg"></div>
+          <div class="clip-play"></div>
+          <div class="clip-duration">0:58</div>
+        </div>
+        <div class="clip-info">
+          <div class="clip-title">코너·몰딩 마감</div>
+          <div class="clip-sub">칼질 각도 · 마감 처리</div>
+        </div>
+      </div>
+      <div class="clip-card" onclick="openClip('재단·풀칠','도구 없이 칼과 줄자로 재단. 풀칠 농도 조절 방식 포함.','1:15')">
+        <div class="clip-thumb">
+          <div class="clip-thumb-bg"></div>
+          <div class="clip-play"></div>
+          <div class="clip-duration">1:15</div>
+        </div>
+        <div class="clip-info">
+          <div class="clip-title">재단·풀칠 직접</div>
+          <div class="clip-sub">도구 없이 직접 재단</div>
+        </div>
+      </div>
+      <div class="clip-card" onclick="openClip('33평 타임랩스','33평 아파트 1인 작업 전 과정. 재단부터 마감까지 6시간 30분.','3:20')">
+        <div class="clip-thumb">
+          <div class="clip-thumb-bg"></div>
+          <div class="clip-play"></div>
+          <div class="clip-duration">3:20</div>
+        </div>
+        <div class="clip-info">
+          <div class="clip-title">33평 1인 작업</div>
+          <div class="clip-sub">타임랩스 · 6시간 30분</div>
+        </div>
+      </div>
+      <div class="clip-card" onclick="openClip('합지 초배','초배지 작업부터 합지 마감까지. 이음새 처리와 기포 제거.','1:24')">
+        <div class="clip-thumb">
+          <div class="clip-thumb-bg"></div>
+          <div class="clip-play"></div>
+          <div class="clip-duration">1:24</div>
+        </div>
+        <div class="clip-info">
+          <div class="clip-title">합지 초배 작업</div>
+          <div class="clip-sub">이음새 처리 · 기포 제거</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SECTION 3: 추천십장 ─── -->
+<section id="sec-recs" class="section">
+  <div class="sec-title">추천 십장 · 현장 보증</div>
+  <div class="sec-inner">
+    <p style="font-size:12px;color:var(--ink3);margin-bottom:14px;line-height:1.6">실제로 함께 일하고 직접 추천한 현직 십장입니다. 추천인의 경력과 함께 확인하세요.</p>
+
+    <div class="rec-card">
+      <div class="rec-header">
+        <div class="rec-avatar">이</div>
+        <div>
+          <div class="rec-name">이○○ 반장</div>
+          <div class="rec-title">설비·인테리어 경력 14년 · 서울 북부</div>
+        </div>
+      </div>
+      <div class="rec-quote">"실크 마감이 깔끔하고 빠릅니다. 33평 혼자 하루에 끝내는 걸 직접 봤어요. 코너 처리가 특히 좋습니다. 노원·도봉 쪽 현장 있으면 무조건 최 사장 씁니다."</div>
+      <div class="rec-count-badge">✓ 함께한 현장 7건</div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-header">
+        <div class="rec-avatar">김</div>
+        <div>
+          <div class="rec-name">김○○ 십장</div>
+          <div class="rec-title">전문건설 경력 9년 · 의정부·동두천</div>
+        </div>
+      </div>
+      <div class="rec-quote">"빌라 신축 전 세대 도배 맡겼는데 공정 지연 없이 마무리했어요. 자재 수량도 본인이 계산해서 낭비가 없습니다. 말이 없고 일만 합니다."</div>
+      <div class="rec-count-badge">✓ 함께한 현장 4건</div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-header">
+        <div class="rec-avatar">박</div>
+        <div>
+          <div class="rec-name">박○○ 반장</div>
+          <div class="rec-title">인테리어 경력 11년 · 노원·중랑</div>
+        </div>
+      </div>
+      <div class="rec-quote">"방염 벽지 시공 경험이 있어서 학교·병원 공사 때 쓰기 좋습니다. 결로 흔적 있는 벽 보고 방수 먼저 하라고 말해줄 줄 아는 분입니다. 그런 디테일이 있어요."</div>
+      <div class="rec-count-badge">✓ 함께한 현장 3건</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── SECTION 4: 기술 인터뷰 ─── -->
+<section id="sec-interview" class="section">
+  <div class="sec-title">기술 인터뷰 · 육성 검증</div>
+  <div class="sec-inner">
+    <p style="font-size:12px;color:var(--ink3);margin-bottom:16px;line-height:1.6">운영자가 직접 현장에서 만나 진행한 인터뷰입니다. 기술 판단 능력과 작업 방식을 본인의 말로 확인하세요.</p>
+
+    <div class="interview-item">
+      <div class="interview-tag tag-skill">기술 판단</div>
+      <div class="interview-q"><div class="q-mark">Q</div>벽 상태 보고 뭘 먼저 확인하세요?</div>
+      <div class="interview-a">"결로 흔적이 있으면 도배 전에 꼭 말합니다. 실크 바로 붙이면 6개월 안에 들떠요. 방수 먼저 하고 오세요. 그게 제 일 아니어도 말해드립니다."</div>
+    </div>
+
+    <div class="interview-item">
+      <div class="interview-tag tag-method">작업 방식</div>
+      <div class="interview-q"><div class="q-mark">Q</div>천장 도배할 때 기포가 생기면 어떻게 하세요?</div>
+      <div class="interview-a">"천장은 붙이면서 바로바로 빼줘야 해요. 굳으면 답이 없습니다. 저는 롤러 한 번 쭉 밀고 가장자리 헤라로 잡아당기면서 같이 작업합니다. 혼자 할 때는 순서가 중요해요."</div>
+    </div>
+
+    <div class="interview-item">
+      <div class="interview-tag tag-method">작업 방식</div>
+      <div class="interview-q"><div class="q-mark">Q</div>33평을 혼자 하루에 끝내려면 뭐가 제일 중요해요?</div>
+      <div class="interview-a">"자재 세팅이요. 아침에 자재 확인하고 재단 순서 미리 짜놓으면 절반은 된 겁니다. 저는 현장 들어가기 전에 머릿속에 다 그립니다. 벽 순서, 칼 교체 시점까지."</div>
+    </div>
+
+    <div class="interview-item">
+      <div class="interview-tag tag-honest">솔직 답변</div>
+      <div class="interview-q"><div class="q-mark">Q</div>못 하는 작업이 있다면요?</div>
+      <div class="interview-a">"패브릭 벽지랑 수입 특수벽지는 안 합니다. 전문 업체 따로 있어요. 그리고 곡면이나 아치 부위는 리스크가 있어서 제가 책임 못 집니다. 그쪽 전문가 소개해 드릴 수 있어요."</div>
+    </div>
+
+    <div class="interview-item">
+      <div class="interview-tag tag-skill">기술 기준</div>
+      <div class="interview-q"><div class="q-mark">Q</div>풀칠 할 때 농도는 어떻게 조절해요?</div>
+      <div class="interview-a">"실크는 좀 되직하게, 합지는 묽게 씁니다. 계절마다 다르기도 해요. 겨울에는 건조가 빨라서 좀 묽게 씁니다. 칼날은 한 롤에 한 번씩 꺾어요. 아까워서 오래 쓰면 마감에서 다 표가 납니다."</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── SECTION 5: 근태 설문 ─── -->
+<section id="sec-attend" class="section">
+  <div class="sec-title">근태 설문 · 본인 선언</div>
+  <div class="sec-inner">
+    <p style="font-size:12px;color:var(--ink3);margin-bottom:16px;line-height:1.6">기능인 본인이 직접 답한 설문입니다. 거짓 답변은 현장에서 확인되며 프로필에 기록됩니다.</p>
+
+    <div class="attend-card">
+      <div class="attend-q">전날 밤 확정된 현장, 아침 일찍 못 나갈 상황이 생기면?</div>
+      <div class="attend-answer">
+        <div class="attend-badge ab-good">전날 밤 연락</div>
+        <div class="attend-desc">일정 생기면 무조건 전날 밤에 연락 드립니다.</div>
+      </div>
+    </div>
+
+    <div class="attend-card">
+      <div class="attend-q">현장에서 예상보다 작업량이 많아지면?</div>
+      <div class="attend-answer">
+        <div class="attend-badge ab-good">먼저 협의</div>
+        <div class="attend-desc">추가 작업이면 단가 협의 먼저 하고 시작합니다. 말 없이 더 하고 나중에 요구하는 건 안 합니다.</div>
+      </div>
+    </div>
+
+    <div class="attend-card">
+      <div class="attend-q">작업 중 하자가 발생하면 어떻게 하세요?</div>
+      <div class="attend-answer">
+        <div class="attend-badge ab-good">본인 책임</div>
+        <div class="attend-desc">제 작업에서 생긴 하자면 다시 옵니다. 단, 자재 문제나 건물 구조 문제는 사전에 말씀드립니다.</div>
+      </div>
+    </div>
+
+    <div class="attend-card">
+      <div class="attend-q">자재를 본인이 구매해야 하는 경우?</div>
+      <div class="attend-answer">
+        <div class="attend-badge ab-ok">가능 (사전 협의)</div>
+        <div class="attend-desc">자재비는 선지급이나 현장 도착 후 지급 중 협의합니다. 영수증 정리해 드립니다.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="self-declare-box">
+      <div class="sd-label">본인 한 마디</div>
+      <div class="sd-text">"19년 동안 노쇼 한 번 없었습니다. 못 하는 건 못 한다고 말하고, 할 수 있는 건 끝까지 합니다. 그게 다입니다."</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── SECTION 6: 작업선호 ─── -->
+<section id="sec-pref" class="section">
+  <div class="sec-title">작업 선호 · 미리 알아두세요</div>
+  <div class="sec-inner">
+    <p style="font-size:12px;color:var(--ink3);margin-bottom:16px;line-height:1.6">일 잘 맞기 위해 미리 알아두면 좋은 내용입니다. 불편한 조건을 숨기지 않습니다.</p>
+
+    <div class="pref-section">
+      <div class="pref-section-head">잘 맞는 현장</div>
+      <div class="pref-item">
+        <div class="pref-icon pi-good">✓</div>
+        <div class="pref-text">주거용 리모델링 (아파트·빌라) — 가장 자신 있는 분야입니다</div>
+      </div>
+      <div class="pref-item">
+        <div class="pref-icon pi-good">✓</div>
+        <div class="pref-text">자재가 현장에 준비된 현장 — 재단·풀칠 바로 시작 가능합니다</div>
+      </div>
+      <div class="pref-item">
+        <div class="pref-icon pi-good">✓</div>
+        <div class="pref-text">전날 확정 현장 — 미리 알면 자재 수량 계산해서 갑니다</div>
+      </div>
+    </div>
+
+    <div class="pref-section">
+      <div class="pref-section-head">이건 미리 말씀해 주세요</div>
+      <div class="pref-item">
+        <div class="pref-icon pi-neutral">!</div>
+        <div class="pref-text">상업시설 (카페·음식점) — 가능하지만 마감 기준이 달라서 사전 협의 필요합니다</div>
+      </div>
+      <div class="pref-item">
+        <div class="pref-icon pi-neutral">!</div>
+        <div class="pref-text">결로·곰팡이 흔적 있는 벽 — 방수 선처리 여부 먼저 확인해야 합니다</div>
+      </div>
+      <div class="pref-item">
+        <div class="pref-icon pi-neutral">!</div>
+        <div class="pref-text">자재를 제가 구매해야 하는 경우 — 선지급 또는 현장 도착 후 지급 협의합니다</div>
+      </div>
+    </div>
+
+    <div class="pref-section">
+      <div class="pref-section-head">이런 상황은 어렵습니다</div>
+      <div class="pref-item">
+        <div class="pref-icon pi-bad">✕</div>
+        <div class="pref-text">당일 아침 갑작스러운 연락 — 준비 시간이 없어서 작업 품질이 떨어집니다</div>
+      </div>
+      <div class="pref-item">
+        <div class="pref-icon pi-bad">✕</div>
+        <div class="pref-text">작업 중 자재 변경 요청 — 이미 재단된 자재는 되돌릴 수 없습니다</div>
+      </div>
+      <div class="pref-item">
+        <div class="pref-icon pi-bad">✕</div>
+        <div class="pref-text">일당 현장 마감 후 다음 날 이후 지급 — 당일 정산이 원칙입니다</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="cta-box">
+    <div class="cta-title">조건이 맞으면 연결하세요</div>
+    <div class="cta-sub">연결 요청 후 최○○님 수락 시 확정됩니다</div>
+    <a class="cta-btn" href="#">연결 요청하기</a>
+    <div class="cta-price">연결 요청 15,000원 · 확정 후 연락처 공개</div>
+  </div>
+</section>
+
+<!-- ─── MODAL ─── -->
+<div class="modal-bg" id="modalBg" onclick="closeModalBg(event)">
+  <div class="modal" id="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-sub" id="modalSub"></div>
+    <div class="modal-video-placeholder">
+      <div class="modal-play"></div>
+    </div>
+    <div class="modal-desc" id="modalDesc"></div>
+    <button class="modal-close" onclick="closeModal()">닫기</button>
+  </div>
+</div>
+
+<script>
+function showSection(id, tab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  tab.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function openClip(title, desc, duration) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalSub').textContent = '재생시간 ' + duration + ' · 실제 현장 촬영';
+  document.getElementById('modalDesc').textContent = desc;
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalBg').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalBg(e) {
+  if (e.target === document.getElementById('modalBg')) closeModal();
+}
+</script>
+</body>
+</html>
