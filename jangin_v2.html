@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>최○○ — 장인노트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #ffffff;
+  --off: #f5f4f1;
+  --stone: #e8e5e0;
+  --mid: #9a9590;
+  --dark: #2a2724;
+  --ink: #1a1816;
+  --orange: #e84c0e;
+  --orange-soft: #fdf0eb;
+  --green: #1a6b3a;
+  --green-soft: #e8f2ec;
+  --r: 10px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--off);
+  color: var(--ink);
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+/* ─── HEADER ─── */
+.hdr {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(245,244,241,0.92);
+  backdrop-filter: blur(16px);
+  padding: 0 20px;
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--stone);
+}
+.hdr-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 14px;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--ink);
+}
+.hdr-actions { display: flex; gap: 8px; }
+.hdr-btn {
+  height: 32px; padding: 0 12px;
+  border-radius: 99px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.5px; cursor: pointer;
+  font-family: 'Syne', sans-serif;
+  border: none;
+}
+.hdr-btn-ghost { background: transparent; border: 1px solid var(--stone); color: var(--mid); }
+.hdr-btn-fill { background: var(--orange); color: white; }
+
+/* ─── HERO SECTION ─── */
+.hero {
+  padding: 32px 20px 0;
+}
+
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 16px;
+}
+.eyebrow-line {
+  width: 24px; height: 2px; background: var(--orange);
+}
+.eyebrow-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--mid);
+  letter-spacing: 2px; text-transform: uppercase;
+}
+
+.hero-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 52px; font-weight: 800;
+  line-height: 0.95; letter-spacing: -2px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.hero-name em {
+  font-style: normal; color: var(--orange);
+}
+
+.hero-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px; color: var(--mid);
+  letter-spacing: 1px; margin-bottom: 20px;
+}
+
+/* HERO PHOTO STRIP */
+.hero-photos {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 160px 100px;
+  gap: 6px;
+  margin: 0 -20px;
+  padding: 0 20px;
+  margin-bottom: 24px;
+}
+.photo-cell {
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--stone);
+  position: relative;
+  cursor: pointer;
+}
+.photo-cell:first-child {
+  grid-row: 1 / 3;
+}
+.photo-inner {
+  width: 100%; height: 100%;
+  background: var(--stone);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: var(--mid);
+  position: relative;
+}
+.photo-inner::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(26,24,22,0.4));
+}
+.photo-label {
+  position: absolute; bottom: 8px; left: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: white;
+  letter-spacing: 1px; text-transform: uppercase;
+  z-index: 1;
+}
+.photo-play {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; z-index: 1;
+}
+
+/* HERO STATS */
+.hero-stats {
+  display: flex; gap: 0;
+  background: var(--white);
+  border-radius: var(--r);
+  border: 1px solid var(--stone);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.hstat {
+  flex: 1; padding: 14px 12px;
+  border-right: 1px solid var(--stone);
+  text-align: center;
+}
+.hstat:last-child { border-right: none; }
+.hstat-n {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px; font-weight: 800;
+  color: var(--ink); line-height: 1;
+  margin-bottom: 3px;
+}
+.hstat-n.orange { color: var(--orange); }
+.hstat-l {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: var(--mid);
+  letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* HERO TAGS */
+.hero-tag-row {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: 28px;
+}
+.htag {
+  height: 28px; padding: 0 12px;
+  border-radius: 99px;
+  font-size: 11px; font-weight: 500;
+  display: flex; align-items: center; gap: 5px;
+}
+.htag-orange { background: var(--orange-soft); color: var(--orange); }
+.htag-green { background: var(--green-soft); color: var(--green); }
+.htag-stone { background: var(--stone); color: var(--dark); }
+.htag-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%; background: currentColor;
+}
+
+/* ─── DIVIDER ─── */
+.divider {
+  height: 1px; background: var(--stone);
+  margin: 0 20px;
+}
+
+/* ─── SECTION WRAPPER ─── */
+.sec { padding: 28px 20px; }
+
+.sec-head {
+  display: flex; align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.sec-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px; font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.sec-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--mid);
+}
+
+/* ─── SKILLS ─── */
+.skill-category { margin-bottom: 20px; }
+.skill-cat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: var(--mid);
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--stone);
+}
+.skill-list { display: flex; flex-direction: column; gap: 6px; }
+.skill-row {
+  display: flex; align-items: center;
+  padding: 10px 14px;
+  background: var(--white);
+  border-radius: var(--r);
+  border: 1px solid var(--stone);
+  cursor: pointer;
+  transition: border-color .15s, transform .1s;
+  gap: 10px;
+}
+.skill-row:active { transform: scale(0.98); }
+.skill-row.on { border-color: rgba(232,76,14,0.3); background: var(--orange-soft); }
+.skill-row.solo { border-color: rgba(26,107,58,0.3); background: var(--green-soft); }
+.skill-row.off { opacity: 0.4; }
+.skill-status {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; flex-shrink: 0;
+  font-weight: 700;
+}
+.on .skill-status { background: var(--orange); color: white; }
+.solo .skill-status { background: var(--green); color: white; }
+.off .skill-status { background: var(--stone); color: var(--mid); }
+.skill-name {
+  flex: 1; font-size: 13px; font-weight: 500;
+}
+.skill-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.5px;
+  padding: 3px 8px; border-radius: 99px;
+}
+.on .skill-badge { background: rgba(232,76,14,0.15); color: var(--orange); }
+.solo .skill-badge { background: rgba(26,107,58,0.12); color: var(--green); }
+.off .skill-badge { background: var(--stone); color: var(--mid); }
+.skill-clip-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+  flex-shrink: 0;
+}
+
+.not-declared {
+  padding: 12px 14px;
+  background: white;
+  border-radius: var(--r);
+  border: 1px solid var(--stone);
+  border-left: 3px solid #e0c0b0;
+  margin-top: 8px;
+}
+.nd-inner { display: flex; gap: 8px; align-items: flex-start; }
+.nd-x { font-size: 12px; color: #c0896a; flex-shrink: 0; margin-top: 1px; }
+.nd-text { font-size: 11px; color: #c0896a; line-height: 1.6; }
+
+/* ─── CLIPS GRID ─── */
+.clips-scroll {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+}
+.clip-item {
+  aspect-ratio: 9/12;
+  border-radius: var(--r);
+  background: var(--stone);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.clip-item:first-child {
+  grid-column: 1 / 3;
+  aspect-ratio: 9/10;
+}
+.clip-bg {
+  width: 100%; height: 100%;
+  background: var(--dark);
+  display: flex; align-items: center;
+  justify-content: center;
+}
+.clip-play-sm {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: 1.5px solid rgba(255,255,255,0.5);
+  display: flex; align-items: center;
+  justify-content: center;
+  font-size: 10px; color: white;
+}
+.clip-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 8px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.6));
+}
+.clip-name {
+  font-size: 10px; font-weight: 700; color: white;
+  line-height: 1.3;
+}
+.clip-dur {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: rgba(255,255,255,0.7);
+}
+
+/* ─── TIMELINE / HISTORY ─── */
+.history-list { display: flex; flex-direction: column; gap: 12px; }
+.hist-item {
+  background: var(--white);
+  border-radius: var(--r);
+  border: 1px solid var(--stone);
+  overflow: hidden;
+}
+.hist-top {
+  display: flex; gap: 12px;
+  padding: 14px;
+  align-items: flex-start;
+}
+.hist-month {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px; font-weight: 800;
+  color: var(--orange);
+  min-width: 28px;
+  padding-top: 2px;
+}
+.hist-body { flex: 1; }
+.hist-site {
+  font-size: 13px; font-weight: 700;
+  margin-bottom: 4px;
+}
+.hist-desc {
+  font-size: 12px; color: var(--mid);
+  line-height: 1.55;
+}
+.hist-foot {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: var(--off);
+  border-top: 1px solid var(--stone);
+}
+.hist-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: var(--mid);
+  letter-spacing: 0.5px;
+}
+.hist-re {
+  font-size: 10px; font-weight: 700;
+  color: var(--green);
+  background: var(--green-soft);
+  padding: 2px 8px; border-radius: 99px;
+}
+
+/* ─── INTERVIEW ─── */
+.interview-list { display: flex; flex-direction: column; gap: 16px; }
+.itv-item {}
+.itv-tag {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 3px 8px; border-radius: 99px;
+  margin-bottom: 6px;
+}
+.itv-tag.skill { background: var(--orange-soft); color: var(--orange); }
+.itv-tag.method { background: var(--green-soft); color: var(--green); }
+.itv-tag.honest { background: var(--stone); color: var(--dark); }
+.itv-q {
+  font-size: 11px; color: var(--mid);
+  margin-bottom: 6px; line-height: 1.5;
+}
+.itv-a {
+  background: var(--white);
+  border-radius: var(--r);
+  border: 1px solid var(--stone);
+  border-left: 3px solid var(--orange);
+  padding: 12px 14px;
+  font-size: 13px; line-height: 1.75;
+  color: var(--ink);
+}
+
+/* ─── ATTEND ─── */
+.attend-list { display: flex; flex-direction: column; gap: 8px; }
+.att-item {
+  background: var(--white);
+  border-radius: var(--r);
+  border: 1px solid var(--stone);
+  padding: 12px 14px;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.att-q { font-size: 12px; color: var(--mid); line-height: 1.5; flex: 1; }
+.att-ans {
+  font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 99px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.att-ans.good { background: var(--green-soft); color: var(--green); }
+.att-ans.ok { background: var(--orange-soft); color: var(--orange); }
+
+.self-msg {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--ink);
+  border-radius: var(--r);
+  color: white;
+}
+.self-msg-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  color: var(--mid); text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.self-msg-text {
+  font-size: 14px; line-height: 1.7;
+  color: rgba(255,255,255,0.9);
+}
+
+/* ─── PREF ─── */
+.pref-block { margin-bottom: 20px; }
+.pref-block-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: var(--mid);
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.pref-list { display: flex; flex-direction: column; gap: 6px; }
+.pref-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px;
+  background: var(--white);
+  border-radius: var(--r);
+  border: 1px solid var(--stone);
+}
+.pref-icon {
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0;
+  margin-top: 1px;
+}
+.pi-g { background: var(--green-soft); }
+.pi-w { background: var(--orange-soft); }
+.pi-b { background: #fdecea; }
+.pref-text { font-size: 12px; color: var(--dark); line-height: 1.55; }
+
+/* ─── STICKY CTA ─── */
+.sticky-cta {
+  position: sticky; bottom: 0;
+  padding: 12px 20px 20px;
+  background: rgba(245,244,241,0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--stone);
+}
+.cta-btns { display: flex; gap: 8px; }
+.cta-btn {
+  height: 48px; border-radius: 99px;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; font-family: 'Syne', sans-serif;
+  border: none; transition: transform .1s;
+  letter-spacing: 0.3px;
+}
+.cta-btn:active { transform: scale(0.97); }
+.cta-ghost { flex: 1; background: var(--white); color: var(--ink); border: 1.5px solid var(--stone); }
+.cta-fill { flex: 2; background: var(--orange); color: white; }
+.cta-note {
+  text-align: center; margin-top: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: var(--mid);
+  letter-spacing: 1px;
+}
+
+/* ─── MODAL ─── */
+.modal-bg {
+  display: none; position: fixed; inset: 0;
+  background: rgba(26,24,22,0.75);
+  z-index: 200; align-items: flex-end;
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: var(--off);
+  border-radius: 20px 20px 0 0;
+  width: 100%; max-width: 480px;
+  padding: 20px; max-height: 85vh;
+  overflow-y: auto;
+}
+.modal-pill {
+  width: 40px; height: 4px;
+  background: var(--stone); border-radius: 99px;
+  margin: 0 auto 20px;
+}
+.modal-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px; font-weight: 800;
+  letter-spacing: -0.5px; margin-bottom: 4px;
+}
+.modal-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--mid);
+  margin-bottom: 16px; letter-spacing: 0.5px;
+}
+.modal-video {
+  width: 100%; height: 200px;
+  background: var(--dark);
+  border-radius: var(--r);
+  display: flex; align-items: center;
+  justify-content: center;
+  margin-bottom: 14px; position: relative;
+}
+.modal-play-lg {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  border: 2px solid rgba(255,255,255,0.4);
+  display: flex; align-items: center;
+  justify-content: center;
+  font-size: 20px; color: white;
+}
+.modal-desc {
+  font-size: 13px; color: var(--dark);
+  line-height: 1.75; margin-bottom: 16px;
+}
+.modal-close-btn {
+  width: 100%; height: 44px;
+  border-radius: 99px;
+  background: var(--ink); color: white;
+  border: none; font-family: 'Syne', sans-serif;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; letter-spacing: 0.5px;
+}
+
+/* ANIMS */
+@keyframes up { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.hero { animation: up .5s ease both; }
+.hero-stats { animation: up .5s .1s ease both; }
+.hero-tag-row { animation: up .5s .15s ease both; }
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-logo">장인노트</div>
+  <div class="hdr-actions">
+    <button class="hdr-btn hdr-btn-ghost">저장</button>
+    <button class="hdr-btn hdr-btn-fill" onclick="openModal('연결 요청','연결 확정 후 연락처 공개','검증된 기술자와 직접 일정 · 단가를 협의하세요.')">연결하기</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">
+    <div class="eyebrow-line"></div>
+    <div class="eyebrow-text">도배 전문가 · 서울/경기 북부</div>
+  </div>
+
+  <div class="hero-name">최<em>○○</em></div>
+  <div class="hero-title">WALLPAPER SPECIALIST · 19YRS</div>
+
+  <div class="hero-photos">
+    <div class="photo-cell">
+      <div class="photo-inner" style="background:#2e2a26;">
+        <div class="photo-play">▶</div>
+        <div class="photo-label">33평 타임랩스</div>
+      </div>
+    </div>
+    <div class="photo-cell">
+      <div class="photo-inner" style="background:#3a3530;"></div>
+    </div>
+    <div class="photo-cell">
+      <div class="photo-inner" style="background:#332e2a;"></div>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hstat">
+      <div class="hstat-n orange">19</div>
+      <div class="hstat-l">경력(년)</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-n">82%</div>
+      <div class="hstat-l">재지명</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-n">41</div>
+      <div class="hstat-l">작업일</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-n">0</div>
+      <div class="hstat-l">노쇼</div>
+    </div>
+  </div>
+
+  <div class="hero-tag-row">
+    <span class="htag htag-orange"><span class="htag-dot"></span>마스터 Lv.3</span>
+    <span class="htag htag-green"><span class="htag-dot"></span>도배기능사</span>
+    <span class="htag htag-stone">1인 완결형</span>
+    <span class="htag htag-stone">당일 정산</span>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-title">가능 작업</div>
+    <div class="sec-count">10 / 14</div>
+  </div>
+
+  <div class="skill-category">
+    <div class="skill-cat-label">재료별</div>
+    <div class="skill-list">
+      <div class="skill-row on" onclick="openModal('합지도배','클립 2개 · 기본기 확인','초배지 작업부터 합지 마감까지. 이음새 처리와 기포 제거 방식을 영상으로 확인할 수 있습니다.')">
+        <div class="skill-status">✓</div>
+        <div class="skill-name">합지도배</div>
+        <div class="skill-clip-dot"></div>
+        <div class="skill-badge">기본</div>
+      </div>
+      <div class="skill-row on" onclick="openModal('실크도배','클립 2개 · 난이도 중급','실크 이음새 처리와 코너 마감. 풀칠 농도 조절 과정이 포함됩니다.')">
+        <div class="skill-status">✓</div>
+        <div class="skill-name">실크도배</div>
+        <div class="skill-clip-dot"></div>
+        <div class="skill-badge">중급</div>
+      </div>
+      <div class="skill-row on">
+        <div class="skill-status">✓</div>
+        <div class="skill-name">방염벽지</div>
+        <div class="skill-badge">중급</div>
+      </div>
+      <div class="skill-row off">
+        <div class="skill-status">—</div>
+        <div class="skill-name">패브릭·특수벽지</div>
+        <div class="skill-badge">미선언</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="skill-category">
+    <div class="skill-cat-label">부위별</div>
+    <div class="skill-list">
+      <div class="skill-row on" onclick="openModal('천장 도배','클립 1개 · 난이도 중급','천장 합지 작업. 기포 없이 붙이는 핵심 방법과 이음새 처리 방식.')">
+        <div class="skill-status">✓</div>
+        <div class="skill-name">천장 도배</div>
+        <div class="skill-clip-dot"></div>
+        <div class="skill-badge">중급</div>
+      </div>
+      <div class="skill-row on" onclick="openModal('코너·몰딩 마감','클립 1개 · 마감 품질','몰딩 라인과 모서리 칼질. 마감 품질이 가장 잘 드러나는 작업입니다.')">
+        <div class="skill-status">✓</div>
+        <div class="skill-name">코너·몰딩 마감</div>
+        <div class="skill-clip-dot"></div>
+        <div class="skill-badge">중급</div>
+      </div>
+      <div class="skill-row off">
+        <div class="skill-status">—</div>
+        <div class="skill-name">곡면·아치 부위</div>
+        <div class="skill-badge">미선언</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="skill-category">
+    <div class="skill-cat-label">자립도</div>
+    <div class="skill-list">
+      <div class="skill-row solo" onclick="openModal('33평 1인 1일 완료','클립 1개 · 단독 완결','33평 아파트 거실+방3 실크도배 1인 작업 타임랩스. 재단부터 마감까지 6시간 30분.')">
+        <div class="skill-status">★</div>
+        <div class="skill-name">33평 1인 1일 완료</div>
+        <div class="skill-clip-dot" style="background:var(--green)"></div>
+        <div class="skill-badge">단독</div>
+      </div>
+      <div class="skill-row solo">
+        <div class="skill-status">★</div>
+        <div class="skill-name">재단·풀칠 직접 가능</div>
+        <div class="skill-badge">단독</div>
+      </div>
+      <div class="skill-row on">
+        <div class="skill-status">✓</div>
+        <div class="skill-name">자재 수량 직접 계산</div>
+        <div class="skill-badge">기본</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="not-declared">
+    <div class="nd-inner">
+      <div class="nd-x">✕</div>
+      <div class="nd-text">패브릭·특수벽지, 곡면·아치 부위는 본인 비선언 항목입니다. 이 작업은 요청하지 마세요.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CLIPS -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-title">작업 클립</div>
+    <div class="sec-count">6개</div>
+  </div>
+  <div class="clips-scroll">
+    <div class="clip-item" onclick="openModal('33평 타임랩스','3:20 · 단독 완결 영상','33평 아파트 1인 작업 전 과정. 재단부터 마감까지 6시간 30분 타임랩스.')">
+      <div class="clip-bg"><div class="clip-play-sm">▶</div></div>
+      <div class="clip-overlay">
+        <div class="clip-name">33평 타임랩스</div>
+        <div class="clip-dur">3:20</div>
+      </div>
+    </div>
+    <div class="clip-item" onclick="openModal('실크 이음새','2:08','실크 벽지 이음새 처리 방식.')">
+      <div class="clip-bg" style="background:#2e2a26"><div class="clip-play-sm">▶</div></div>
+      <div class="clip-overlay"><div class="clip-name">실크 이음새</div><div class="clip-dur">2:08</div></div>
+    </div>
+    <div class="clip-item" onclick="openModal('천장 합지','1:52','천장 도배 전 과정.')">
+      <div class="clip-bg" style="background:#332e2a"><div class="clip-play-sm">▶</div></div>
+      <div class="clip-overlay"><div class="clip-name">천장 합지</div><div class="clip-dur">1:52</div></div>
+    </div>
+    <div class="clip-item" onclick="openModal('코너 마감','0:58','코너 칼질과 몰딩 라인.')">
+      <div class="clip-bg" style="background:#2a2826"><div class="clip-play-sm">▶</div></div>
+      <div class="clip-overlay"><div class="clip-name">코너 마감</div><div class="clip-dur">0:58</div></div>
+    </div>
+    <div class="clip-item" onclick="openModal('재단·풀칠','1:15','직접 재단 방식.')">
+      <div class="clip-bg" style="background:#312c28"><div class="clip-play-sm">▶</div></div>
+      <div class="clip-overlay"><div class="clip-name">재단·풀칠</div><div class="clip-dur">1:15</div></div>
+    </div>
+    <div class="clip-item" onclick="openModal('합지 초배','1:24','초배지 작업.')">
+      <div class="clip-bg" style="background:#2c2a27"><div class="clip-play-sm">▶</div></div>
+      <div class="clip-overlay"><div class="clip-name">합지 초배</div><div class="clip-dur">1:24</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- HISTORY -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-title">현장 기록</div>
+    <div class="sec-count">41건</div>
+  </div>
+  <div class="history-list">
+    <div class="hist-item">
+      <div class="hist-top">
+        <div class="hist-month">11</div>
+        <div class="hist-body">
+          <div class="hist-site">노원구 아파트 리모델링 34평</div>
+          <div class="hist-desc">실크도배 전체 + 합지 혼합. 타 기능인 없이 1인 2일 완료.</div>
+        </div>
+      </div>
+      <div class="hist-foot">
+        <div class="hist-date">2025.11</div>
+        <div class="hist-re">재지명</div>
+      </div>
+    </div>
+    <div class="hist-item">
+      <div class="hist-top">
+        <div class="hist-month">10</div>
+        <div class="hist-body">
+          <div class="hist-site">도봉구 신축 빌라 6세대</div>
+          <div class="hist-desc">전 세대 실크도배. 혼자 4일. 공정 지연 없음.</div>
+        </div>
+      </div>
+      <div class="hist-foot">
+        <div class="hist-date">2025.10</div>
+        <div class="hist-re">재지명 2회</div>
+      </div>
+    </div>
+    <div class="hist-item">
+      <div class="hist-top">
+        <div class="hist-month">09</div>
+        <div class="hist-body">
+          <div class="hist-site">의정부 오피스텔 12세대</div>
+          <div class="hist-desc">합지 전 세대 + 방염벽지 2곳. 일정 반일 단축.</div>
+        </div>
+      </div>
+      <div class="hist-foot">
+        <div class="hist-date">2025.09</div>
+        <div class="hist-re">재지명</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- INTERVIEW -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-title">기술 인터뷰</div>
+  </div>
+  <div class="interview-list">
+    <div class="itv-item">
+      <div class="itv-tag skill">기술 판단</div>
+      <div class="itv-q">벽 상태 보고 뭘 먼저 확인하세요?</div>
+      <div class="itv-a">"결로 흔적 있으면 바로 말합니다. 실크 바로 붙이면 6개월 안에 들떠요. 방수 먼저 하고 오세요. 제 일이 아니어도 말해드립니다."</div>
+    </div>
+    <div class="itv-item">
+      <div class="itv-tag method">작업 방식</div>
+      <div class="itv-q">33평을 혼자 하루에 끝내려면?</div>
+      <div class="itv-a">"자재 세팅입니다. 재단 순서 미리 짜놓으면 절반은 된 겁니다. 현장 들어가기 전에 머릿속에 다 그립니다."</div>
+    </div>
+    <div class="itv-item">
+      <div class="itv-tag honest">솔직 답변</div>
+      <div class="itv-q">못 하는 작업이 있다면?</div>
+      <div class="itv-a">"패브릭 벽지랑 수입 특수벽지는 안 합니다. 곡면·아치는 리스크가 있어서 제가 책임 못 집니다. 전문가 소개해 드릴게요."</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ATTEND -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-title">근태 선언</div>
+  </div>
+  <div class="attend-list">
+    <div class="att-item">
+      <div class="att-q">못 나갈 상황이 생기면?</div>
+      <div class="att-ans good">전날 밤 연락</div>
+    </div>
+    <div class="att-item">
+      <div class="att-q">작업량이 늘어나면?</div>
+      <div class="att-ans good">먼저 협의</div>
+    </div>
+    <div class="att-item">
+      <div class="att-q">하자 발생 시?</div>
+      <div class="att-ans good">본인 책임</div>
+    </div>
+    <div class="att-item">
+      <div class="att-q">자재 직접 구매?</div>
+      <div class="att-ans ok">가능·협의</div>
+    </div>
+  </div>
+  <div class="self-msg">
+    <div class="self-msg-label">한 마디</div>
+    <div class="self-msg-text">"19년 동안 노쇼 한 번 없었습니다. 못 하는 건 못 한다고 말하고, 할 수 있는 건 끝까지 합니다."</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PREF -->
+<div class="sec" style="padding-bottom: 100px;">
+  <div class="sec-head">
+    <div class="sec-title">선호 조건</div>
+  </div>
+
+  <div class="pref-block">
+    <div class="pref-block-label">잘 맞는 현장</div>
+    <div class="pref-list">
+      <div class="pref-item"><div class="pref-icon pi-g">✓</div><div class="pref-text">주거용 리모델링 (아파트·빌라)</div></div>
+      <div class="pref-item"><div class="pref-icon pi-g">✓</div><div class="pref-text">자재 현장 준비된 현장</div></div>
+      <div class="pref-item"><div class="pref-icon pi-g">✓</div><div class="pref-text">전날 확정 현장</div></div>
+    </div>
+  </div>
+
+  <div class="pref-block">
+    <div class="pref-block-label">미리 말씀해 주세요</div>
+    <div class="pref-list">
+      <div class="pref-item"><div class="pref-icon pi-w">!</div><div class="pref-text">상업시설 — 마감 기준 다르니 사전 협의</div></div>
+      <div class="pref-item"><div class="pref-icon pi-w">!</div><div class="pref-text">결로·곰팡이 흔적 있는 벽</div></div>
+    </div>
+  </div>
+
+  <div class="pref-block">
+    <div class="pref-block-label">이런 상황은 어렵습니다</div>
+    <div class="pref-list">
+      <div class="pref-item"><div class="pref-icon pi-b">✕</div><div class="pref-text">당일 아침 갑작스러운 연락</div></div>
+      <div class="pref-item"><div class="pref-icon pi-b">✕</div><div class="pref-text">작업 중 자재 변경 요청</div></div>
+      <div class="pref-item"><div class="pref-icon pi-b">✕</div><div class="pref-text">당일 정산 외 지연 지급</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- STICKY CTA -->
+<div class="sticky-cta">
+  <div class="cta-btns">
+    <button class="cta-btn cta-ghost" onclick="openModal('열람권 구매','5,000원 · 30일 재열람','작업 클립 전체 + 현장 기록 전체를 열람할 수 있습니다.')">열람 5,000</button>
+    <button class="cta-btn cta-fill" onclick="openModal('연결 요청','15,000원 · 확정 후 연락처 공개','연결이 확정되면 연락처가 공개됩니다. 직접 일정과 단가를 협의하세요.')">연결 요청 15,000</button>
+  </div>
+  <div class="cta-note">연락처는 연결 확정 후에만 공개됩니다</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg" onclick="closeBg(event)">
+  <div class="modal">
+    <div class="modal-pill"></div>
+    <div class="modal-title" id="mT"></div>
+    <div class="modal-meta" id="mM"></div>
+    <div class="modal-video"><div class="modal-play-lg">▶</div></div>
+    <div class="modal-desc" id="mD"></div>
+    <button class="modal-close-btn" onclick="closeModal()">닫기</button>
+  </div>
+</div>
+
+<script>
+function openModal(t, m, d) {
+  document.getElementById('mT').textContent = t;
+  document.getElementById('mM').textContent = m;
+  document.getElementById('mD').textContent = d;
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modalBg').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeBg(e) {
+  if (e.target === document.getElementById('modalBg')) closeModal();
+}
+</script>
+</body>
+</html>
